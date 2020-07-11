@@ -8,7 +8,16 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": ["es6", "es2015", "es2017", "dom"],
+    "lib": [
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ES2018",
+      "ES2019",
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "esnext",
     "moduleResolution": "Node",
     "noFallthroughCasesInSwitch": true,
@@ -17,19 +26,12 @@
     "noImplicitThis": true,
     "noUnusedLocals": false,
     "pretty": true,
+    "noEmit": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016",
     "types": ["react", "jest", "node", "webpack-env"]
-  },
-  "exclude": [
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "razzle.config.js"
-  ]
+  }
 }
