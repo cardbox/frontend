@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    ["effector/babel-plugin", { "addLoc": true }],
+    [
+      "styled-components",
+      {
+        "displayName": true,
+        "ssr": true
+      }
+    ]
+  ]
+}
