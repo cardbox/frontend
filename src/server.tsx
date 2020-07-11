@@ -1,16 +1,13 @@
-import { performance } from 'perf_hooks';
-import express from 'express';
-
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { matchRoutes, MatchedRoute } from 'react-router-config';
+import express from 'express';
+import { Event, forward, root } from 'effector-root';
+import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ServerStyleSheet } from 'styled-components';
-
-import { fork, serialize, allSettled } from 'effector/fork';
-import { root, forward, Event } from 'effector-root';
-
+import { StaticRouter } from 'react-router-dom';
+import { allSettled, fork, serialize } from 'effector/fork';
 import { getStart } from 'lib/effector';
+
 import { Application } from './application';
 import { ROUTES } from './pages/routes';
 
@@ -21,8 +18,8 @@ const serverStarted = root.createEvent<{
 
 const requestHandled = serverStarted.map(({ req }) => req);
 
-const routesMatched = requestHandled.map((req) =>
-  matchRoutes(ROUTES, req.url).filter(lookupStartEvent),
+const routesMatched = requestHandled.map((request) =>
+  matchRoutes(ROUTES, request.url).filter(lookupStartEvent),
 );
 
 for (const { component } of ROUTES) {
@@ -53,15 +50,15 @@ export const server = express()
   .disable('x-powered-by')
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .get('/*', async (req: express.Request, res: express.Response) => {
-    console.info('[REQUEST] %s %s', req.method, req.url);
+  .get('/*', async (request: express.Request, response: express.Response) => {
+    console.info('[REQUEST] %s %s', request.method, request.url);
     const timeStart = performance.now();
     const scope = fork(root);
 
     try {
       await allSettled(serverStarted, {
         scope,
-        params: { req, res },
+        params: { req: request, res: response },
       });
     } catch (error) {
       console.error(error);
@@ -71,7 +68,7 @@ export const server = express()
     const sheet = new ServerStyleSheet();
 
     const jsx = sheet.collectStyles(
-      <StaticRouter context={context} location={req.url}>
+      <StaticRouter context={context} location={request.url}>
         <Application root={scope} />
       </StaticRouter>,
     );
@@ -81,10 +78,10 @@ export const server = express()
     );
     const storesValues = serialize(scope);
 
-    res.write(htmlStart(assets.client.css, assets.client.js));
-    stream.pipe(res, { end: false });
+    response.write(htmlStart(assets.client.css, assets.client.js));
+    stream.pipe(response, { end: false });
     stream.on('end', () => {
-      res.end(htmlEnd(storesValues));
+      response.end(htmlEnd(storesValues));
       sheet.seal();
       console.info(
         '[PERF] sent page at %sms',

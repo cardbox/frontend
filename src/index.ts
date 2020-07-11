@@ -18,7 +18,7 @@ if (module.hot) {
 const port = Number.parseInt(process.env.PORT ?? '3000', 10);
 
 const server = express()
-  .use((req, res) => app.handle(req, res))
+  .use((request, response) => app.handle(request, response))
   .listen(port, (error: Error | undefined) => {
     if (error) {
       console.error(error);

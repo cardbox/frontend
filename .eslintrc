@@ -27,8 +27,7 @@
       {
         "groups": [
           "builtin",
-          "external",
-          "internal",
+          ["external", "internal"],
           "parent",
           "sibling",
           "index"

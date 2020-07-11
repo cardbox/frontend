@@ -1,7 +1,6 @@
-import { paths } from './paths';
-
-import { HomePage } from './home';
 import { Error404Page } from './error404';
+import { HomePage } from './home';
+import { paths } from './paths';
 
 export const ROUTES = [
   {

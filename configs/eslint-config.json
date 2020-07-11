@@ -1,6 +1,14 @@
 {
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "unicorn/filename-case": ["error", { "case": "kebabCase" }],
+    "unicorn/no-nested-ternary": "error",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "extendDefaultWhitelist": true
+      }
+    ]
   }
 }

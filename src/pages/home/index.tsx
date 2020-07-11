@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useEvent, useStore } from 'effector-react/ssr';
 import styled from 'styled-components';
-
 import { assignStart } from 'lib/effector';
+import { useEvent, useStore } from 'effector-react/ssr';
+
 import * as model from './model';
 
 export const HomePage = () => {
