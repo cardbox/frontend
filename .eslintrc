@@ -5,7 +5,7 @@
     "@eslint-kit/node",
     "@eslint-kit/react",
     "@eslint-kit/prettier",
-    "./configs/eslint-config"
+    "./.config/eslint-config"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
