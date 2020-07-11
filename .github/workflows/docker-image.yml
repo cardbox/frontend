@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+    tags:
+      - 'v*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Publish Docker
+        uses: sergeysova/docker-publish-action@v1
+        with:
+          registry: docker.pkg.github.com
+          image: cardboxdev/frontend/main
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tag_semver: skip
+          semver_higher: true
+      #
+      # - name: Trigger deploy to Dev
+      #   uses: peter-evans/repository-dispatch@v1
+      #   with:
+      #     token: ${{ secrets.TRIGGER_DEPLOY_TOKEN }}
+      #     repository: cardboxdev/releases
+      #     event-type: deploy-dev
+      #     client-payload: '{"github": ${{ toJson(github) }}}'
