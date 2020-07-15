@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import express from 'express';
