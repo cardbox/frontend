@@ -5,79 +5,79 @@ export const Comments = () => (
   <Container>
     <Title>
       Questions <span>3</span>
-      <List>
-        <Question
-          topic="How to use it with redux?"
-          author={{ id: '1' }}
-          when="today"
-          resolved
-          text={
-            <>
-              I'm afraid this is a very simple question. It might be too easy to
-              be asked here, but I can't figure this out on my own and I just
-              want to know. It is about oDataModel and the methods "create" and
-              "update". In Demo Kit I find the interface as follows:
-            </>
-          }
-          responses={{
-            count: 3,
-            lastReponseAt: 'Last response 8 hours ago',
-            authors: ['5', '1', '4'],
-          }}
-        >
-          <Answer
-            author={{ id: '4' }}
-            when="11 hours ago"
-            title="Artur Bon"
-            text={
-              <>
-                <Mention>@Esprit</Mention> positif So what are the issues,
-                challenges — potential for improvement? You’ve been through he
-                strengths. Where does it fall short in comparison to other
-                tools? I apologise for sounding a bit crude, but this post read
-                like a sales pitch, not a designer’s review.
-              </>
-            }
-            why="liked"
-          />
-        </Question>
-        <Question
-          topic="What version of Effector supports it?"
-          author={{ id: '2' }}
-          when="3 days ago"
-          text={
-            <>
-              It doesn't seem to be very clear for me, it is suppose to ask for
-              permission to the user but I keep getting the error "Error:
-              NotAllowedError: Permission denied by system". Is it a feature
-              that is on testing
-            </>
-          }
-          responses={{
-            count: 6,
-            lastReponseAt: 'Last response 2 days ago',
-            authors: ['9', '2'],
-          }}
-        />
-        <Question
-          topic="What about to add native support for Set in Effector core?"
-          author={{ id: '3' }}
-          when="week ago"
-          text={
-            <>
-              ID's are unique for each element and same ID cannot be used on
-              multiple elements. If you really want to do operations using a
-              single block of code to different elements, try using classes
-            </>
-          }
-          responses={{
-            count: 0,
-            lastReponseAt: '',
-            authors: [],
-          }}
-        />
-      </List>
     </Title>
+    <List>
+      <Question
+        topic="How to use it with redux?"
+        author={{ id: '1' }}
+        when="today"
+        resolved
+        text={
+          <>
+            I'm afraid this is a very simple question. It might be too easy to
+            be asked here, but I can't figure this out on my own and I just want
+            to know. It is about oDataModel and the methods "create" and
+            "update". In Demo Kit I find the interface as follows:
+          </>
+        }
+        responses={{
+          count: 3,
+          lastReponseAt: 'Last response 8 hours ago',
+          authors: ['5', '1', '4'],
+        }}
+      >
+        <Answer
+          author={{ id: '4' }}
+          when="11 hours ago"
+          title="Artur Bon"
+          text={
+            <>
+              <Mention>@Esprit</Mention> positif So what are the issues,
+              challenges — potential for improvement? You’ve been through he
+              strengths. Where does it fall short in comparison to other tools?
+              I apologise for sounding a bit crude, but this post read like a
+              sales pitch, not a designer’s review.
+            </>
+          }
+          why="liked"
+        />
+      </Question>
+      <Question
+        topic="What version of Effector supports it?"
+        author={{ id: '2' }}
+        when="3 days ago"
+        text={
+          <>
+            It doesn't seem to be very clear for me, it is suppose to ask for
+            permission to the user but I keep getting the error "Error:
+            NotAllowedError: Permission denied by system". Is it a feature that
+            is on testing
+          </>
+        }
+        responses={{
+          count: 6,
+          lastReponseAt: 'Last response 2 days ago',
+          authors: ['9', '2'],
+        }}
+      />
+      <Question
+        topic="What about to add native support for Set in Effector core?"
+        author={{ id: '3' }}
+        when="week ago"
+        text={
+          <>
+            ID's are unique for each element and same ID cannot be used on
+            multiple elements. If you really want to do operations using a
+            single block of code to different elements, try using classes
+          </>
+        }
+        responses={{
+          count: 0,
+          lastReponseAt: '',
+          authors: [],
+        }}
+      />
+    </List>
   </Container>
 );
 
@@ -99,8 +99,8 @@ const Title = styled.h3`
 const List = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 36px;
-  margin-bottom: 100px;
+  margin-top: 12px;
+  margin-bottom: 24px;
 
   & > * + * {
     margin-top: 12px;
