@@ -19,10 +19,9 @@ const Globals = createGlobalStyle`
 
 export const Application: React.FC<Props> = ({ root }) => (
   <Provider value={root}>
-    <div>
+    <>
       <Globals />
-      <div>Heading of the app</div>
       <Pages />
-    </div>
+    </>
   </Provider>
 );
