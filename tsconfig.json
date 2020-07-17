@@ -32,6 +32,12 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016",
-    "types": ["react", "jest", "node", "webpack-env"]
+    "types": ["react", "jest", "node", "webpack-env"],
+    "plugins": [
+      {
+        "transform": "typescript-plugin-styled-components",
+        "type": "config"
+      }
+    ]
   }
 }
