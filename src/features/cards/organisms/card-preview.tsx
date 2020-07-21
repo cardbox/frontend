@@ -13,19 +13,17 @@ interface Props {
   card: Card;
 }
 
-export const CardPreview: React.FC<Props> = ({ card }) => {
-  return (
-    <Container>
-      <Header>
-        <Title>{card.title}</Title>
-        <Meta>
-          Update {card.updatedAt}, {card.author}
-        </Meta>
-      </Header>
-      <Body>{card.content}</Body>
-    </Container>
-  );
-};
+export const CardPreview: React.FC<Props> = ({ card }) => (
+  <Container>
+    <Header>
+      <Title>{card.title}</Title>
+      <Meta>
+        Update {card.updatedAt}, {card.author}
+      </Meta>
+    </Header>
+    <Body>{card.content}</Body>
+  </Container>
+);
 
 const Container = styled.article`
   background-color: #fff;

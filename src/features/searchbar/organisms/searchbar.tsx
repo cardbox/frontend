@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ContentCentered, IconLogo, button } from 'ui';
+import { ContentCenteredTemplate, IconLogo, button } from 'ui';
 
 import { Search } from '../molecules';
 
 export const Searchbar = () => {
   return (
     <Container>
-      <ContentCentered>
+      <ContentCenteredTemplate>
         <Nav>
           <img src={IconLogo} alt="Logo" />
           <SearchWrapper>
@@ -16,7 +16,7 @@ export const Searchbar = () => {
           <Avatar />
           <button.Base>New card</button.Base>
         </Nav>
-      </ContentCentered>
+      </ContentCenteredTemplate>
     </Container>
   );
 };

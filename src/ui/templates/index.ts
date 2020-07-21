@@ -1,1 +1,1 @@
-export { ContentCentered } from './content-centered';
+export { ContentCenteredTemplate } from './content-centered';

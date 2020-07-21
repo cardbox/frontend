@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { CardPreview } from 'features/cards';
-import { ContentCentered } from 'ui';
+import { ContentCenteredTemplate } from 'ui';
 import { assignStart } from 'lib/effector';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -20,7 +20,7 @@ export const HomePage = () => {
   }, [pageLoaded]);
 
   return (
-    <ContentCentered>
+    <ContentCenteredTemplate>
       <Container>
         <CardsContainer>
           {cards.map((card) => (
@@ -28,7 +28,7 @@ export const HomePage = () => {
           ))}
         </CardsContainer>
       </Container>
-    </ContentCentered>
+    </ContentCenteredTemplate>
   );
 };
 
