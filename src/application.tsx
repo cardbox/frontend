@@ -30,14 +30,15 @@ export const Application: React.FC<Props> = ({ root }) => (
       <Globals />
       <Searchbar />
       <PagesContainer>
-        <Pages />
+        <PagesContent>
+          <Pages />
+        </PagesContent>
       </PagesContainer>
     </Container>
   </Provider>
 );
 
 // Разметка для того, чтобы скроллился только PagesContainer
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,4 +48,9 @@ const Container = styled.div`
 const PagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
+`;
+
+//Чтобы скролл страницы не сдвигал ее по горизонтали влево, иначе страница будет отцентрована левее чем хедер.
+const PagesContent = styled.div`
+  width: 100vw;
 `;

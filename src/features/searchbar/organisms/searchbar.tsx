@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IconLogo, button } from 'ui';
+import { ContentCenteredTemplate, IconLogo, button } from 'ui';
 
 import { Search } from '../molecules';
 
 export const Searchbar = () => {
   return (
     <Container>
-      <Nav>
-        <img src={IconLogo} alt="Logo" />
-        <SearchWrapper>
-          <Search />
-        </SearchWrapper>
-        <Avatar />
-        <button.Base>New card</button.Base>
-      </Nav>
+      <ContentCenteredTemplate>
+        <Nav>
+          <img src={IconLogo} alt="Logo" />
+          <SearchWrapper>
+            <Search />
+          </SearchWrapper>
+          <Avatar />
+          <button.Base>New card</button.Base>
+        </Nav>
+      </ContentCenteredTemplate>
     </Container>
   );
 };
@@ -32,12 +34,11 @@ const Container = styled.header`
 const Nav = styled.nav`
   align-items: center;
   display: flex;
-  width: 1404px;
 `;
 
 const SearchWrapper = styled.div`
   flex-grow: 1;
-  margin-left: 50px;
+  margin-left: 3.125rem;
 `;
 
 export const Avatar = styled.div`

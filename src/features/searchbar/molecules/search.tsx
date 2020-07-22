@@ -24,7 +24,7 @@ const Input = styled.input`
   flex-grow: 1;
   font-size: 0.9375rem;
   outline: 0;
-  padding: 0 18px;
+  padding: 0 1.125rem;
 
   &::placeholder {
     color: #a39bb2;
