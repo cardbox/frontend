@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ContentCenteredTemplate, IconLogo, button } from 'ui';
+import { LoginButton } from 'features/oauth';
 
 import { Search } from '../molecules';
 
@@ -13,7 +14,10 @@ export const Searchbar = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <Avatar />
+          <LoginBlock>
+            {/* <Avatar /> */}
+            <LoginButton />
+          </LoginBlock>
           <button.Base>New card</button.Base>
         </Nav>
       </ContentCenteredTemplate>
@@ -26,7 +30,6 @@ const Container = styled.header`
   box-shadow: 0px 6px 9px #f6f5f8;
   display: flex;
   flex-shrink: 0;
-  height: 72px;
   justify-content: center;
   position: relative;
 `;
@@ -34,6 +37,7 @@ const Container = styled.header`
 const Nav = styled.nav`
   align-items: center;
   display: flex;
+  height: 72px;
 `;
 
 const SearchWrapper = styled.div`
@@ -41,10 +45,13 @@ const SearchWrapper = styled.div`
   margin-left: 3.125rem;
 `;
 
+const LoginBlock = styled.div`
+  margin: 0 1.125rem;
+`;
+
 export const Avatar = styled.div`
   background-color: #f4f2f7;
   border-radius: 3px;
   height: 42px;
-  margin: 1.125rem;
   width: 42px;
 `;
