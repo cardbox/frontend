@@ -1,13 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface Card {
-  id: number;
-  title: string;
-  updatedAt: string;
-  author: string;
-  content: string;
-}
+import { Card } from '../types';
 
 interface Props {
   card: Card;
