@@ -1,6 +1,7 @@
 import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
+import { UserPage } from './user';
 import { paths } from './paths';
 
 export const ROUTES = [
@@ -13,6 +14,11 @@ export const ROUTES = [
     path: paths.comments(),
     exact: true,
     component: CommentsPage,
+  },
+  {
+    path: paths.user(),
+    exact: true,
+    component: UserPage,
   },
   {
     path: '*',

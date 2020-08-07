@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CardPreview } from 'features/cards';
+import { CardList } from 'features/cards';
 import { ContentCenteredTemplate } from 'ui';
 import { assignStart } from 'lib/effector';
 import { useEvent, useStore } from 'effector-react/ssr';
@@ -22,11 +22,9 @@ export const HomePage = () => {
   return (
     <ContentCenteredTemplate>
       <Container>
-        <CardsContainer>
-          {cards.map((card) => (
-            <CardPreview key={card.id} card={card} />
-          ))}
-        </CardsContainer>
+        <Main>
+          <CardList cards={cards} />
+        </Main>
       </Container>
     </ContentCenteredTemplate>
   );
@@ -82,13 +80,9 @@ const cards = [
 
 const Container = styled.div`
   display: flex;
-  padding: 3rem 0;
+  padding-bottom: 3rem;
 `;
 
-const CardsContainer = styled.div`
+const Main = styled.div`
   width: 74.5%; /* 1044 / 1404 * 100 */
-
-  & > *:not(:last-child) {
-    margin-bottom: 1.125rem;
-  }
 `;
