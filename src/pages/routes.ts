@@ -1,3 +1,4 @@
+import { CardPage } from './card';
 import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
@@ -14,6 +15,11 @@ export const ROUTES = [
     path: paths.comments(),
     exact: true,
     component: CommentsPage,
+  },
+  {
+    path: paths.card(),
+    exact: true,
+    component: CardPage,
   },
   {
     path: paths.user(),

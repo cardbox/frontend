@@ -86,7 +86,7 @@ const Main = styled.main`
   flex-grow: 1;
 
   & > *:last-child {
-    margin-top: 100px;
+    margin-top: 6.25rem;
   }
 `;
 
