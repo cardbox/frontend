@@ -22,17 +22,20 @@
     }
   },
   "rules": {
-    "import/order": [
-      "warn",
-      {
-        "groups": [
-          "builtin",
-          ["external", "internal"],
-          "parent",
-          "sibling",
-          "index"
-        ]
-      }
-    ]
+    "import/order": "off"
   }
+  // "rules": {
+  //   "import/order": [
+  //     "warn",
+  //     {
+  //       "groups": [
+  //         "builtin",
+  //         ["external", "internal"],
+  //         "parent",
+  //         "sibling",
+  //         "index"
+  //       ]
+  //     }
+  //   ]
+  // }
 }

@@ -1,4 +1,3 @@
-import { performance } from 'perf_hooks';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import express from 'express';
@@ -8,6 +7,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
 import { getStart } from 'lib/effector';
+import { performance } from 'perf_hooks';
 
 import { Application } from './application';
 import { ROUTES } from './pages/routes';

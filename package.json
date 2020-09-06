@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.4",
+    "dotenv": "^8.2.0",
     "effector": "^20.11.5",
     "effector-inspector": "^0.2.2",
     "effector-logger": "^0.5.0-8",
@@ -36,6 +37,7 @@
     "@eslint-kit/eslint-config-prettier": "^2.0.0",
     "@eslint-kit/eslint-config-react": "^2.0.0",
     "@eslint-kit/eslint-config-typescript": "^2.0.1",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.0",
     "@types/jest": "^23.3.14",
     "@types/node": "^12.6.6",
