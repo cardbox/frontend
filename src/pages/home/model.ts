@@ -1,9 +1,10 @@
 import React from 'react';
+import { StartParams } from 'lib/page-routing';
 import { createEffect, createEvent, createStore, guard } from 'effector-root';
 
 type ButtonClick = React.MouseEvent<HTMLButtonElement>;
 
-export const pageLoaded = createEvent<Record<string, string>>();
+export const pageLoaded = createEvent<StartParams>();
 export const incrementClicked = createEvent<ButtonClick>();
 export const resetClicked = createEvent<ButtonClick>();
 

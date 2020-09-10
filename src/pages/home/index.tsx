@@ -2,22 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CardList } from 'features/cards';
 import { ContentCenteredTemplate } from 'ui';
-import { assignStart } from 'lib/effector';
 import { useEvent, useStore } from 'effector-react/ssr';
+import { useStart, withStart } from 'lib/page-routing';
 
 import * as model from './model';
 
 export const HomePage = () => {
-  const pageLoaded = useEvent(model.pageLoaded);
+  useStart(model.pageLoaded);
   const increment = useEvent(model.incrementClicked);
   const reset = useEvent(model.resetClicked);
 
   const counterValue = useStore(model.$counterValue);
   const pagePending = useStore(model.$pagePending);
-
-  React.useEffect(() => {
-    pageLoaded({});
-  }, [pageLoaded]);
 
   return (
     <ContentCenteredTemplate>
@@ -30,7 +26,7 @@ export const HomePage = () => {
   );
 };
 
-assignStart(HomePage, model.pageLoaded);
+withStart(model.pageLoaded, HomePage);
 
 const cards = [
   {

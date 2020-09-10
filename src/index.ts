@@ -7,13 +7,13 @@ import path from 'path';
 dotenv.config();
 
 // this require is necessary for server HMR to recover from error
-let app = require('./server').server;
+let server = require('./server').server;
 
 if (module.hot) {
   module.hot.accept('./server', () => {
     console.info('🔁  HMR Reloading `./server`...');
     try {
-      app = require('./server').server;
+      server = require('./server').server;
     } catch (error) {
       console.error(error);
     }
@@ -37,15 +37,15 @@ function createServer() {
       key: fs.readFileSync(KEY),
     };
 
-    return https.createServer(options, app);
+    return https.createServer(options, server);
   }
 
   // http on prod, because we have nginx reverse proxy
-  return http.createServer({}, app);
+  return http.createServer({}, server);
 }
 
-const server = createServer().listen(PORT, () => {
-  console.info(`> Started on`, server.address());
+const httpServer = createServer().listen(PORT, () => {
+  console.info(`> Started on`, httpServer.address());
 });
 
-export default server;
+export default httpServer;

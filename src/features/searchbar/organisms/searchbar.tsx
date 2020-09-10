@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from 'ui';
+import { Link } from 'react-router-dom';
 
 import { Search } from '../molecules';
 
@@ -9,7 +10,9 @@ export const Searchbar = () => {
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <img src={IconLogo} alt="Logo" />
+          <Link to="/">
+            <img src={IconLogo} alt="Logo" />
+          </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
