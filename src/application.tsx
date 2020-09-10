@@ -1,8 +1,7 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Provider } from 'effector-react/ssr';
 import { Scope } from 'effector/fork';
-import { createGlobalStyle } from 'styled-components';
 
 import { Pages } from './pages';
 import { Searchbar } from './features/searchbar';
