@@ -6,3 +6,4 @@ export {
   readyToLoadSession,
   sessionLoaded,
 } from './model';
+export { authorizeFx } from './accesso';

@@ -124,7 +124,6 @@ export const server = express()
 
     const storesValues = serialize(scope, {
       ignore: [$cookiesForRequest, $cookiesFromResponse],
-      onlyChanges: true,
     });
 
     const routerContext = {};

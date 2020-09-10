@@ -1,3 +1,4 @@
+import { AccessoDonePage } from './accesso/done';
 import { CardPage } from './card';
 import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
@@ -25,6 +26,11 @@ export const ROUTES = [
     path: paths.user(),
     exact: true,
     component: UserPage,
+  },
+  {
+    path: paths.accessoDone(),
+    exact: true,
+    component: AccessoDonePage,
   },
   {
     path: '*',

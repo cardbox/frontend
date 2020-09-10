@@ -8,4 +8,5 @@ export const paths = {
    * @example
    * user: (username = ':username') => `/@${username}`,
    */
+  accessoDone: () => `/accesso/done`,
 };

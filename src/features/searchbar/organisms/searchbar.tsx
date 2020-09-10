@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from 'ui';
+import { ContentCenteredTemplate, IconLogo, button } from 'ui';
 import { Link } from 'react-router-dom';
 
+import { Profile } from './profile';
 import { Search } from '../molecules';
 
 export const Searchbar = () => {
@@ -17,7 +18,8 @@ export const Searchbar = () => {
             <Search />
           </SearchWrapper>
           <LoginBlock>
-            <Avatar />
+            {/* <Avatar /> */}
+            <Profile />
           </LoginBlock>
           <button.Base>New card</button.Base>
         </Nav>
