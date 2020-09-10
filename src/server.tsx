@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import through from 'through';
 import {
   $cookiesForRequest,
   $cookiesFromResponse,
@@ -9,6 +10,7 @@ import {
 } from 'api/request';
 import { $lastPushed } from 'features/navigation';
 import { Event, forward, root, sample } from 'effector-root';
+import { FilledContext, Helmet, HelmetProvider } from 'react-helmet-async';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ServerStyleSheet } from 'styled-components';
 import { StartParams, getStart } from 'lib/page-routing';
@@ -20,6 +22,9 @@ import { readyToLoadSession, sessionLoaded } from 'features/session';
 
 import { Application } from './application';
 import { ROUTES } from './pages/routes';
+
+const FIVE_MINUTES = 300;
+const ONE_HOUR = 3600;
 
 const serverStarted = root.createEvent<{
   req: express.Request;
@@ -81,10 +86,11 @@ sample({
 
 let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-const syncLoadAssets = () => {
+function syncLoadAssets() {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
-};
+}
+
 syncLoadAssets();
 
 export const server = express()
@@ -116,13 +122,21 @@ export const server = express()
       console.error(error);
     }
 
-    const context = {};
+    const storesValues = serialize(scope, {
+      ignore: [$cookiesForRequest, $cookiesFromResponse],
+      onlyChanges: true,
+    });
+
+    const routerContext = {};
     const sheet = new ServerStyleSheet();
+    const helmetContext: FilledContext = {} as FilledContext;
 
     const jsx = sheet.collectStyles(
-      <StaticRouter context={context} location={request.url}>
-        <Application root={scope} />
-      </StaticRouter>,
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter context={routerContext} location={request.url}>
+          <Application root={scope} />
+        </StaticRouter>
+      </HelmetProvider>,
     );
 
     if (isRedirected(response)) {
@@ -133,21 +147,48 @@ export const server = express()
         response.get('Location'),
         (performance.now() - timeStart).toFixed(2),
       );
+      response.end();
       return;
     }
 
-    const stream = sheet.interleaveWithNodeStream(
-      ReactDOMServer.renderToNodeStream(jsx),
-    );
-    const storesValues = serialize(scope, {
-      ignore: [$cookiesForRequest, $cookiesFromResponse],
-      onlyChanges: true,
-    });
+    let sent = false;
 
-    response.write(htmlStart(assets.client.css, assets.client.js));
+    const stream = sheet
+      .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
+      .pipe(
+        through(
+          function write(data) {
+            if (!sent) {
+              this.queue(
+                htmlStart({
+                  helmet: helmetContext.helmet,
+                  assetsCss: assets.client.css,
+                  assetsJs: assets.client.js,
+                }),
+              );
+              sent = true;
+            }
+            this.queue(data);
+          },
+          function end() {
+            this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
+            this.queue(null);
+          },
+        ),
+      );
+
+    // if (request.user) {
+    //   response.setHeader('Cache-Control', 's-maxage=0, private');
+    // } else {
+    //   response.setHeader(
+    //     'Cache-Control',
+    //     `s-maxage=${ONE_HOUR}, stale-while-revalidate=${FIVE_MINUTES}, must-revalidate`,
+    //   );
+    // }
+
     stream.pipe(response, { end: false });
     stream.on('end', () => {
-      response.end(htmlEnd(storesValues));
+      response.end();
       cleanUp();
       console.info(
         '[PERF] sent page at %sms',
@@ -160,32 +201,47 @@ export const server = express()
     }
   });
 
-function htmlStart(assetsCss: string, assetsJs: string) {
+interface StartProps {
+  assetsCss?: string;
+  assetsJs: string;
+  helmet: FilledContext['helmet'];
+}
+
+interface EndProps {
+  storesValues: Record<string, unknown>;
+  helmet: FilledContext['helmet'];
+}
+
+function htmlStart(p: StartProps) {
   return `<!doctype html>
-    <html lang="">
+    <html ${p.helmet.htmlAttributes.toString()}>
     <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet='utf-8' />
-        <title>Cardbox</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assetsCss ? `<link rel="stylesheet" href="${assetsCss}">` : ''}
+        ${p.helmet.base.toString()}
+        ${p.helmet.meta.toString()}
+        ${p.helmet.title.toString()}
+        ${p.helmet.link.toString()}
+        ${p.helmet.style.toString()}
+        ${p.assetsCss ? `<link rel="stylesheet" href="${p.assetsCss}">` : ''}
           ${
             process.env.NODE_ENV === 'production'
-              ? `<script src="${assetsJs}" defer></script>`
-              : `<script src="${assetsJs}" defer crossorigin></script>`
+              ? `<script src="${p.assetsJs}" defer></script>`
+              : `<script src="${p.assetsJs}" defer crossorigin></script>`
           }
     </head>
-    <body>
+    <body ${p.helmet.bodyAttributes.toString()}>
         <div id="root">`;
 }
 
-function htmlEnd(storesValues: Record<string, unknown>): string {
+function htmlEnd(p: EndProps) {
   return `</div>
         <script>
-          window.INITIAL_STATE = ${JSON.stringify(storesValues)}
+          window.INITIAL_STATE = ${JSON.stringify(p.storesValues)}
         </script>
+        ${p.helmet.script.toString()}
+        ${p.helmet.noscript.toString()}
     </body>
-</html>`;
+</html>
+  `;
 }
 
 function lookupStartEvent<P>(

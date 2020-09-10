@@ -2,6 +2,7 @@
 // import { createInspector } from 'effector-inspector';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router';
 import { fork, hydrate } from 'effector/fork';
 import { history } from 'features/navigation';
@@ -17,9 +18,11 @@ hydrate(root, { values: INITIAL_STATE });
 const scope = fork(root);
 
 ReactDOM.hydrate(
-  <Router history={history!}>
-    <Application root={scope} />
-  </Router>,
+  <HelmetProvider>
+    <Router history={history!}>
+      <Application root={scope} />
+    </Router>
+  </HelmetProvider>,
   document.querySelector('#root'),
 );
 

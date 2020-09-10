@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 import { Provider } from 'effector-react/ssr';
 import { Scope } from 'effector/fork';
 
@@ -26,6 +27,15 @@ const Globals = createGlobalStyle`
 export const Application: React.FC<Props> = ({ root }) => (
   <Provider value={root}>
     <Container>
+      <Helmet
+        htmlAttributes={{ lang: 'en' }}
+        titleTemplate="%s @ Cardbox"
+        defaultTitle="Welcome to Cardbox"
+      >
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
       <Globals />
       <Searchbar />
       <PagesContainer>
