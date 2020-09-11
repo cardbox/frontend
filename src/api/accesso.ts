@@ -1,12 +1,21 @@
-import { attach } from 'effector-root';
+import { createEffect } from 'effector-root';
 
-import { requestFx } from './request';
+import { Answer, requestFx } from './request';
 
-export const authUrlFx = attach({
-  effect: requestFx,
-  mapParams: (body: { state: string }) => ({
-    path: '/accesso/auth_url',
-    method: 'POST',
-    body,
-  }),
+interface AuthUrl {
+  state: string;
+}
+interface AuthUrlDone {
+  accessoUrl: string;
+}
+
+export const authUrlFx = createEffect<AuthUrl, AuthUrlDone, Answer>({
+  async handler(body) {
+    const answer = await requestFx({
+      path: '/accesso/auth-url',
+      method: 'POST',
+      body,
+    });
+    return answer.body as AuthUrlDone;
+  },
 });

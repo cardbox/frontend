@@ -12,7 +12,7 @@ import {
 export type Request = {
   path: string;
   method: string;
-  body?: Record<string, unknown> | null | void;
+  body?: unknown | null | void;
   query?: Record<string, string>;
   headers?: Record<string, string>;
   cookies?: string;
