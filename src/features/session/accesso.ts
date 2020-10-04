@@ -3,13 +3,13 @@ import { createEffect } from 'effector-root';
 
 export const authorizeFx = createEffect({
   async handler() {
-    const { accessoUrl } = await authUrlFx({ state: getState() });
+    const { accessoUrl } = await authUrlFx({ state: getLocationState() });
 
     document.location = (accessoUrl as any) as Location;
   },
 });
 
-function getState(): string {
+function getLocationState(): string {
   return [
     document.location.pathname,
     document.location.search,
