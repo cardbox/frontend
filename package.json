@@ -24,7 +24,7 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
     "node-fetch": "^2.6.1",
-    "patronum": "^0.106.0",
+    "patronum": "^0.108.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
