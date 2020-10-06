@@ -12,14 +12,15 @@ import { condition } from 'patronum/condition';
 import { historyPush } from 'features/navigation';
 import { paths } from 'pages/paths';
 
-export const readyToLoadSession = createEvent<void>();
+type UserInfo = { firstName: string; lastName: string };
 
+export const readyToLoadSession = createEvent<void>();
 export const sessionLoaded = createEvent();
 
 forward({ from: readyToLoadSession, to: sessionLoaded });
 
-// export const $session = createStore<SessionUser | null>(null);
-// export const $isAuthenticated = $session.map((user) => user !== null);
+export const $session = createStore<UserInfo | null>(null);
+export const $isAuthenticated = $session.map((user) => user !== null);
 
 // // Show loading state if no session but first request is sent
 // export const $sessionPending = combine(

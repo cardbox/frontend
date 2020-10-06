@@ -4696,7 +4696,7 @@ effector-logger@^0.7.1:
     just-debounce-it "^1.1.0"
     set-value "3.0.1"
 
-effector-react@^21.0.4:
+effector-react@^21.0.6:
   version "21.0.6"
   resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-21.0.6.tgz#8af2053d10eac6a6813d2a3ea9bbd3a9cfefaf4b"
   integrity sha512-dmIlwFG2QfNVqlhJMuol38iMEYtRrG0pDe6INaUQ7t1+Fwv9RtrCc48bp8XjG6eUs03OK0Wn2efD5rzgjboTiA==
@@ -4706,10 +4706,10 @@ effector-root@^0.2.0:
   resolved "https://registry.yarnpkg.com/effector-root/-/effector-root-0.2.0.tgz#2080efa854087cf734cdb295683808579f32976c"
   integrity sha512-lPt4MP0MzOkaDGuwkVjg6bknYpboFOQYGdBfL4D9E2OmJhKS2MK9RdnN7NSBSXHKXFJ4oBAnYR3LSEu8XXj3rw==
 
-effector@^21.3.0:
-  version "21.3.0"
-  resolved "https://registry.yarnpkg.com/effector/-/effector-21.3.0.tgz#378a990cd570a9f86c0f14fb29ff912ecfe93f58"
-  integrity sha512-EeiFe43tUDsSvTH06Na4xYG2A7xj9uCGpPsz5D51bl/oTq1AiBMtQiE6u+qgmR+OeR6G2c8vhBBrovPqQCN2yg==
+effector@^21.4.1:
+  version "21.4.1"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-21.4.1.tgz#151e9dc4695f4ce3d4ac4d3458f7d088cf3b27a2"
+  integrity sha512-J5bCxk7rZT2XU6+pa4tn1+4vA0yGfSEXfO2WCgZGlMPqZIcBzkiQpJ52pBSRgUft15SYoy2sFY0NurpgXCEgEA==
 
 electron-to-chromium@^1.3.378, electron-to-chromium@^1.3.564:
   version "1.3.565"
