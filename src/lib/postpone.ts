@@ -1,5 +1,7 @@
 import { Effect, Event, Store, Unit, createEffect, forward } from 'effector';
 
+import { readConfig } from './effector-config';
+
 type Node<T> = Event<T> | Store<T> | Effect<T, any, any>;
 
 /**
@@ -12,6 +14,12 @@ export function postpone<T>(config: {
   delay: number;
   abort?: Node<any>;
 }) {
+  const { source, target, delay, abort, name, sid } = readConfig(config, [
+    'source',
+    'target',
+    'delay',
+    'abort',
+  ]);
   function abortable<P>(
     handler: (params: P) => Promise<P>,
     cancel?: Node<any>,
@@ -38,15 +46,15 @@ export function postpone<T>(config: {
   }
 
   function timeout<P>(payload: P) {
-    return new Promise<P>((resolve) =>
-      setTimeout(resolve, config.delay, payload),
-    );
+    return new Promise<P>((resolve) => setTimeout(resolve, delay, payload));
   }
 
-  const pauseFx = createEffect<T, T>();
+  const pauseFx = createEffect<T, T>({ sid, name });
 
-  pauseFx.use(abortable(timeout, config.abort));
+  pauseFx.use(abortable(timeout, abort));
 
-  forward({ from: config.source, to: pauseFx });
-  forward({ from: pauseFx.doneData, to: config.target });
+  forward({ from: source, to: pauseFx });
+  forward({ from: pauseFx.doneData, to: target });
+
+  return pauseFx;
 }

@@ -1,15 +1,22 @@
-import { authorizeFx } from 'features/session';
+import { $sessionPending, authorizeFx } from 'features/session';
 import { createEvent, createStore } from 'effector-root';
 import { historyChanged } from 'features/navigation';
 import { postpone } from 'lib/postpone';
+import { some } from 'patronum/some';
 
 type ButtonClick = React.MouseEvent<HTMLButtonElement>;
 
 export const loginClicked = createEvent<ButtonClick>();
-export const $pending = createStore(false);
+const $loginPending = createStore(false);
 
-$pending.on(loginClicked, () => true);
+export const $pending = some({
+  stores: [$sessionPending, $loginPending],
+  predicate: true,
+});
 
+$loginPending.on(loginClicked, () => true);
+
+// Nothing more, because authorizeFx redirects to accesso URL
 postpone({
   source: loginClicked,
   target: authorizeFx.prepend(() => {}),

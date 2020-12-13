@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from 'ui';
+
+import { Avatar } from '../atoms';
 
 // Временно
 interface User {

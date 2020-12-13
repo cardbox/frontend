@@ -1,12 +1,15 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-export const LoaderAccesso = () => (
-  <Loader>
-    <span />
-    <span />
-    <span />
-  </Loader>
+export const LoaderAccesso: React.FC = ({ children }) => (
+  <Container>
+    <Loader>
+      <span />
+      <span />
+      <span />
+    </Loader>
+    <Filler>{children}</Filler>
+  </Container>
 );
 
 const rotate = keyframes`
@@ -21,14 +24,31 @@ const rotate = keyframes`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  position: relative;
+  height: 30px;
+  position: relative;
+`;
+
+const Filler = styled.figure`
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  visibility: hidden;
+  user-select: none;
+`;
+
 const Loader = styled.div`
   display: flex;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 30px;
-  height: 28px;
-  position: relative;
+  height: 30px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 
   & > span {
     display: inline-block;

@@ -1,7 +1,7 @@
-import { authFinishFx } from 'api/accesso';
+import { $session, authorizeFinishFx } from 'features/session';
 import { createStart } from 'lib/page-routing';
-import { createStore, forward, restore, sample } from 'effector-root';
 import { delay } from 'patronum/delay';
+import { forward, restore, sample } from 'effector-root';
 import { historyChanged, historyReplace } from 'features/navigation';
 import { paths } from 'pages/paths';
 import { postpone } from 'lib/postpone';
@@ -19,30 +19,25 @@ const $queryState = restore(
   '',
 );
 
-export const $userName = createStore({ firstName: '', lastName: '' });
+export const $userName = $session;
 
 export const $status = status({
-  effect: authFinishFx,
+  effect: authorizeFinishFx,
   defaultValue: 'pending',
 });
 
+// Remove query parameters
 forward({
   from: authorizeRequestDone,
   to: historyReplace.prepend(paths.accessoDone),
 });
-
 const paramsRemoved = delay({ source: authorizeRequestDone, timeout: 1 });
 
-forward({
-  from: paramsRemoved,
-  to: authFinishFx.prepend(({ code }) => ({ authorizationCode: code })),
-});
-
-$userName.on(authFinishFx.doneData, (_, { userInfo }) => userInfo);
+forward({ from: paramsRemoved, to: authorizeFinishFx });
 
 postpone({
-  source: sample($queryState, authFinishFx.done),
+  source: sample($queryState, authorizeFinishFx.done),
+  delay: 1,
   target: historyReplace,
-  delay: 3000,
   abort: historyChanged,
 });

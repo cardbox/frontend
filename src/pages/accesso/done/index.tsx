@@ -24,12 +24,12 @@ export const AccessoDonePage = () => {
 };
 
 const UserName = () => {
-  const { firstName, lastName } = useStore(model.$userName);
+  const user = useStore(model.$userName);
 
   return (
     <div>
       <h4>
-        Welcome! Dear, {firstName} {lastName}.
+        Welcome! Dear, {user?.firstName} {user?.lastName}.
       </h4>
       <p>You will be redirected back in 3 seconds.</p>
     </div>
