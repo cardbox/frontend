@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { button } from 'ui';
+import { button } from '@cardbox/ui';
 
 export const Search = () => {
   return (

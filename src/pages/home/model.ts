@@ -1,5 +1,5 @@
 import React from 'react';
-import { StartParams } from 'lib/page-routing';
+import { StartParams } from '@cardbox/lib/page-routing';
 import { createEffect, createEvent, createStore, guard } from 'effector-root';
 
 type ButtonClick = React.MouseEvent<HTMLButtonElement>;

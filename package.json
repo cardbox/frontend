@@ -59,7 +59,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.1",
     "@types/webpack-env": "^1.15.1",
-    "@typescript-eslint/parser": "^3.6.0",
+    "@typescript-eslint/parser": "^4.16.1",
     "babel-plugin-styled-components": "^1.10.7",
     "commitizen": "4.0.3",
     "commitlint-config-cz": "^0.13.1",
@@ -94,7 +94,10 @@
       "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
     ],
     "moduleFileExtensions": ["ts", "tsx", "js", "json"],
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"]
+    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
+    "moduleNameMapper": {
+      "^@cardbox/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "config": {
     "commitizen": {

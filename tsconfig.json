@@ -3,7 +3,6 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "baseUrl": "src",
     "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -26,6 +25,9 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": false,
+    "paths": {
+      "@cardbox/*": ["./src/*"]
+    },
     "plugins": [
       {
         "transform": "typescript-plugin-styled-components",

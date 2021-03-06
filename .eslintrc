@@ -5,6 +5,7 @@
     "@eslint-kit/node",
     "@eslint-kit/react",
     "@eslint-kit/prettier",
+    "plugin:import/typescript",
     "./.config/eslint-config"
   ],
   "parser": "@typescript-eslint/parser",
@@ -17,12 +18,14 @@
     },
     "import/resolver": {
       "typescript": {
-        "alwaysTryTypes": true
+        "alwaysTryTypes": true,
+        "project": "./"
       }
     }
   },
   "rules": {
-    "import/order": "off"
+    "import/order": "off",
+    "import/no-unresolved": "off"
   }
   // "rules": {
   //   "import/order": [

@@ -7,21 +7,21 @@ import {
   $cookiesForRequest,
   $cookiesFromResponse,
   setCookiesForRequest,
-} from 'api/request';
-import { $lastPushed } from 'features/navigation';
+} from '@cardbox/api/request';
+import { $lastPushed } from '@cardbox/entities/navigation';
 import { Event, forward, root, sample } from 'effector-root';
 import { FilledContext, Helmet, HelmetProvider } from 'react-helmet-async';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
+import { ROUTES } from '@cardbox/pages/routes';
 import { ServerStyleSheet } from 'styled-components';
-import { StartParams, getStart } from 'lib/page-routing';
+import { StartParams, getStart } from '@cardbox/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { performance } from 'perf_hooks';
-import { readyToLoadSession, sessionLoaded } from 'features/session';
+import { readyToLoadSession, sessionLoaded } from '@cardbox/entities/session';
 
 import { Application } from './application';
-import { ROUTES } from './pages/routes';
 
 const FIVE_MINUTES = 300;
 const ONE_HOUR = 3600;

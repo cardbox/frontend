@@ -35,7 +35,7 @@ module.exports = {
       'http://',
       '//',
     );
-    config.resolve.modules.unshift(path.resolve(__dirname, 'src'));
+    config.resolve.alias['@cardbox'] = path.resolve(__dirname, 'src');
     return config;
   },
 };

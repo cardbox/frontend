@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router';
 import { fork, hydrate } from 'effector/fork';
-import { history } from 'features/navigation';
+import { history } from '@cardbox/entities/navigation';
 import { root } from 'effector-root';
 
 import { Application } from './application';

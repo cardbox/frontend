@@ -3,9 +3,9 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Helmet } from 'react-helmet-async';
 import { Provider } from 'effector-react/ssr';
 import { Scope } from 'effector/fork';
+import { Searchbar } from '@cardbox/features/search-bar';
 
-import { Pages } from './pages';
-import { Searchbar } from './features/searchbar';
+import { Pages } from '../pages';
 
 interface Props {
   root: Scope;

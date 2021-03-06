@@ -19,10 +19,10 @@ yarn start
 
 https://sova.dev/application-structure
 
-- `src/server.tsx` — Express server, that renders React to stream
+- `src/app/server.tsx` — Express server, that renders React to stream
 - `src/index.tsx` — Node.js entry point, that have hot module replacement and imports server
-- `src/client.tsx` — Browser side entry point, that hydrates stores and react app
-- `src/application.tsx` — Application component, that have global styles and effector provider
+- `src/app/client.tsx` — Browser side entry point, that hydrates stores and react app
+- `src/app/application.tsx` — Application component, that have global styles and effector provider
 - `src/pages/index.tsx` — Pages component
 - `src/pages/routes.ts` — Static routes config
 - `src/pages/:page-name/index.tsx` — View for single specific page

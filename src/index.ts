@@ -7,13 +7,13 @@ import path from 'path';
 dotenv.config();
 
 // this require is necessary for server HMR to recover from error
-let server = require('./server').server;
+let server = require('./app/server').server;
 
 if (module.hot) {
-  module.hot.accept('./server', () => {
-    console.info('🔁  HMR Reloading `./server`...');
+  module.hot.accept('./app/server', () => {
+    console.info('🔁  HMR Reloading `./app/server`...');
     try {
-      server = require('./server').server;
+      server = require('./app/server').server;
     } catch (error) {
       console.error(error);
     }
@@ -21,7 +21,7 @@ if (module.hot) {
   console.info('✅  Server-side HMR Enabled!');
 }
 
-const PORT = Number.parseInt(process.env.PORT ?? '3000', 10);
+const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);
 
 function createServer() {
   if (process.env.NODE_ENV === 'development') {

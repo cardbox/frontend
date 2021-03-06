@@ -7,10 +7,10 @@ import {
   forward,
   guard,
 } from 'effector-root';
-// import { SessionUser, sessionGet } from 'api/session';
+// import { SessionUser, sessionGet } from '@cardbox/api/session';
 import { condition } from 'patronum/condition';
-import { historyPush } from 'features/navigation';
-import { paths } from 'pages/paths';
+import { historyPush } from '@cardbox/entities/navigation';
+import { paths } from '@cardbox/pages/paths';
 
 export const readyToLoadSession = createEvent<void>();
 

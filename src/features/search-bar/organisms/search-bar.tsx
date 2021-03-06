@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from 'ui';
+import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@cardbox/ui';
 import { Link } from 'react-router-dom';
 
 import { Search } from '../molecules';

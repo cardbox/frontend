@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CardList } from 'features/cards';
-import { ContentCenteredTemplate } from 'ui';
+import { CardList } from '@cardbox/entities/card';
+import { ContentCenteredTemplate } from '@cardbox/ui';
 import { useEvent, useStore } from 'effector-react/ssr';
-import { useStart, withStart } from 'lib/page-routing';
+import { useStart, withStart } from '@cardbox/lib/page-routing';
 
 import * as model from './model';
 
