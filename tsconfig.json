@@ -20,24 +20,25 @@
     ],
     "module": "esnext",
     "moduleResolution": "Node",
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": false,
-    "pretty": true,
-    "noEmit": true,
-    "sourceMap": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "target": "es2016",
-    "types": ["react", "jest", "node", "webpack-env"],
     "plugins": [
       {
         "transform": "typescript-plugin-styled-components",
         "type": "config"
       }
-    ]
+    ],
+    "pretty": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es2016",
+    "types": ["react", "jest", "node", "webpack-env"]
   }
 }
