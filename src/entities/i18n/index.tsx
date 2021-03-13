@@ -18,8 +18,6 @@ $locale.on(localeLoadFromHeader, (_, header) => {
     .map(createLocale)[0];
 });
 
-$locale.watch((s) => console.info('LOCALE', s));
-
 const $shortIntl = $locale.map((locale) => createShortIntl(locale));
 
 export const ShortDate = reflect({
