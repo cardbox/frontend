@@ -7,17 +7,15 @@ interface Props {
   card: Card;
 }
 
-export const CardPreview: React.FC<Props> = ({ card }) => (
+export const CardPreview: React.FC<Props> = React.memo(({ card }) => (
   <Container>
     <Header>
       <Title>{card.title}</Title>
-      <Meta>
-        Update {card.updatedAt}, {card.author}
-      </Meta>
+      <Meta>Updated {card.updatedAt}</Meta>
     </Header>
-    <Body>{card.content}</Body>
+    <Body>{card.previewContent}</Body>
   </Container>
-);
+));
 
 const Container = styled.article`
   background-color: #fff;

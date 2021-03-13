@@ -1,13 +1,5 @@
 import queryString from 'query-string';
-import {
-  Effect,
-  attach,
-  createEffect,
-  createEvent,
-  guard,
-  merge,
-  restore,
-} from 'effector-root';
+import { Effect, attach, createEffect, createEvent, guard, merge, restore } from 'effector-root';
 
 export type Request = {
   path: string;
@@ -46,10 +38,9 @@ if (process.env.BUILD_TARGET === 'server') {
   $cookiesForRequest.on(setCookiesForRequest, (_, cookies) => cookies);
 
   // Save cookies from the response to send to the client
-  const respondedWithCookies = merge([
-    sendRequestFx.doneData,
-    sendRequestFx.failData,
-  ]).map(({ headers }) => headers['set-cookie'] ?? '');
+  const respondedWithCookies = merge([sendRequestFx.doneData, sendRequestFx.failData]).map(
+    ({ headers }) => headers['set-cookie'] ?? '',
+  );
 
   guard({
     source: respondedWithCookies,
@@ -63,21 +54,15 @@ if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
     console.info(`[requestInternal] ${method} ${path}`);
   });
 
-  sendRequestFx.done.watch(
-    ({ params: { path, method }, result: { status } }) => {
-      console.info(`[requestInternal.done] ${method} ${path} : ${status}`);
-    },
-  );
+  sendRequestFx.done.watch(({ params: { path, method }, result: { status } }) => {
+    console.info(`[requestInternal.done] ${method} ${path} : ${status}`);
+  });
 
-  sendRequestFx.fail.watch(
-    ({ params: { path, method }, error: { status } }) => {
-      console.info(`[requestInternal.fail] ${method} ${path} : ${status}`);
-    },
-  );
+  sendRequestFx.fail.watch(({ params: { path, method }, error: { status } }) => {
+    console.info(`[requestInternal.fail] ${method} ${path} : ${status}`);
+  });
 }
 
-export function queryToString(
-  query: Record<string, string> | undefined,
-): string {
+export function queryToString(query: Record<string, string> | undefined): string {
   return query ? `?${queryString.stringify(query)}` : '';
 }

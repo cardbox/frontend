@@ -13,8 +13,7 @@ export const CommentsPage = () => {
             <Paragraph>
               Sometimes we need to save Set or Map in an Effector store.
               <br />
-              Simple createStore(new Set()) will not trigger updates after
-              .add(item)
+              Simple createStore(new Set()) will not trigger updates after .add(item)
             </Paragraph>
           </Card>
           <Comments />

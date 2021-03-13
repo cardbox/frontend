@@ -1,9 +1,4 @@
-export {
-  $cookiesForRequest,
-  $cookiesFromResponse,
-  requestFx,
-  setCookiesForRequest,
-} from './base';
+export { $cookiesForRequest, $cookiesFromResponse, requestFx, setCookiesForRequest } from './base';
 
 export type { Answer } from './base';
 

@@ -1,12 +1,4 @@
-import {
-  Event,
-  Unit,
-  combine,
-  createEvent,
-  createStore,
-  forward,
-  guard,
-} from 'effector-root';
+import { Event, Unit, combine, createEvent, createStore, forward, guard } from 'effector-root';
 // import { SessionUser, sessionGet } from '@cardbox/api/session';
 import { condition } from 'patronum/condition';
 import { historyPush } from '@cardbox/entities/navigation';

@@ -10,7 +10,7 @@ import {
 } from '@cardbox/api/request';
 import { $lastPushed } from '@cardbox/entities/navigation';
 import { Event, forward, root, sample } from 'effector-root';
-import { FilledContext, Helmet, HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ROUTES } from '@cardbox/pages/routes';
 import { ServerStyleSheet } from 'styled-components';
@@ -22,9 +22,6 @@ import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@cardbox/entities/session';
 
 import { Application } from './application';
-
-const FIVE_MINUTES = 300;
-const ONE_HOUR = 3600;
 
 const serverStarted = root.createEvent<{
   req: express.Request;
@@ -54,13 +51,11 @@ for (const { component } of ROUTES) {
   const startPageEvent = getStart(component);
 
   if (startPageEvent) {
-    const matchedRoute = sample(routesMatched, sessionLoaded).filterMap(
-      ({ routes, query }) => {
-        const route = routes.find(routeWithEvent(startPageEvent));
-        if (route) return { route, query };
-        return undefined;
-      },
-    );
+    const matchedRoute = sample(routesMatched, sessionLoaded).filterMap(({ routes, query }) => {
+      const route = routes.find(routeWithEvent(startPageEvent));
+      if (route) return { route, query };
+      return undefined; // `undefined` skips update in `filterMap`
+    });
 
     forward({
       from: matchedRoute.map(({ route, query }) => ({
@@ -153,29 +148,27 @@ export const server = express()
 
     let sent = false;
 
-    const stream = sheet
-      .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
-      .pipe(
-        through(
-          function write(data) {
-            if (!sent) {
-              this.queue(
-                htmlStart({
-                  helmet: helmetContext.helmet,
-                  assetsCss: assets.client.css,
-                  assetsJs: assets.client.js,
-                }),
-              );
-              sent = true;
-            }
-            this.queue(data);
-          },
-          function end() {
-            this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
-            this.queue(null);
-          },
-        ),
-      );
+    const stream = sheet.interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx)).pipe(
+      through(
+        function write(data) {
+          if (!sent) {
+            this.queue(
+              htmlStart({
+                helmet: helmetContext.helmet,
+                assetsCss: assets.client.css,
+                assetsJs: assets.client.js,
+              }),
+            );
+            sent = true;
+          }
+          this.queue(data);
+        },
+        function end() {
+          this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
+          this.queue(null);
+        },
+      ),
+    );
 
     // if (request.user) {
     //   response.setHeader('Cache-Control', 's-maxage=0, private');
@@ -190,10 +183,7 @@ export const server = express()
     stream.on('end', () => {
       response.end();
       cleanUp();
-      console.info(
-        '[PERF] sent page at %sms',
-        (performance.now() - timeStart).toFixed(2),
-      );
+      console.info('[PERF] sent page at %sms', (performance.now() - timeStart).toFixed(2));
     });
 
     function cleanUp() {
@@ -244,9 +234,7 @@ function htmlEnd(p: EndProps) {
   `;
 }
 
-function lookupStartEvent<P>(
-  match: MatchedRoute<P>,
-): Event<StartParams> | undefined {
+function lookupStartEvent<P>(match: MatchedRoute<P>): Event<StartParams> | undefined {
   if (match.route.component) {
     return getStart(match.route.component);
   }

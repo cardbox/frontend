@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardPreview } from '@cardbox/entities/card';
+import { Card, CardPreview } from '@cardbox/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@cardbox/ui';
 
 export const CardPage = () => (
@@ -20,13 +20,14 @@ export const CardPage = () => (
   </ContentCenteredTemplate>
 );
 
-const card = {
-  id: 1,
+const card: Card = {
+  id: '1',
+  content: '',
   title:
     'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
   updatedAt: '05:03 03.01.2',
-  author: 'Sova',
-  content:
+  createdAt: '05:03 03.01.2',
+  previewContent:
     'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
 };
 
