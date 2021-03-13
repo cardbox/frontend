@@ -11,9 +11,8 @@ import { matchRoutes } from 'react-router-config';
 
 import { Application } from './application';
 
+hydrate(root, { values: INITIAL_STATE });
 const scope = fork(root);
-
-hydrate(scope, { values: INITIAL_STATE });
 
 const routesMatched = historyChanged.map((change) => ({
   routes: matchRoutes(ROUTES, change.pathname).filter(lookupStartEvent),

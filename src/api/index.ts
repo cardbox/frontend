@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-nested-ternary */
 import faker from 'faker';
 import { createEffect } from 'effector-root';
 
@@ -40,6 +41,8 @@ interface CardsLatestGet {
 
 export const cardsLatestGet = createEffect<void, Ok<CardsLatestGet>>(async () =>
   ok({
-    cards: createList(10, createCard),
+    cards: createList(10, createCard).sort((a, b) =>
+      a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0,
+    ),
   }),
 );

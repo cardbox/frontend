@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ShortDate } from '@cardbox/entities/i18n';
 
 import { Card } from '../types';
 
@@ -11,13 +12,15 @@ export const CardPreview: React.FC<Props> = React.memo(({ card }) => (
   <Container>
     <Header>
       <Title>{card.title}</Title>
-      <Meta>Updated {card.updatedAt}</Meta>
+      <Meta>
+        Created at <ShortDate date={card.createdAt} />
+      </Meta>
     </Header>
     <Body>{card.previewContent}</Body>
   </Container>
 ));
 
-const Container = styled.article`
+const Container = styled.div`
   background-color: #fff;
   border: 1px solid #e7e5ee;
   border-radius: 6px;

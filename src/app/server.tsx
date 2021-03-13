@@ -18,6 +18,7 @@ import { StartParams, getStart } from '@cardbox/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { localeLoadFromHeader } from '@cardbox/entities/i18n';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@cardbox/entities/session';
 
@@ -31,6 +32,9 @@ const serverStarted = root.createEvent<{
 const requestHandled = serverStarted.map(({ req }) => req);
 
 const cookiesReceived = requestHandled.filterMap((r) => r.headers.cookie);
+const acceptLanguageReceived = requestHandled.map((r) => r.headers['accept-language'] ?? '');
+
+forward({ from: acceptLanguageReceived, to: localeLoadFromHeader });
 
 const routesMatched = requestHandled.map((request) => ({
   routes: matchRoutes(ROUTES, request.path).filter(lookupStartEvent),
