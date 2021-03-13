@@ -18,9 +18,9 @@ export type Request = {
   cookies?: string;
 };
 
-export type Answer = {
+export type Answer<T = unknown> = {
   ok: boolean;
-  body: unknown;
+  body: T;
   status: number;
   headers: Record<string, string>;
 };

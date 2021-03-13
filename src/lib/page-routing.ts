@@ -1,7 +1,6 @@
-// Do not forget to rename import at .babelrc
-// In effector/babel-plugin — page-routing section
 import * as React from 'react';
-import { Event, createEvent } from 'effector';
+import { Event, createEvent } from 'effector-root';
+import { MatchedRoute } from 'react-router-config';
 import { useEvent } from 'effector-react/ssr';
 import { useLocation, useParams } from 'react-router';
 
@@ -15,25 +14,17 @@ export interface StartParams {
 /**
  * Creates event to handle universal page loading
  */
-export function createStart(...parameters: any): Event<StartParams> {
-  return createEvent(...parameters);
+export function createStart(...params: string[]): Event<StartParams> {
+  return createEvent(...params);
 }
 
 /**
- * Loades start event on browser side and pass params and query
+ * Loads start event on browser side and pass params and query
  */
-export function useStart(startEvent: Event<StartParams>) {
-  const parameters = useParams();
-  const location = useLocation();
-  const query = React.useMemo(
-    () => Object.fromEntries(new URLSearchParams(location.search)),
-    [location.search],
+export function useStart(_startEvent: Event<StartParams>) {
+  console.warn(
+    '[deprecated] `useStart` is deprecated. Please, use `withStart` as HOC instead',
   );
-  const start = useEvent(startEvent);
-
-  React.useEffect(() => {
-    start({ params: parameters, query });
-  }, []);
 }
 
 /**
@@ -52,4 +43,19 @@ export function withStart<P extends Record<string, unknown>>(
 ): React.FC<P> {
   component[START] = event;
   return component;
+}
+
+export function lookupStartEvent<P>(
+  match: MatchedRoute<P>,
+): Event<StartParams> | undefined {
+  if (match.route.component) {
+    return getStart(match.route.component);
+  }
+  return undefined;
+}
+
+export function routeWithEvent(event: Event<StartParams>) {
+  return function <P>(route: MatchedRoute<P>) {
+    return lookupStartEvent(route) === event;
+  };
 }

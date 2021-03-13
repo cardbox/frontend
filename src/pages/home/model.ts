@@ -1,38 +1,15 @@
-import React from 'react';
-import { StartParams } from '@cardbox/lib/page-routing';
-import { createEffect, createEvent, createStore, guard } from 'effector-root';
+import { attach, createStore, forward } from 'effector-root';
+import { cardsLatestGet } from '@cardbox/api';
+import { createStart } from '@cardbox/lib/page-routing';
 
-type ButtonClick = React.MouseEvent<HTMLButtonElement>;
+import { Card } from './types';
 
-export const pageLoaded = createEvent<StartParams>();
-export const incrementClicked = createEvent<ButtonClick>();
-export const resetClicked = createEvent<ButtonClick>();
+const loadFx = attach({ effect: cardsLatestGet });
 
-const getRandomInitialFx = createEffect<void, number>();
+export const start = createStart();
 
-export const $counterValue = createStore<number>(0);
-export const $pagePending = getRandomInitialFx.pending;
+export const $cards = createStore<Card[]>([]);
 
-const $shouldGetNumber = $counterValue.map((value) => value === 0);
+forward({ from: start, to: loadFx });
 
-guard({
-  source: pageLoaded,
-  filter: $shouldGetNumber,
-  target: getRandomInitialFx,
-});
-
-$counterValue
-  .on(getRandomInitialFx.done, (_, { result }) => result)
-  .on(incrementClicked, (value) => value + 1)
-  .on(resetClicked, () => 0);
-
-getRandomInitialFx.use(
-  () =>
-    new Promise((resolve) =>
-      setTimeout(
-        resolve,
-        Math.floor(Math.random() * 300),
-        Math.floor(Math.random() * 300),
-      ),
-    ),
-);
+$cards.on(loadFx.doneData, (_, { answer }) => answer.cards);

@@ -2,19 +2,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CardList } from '@cardbox/entities/card';
 import { ContentCenteredTemplate } from '@cardbox/ui';
-import { useEvent, useStore } from 'effector-react/ssr';
-import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { createStart, withStart } from '@cardbox/lib/page-routing';
+import { createStore } from 'effector-root';
 
-import * as model from './model';
+import { Card } from './types';
 
-export const HomePage = () => {
-  useStart(model.pageLoaded);
-  const increment = useEvent(model.incrementClicked);
-  const reset = useEvent(model.resetClicked);
+export const start = createStart();
+export const $cards = createStore<Card[]>([]);
 
-  const counterValue = useStore(model.$counterValue);
-  const pagePending = useStore(model.$pagePending);
-
+export const HomePage = withStart(start, () => {
   return (
     <ContentCenteredTemplate>
       <Container>
@@ -24,9 +20,7 @@ export const HomePage = () => {
       </Container>
     </ContentCenteredTemplate>
   );
-};
-
-withStart(model.pageLoaded, HomePage);
+});
 
 const cards = [
   {
