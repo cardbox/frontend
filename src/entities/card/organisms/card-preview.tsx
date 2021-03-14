@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ShortDate } from '@cardbox/entities/i18n';
+import { DateRelative, DateShort } from '@cardbox/entities/i18n';
+import { SEC_DAY } from '@cardbox/lib/dates';
 
 import { Card } from '../types';
 
@@ -13,7 +14,7 @@ export const CardPreview: React.FC<Props> = React.memo(({ card }) => (
     <Header>
       <Title>{card.title}</Title>
       <Meta>
-        Created at <ShortDate date={card.createdAt} />
+        Created <DateRelative secondsUntilFull={SEC_DAY * 7} date={card.createdAt} />
       </Meta>
     </Header>
     <Body>{card.previewContent}</Body>
