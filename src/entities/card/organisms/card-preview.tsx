@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DateRelative, DateShort } from '@cardbox/entities/i18n';
+import { DateRelative } from '@cardbox/entities/i18n';
 import { SEC_DAY } from '@cardbox/lib/dates';
 
 import { Card } from '../types';
@@ -27,7 +27,7 @@ const Container = styled.div`
   border-radius: 6px;
   box-shadow: 0px 6px 9px #f6f5f8;
   color: #1a1e23;
-  padding: 1.125rem 1.5rem 0.625rem 1.5rem;
+  padding: 1.2rem 1.5rem 0.6rem 1.5rem;
 `;
 
 const Header = styled.header`
@@ -35,9 +35,9 @@ const Header = styled.header`
 `;
 
 const Title = styled.h3`
-  font-size: 1.875rem;
+  font-size: 1.6rem;
   font-weight: 500;
-  line-height: 2.25rem;
+  line-height: 2rem;
   margin: 0;
 `;
 
@@ -49,7 +49,7 @@ const Meta = styled.div`
 `;
 
 const Body = styled.div`
-  font-size: 0.9375rem;
-  line-height: 1.3125rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
   padding: 1rem 0;
 `;

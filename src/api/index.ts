@@ -24,8 +24,8 @@ const createCard = (id = faker.random.uuid()): Card => {
   return {
     id,
     title: faker.lorem.sentence(),
-    previewContent: faker.lorem.paragraph(),
-    content: faker.lorem.paragraphs(4),
+    previewContent: faker.lorem.paragraphs(2),
+    content: faker.lorem.paragraphs(6),
     updatedAt: faker.date.past(0, createdAt).toISOString(),
     createdAt,
   };
@@ -35,14 +35,14 @@ function createList<T>(count: number, creator: () => T): T[] {
   return Array.from({ length: count }, () => creator());
 }
 
+const cards = createList(10, createCard);
+
 interface CardsLatestGet {
   cards: Card[];
 }
 
 export const cardsLatestGet = createEffect<void, Ok<CardsLatestGet>>(async () =>
   ok({
-    cards: createList(10, createCard).sort((a, b) =>
-      a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0,
-    ),
+    cards: cards.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()),
   }),
 );
