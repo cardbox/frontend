@@ -13,7 +13,8 @@ export interface StartParams {
  * Creates event to handle universal page loading
  */
 export function createStart(...params: string[]): Event<StartParams> {
-  return createEvent(...params);
+  const start = createEvent<StartParams>(...params);
+  return start;
 }
 
 /**

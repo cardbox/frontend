@@ -7,8 +7,7 @@ import {
   fork,
   forward,
 } from 'effector-root';
-
-import { contract } from '.';
+import { contract } from '@cardbox/lib/contract';
 
 test('events forwarded from page to model', () => {
   const fnPage = jest.fn();

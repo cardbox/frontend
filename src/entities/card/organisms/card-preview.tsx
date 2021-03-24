@@ -25,7 +25,7 @@ export const CardPreview: React.FC<Props> = React.memo(({ card }) => (
   </Container>
 ));
 
-export const CardFull: React.FC<Props> = React.memo(({ card }) => (
+export const CardFull: React.FC<Props> = ({ card }) => (
   <Container>
     <Header>
       <Title>
@@ -37,7 +37,7 @@ export const CardFull: React.FC<Props> = React.memo(({ card }) => (
     </Header>
     <Body>{card.content}</Body>
   </Container>
-));
+);
 
 const Container = styled.div`
   background-color: #fff;

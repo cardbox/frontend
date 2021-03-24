@@ -14,6 +14,7 @@ export interface User {
   type: 'user';
   displayName: string;
   active: boolean;
+  avatarUrl: string;
 }
 
 function createUser(id = faker.random.uuid()): User {
@@ -22,6 +23,7 @@ function createUser(id = faker.random.uuid()): User {
     type: 'user',
     displayName: `${faker.name.firstName()} ${faker.name.lastName()}`,
     active: true,
+    avatarUrl: faker.image.avatar(),
   };
 }
 
@@ -89,7 +91,7 @@ interface CardGetById {
 
 export const cardGetById = createEffect<string, Ok<CardGetById>>(async (id) =>
   ok({
-    card: cards.find((card) => card.id === id) ?? null,
+    card: cards.find((card) => card.id === id) ?? createCard(id),
   }),
 );
 

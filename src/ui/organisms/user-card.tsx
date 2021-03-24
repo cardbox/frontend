@@ -4,22 +4,22 @@ import { Avatar } from '@cardbox/ui';
 
 // Временно
 interface User {
-  avatar: string;
-  name: string;
-  role: string;
+  avatarUrl: string;
+  displayName: string;
 }
 
 interface Props {
   user: User;
+  role?: string;
 }
 
-export const UserCard: React.FC<Props> = ({ user }) => (
+export const UserCard: React.FC<Props> = ({ user, role }) => (
   <Container>
     <Content>
-      <Name>{user.name}</Name>
-      <Role>{user.role}</Role>
+      <Name>{user.displayName}</Name>
+      {role ? <Role>{role}</Role> : null}
     </Content>
-    <Avatar src={user.avatar} />
+    <Avatar src={user.avatarUrl} />
   </Container>
 );
 

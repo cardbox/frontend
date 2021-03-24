@@ -34,6 +34,27 @@ const cardEdit: Policy = {
   },
 };
 
+const cardArchive: Policy = {
+  policy: {
+    name: 'Archive card',
+    target: {
+      equal: { attr: 'action.name', value: 'archive' },
+    },
+    permitUnlessDeny: [
+      cardOwnerCan,
+      {
+        rule: {
+          name: 'Archived card cannot be archived again',
+          target: {
+            equal: { attr: 'resource.archived', value: 'true' },
+          },
+          effect: 'DENY',
+        },
+      },
+    ],
+  },
+};
+
 const cardDelete: Policy = {
   policy: {
     name: 'Delete card',
@@ -73,7 +94,7 @@ const schema: Schema = {
           target: {
             equal: { attr: 'resource.type', value: 'card' },
           },
-          denyUnlessPermit: [cardEdit, cardDelete],
+          denyUnlessPermit: [cardEdit, cardArchive, cardDelete],
         },
       },
     ],

@@ -1,6 +1,9 @@
 {
   "plugins": [
-    ["effector/babel-plugin", { "addLoc": true }],
+    [
+      "effector/babel-plugin",
+      { "addLoc": true, "factories": ["@cardbox/lib/page-routing", "@cardbox/lib/contract"] }
+    ],
     [
       "styled-components",
       {
