@@ -1,23 +1,31 @@
-import { Event, Unit, combine, createEvent, createStore, forward, guard } from 'effector-root';
+import { User, sessionMeGet } from '@cardbox/api';
+import { attach, combine, createEvent, createStore, forward } from 'effector-root';
 // import { SessionUser, sessionGet } from '@cardbox/api/session';
 import { condition } from 'patronum/condition';
 import { historyPush } from '@cardbox/entities/navigation';
 import { paths } from '@cardbox/pages/paths';
 
+const sessionLoadFx = attach({ effect: sessionMeGet });
+
 export const readyToLoadSession = createEvent<void>();
 
 export const sessionLoaded = createEvent();
 
-forward({ from: readyToLoadSession, to: sessionLoaded });
+// forward({ from: readyToLoadSession, to: sessionLoaded });
 
-// export const $session = createStore<SessionUser | null>(null);
-// export const $isAuthenticated = $session.map((user) => user !== null);
+forward({ from: readyToLoadSession, to: sessionLoadFx });
+forward({ from: sessionLoadFx.finally, to: sessionLoaded });
 
-// // Show loading state if no session but first request is sent
-// export const $sessionPending = combine(
-//   [$session, sessionGet.pending],
-//   ([session, pending]) => !session && pending,
-// );
+export const $session = createStore<User | null>(null);
+export const $isAuthenticated = $session.map((user) => user !== null);
+
+// Show loading state if no session but first request is sent
+export const $sessionPending = combine(
+  [$session, sessionLoadFx.pending],
+  ([session, pending]) => !session && pending,
+);
+
+$session.on(sessionLoadFx.doneData, (_, { answer }) => answer.user);
 
 // /**
 //  * If user not authenticated, redirect to login

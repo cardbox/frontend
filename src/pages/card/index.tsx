@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Can } from '@cardbox/entities/session';
 import { Card, CardPreview } from '@cardbox/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@cardbox/ui';
 
@@ -12,8 +13,12 @@ export const CardPage = () => (
       <Sidebar>
         <UserCard user={user} />
         <Links>
-          <LinkEdit href="#edit">Edit card</LinkEdit>
-          <LinkDelete href="#delete">Delete card</LinkDelete>
+          <Can action={{ name: 'edit' }} resource={card}>
+            <LinkEdit href="#edit">Edit card</LinkEdit>
+          </Can>
+          <Can action={{ name: 'delete' }} resource={card}>
+            <LinkDelete href="#delete">Delete card</LinkDelete>
+          </Can>
         </Links>
       </Sidebar>
     </Container>
@@ -23,10 +28,13 @@ export const CardPage = () => (
 const card: Card = {
   id: '1',
   content: '',
+  type: 'card',
   title:
     'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
   updatedAt: '05:03 03.01.2',
   createdAt: '05:03 03.01.2',
+  savedCount: 0,
+  owner: { id: '2', type: 'user', displayName: '', active: true },
   previewContent:
     'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
 };

@@ -1,2 +1,2 @@
 export { CardList } from './card-list';
-export { CardPreview } from './card-preview';
+export { CardPreview, CardFull } from './card-preview';

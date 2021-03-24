@@ -3442,6 +3442,11 @@ camelize@^1.0.0:
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
+can-you@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/can-you/-/can-you-0.1.3.tgz#68a29014f3eda918fbe35495c08a29f0fbbf315b"
+  integrity sha512-IRfJX2Pkr4QapJrpffks+XIKoW0iMIsjGq8dOdWUNayP58Ow3dMxks99gNTlP1wPXF23MJl1oQgLTl6Ng1ZmxQ==
+
 caniuse-api@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-3.0.0.tgz#5e4d90e2274961d46291997df599e3ed008ee4c0"

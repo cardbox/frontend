@@ -6,3 +6,5 @@ export {
   readyToLoadSession,
   sessionLoaded,
 } from './model';
+export { Can } from './authorization';
+export { can } from './access';

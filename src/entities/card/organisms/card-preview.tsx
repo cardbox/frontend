@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DateRelative } from '@cardbox/entities/i18n';
+import { Link } from 'react-router-dom';
 import { SEC_DAY } from '@cardbox/lib/dates';
+import { paths } from '@cardbox/pages/paths';
 
 import { Card } from '../types';
 
@@ -12,12 +14,28 @@ interface Props {
 export const CardPreview: React.FC<Props> = React.memo(({ card }) => (
   <Container>
     <Header>
-      <Title>{card.title}</Title>
+      <Title>
+        <Link to={paths.card(card.id)}>{card.title}</Link>
+      </Title>
       <Meta>
         Created <DateRelative secondsUntilFull={SEC_DAY * 7} date={card.createdAt} />
       </Meta>
     </Header>
     <Body>{card.previewContent}</Body>
+  </Container>
+));
+
+export const CardFull: React.FC<Props> = React.memo(({ card }) => (
+  <Container>
+    <Header>
+      <Title>
+        <Link to={paths.card(card.id)}>{card.title}</Link>
+      </Title>
+      <Meta>
+        Created <DateRelative secondsUntilFull={SEC_DAY * 7} date={card.createdAt} />
+      </Meta>
+    </Header>
+    <Body>{card.content}</Body>
   </Container>
 ));
 

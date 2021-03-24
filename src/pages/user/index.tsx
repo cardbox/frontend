@@ -48,48 +48,63 @@ const cards: Card[] = [
   {
     id: '1',
     previewContent: '',
+    type: 'card',
+    owner: { id: '123', type: 'user', displayName: '', active: true },
     title:
       'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
     updatedAt: '05:03 03.01.2',
     createdAt: '',
+    savedCount: 1,
     content:
       'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
   },
   {
     id: '2',
     previewContent: '',
+    type: 'card',
+    owner: { id: '123', type: 'user', displayName: '', active: true },
     title: 'Manage map or Set in effector store',
     updatedAt: '05:03 03.01.2',
     createdAt: '',
+    savedCount: 0,
     content:
       'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
   },
   {
     id: '3',
     previewContent: '',
+    type: 'card',
+    owner: { id: '123', type: 'user', displayName: '', active: true },
     title: 'Manage map or Set in effector store',
     updatedAt: '05:03 03.01.2',
     createdAt: '',
+    savedCount: 1,
     content:
       'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
   },
   {
     id: '4',
     previewContent: '',
+    type: 'card',
+    owner: { id: '123', type: 'user', displayName: '', active: true },
     title:
       'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
     updatedAt: '05:03 03.01.2',
     createdAt: '',
+    savedCount: 1,
     content:
       'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
   },
   {
     id: '5',
     previewContent: '',
+    type: 'card',
+    owner: { id: '123', type: 'user', displayName: '', active: true },
     title:
       'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
     updatedAt: '05:03 03.01.2',
     createdAt: '',
+    savedCount: 1,
     content:
       'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
   },
