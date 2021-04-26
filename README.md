@@ -6,7 +6,15 @@
 
 1. Press `Clone` button.
 
-2. Install and run:
+2. Install and run with JSON server mocks:
+
+```bash
+yarn install
+yarn dev:server # run mock server
+yarn start:dev # run cardbox frontend
+```
+
+3. Or run with no mocks:
 
 ```bash
 yarn install
