@@ -1,19 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Can, CurrentUserCard } from '@cardbox/entities/session';
-import { Card, CardFull } from '@cardbox/entities/card';
+import { CardFull } from '@cardbox/entities/card';
 import { ContentCenteredTemplate } from '@cardbox/ui';
-import { createStart, withStart } from '@cardbox/lib/page-routing';
-import { createStore } from 'effector-root';
-import { debug } from 'patronum';
 import { reflect } from '@effector/reflect/ssr';
-import { useStore } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
+import { withStart } from '@cardbox/lib/page-routing';
 
-export const start = createStart();
-export const $card = createStore<Card | null>(null);
-export const $pending = createStore(true);
+import { $card, start } from './contract';
 
-debug(start, $card, $pending);
+const Content = () => {
+  const card = useStore($card);
+  React.useEffect(() => {
+    console.log('view rendered', card);
+  }, [card]);
+  if (card) {
+    return <CardFull card={card} />;
+  }
+  return <div>Loading...</div>;
+};
 
 export const CardPage = withStart(start, () => (
   <ContentCenteredTemplate>
@@ -38,15 +43,6 @@ export const CardPage = withStart(start, () => (
     </Container>
   </ContentCenteredTemplate>
 ));
-
-const Content = () => {
-  const card = useStore($card);
-  console.log('view', card);
-  if (card) {
-    return <CardFull card={card} />;
-  }
-  return <div>Loading...</div>;
-};
 
 const nullCard = {
   id: '00000000-0000-0000-0000-000000000000',

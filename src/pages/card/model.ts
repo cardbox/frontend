@@ -1,18 +1,23 @@
-import { Card, cardGetById } from '@cardbox/api';
-import { attach, createStore, forward } from 'effector-root';
-import { createStart } from '@cardbox/lib/page-routing';
+import { attach, forward } from 'effector-root';
+import { cardGetById } from '@cardbox/api';
 import { debug } from 'patronum';
+
+import { $card, $error, $pending, start } from './contract';
 
 const cardLoadFx = attach({ effect: cardGetById });
 
-export const start = createStart();
 const loadedId = start.map(({ params }) => params.cardId);
 
-export const $card = createStore<Card | null>(null);
-export const $pending = cardLoadFx.pending;
+$card.on(cardLoadFx.doneData, (_, { answer }) => answer.card).reset(cardLoadFx.fail);
+
+$error.on(cardLoadFx.failData, (_, error) => error.message).reset(cardLoadFx.done);
 
 forward({ from: loadedId, to: cardLoadFx });
+forward({ from: cardLoadFx.pending, to: $pending });
 
-debug(cardLoadFx, $card);
+debug(start, cardLoadFx, $card);
 
-$card.on(cardLoadFx.doneData, (_, { answer }) => answer.card).on(cardLoadFx.fail, () => null);
+$card.watch((card) => {
+  console.log('watcher arg card', card);
+  console.log('getState card', $card.getState());
+});

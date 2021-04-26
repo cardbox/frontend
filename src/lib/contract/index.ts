@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Unit, forward, is } from 'effector-root';
+import { Unit, forward, is } from 'effector';
 
 type KeysOfEffectorApi<API> = {
   [KEY in keyof API]: API[KEY] extends Unit<any> ? KEY : never;
