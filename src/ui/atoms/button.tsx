@@ -19,7 +19,7 @@ const Secondary = styled(Base)`
   color: #000;
 `;
 
-const Text = styled(Base)`
+const Text = styled(Base)<{ type: 'submit' | 'reset' | 'button' }>`
   background-color: transparent;
   border-color: transparent;
   color: #1d1a23;

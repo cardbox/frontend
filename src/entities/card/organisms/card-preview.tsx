@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { CardContainer } from '@cardbox/ui';
 
 import { Card } from '../types';
 
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export const CardPreview: React.FC<Props> = ({ card }) => (
-  <Container>
+  <CardContainer>
     <Header>
       <Title>{card.title}</Title>
       <Meta>
@@ -16,17 +17,8 @@ export const CardPreview: React.FC<Props> = ({ card }) => (
       </Meta>
     </Header>
     <Body>{card.content}</Body>
-  </Container>
+  </CardContainer>
 );
-
-const Container = styled.article`
-  background-color: #fff;
-  border: 1px solid #e7e5ee;
-  border-radius: 6px;
-  box-shadow: 0px 6px 9px #f6f5f8;
-  color: #1a1e23;
-  padding: 1.125rem 1.5rem 0.625rem 1.5rem;
-`;
 
 const Header = styled.header`
   display: flex;

@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const ContentCenteredTemplate: React.FC<Props> = ({ children }) => (
+export const ContentCenteredTemplate: React.FC = ({ children }) => (
   <Container>
     <Content>{children}</Content>
   </Container>

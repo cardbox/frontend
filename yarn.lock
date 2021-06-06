@@ -1191,10 +1191,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@effector/reflect@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-0.5.0.tgz#3b0476074f014e97f92c2323e0778d24fa42982e"
-  integrity sha512-mKo6m6kX9XCWYwaaQ6+S9BEvNXPuRfmeLL3xRJ7YGXR/Ccbez+BrVP5+tkc3fPfd4OMxbIr/PqOTWd+SECRdRg==
+"@effector/reflect@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-0.6.0.tgz#208e05b0f696b1cdff6fc9b089616e79c90d4f2a"
+  integrity sha512-Dp0AldpbbIcLcxWOprRp2BW/1YYtDdK6sMSJpLnzpXuyK0cgzvp7UPwdMCy/W25Viq0um37mJxSOq5/GQJJQng==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
@@ -9788,10 +9788,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-patronum@^0.106.0:
-  version "0.106.0"
-  resolved "https://registry.yarnpkg.com/patronum/-/patronum-0.106.0.tgz#6d275a195c53d940735ecf2e2489af96797179f5"
-  integrity sha512-NjExOgEdQ8orTQGsYyA+chPFYr1INrszz1YHsCstKoT3FPII+9b42TrTM9GAT5eV7/x/5rLim7ATFBSZ/1PXdg==
+patronum@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.1.0.tgz#6c56f334bfff46042a597cf68deb1540e8134949"
+  integrity sha512-YSbGQUbLxTO8m4FeXEwg/Xq0h3ka9S3+WvTANHGlNqo+2gPpglex32xh2dzC7ZP0likG/gHQNEOZokNV1nS7HA==
 
 pbkdf2@^3.0.3:
   version "3.1.1"
