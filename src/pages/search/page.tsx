@@ -8,8 +8,8 @@ import { useSearchQuery } from '@cardbox/features/search-bar';
 
 import * as model from './model';
 import { ContentCenteredTemplate } from '../../ui';
-import { getSEnd } from '../../lib/get-s-end';
 import { paths } from '../paths';
+import { plural } from '../../lib/plural';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
@@ -64,7 +64,7 @@ const SearchResultsCount: React.FC<SearchResultsCountProps> = ({
 }) => (
   <SearchResultsCountWrapper>
     <SearchResultsCountTitle>
-      {entity} ({count} result{getSEnd(count)})
+      {entity} ({count} {plural(count, 'result', 'results')})
     </SearchResultsCountTitle>
     {children}
   </SearchResultsCountWrapper>

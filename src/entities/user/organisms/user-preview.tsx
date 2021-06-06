@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Avatar, CardContainer } from '../../../ui';
 import { IUserPreview } from '../types';
-import { getSEnd } from '../../../lib/get-s-end';
+import { plural } from '../../../lib/plural';
 
 interface UserPreviewProps {
   user: IUserPreview;
@@ -15,7 +15,7 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user }) => {
         <Texts>
           <Title title={user.name}>{user.name}</Title>
           <Counter>
-            {user.cardsCount} card{getSEnd(user.cardsCount)}
+            {user.cardsCount} {plural(user.cardsCount, 'card', 'cards')}
           </Counter>
         </Texts>
         <Avatar />
