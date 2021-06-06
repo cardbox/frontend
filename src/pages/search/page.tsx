@@ -3,20 +3,27 @@ import styled from 'styled-components';
 import { CardList } from '@cardbox/entities/card';
 import { UserPreviewList } from '@cardbox/entities/user';
 import { useEvent, useStore } from 'effector-react/ssr';
+import { useHistory } from 'react-router';
 import { useSearchQuery } from '@cardbox/features/search-bar';
 
 import * as model from './model';
 import { ContentCenteredTemplate } from '../../ui';
 import { getSEnd } from '../../lib/get-s-end';
+import { paths } from '../paths';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
   const isShowLoading = useStore(model.$isShowLoading);
   const searchQuery = useSearchQuery();
+  const history = useHistory();
 
   React.useEffect(() => {
     searchQueryChanged();
   }, [searchQuery, searchQueryChanged]);
+
+  React.useEffect(() => {
+    if (searchQuery === '') history.replace(paths.home());
+  }, [history, searchQuery]);
 
   if (isShowLoading) {
     return (
