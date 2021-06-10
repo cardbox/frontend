@@ -1,4 +1,4 @@
-import { createStore } from "effector-root";
+import { createStore } from 'effector-root';
 
 const mockCards = [
   {
@@ -29,6 +29,3 @@ const mockCards = [
 ];
 
 export const $cards = createStore(mockCards);
-
-
-
