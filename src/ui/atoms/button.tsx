@@ -29,7 +29,7 @@ const Text = styled(Base)`
 
 const Outline = styled(Base)`
   background-color: #ffffff;
-  border: 1px solid #EEEEF1;
+  border: 1px solid #eeeef1;
   border-radius: 0.188rem;
   color: #000000;
 `;
@@ -38,5 +38,5 @@ export const button = {
   Base,
   Secondary,
   Text,
-  Outline
+  Outline,
 };

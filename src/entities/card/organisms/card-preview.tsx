@@ -31,7 +31,7 @@ export const CardPreview: React.FC<Props> = ({ card }) => {
 
 const Container = styled.article`
   position: relative;
-  background-color: #FBFAFB;
+  background-color: #fbfafb;
   border: 1px solid #e7e5ee;
   border-radius: 6px;
   box-shadow: 0 6px 9px #f6f5f8;

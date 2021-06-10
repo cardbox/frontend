@@ -18,7 +18,7 @@ export const Searchbar = () => {
           </SearchWrapper>
           <Link to="/user">
             <LoginBlock>
-              <Avatar src='https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+              <Avatar src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
             </LoginBlock>
           </Link>
           <button.Base>New card</button.Base>
