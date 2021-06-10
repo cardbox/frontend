@@ -2,7 +2,7 @@ export const paths = {
   home: () => '/',
   /** @test */
   comments: () => '/comments',
-  card: () => '/card',
+  card: () => '/card/:id',
   user: () => '/user',
   /**
    * @example

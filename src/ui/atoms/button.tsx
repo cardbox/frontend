@@ -11,6 +11,7 @@ const Base = styled.button`
   height: 42px;
   outline: 0;
   padding: 0 1.125rem;
+  cursor: pointer;
 `;
 
 const Secondary = styled(Base)`
@@ -26,8 +27,16 @@ const Text = styled(Base)`
   font-size: 0.9375rem;
 `;
 
+const Outline = styled(Base)`
+  background-color: #ffffff;
+  border: 1px solid #EEEEF1;
+  border-radius: 0.188rem;
+  color: #000000;
+`;
+
 export const button = {
   Base,
   Secondary,
   Text,
+  Outline
 };

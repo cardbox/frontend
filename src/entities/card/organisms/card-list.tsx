@@ -17,8 +17,9 @@ export const CardList: React.FC<Props> = ({ cards }) => (
 );
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1.125rem;
 
   & > *:not(:last-child) {
     margin-bottom: 1.125rem;

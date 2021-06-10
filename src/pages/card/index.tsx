@@ -1,7 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardPreview } from '@cardbox/entities/card';
-import { ContentCenteredTemplate, UserCard } from '@cardbox/ui';
+import {
+  ContentCenteredTemplate,
+  IconSave,
+  UserCard,
+  button,
+} from '@cardbox/ui';
+
+const SaveEditIcon = ({ fill = 'black' }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M19.9504 9.04956L17 12V17C17 17.5523 16.5523 18 16 18H8C7.44771 18 7 17.5523 7 17V12L4.04957 9.04956"
+      stroke={fill}
+      strokeWidth="1.5"
+    />
+    <path d="M12 6V10" stroke={fill} strokeWidth="1.5" strokeLinecap="square" />
+    <path d="M14.8284 8L12 10.8284L9.17157 8" stroke={fill} strokeWidth="1.5" />
+  </svg>
+);
 
 export const CardPage = () => (
   <ContentCenteredTemplate>
@@ -12,8 +35,18 @@ export const CardPage = () => (
       <Sidebar>
         <UserCard user={user} />
         <Links>
-          <LinkEdit href="#edit">Edit card</LinkEdit>
-          <LinkDelete href="#delete">Delete card</LinkDelete>
+          <button.Outline>
+            <Icon>
+              <img src={IconSave} alt="edit" />
+            </Icon>
+            Edit card
+          </button.Outline>
+          <DeleteCardButton>
+            <Icon>
+              <SaveEditIcon fill="#ef3a5b" />
+            </Icon>
+            Delete card
+          </DeleteCardButton>
         </Links>
       </Sidebar>
     </Container>
@@ -69,19 +102,10 @@ const Links = styled.div`
   }
 `;
 
-const Link = styled.a`
-  font-size: 0.9375rem;
-  line-height: 1.1875rem;
-
-  &:not(:hover) {
-    text-decoration: none;
-  }
-`;
-
-const LinkEdit = styled(Link)`
-  color: #683aef;
-`;
-
-const LinkDelete = styled(Link)`
+const DeleteCardButton = styled(button.Outline)`
   color: #ef3a5b;
+`;
+
+const Icon = styled.div`
+  margin-right: 0.75rem;
 `;

@@ -57,7 +57,7 @@ const Container = styled.div`
 const PagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-  padding-top: 72px;
+  padding-top: 1.875rem;
 `;
 
 //Чтобы скролл страницы не сдвигал ее по горизонтали влево, иначе страница будет отцентрована левее чем хедер.
