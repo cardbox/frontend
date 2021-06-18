@@ -35,7 +35,8 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.0.1",
     "styled-components": "^5.1.1",
-    "through": "^2.3.8"
+    "through": "^2.3.8",
+    "use-query-params": "^1.2.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.14.5",

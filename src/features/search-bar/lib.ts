@@ -1,5 +1,6 @@
-import { useQuery } from '../../lib/use-query';
+import { useQueryParam } from 'use-query-params';
 
 export function useSearchQuery() {
-  return useQuery().get('query') || '';
+  const [res] = useQueryParam<string>('query');
+  return res;
 }
