@@ -1,1 +1,1 @@
-export { UserPreviewList } from './organisms';
+export * from './organisms';

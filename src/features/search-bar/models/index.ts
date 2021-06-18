@@ -27,8 +27,8 @@ const searchSubmitted = guard({
   filter: (query) => Boolean(query.trim()),
 });
 
-const trimedSearchSubmitted = searchSubmitted.map((query) => query.trim());
+const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
 
-trimedSearchSubmitted.watch((searchValue) => {
+trimmedSearchSubmitted.watch((searchValue) => {
   if (history) history.push(paths.search(searchValue));
 });

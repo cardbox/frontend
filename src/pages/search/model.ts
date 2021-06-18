@@ -34,7 +34,7 @@ const searchFx = createEffect<string, SearchContract>(
     new Promise((resolve) => {
       setTimeout(
         () => resolve(query === 'test' ? testResponse : test2Response),
-        2000,
+        1000,
       );
     }),
 );
