@@ -10,17 +10,15 @@ interface Props {
 
 export const CardList: React.FC<Props> = ({ cards }) => (
   <Container>
-    {cards.map((card) => (
-      <CardPreview key={card.id} card={card} />
+    {cards.map((card, i) => (
+      <CardPreview key={card.id} card={card} isCardInFavorite={i % 2 === 0} />
     ))}
   </Container>
 );
 
-const Container = styled.div`
-  display: flex;
+const Container = styled.footer`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1.5rem;
   flex-direction: column;
-
-  & > *:not(:last-child) {
-    margin-bottom: 1.125rem;
-  }
 `;

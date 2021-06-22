@@ -1,3 +1,5 @@
+// import 'react-tabs/style/react-tabs.css';
+
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Helmet } from 'react-helmet-async';

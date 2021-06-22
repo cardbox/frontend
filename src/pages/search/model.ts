@@ -13,6 +13,7 @@ interface UserContract {
   name: string;
   id: string;
   cards_count: number;
+  description: string;
 }
 
 export const $searchResultCardList = createStore<Card[]>([]);
@@ -33,7 +34,7 @@ const searchFx = createEffect<string, SearchContract>(
   (query) =>
     new Promise((resolve) => {
       setTimeout(
-        () => resolve(query === 'test' ? testResponse : test2Response),
+        () => resolve(query === 'test' ? test2Response : testResponse),
         1000,
       );
     }),
@@ -63,6 +64,7 @@ function convertUserPreview(user: UserContract): IUserPreview {
     id: user.id,
     name: user.name,
     cardsCount: user.cards_count,
+    description: user.description,
   };
 }
 
@@ -73,7 +75,8 @@ const testResponse: SearchContract = {
       {
         id: 1,
         author: 'author 1',
-        content: 'content 1',
+        content:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis?',
         title: 'title 1',
         updatedAt: '05:03 03.01.2',
       },
@@ -103,10 +106,30 @@ const testResponse: SearchContract = {
   },
   users: {
     items: [
-      { id: '1', name: 'Usercode', cards_count: 17 },
-      { id: '2', name: 'Fixit', cards_count: 2 },
-      { id: '3', name: 'JSMagister', cards_count: 346 },
-      { id: '4', name: 'Mammy', cards_count: 7 },
+      {
+        id: '1',
+        name: 'Usercode',
+        cards_count: 17,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
+      {
+        id: '2',
+        name: 'Fixit',
+        cards_count: 1,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
+      {
+        id: '3',
+        name: 'JSMagister',
+        cards_count: 346,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
+      {
+        id: '4',
+        name: 'Mammy',
+        cards_count: 0,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
     ],
     total_count: 4,
   },
@@ -147,14 +170,30 @@ const test2Response: SearchContract = {
   },
   users: {
     items: [
-      { id: '5', name: 'Test 5', cards_count: 17 },
-      { id: '6', name: 'Hello', cards_count: 2 },
+      {
+        id: '5',
+        name: 'Test',
+        cards_count: 17,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
+      {
+        id: '6',
+        name: 'EngLangtest',
+        cards_count: 2,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
       {
         id: '7',
-        name: 'Sylvanas Windrunner Unstoppable Dominating',
+        name: 'Sylvanas Windrunner Test Dominating',
         cards_count: 346,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
       },
-      { id: '8', name: 'Мамаша твоя', cards_count: 7 },
+      {
+        id: '8',
+        name: 'LangTestQweTest',
+        cards_count: 7,
+        description: 'Frontend Lead at Yandex Music, Saint-Petersburg, Russia',
+      },
     ],
     total_count: 4,
   },

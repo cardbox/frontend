@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@cardbox/ui';
 import { Link } from 'react-router-dom';
 import { useEvent } from 'effector-react/ssr';
@@ -36,7 +36,7 @@ function useSearchQueryChanged() {
   const query = useSearchQuery();
   const searchValueChanged = useEvent(model.searchValueChanged);
 
-  React.useEffect(() => {
+  useEffect(() => {
     searchValueChanged(query);
   }, [query, searchValueChanged]);
 }

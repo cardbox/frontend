@@ -16,10 +16,8 @@ export const UserPreviewList = ({ users }: UserListProps) => (
 );
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1.125rem;
   flex-direction: column;
-
-  & > *:not(:last-child) {
-    margin-bottom: 1.125rem;
-  }
 `;

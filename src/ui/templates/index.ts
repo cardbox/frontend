@@ -1,2 +1,2 @@
 export { ContentCenteredTemplate } from './content-centered';
-export { CardContainer } from './card-container';
+export { PaperContainer } from './paper-container';

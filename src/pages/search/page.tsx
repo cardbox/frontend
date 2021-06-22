@@ -1,15 +1,15 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useEffect } from 'react';
 import { CardList } from '@cardbox/entities/card';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@cardbox/entities/user';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useHistory } from 'react-router';
 import { useSearchQuery } from '@cardbox/features/search-bar';
 
 import * as model from './model';
-import { ContentCenteredTemplate } from '../../ui';
+import { ContentCenteredTemplate, Text, TextType } from '../../ui';
 import { paths } from '../paths';
-import { plural } from '../../lib/plural';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
@@ -17,11 +17,11 @@ export const SearchPage = () => {
   const searchQuery = useSearchQuery();
   const history = useHistory();
 
-  React.useEffect(() => {
+  useEffect(() => {
     searchQueryChanged();
   }, [searchQuery, searchQueryChanged]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (searchQuery === '') history.replace(paths.home());
   }, [history, searchQuery]);
 
@@ -34,55 +34,72 @@ export const SearchPage = () => {
   }
   return (
     <ContentCenteredTemplate>
-      <Container>
-        <CardRes />
-        <UserRes />
-      </Container>
+      <SearchTitle />
+      <SearchTabs />
     </ContentCenteredTemplate>
   );
 };
 
-const CardRes = () => (
-  <SearchResultsCount count={useStore(model.$searchCardsCount)} entity="cards">
-    <CardList cards={useStore(model.$searchResultCardList)} />
-  </SearchResultsCount>
-);
-
-const UserRes = () => (
-  <SearchResultsCount count={useStore(model.$searchUsersCount)} entity="users">
-    <UserPreviewList users={useStore(model.$searchResultUserList)} />
-  </SearchResultsCount>
-);
-interface SearchResultsCountProps {
-  count: number;
-  entity: 'users' | 'cards' | string;
-}
-const SearchResultsCount: React.FC<SearchResultsCountProps> = ({
-  count,
-  children,
-  entity,
-}) => (
-  <SearchResultsCountWrapper>
-    <SearchResultsCountTitle>
-      {entity} ({count} {plural(count, 'result', 'results')})
-    </SearchResultsCountTitle>
-    {children}
-  </SearchResultsCountWrapper>
-);
-const SearchResultsCountWrapper = styled.div`
-  overflow: hidden;
+const SearchTitle = () => {
+  const query = useSearchQuery();
+  return (
+    <SearchTitleStyled type={TextType.header1}>
+      Search for "{query}"
+    </SearchTitleStyled>
+  );
+};
+const SearchTitleStyled = styled(Text)`
+  margin-bottom: 2rem;
 `;
+const SearchTabs = () => {
+  return (
+    <Tabs>
+      <TabListStyled>
+        <TabStyled>
+          <Text type={TextType.header6}>Cards</Text>
+        </TabStyled>
+        <TabStyled>
+          <Text type={TextType.header6}>Users</Text>
+        </TabStyled>
+      </TabListStyled>
 
-const SearchResultsCountTitle = styled.p`
-  font-size: 0.75rem;
-  text-transform: capitalize;
-  margin: 0 0 1.5rem;
-  font-weight: 400;
-  line-height: 0.95rem;
+      <TabPanel>
+        <CardRes />
+      </TabPanel>
+      <TabPanel>
+        <UserRes />
+      </TabPanel>
+    </Tabs>
+  );
+};
+const TabListStyled = styled(TabList)`
+  list-style: none;
+  margin: 0;
+  display: flex;
+  padding: 0 0 1rem;
+  align-items: center;
 `;
+const TabStyled = styled(Tab)`
+  cursor: default;
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-gap: 2rem;
+  color: #9b99ac;
+  transition: color 0.5s;
+  &:hover {
+    color: #4e4d56;
+  }
+  &.react-tabs__tab--selected {
+    color: #000;
+  }
 `;
+const CardRes = () => {
+  const cards = useStore(model.$searchResultCardList);
+  return <CardList cards={cards} />;
+};
+
+const UserRes = () => {
+  const users = useStore(model.$searchResultUserList);
+  return <UserPreviewList users={users} />;
+};
