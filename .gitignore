@@ -12,3 +12,6 @@ public/static
 .env.test.local
 .env.production.local.env
 .env
+
+.vscode
+.idea
