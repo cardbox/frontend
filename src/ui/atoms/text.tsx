@@ -38,14 +38,22 @@ export const Text: React.FC<TextProps> = ({
 function mapTypeToAs(type: TextType) {
   /* eslint-disable prettier/prettier */
   switch (type) {
-    case TextType.header1: return 'h1';
-    case TextType.header2: return 'h2';
-    case TextType.header3: return 'h3';
-    case TextType.header4: return 'h4';
-    case TextType.header5: return 'h5';
-    case TextType.header6: return 'h6';
-    case TextType.small: return 'span';
-    default: return 'p';
+    case TextType.header1:
+      return 'h1';
+    case TextType.header2:
+      return 'h2';
+    case TextType.header3:
+      return 'h3';
+    case TextType.header4:
+      return 'h4';
+    case TextType.header5:
+      return 'h5';
+    case TextType.header6:
+      return 'h6';
+    case TextType.small:
+      return 'span';
+    default:
+      return 'p';
   }
   /* eslint-enable prettier/prettier */
 }

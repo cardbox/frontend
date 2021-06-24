@@ -26,6 +26,10 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: sans-serif;
   }
+
+  :root {
+    --wizard500: #4231FF;
+  }
 `;
 
 export const Application: React.FC<Props> = ({ root }) => (

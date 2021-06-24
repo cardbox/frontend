@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 const Base = styled.button`
   align-items: center;
-  background-color: #000;
-  border: 1px solid #000;
+  background-color: transparent;
+  border: 1px solid var(--wizard500);
   border-radius: 3px;
-  color: #fff;
+  color: var(--wizard500);
   display: flex;
   font-size: 1.125rem;
   height: 42px;
