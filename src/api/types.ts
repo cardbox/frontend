@@ -15,8 +15,10 @@ export interface User {
   lastName?: string;
   bio?: string;
   avatar?: string;
-  cards: Card[];
-  favorites: Card[];
+  // FIXME: resolve to Card[]
+  cards: string[];
+  // FIXME: resolve to Card[]
+  favorites: string[];
   socials: {
     github?: string;
     devto?: string;

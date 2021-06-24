@@ -1,4 +1,4 @@
-import { Model, createServer } from 'miragejs';
+import { Model, belongsTo, createServer, hasMany } from 'miragejs';
 
 import type { User } from '../types';
 import { cards, users, viewer } from './fixtures';
@@ -11,26 +11,46 @@ export function runMockServer() {
   const instance = createServer({
     environment: 'development',
     models: {
-      card: Model,
+      user: Model.extend({
+        cards: hasMany('cards'),
+        favorites: hasMany('cards'),
+      }),
+      card: Model.extend({
+        author: belongsTo('users'),
+      }),
     },
+    // FIXME: resolve !!!
+    // serializers: {
+    //   application: RestSerializer.extend({
+    //     embed: true,
+    //   }),
+    //   cards: RestSerializer.extend({
+    //     include: ['author'],
+    //     embed: true,
+    //   }),
+    //   users: RestSerializer.extend({
+    //     include: ['cards'],
+    //     embed: true,
+    //   }),
+    // },
     seeds(server) {
       server.db.loadData({ cards, users });
     },
     routes() {
       this.post('/users.viewer', (schema) => {
-        return schema.db.users.find(viewer.id);
+        return { user: schema.db.users.find(viewer.id) };
       });
 
       this.post('/cards.list', (schema) => {
-        return schema.db.cards;
+        return { cards: schema.db.cards };
       });
 
       this.post('/cards.get', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
         const { cardId } = payload;
-        if (!cardId) return null;
+        if (!cardId) return { card: null };
 
-        return schema.db.cards.find(cardId);
+        return { card: schema.db.cards.find(cardId) };
       });
 
       this.post('/cards.create', (schema, request) => {
