@@ -2,18 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CardList } from '@cardbox/entities/card';
 import { ContentCenteredTemplate } from '@cardbox/ui';
-import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@cardbox/lib/page-routing';
 
 import * as model from './model';
 
 export const HomePage = () => {
   useStart(model.pageLoaded);
-  const increment = useEvent(model.incrementClicked);
-  const reset = useEvent(model.resetClicked);
-
-  const counterValue = useStore(model.$counterValue);
-  const pagePending = useStore(model.$pagePending);
 
   return (
     <ContentCenteredTemplate>

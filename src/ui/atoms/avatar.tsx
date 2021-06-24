@@ -26,7 +26,7 @@ export const Avatar = styled.div.attrs(attrs)<Props>`
 
   &[data-size='medium'] {
     height: 42px;
-    width: 42px;
+    min-width: 42px;
   }
 
   &[data-size='large'] {
