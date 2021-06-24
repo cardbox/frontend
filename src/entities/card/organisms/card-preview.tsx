@@ -1,53 +1,102 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PaperContainer } from '@cardbox/ui';
 
 import { Card } from '../types';
+import {
+  Text,
+  TextType,
+  button,
+  iconDeckArrow,
+  iconDeckCheck,
+} from '../../../ui';
 
-interface Props {
+interface CardPreviewProps {
   card: Card;
+  isCardInFavorite: boolean;
 }
 
-export const CardPreview: React.FC<Props> = ({ card }) => (
-  <Container>
+export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
+  <PaperContainerStyled>
     <Header>
-      <Title>{card.title}</Title>
-      <Meta>
-        Update {card.updatedAt}, {card.author}
-      </Meta>
+      <Content title={card.title}>{card.content}</Content>
+      <AddButton isCardToDeckAdded={isCardInFavorite} />
     </Header>
-    <Body>{card.content}</Body>
-  </Container>
+
+    <Meta author={card.author} updatedAt={card.updatedAt} />
+  </PaperContainerStyled>
+);
+const PaperContainerStyled = styled(PaperContainer)`
+  justify-content: space-between;
+  min-height: 120px;
+  max-height: 150px;
+`;
+const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
+  return (
+    <ContentStyled>
+      <Text type={TextType.header4}>{title}</Text>
+      <ContentText type={TextType.small}>{children}</ContentText>
+    </ContentStyled>
+  );
+};
+const ContentText = styled(Text)`
+  color: #62616d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+`;
+
+const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
+  <MetaStyled>
+    <Text type={TextType.small}>{author}</Text>
+    <Text type={TextType.small}>{updatedAt}</Text>
+  </MetaStyled>
 );
 
-const Container = styled.article`
-  background-color: #fff;
-  border: 1px solid #e7e5ee;
-  border-radius: 6px;
-  box-shadow: 0px 6px 9px #f6f5f8;
-  color: #1a1e23;
-  padding: 1.125rem 1.5rem 0.625rem 1.5rem;
+const ContentStyled = styled.div`
+  width: 100%;
 `;
 
+const addButtonData = {
+  true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
+  false: { src: iconDeckArrow, alt: 'Add card to my deck' },
+};
+const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
+  return (
+    <AddButtonStyled data-is-card-to-deck-added={isCardToDeckAdded}>
+      <img
+        src={addButtonData[isCardToDeckAdded.toString()].src}
+        alt={addButtonData[isCardToDeckAdded.toString()].alt}
+      />
+    </AddButtonStyled>
+  );
+};
+
+const AddButtonStyled = styled(button.Icon)<{
+  'data-is-card-to-deck-added': boolean;
+}>`
+  &[data-is-card-to-deck-added='true'] {
+    background-color: #f7f6ff;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+`;
 const Header = styled.header`
   display: flex;
+  justify-content: space-between;
+
+  & > *:not(:first-child) {
+    margin-left: 1rem;
+  }
 `;
 
-const Title = styled.h3`
-  font-size: 1.875rem;
-  font-weight: 500;
-  line-height: 2.25rem;
-  margin: 0;
-`;
-
-const Meta = styled.div`
-  color: #a39bb2;
-  flex-shrink: 0;
-  font-size: 0.75rem;
-  margin-left: auto;
-`;
-
-const Body = styled.div`
-  font-size: 0.9375rem;
-  line-height: 1.3125rem;
-  padding: 1rem 0;
+const MetaStyled = styled.div`
+  color: #9b99ac;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

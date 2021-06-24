@@ -5,6 +5,7 @@ npm-debug.log*
 
 coverage
 node_modules
+.idea
 build
 public/static
 .env.local

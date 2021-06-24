@@ -10,7 +10,7 @@ import {
 } from '@cardbox/api/request';
 import { $lastPushed } from '@cardbox/entities/navigation';
 import { Event, forward, root, sample } from 'effector-root';
-import { FilledContext, Helmet, HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ROUTES } from '@cardbox/pages/routes';
 import { ServerStyleSheet } from 'styled-components';
@@ -20,6 +20,7 @@ import { allSettled, fork, serialize } from 'effector/fork';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@cardbox/entities/session';
+import { resetIdCounter } from 'react-tabs';
 
 import { Application } from './application';
 
@@ -153,6 +154,7 @@ export const server = express()
 
     let sent = false;
 
+    resetIdCounter();
     const stream = sheet
       .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
       .pipe(
@@ -214,7 +216,7 @@ interface EndProps {
 
 function htmlStart(p: StartProps) {
   return `<!doctype html>
-    <html ${p.helmet.htmlAttributes.toString()}>
+    <html ${p.helmet.htmlAttributes.toString()} lang='en'>
     <head>
         ${p.helmet.base.toString()}
         ${p.helmet.meta.toString()}

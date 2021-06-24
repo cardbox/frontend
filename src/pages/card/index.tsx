@@ -7,7 +7,7 @@ export const CardPage = () => (
   <ContentCenteredTemplate>
     <Container>
       <Main>
-        <CardPreview card={card} />
+        <CardPreview card={card} isCardInFavorite={false} />
       </Main>
       <Sidebar>
         <UserCard user={user} />

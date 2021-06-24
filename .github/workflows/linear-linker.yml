@@ -1,0 +1,17 @@
+name: Linear.app Linker
+
+on:
+  pull_request:
+    types: [opened, closed, reopened, synchronize, ready_for_review]
+
+jobs:
+  linear_linker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cardbox/linear-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          linear-token: ${{ secrets.LINEAR_TOKEN }}
+          issue-prefixes: ACC BOX EDI META CAP
+          state-map: drafted = In Progress; ready = In Review; merged = Done; closed = Todo
