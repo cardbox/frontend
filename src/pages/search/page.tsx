@@ -3,8 +3,9 @@ import React, { useEffect } from 'react';
 import { CardList } from '@cardbox/entities/card';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@cardbox/entities/user';
+import { historyReplace } from '@cardbox/entities/navigation';
+import { reflect } from '@effector/reflect';
 import { useEvent, useStore } from 'effector-react/ssr';
-import { useHistory } from 'react-router';
 import { useSearchQuery } from '@cardbox/features/search-bar';
 
 import * as model from './model';
@@ -15,15 +16,14 @@ export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
   const isShowLoading = useStore(model.$isShowLoading);
   const searchQuery = useSearchQuery();
-  const history = useHistory();
 
   useEffect(() => {
     searchQueryChanged();
   }, [searchQuery, searchQueryChanged]);
 
   useEffect(() => {
-    if (searchQuery === '') history.replace(paths.home());
-  }, [history, searchQuery]);
+    if (searchQuery === '') historyReplace(paths.home());
+  }, [searchQuery]);
 
   if (isShowLoading) {
     return (
@@ -94,12 +94,12 @@ const TabStyled = styled(Tab)`
     color: #000;
   }
 `;
-const CardRes = () => {
-  const cards = useStore(model.$searchResultCardList);
-  return <CardList cards={cards} />;
-};
+const CardRes = reflect({
+  view: CardList,
+  bind: { cards: model.$searchResultCardList },
+});
 
-const UserRes = () => {
-  const users = useStore(model.$searchResultUserList);
-  return <UserPreviewList users={users} />;
-};
+const UserRes = reflect({
+  view: UserPreviewList,
+  bind: { users: model.$searchResultUserList },
+});

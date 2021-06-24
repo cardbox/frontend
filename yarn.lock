@@ -1252,7 +1252,7 @@
 
 "@effector/reflect@^0.6.0":
   version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-0.6.0.tgz"
+  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-0.6.0.tgz#208e05b0f696b1cdff6fc9b089616e79c90d4f2a"
   integrity sha512-Dp0AldpbbIcLcxWOprRp2BW/1YYtDdK6sMSJpLnzpXuyK0cgzvp7UPwdMCy/W25Viq0um37mJxSOq5/GQJJQng==
 
 "@emotion/is-prop-valid@^0.8.8":

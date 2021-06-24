@@ -1,12 +1,11 @@
 import { ChangeEvent } from 'react';
 import { createEvent, forward, guard, restore } from 'effector-root';
 import { debounce } from 'patronum/debounce';
-import { history } from '@cardbox/entities/navigation';
+import { historyPush } from '@cardbox/entities/navigation';
 
 import { paths } from '../../../pages/paths';
 
-type ChangeEv = ChangeEvent<HTMLInputElement>;
-export const searchFieldChanged = createEvent<ChangeEv>();
+export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 
 export const searchValueChanged = createEvent<string>();
 export const $searchValue = restore(searchValueChanged, '');
@@ -29,6 +28,7 @@ const searchSubmitted = guard({
 
 const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
 
-trimmedSearchSubmitted.watch((searchValue) => {
-  if (history) history.push(paths.search(searchValue));
+forward({
+  from: trimmedSearchSubmitted.map(paths.search),
+  to: historyPush,
 });
