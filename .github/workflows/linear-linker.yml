@@ -8,10 +8,10 @@ jobs:
   linear_linker:
     runs-on: ubuntu-latest
     steps:
-      - uses: cardbox/linear-action@master
+      - uses: cardbox/linear-action@v0.1.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           linear-token: ${{ secrets.LINEAR_TOKEN }}
           issue-prefixes: ACC BOX EDI META CAP
-          state-map: ready = In Review; review_requested = In Review; merged = Done; closed = Cancelled
+          state-map: ready = In Review; review_requested = In Review; merged = Done; closed = Canceled
