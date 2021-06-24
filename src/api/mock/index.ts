@@ -56,15 +56,22 @@ export function runMockServer() {
       this.post('/cards.create', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
 
-        return schema.db.cards.insert(payload);
+        return schema.db.cards.insert({
+          ...payload,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
       });
 
-      this.post('/cards.edit', (schema, request) => {
+      this.post('/cards.update', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
         const { cardId, ...diffPayload } = payload;
         if (!cardId || Object.keys(diffPayload).length === 0) return null;
 
-        return schema.db.cards.update(cardId, diffPayload);
+        return schema.db.cards.update(cardId, {
+          ...diffPayload,
+          updatedAt: new Date().toISOString(),
+        });
       });
 
       // @ts-ignore // FIXME: fix later
