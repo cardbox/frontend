@@ -8,7 +8,7 @@ jobs:
   linear_linker:
     runs-on: ubuntu-latest
     steps:
-      - uses: cardbox/linear-action@v0.1.3
+      - uses: cardbox/linear-action@v0.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
