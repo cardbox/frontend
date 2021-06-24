@@ -14,4 +14,4 @@ jobs:
         with:
           linear-token: ${{ secrets.LINEAR_TOKEN }}
           issue-prefixes: ACC BOX EDI META CAP
-          state-map: ready = In Review; review_requested = In Review; merged = Done; closed = Cancelled
+          state-map: ready = In Review; review_requested = In Review; merged = Done; closed = Canceled
