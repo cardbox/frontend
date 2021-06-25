@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Avatar, ContentCenteredTemplate } from '@box/ui';
-import { Card, CardList } from '@box/entities/card';
+import { Card } from '@box/entities/card/types';
+import { CardList } from '@box/entities/card';
 import { EditorValue } from '@cardbox/editor';
 
 export const UserPage = () => (

@@ -33,6 +33,7 @@ const PaperContainerStyled = styled(PaperContainer)`
   min-height: 120px;
   max-height: 150px;
 `;
+
 const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
   return (
     <ContentStyled>
@@ -41,6 +42,7 @@ const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
     </ContentStyled>
   );
 };
+
 const ContentText = styled(Text)`
   color: #62616d;
   overflow: hidden;
@@ -65,6 +67,7 @@ const addButtonData = {
   true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
   false: { src: iconDeckArrow, alt: 'Add card to my deck' },
 };
+
 const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
   return (
     <AddButtonStyled data-is-card-to-deck-added={isCardToDeckAdded}>
@@ -76,9 +79,11 @@ const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
   );
 };
 
-const AddButtonStyled = styled(button.Icon)<{
+interface AddButtonProps {
   'data-is-card-to-deck-added': boolean;
-}>`
+}
+
+const AddButtonStyled = styled(button.Icon)<AddButtonProps>`
   &[data-is-card-to-deck-added='true'] {
     background-color: #f7f6ff;
 
@@ -87,6 +92,7 @@ const AddButtonStyled = styled(button.Icon)<{
     }
   }
 `;
+
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
