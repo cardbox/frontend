@@ -61,8 +61,7 @@ const content: EditorValue = [
 const cards: Card[] = [
   {
     id: 1,
-    title:
-      'Manage map or Set in effector store.',
+    title: 'Manage map or Set in effector store.',
     updatedAt: '05:03 03.01.2',
     author: 'Sova',
     content,
