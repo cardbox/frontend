@@ -1,19 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { CardList } from '@cardbox/entities/card';
+import { CardList, cardModel } from '@cardbox/entities/card';
 import { ContentCenteredTemplate } from '@cardbox/ui';
 import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
 
 export const HomePage = () => {
   useStart(model.pageLoaded);
+  const cards = useStore(cardModel.$cards);
+  const isLoading = useStore(model.$pagePending);
 
   return (
     <ContentCenteredTemplate>
       <Container>
         <Main>
-          <CardList cards={cards} />
+          {isLoading && 'Loading...'}
+          {!isLoading && cards.length > 0 && <CardList cards={cards} />}
+          {/* TODO: Process "empty" case correctly */}
         </Main>
       </Container>
     </ContentCenteredTemplate>
@@ -21,52 +26,6 @@ export const HomePage = () => {
 };
 
 withStart(model.pageLoaded, HomePage);
-
-const cards = [
-  {
-    id: 1,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 2,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 3,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 4,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 5,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-];
 
 const Container = styled.div`
   display: flex;

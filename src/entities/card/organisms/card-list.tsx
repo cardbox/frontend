@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import type { Card } from '@cardbox/api';
 
-import { Card } from '../types';
 import { CardPreview } from './card-preview';
 
 interface Props {

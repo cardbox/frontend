@@ -1,76 +1,62 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Avatar, ContentCenteredTemplate } from '@cardbox/ui';
-import { CardList } from '@cardbox/entities/card';
+import { CardList, cardModel } from '@cardbox/entities/card';
+import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
-export const UserPage = () => (
-  <ContentCenteredTemplate>
-    <Container>
-      <Main>
-        <UserFace>
-          <Avatar
-            size="large"
-            src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          />
-          <UserFaceContent>
-            <UserFaceName>LangCreator</UserFaceName>
-            <UserFaceDescription>Username description</UserFaceDescription>
-          </UserFaceContent>
-        </UserFace>
-        <CardList cards={cards} />
-      </Main>
-      <Sidebar>
-        <SocialStaff>
-          <SocialStaffTitle>Social staff</SocialStaffTitle>
-          <SocialStaffList>
-            <SocialStaffItem>
-              <Avatar
-                size="small"
-                src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              />
-              <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-            </SocialStaffItem>
-            <SocialStaffItem>
-              <Avatar
-                size="small"
-                src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              />
-              <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-            </SocialStaffItem>
-          </SocialStaffList>
-        </SocialStaff>
-      </Sidebar>
-    </Container>
-  </ContentCenteredTemplate>
-);
+import * as model from './model';
 
-const cards = [
-  {
-    id: 1,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 2,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 3,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-];
+export const UserPage = () => {
+  useStart(model.pageLoaded);
+  const cards = useStore(cardModel.$cards);
+  const isLoading = useStore(model.$pagePending);
+
+  return (
+    <ContentCenteredTemplate>
+      <Container>
+        <Main>
+          <UserFace>
+            <Avatar
+              size="large"
+              src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            />
+            <UserFaceContent>
+              <UserFaceName>LangCreator</UserFaceName>
+              <UserFaceDescription>Username description</UserFaceDescription>
+            </UserFaceContent>
+          </UserFace>
+          {isLoading && 'Loading...'}
+          {!isLoading && cards.length > 0 && <CardList cards={cards} />}
+          {/* TODO: Process "empty" case correctly */}
+        </Main>
+        <Sidebar>
+          <SocialStaff>
+            <SocialStaffTitle>Social staff</SocialStaffTitle>
+            <SocialStaffList>
+              <SocialStaffItem>
+                <Avatar
+                  size="small"
+                  src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                />
+                <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+              </SocialStaffItem>
+              <SocialStaffItem>
+                <Avatar
+                  size="small"
+                  src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                />
+                <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+              </SocialStaffItem>
+            </SocialStaffList>
+          </SocialStaff>
+        </Sidebar>
+      </Container>
+    </ContentCenteredTemplate>
+  );
+};
+
+withStart(model.pageLoaded, UserPage);
 
 const Container = styled.div`
   display: flex;

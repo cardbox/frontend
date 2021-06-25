@@ -96,6 +96,7 @@ const TabStyled = styled(Tab)`
 `;
 const CardRes = reflect({
   view: CardList,
+  // @ts-ignore
   bind: { cards: model.$searchResultCardList },
 });
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PaperContainer } from '@cardbox/ui';
-
-import { Card } from '../types';
+import type { Card } from '@cardbox/api';
 import {
+  PaperContainer,
   Text,
   TextType,
   button,
   iconDeckArrow,
   iconDeckCheck,
-} from '../../../ui';
+} from '@cardbox/ui';
 
 interface CardPreviewProps {
   card: Card;
@@ -50,7 +49,7 @@ const ContentText = styled(Text)`
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
   <MetaStyled>
-    <Text type={TextType.small}>{author}</Text>
+    <Text type={TextType.small}>{author.username}</Text>
     <Text type={TextType.small}>{updatedAt}</Text>
   </MetaStyled>
 );

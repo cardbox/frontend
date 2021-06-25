@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import type { Card } from '../types';
+
 // TODO: bind with /api/request
 // TODO: autogen later by openapi-generator
 
@@ -23,10 +25,10 @@ export interface CardUpdateParams {
 
 export const cards = {
   list(params?: CardListParams) {
-    return axios.post('/cards.list', params);
+    return axios.post<{ cards: Card[] }>('/cards.list', params);
   },
   get(cardId: string) {
-    return axios.post('/cards.get', { cardId });
+    return axios.post<{ card: Card | null }>('/cards.get', { cardId });
   },
   create(payload: CardCreateParams) {
     return axios.post('/cards.create', payload);
