@@ -20,10 +20,11 @@ interface CardPreviewProps {
 export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
   <PaperContainerStyled>
     <Header>
-      <Content title={card.title}>{card.content}</Content>
+      <Content title={card.title}>
+        <Editor value={card.content} readOnly={true} />
+      </Content>
       <AddButton isCardToDeckAdded={isCardInFavorite} />
     </Header>
-    <Editor value={card.content} readOnly={true} />
     <Meta author={card.author} updatedAt={card.updatedAt} />
   </PaperContainerStyled>
 );

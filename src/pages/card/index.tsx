@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardPreview } from '@box/entities/card';
+import { Card, CardPreview } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 
 export const CardPage = () => (
@@ -20,14 +20,22 @@ export const CardPage = () => (
   </ContentCenteredTemplate>
 );
 
-const card = {
+const card: Card = {
   id: 1,
-  title:
-    'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
+  title: 'Manage map or Set in effector store.',
   updatedAt: '05:03 03.01.2',
   author: 'Sova',
-  content:
-    'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
+  content: [
+    {
+      type: 'paragraph',
+      children: [
+        {
+          text:
+            'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
+        },
+      ],
+    },
+  ],
 };
 
 const user = {

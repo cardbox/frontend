@@ -1,4 +1,5 @@
 import type { Card } from '@box/entities/card';
+import { EditorValue } from '@cardbox/editor';
 import { IUserPreview } from '@box/entities/user/types';
 import {
   combine,
@@ -68,6 +69,15 @@ function convertUserPreview(user: UserContract): IUserPreview {
   };
 }
 
+function content(text: string): EditorValue {
+  return [
+    {
+      type: 'paragraph',
+      children: [{ text }],
+    },
+  ];
+}
+
 // todo: remove
 const testResponse: SearchContract = {
   cards: {
@@ -75,29 +85,30 @@ const testResponse: SearchContract = {
       {
         id: 1,
         author: 'author 1',
-        content:
+        content: content(
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur cum cupiditate debitis enim error expedita facilis illo impedit ipsum iusto labore maiores omnis repellendus, tempora. Ea iste necessitatibus officiis?',
+        ),
         title: 'title 1',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 2,
         author: 'author 2',
-        content: 'content 2',
+        content: content('content 2'),
         title: 'title 2',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 3,
         author: 'author 3',
-        content: 'content 3',
+        content: content('content 3'),
         title: 'title 3',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 4,
         author: 'author 4',
-        content: 'content 4',
+        content: content('content 4'),
         title: 'title 4',
         updatedAt: '05:03 03.01.2',
       },
@@ -140,28 +151,28 @@ const test2Response: SearchContract = {
       {
         id: 5,
         author: 'author 5',
-        content: 'content 5',
+        content: content('content 5'),
         title: 'title 5',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 6,
         author: 'author 6',
-        content: 'content 6',
+        content: content('content 6'),
         title: 'title 6',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 7,
         author: 'author 7',
-        content: 'content 7',
+        content: content('content 7'),
         title: 'title 7',
         updatedAt: '05:03 03.01.2',
       },
       {
         id: 8,
         author: 'author 8',
-        content: 'content 8',
+        content: content('content 8'),
         title: 'title 8',
         updatedAt: '05:03 03.01.2',
       },
