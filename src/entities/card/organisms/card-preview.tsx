@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import type { Card } from '@cardbox/api';
 import {
@@ -27,12 +28,12 @@ export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
 );
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
-  min-height: 120px;
-  max-height: 150px;
+  height: 190px;
 `;
 const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
   return (
     <ContentStyled>
+      {/* FIXME: Add text-overflow processing */}
       <Text type={TextType.header4}>{title}</Text>
       <ContentText type={TextType.small}>{children}</ContentText>
     </ContentStyled>
@@ -45,12 +46,16 @@ const ContentText = styled(Text)`
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  white-space: pre-line;
 `;
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
   <MetaStyled>
-    <Text type={TextType.small}>{author.username}</Text>
-    <Text type={TextType.small}>{updatedAt}</Text>
+    {/* FIXME: bind with API later */}
+    <Text type={TextType.small}>EffectorMaster</Text>
+    <Text type={TextType.mini}>
+      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
+    </Text>
   </MetaStyled>
 );
 

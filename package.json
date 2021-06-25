@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.0.4",
+    "dayjs": "^1.10.5",
     "dotenv": "^8.2.0",
     "effector": "^21.2.2",
     "effector-inspector": "^0.4.2",

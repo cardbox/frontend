@@ -10,6 +10,7 @@ export enum TextType {
   header6 = 'header-6',
   primary = 'p',
   small = 'small',
+  mini = 'mini',
 }
 
 interface TextProps {
@@ -69,6 +70,10 @@ const TextStyled = styled.p<{ 'data-type': TextType }>`
   &[data-type=${TextType.small}] {
     font-size: 15px;
     line-height: 21px;
+  }
+  &[data-type=${TextType.mini}] {
+    font-size: 12px;
+    line-height: 15px;
   }
   &[data-type=${TextType.header1}] {
     font-size: 36px;

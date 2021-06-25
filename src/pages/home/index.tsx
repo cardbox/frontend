@@ -33,5 +33,5 @@ const Container = styled.div`
 `;
 
 const Main = styled.div`
-  width: 74.5%; /* 1044 / 1404 * 100 */
+  // width: 74.5%; /* 1044 / 1404 * 100 */
 `;

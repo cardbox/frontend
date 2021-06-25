@@ -20,7 +20,7 @@ export const users: User[] = [viewer];
 export const cards: Card[] = [
   {
     id: '1',
-    title: `Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.`,
+    title: `Manage map or Set in effector store`,
     content: `Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)`,
     author: viewer,
     createdAt: '2021-01-03T05:03:00.000Z',
