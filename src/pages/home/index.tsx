@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardList, cardModel } from '@cardbox/entities/card';
-import { ContentCenteredTemplate } from '@cardbox/ui';
+import {
+  ContentCenteredTemplate,
+  Text,
+  TextType,
+  Toast,
+  button,
+} from '@cardbox/ui';
 import { useStart, withStart } from '@cardbox/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
@@ -14,7 +20,25 @@ export const HomePage = () => {
 
   return (
     <ContentCenteredTemplate>
-      <Container>
+      <Hero>
+        <HeroCol>
+          <PrimaryText type={TextType.header1}>Cardbox</PrimaryText>
+          <Text type={TextType.header1}>Storage of all your ideas</Text>
+          <p>
+            The purpose of this product is to create a convenient repository of
+            your ideas with the ability to share them with others and keep all
+            the accumulated knowledge up to date.
+          </p>
+        </HeroCol>
+        <HeroCol>
+          <div>
+            <Toast extra={<button.Secondary>More...</button.Secondary>}>
+              Help us make the best idea storage service!
+            </Toast>
+          </div>
+        </HeroCol>
+      </Hero>
+      <Content>
         <Main>
           {isLoading && 'Loading...'}
           {!isLoading && cards.length > 0 && (
@@ -22,14 +46,28 @@ export const HomePage = () => {
           )}
           {/* TODO: Process "empty" case correctly */}
         </Main>
-      </Container>
+      </Content>
     </ContentCenteredTemplate>
   );
 };
 
 withStart(model.pageLoaded, HomePage);
 
-const Container = styled.div`
+const Hero = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+`;
+
+const HeroCol = styled.div`
+  flex: 1 0 50%;
+`;
+
+const PrimaryText = styled(Text)`
+  color: var(--wizard500);
+`;
+
+const Content = styled.div`
   display: flex;
   padding-bottom: 3rem;
 `;

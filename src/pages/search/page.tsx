@@ -43,7 +43,7 @@ export const SearchPage = () => {
 const SearchTitle = () => {
   const query = useSearchQuery();
   return (
-    <SearchTitleStyled type={TextType.header1}>
+    <SearchTitleStyled type={TextType.header3}>
       Search for "{query}"
     </SearchTitleStyled>
   );

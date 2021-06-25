@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// FIXME: refine usage API
 export enum TextType {
   header1 = 'header-1',
   header2 = 'header-2',
@@ -76,6 +77,11 @@ const TextStyled = styled.p<{ 'data-type': TextType }>`
     line-height: 15px;
   }
   &[data-type=${TextType.header1}] {
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 81px;
+  }
+  &[data-type=${TextType.header3}] {
     font-size: 36px;
     line-height: 54px;
   }

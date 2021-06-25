@@ -11,6 +11,16 @@ const Base = styled.button`
   height: 42px;
   outline: 0;
   padding: 0 1.125rem;
+  transition: 0.25s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 const Secondary = styled(Base)`
