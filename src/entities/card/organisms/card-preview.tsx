@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Editor } from '@cardbox/editor';
 
 import { Card } from '../types';
 
@@ -15,7 +16,7 @@ export const CardPreview: React.FC<Props> = ({ card }) => (
         Update {card.updatedAt}, {card.author}
       </Meta>
     </Header>
-    <Body>{card.content}</Body>
+    <Editor value={card.content} readOnly={true} />
   </Container>
 );
 
@@ -46,8 +47,8 @@ const Meta = styled.div`
   margin-left: auto;
 `;
 
-const Body = styled.div`
-  font-size: 0.9375rem;
-  line-height: 1.3125rem;
-  padding: 1rem 0;
-`;
+// const Body = styled.div`
+//   font-size: 0.9375rem;
+//   line-height: 1.3125rem;
+//   padding: 1rem 0;
+// `;
