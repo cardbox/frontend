@@ -59,9 +59,7 @@ const Hero = styled.div`
   margin-bottom: 60px;
 `;
 
-const HeroCol = styled.div`
-  flex: 1 0 50%;
-`;
+const HeroCol = styled.div``;
 
 const PrimaryText = styled(Text)`
   color: var(--wizard500);
