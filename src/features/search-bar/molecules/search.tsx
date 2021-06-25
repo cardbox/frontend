@@ -1,15 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { button } from '@cardbox/ui';
+import { useEvent, useStore } from 'effector-react/ssr';
 
-export const Search = () => {
-  return (
-    <Container>
-      <Input placeholder="Search placeholder" />
-      <button.Text>Advanced</button.Text>
-    </Container>
-  );
-};
+import * as model from '../models';
+
+export const Search = () => (
+  <Container>
+    <Input
+      placeholder="Search placeholder"
+      value={useStore(model.$searchValue)}
+      onChange={useEvent(model.searchFieldChanged)}
+    />
+    {/* todo: implement in v1 */}
+    {/*<button.Text>Advanced</button.Text>*/}
+  </Container>
+);
 
 const Container = styled.div`
   border: 1px solid #e7e5ee;
