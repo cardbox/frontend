@@ -4,7 +4,7 @@ import { CardList } from '@box/entities/card';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
-import { reflect } from '@effector/reflect';
+import { reflect } from '@effector/reflect/ssr';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useSearchQuery } from '@box/features/search-bar';
 
