@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardPreview } from '@cardbox/entities/card';
-import { ContentCenteredTemplate, UserCard } from '@cardbox/ui';
+import { CardPreview } from '@box/entities/card';
+import { ContentCenteredTemplate, UserCard } from '@box/ui';
 
 export const CardPage = () => (
   <ContentCenteredTemplate>
