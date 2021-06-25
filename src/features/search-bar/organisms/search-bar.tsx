@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@cardbox/ui';
+import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { useEvent } from 'effector-react/ssr';
 

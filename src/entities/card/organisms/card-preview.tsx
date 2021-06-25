@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Editor } from '@cardbox/editor';
-import { PaperContainer } from '@cardbox/ui';
+import { PaperContainer } from '@box/ui';
 
 import { Card } from '../types';
 import {
