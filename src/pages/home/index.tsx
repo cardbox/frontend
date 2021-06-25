@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CardList } from '@cardbox/entities/card';
-import { ContentCenteredTemplate } from '@cardbox/ui';
-import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { CardList } from '@box/entities/card';
+import { ContentCenteredTemplate } from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 
