@@ -100,7 +100,7 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "json"],
     "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
     "moduleNameMapper": {
-      "^@cardbox/(.*)$": "<rootDir>/src/$1"
+      "^@box/(.*)$": "<rootDir>/src/$1"
     }
   },
   "config": {

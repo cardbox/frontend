@@ -1,5 +1,5 @@
-import type { Card } from '@cardbox/entities/card';
-import { IUserPreview } from '@cardbox/entities/user/types';
+import type { Card } from '@box/entities/card';
+import { IUserPreview } from '@box/entities/user/types';
 import {
   combine,
   createEffect,
@@ -7,7 +7,7 @@ import {
   createStore,
   sample,
 } from 'effector-root';
-import { model } from '@cardbox/features/search-bar';
+import { model } from '@box/features/search-bar';
 
 interface UserContract {
   name: string;

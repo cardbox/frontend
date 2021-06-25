@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { createEvent, forward, guard, restore } from 'effector-root';
 import { debounce } from 'patronum/debounce';
-import { historyPush } from '@cardbox/entities/navigation';
+import { historyPush } from '@box/entities/navigation';
 
 import { paths } from '../../../pages/paths';
 

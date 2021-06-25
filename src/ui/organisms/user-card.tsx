@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@cardbox/ui';
+import { Avatar } from '@box/ui';
 
 // Временно
 interface User {

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { CardList } from '@cardbox/entities/card';
+import { CardList } from '@box/entities/card';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { UserPreviewList } from '@cardbox/entities/user';
-import { historyReplace } from '@cardbox/entities/navigation';
-import { reflect } from '@effector/reflect/ssr';
+import { UserPreviewList } from '@box/entities/user';
+import { historyReplace } from '@box/entities/navigation';
+import { reflect } from '@effector/reflect';
 import { useEvent, useStore } from 'effector-react/ssr';
-import { useSearchQuery } from '@cardbox/features/search-bar';
+import { useSearchQuery } from '@box/features/search-bar';
 
 import * as model from './model';
 import { ContentCenteredTemplate, Text, TextType } from '../../ui';
