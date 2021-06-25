@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Editor } from '@cardbox/editor';
 import { PaperContainer } from '@box/ui';
 
 import { Card } from '../types';
@@ -19,34 +20,28 @@ interface CardPreviewProps {
 export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
   <PaperContainerStyled>
     <Header>
-      <Content title={card.title}>{card.content}</Content>
+      <Content title={card.title} content={card.content} />
       <AddButton isCardToDeckAdded={isCardInFavorite} />
     </Header>
 
     <Meta author={card.author} updatedAt={card.updatedAt} />
   </PaperContainerStyled>
 );
+
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   min-height: 120px;
   max-height: 150px;
 `;
-const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
+
+const Content = ({ title, content }: Pick<Card, 'title' | 'content'>) => {
   return (
     <ContentStyled>
       <Text type={TextType.header4}>{title}</Text>
-      <ContentText type={TextType.small}>{children}</ContentText>
+      <Editor value={content} readOnly={true} />
     </ContentStyled>
   );
 };
-const ContentText = styled(Text)`
-  color: #62616d;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-`;
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
   <MetaStyled>

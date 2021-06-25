@@ -33,7 +33,7 @@ export const Comments = () => (
           text={
             <>
               <Mention>@Esprit</Mention> positif So what are the issues,
-              challenges — potential for improvement? You’ve been through he
+              challenges- potential for improvement? You’ve been through he
               strengths. Where does it fall short in comparison to other tools?
               I apologise for sounding a bit crude, but this post read like a
               sales pitch, not a designer’s review.
