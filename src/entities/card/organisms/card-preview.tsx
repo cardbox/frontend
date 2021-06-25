@@ -2,6 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import type { Card } from '@cardbox/api';
+import { Link } from 'react-router-dom';
 import {
   PaperContainer,
   Text,
@@ -14,12 +15,19 @@ import {
 interface CardPreviewProps {
   card: Card;
   isCardInFavorite: boolean;
+  href?: string;
 }
 
-export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
+export const CardPreview = ({
+  card,
+  isCardInFavorite,
+  href,
+}: CardPreviewProps) => (
   <PaperContainerStyled>
     <Header>
-      <Content title={card.title}>{card.content}</Content>
+      <Content title={card.title} href={href}>
+        {card.content}
+      </Content>
       <AddButton isCardToDeckAdded={isCardInFavorite} />
     </Header>
 
@@ -29,12 +37,23 @@ export const CardPreview = ({ card, isCardInFavorite }: CardPreviewProps) => (
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   height: 190px;
+  transition: 0.25s;
+
+  &:hover {
+    box-shadow: 0px 3px 9px #ebebeb;
+  }
 `;
-const Content: React.FC<Pick<Card, 'title'>> = ({ children, title }) => {
+
+type ContentProps = Pick<Card, 'title'> & Pick<CardPreviewProps, 'href'>;
+
+const Content: React.FC<ContentProps> = ({ children, title, href }) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <Text type={TextType.header4}>{title}</Text>
+      <Text type={TextType.header4}>
+        {href && <TitleLink to={href}>{title}</TitleLink>}
+        {!href && title}
+      </Text>
       <ContentText type={TextType.small}>{children}</ContentText>
     </ContentStyled>
   );
@@ -47,6 +66,16 @@ const ContentText = styled(Text)`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   white-space: pre-line;
+`;
+
+const TitleLink = styled(Link)`
+  color: unset;
+  text-decoration: unset;
+  transition: 0.25s;
+
+  &:hover {
+    color: var(--wizard500);
+  }
 `;
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (

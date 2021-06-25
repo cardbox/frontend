@@ -6,12 +6,18 @@ import { CardPreview } from './card-preview';
 
 interface Props {
   cards: Card[];
+  getHref?: (data: Card) => string | undefined;
 }
 
-export const CardList: React.FC<Props> = ({ cards }) => (
+export const CardList: React.FC<Props> = ({ cards, getHref }) => (
   <Container>
     {cards.map((card, i) => (
-      <CardPreview key={card.id} card={card} isCardInFavorite={i % 2 === 0} />
+      <CardPreview
+        key={card.id}
+        card={card}
+        isCardInFavorite={i % 2 === 0}
+        href={getHref?.(card)}
+      />
     ))}
   </Container>
 );

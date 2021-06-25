@@ -27,7 +27,9 @@ export const UserPage = () => {
             </UserFaceContent>
           </UserFace>
           {isLoading && 'Loading...'}
-          {!isLoading && cards.length > 0 && <CardList cards={cards} />}
+          {!isLoading && cards.length > 0 && (
+            <CardList cards={cards} getHref={(card) => `/card/${card.id}`} />
+          )}
           {/* TODO: Process "empty" case correctly */}
         </Main>
         <Sidebar>
