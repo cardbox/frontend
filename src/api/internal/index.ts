@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import type { Card } from '../types';
 
+// FIXME: Удалю модуль позднее, после генерации через OpenApi
+// Но для этого надо поправить саму схему
+
 // TODO: bind with /api/request
 // TODO: autogen later by openapi-generator
 
@@ -44,5 +47,11 @@ export const cards = {
 export const users = {
   viewer() {
     return axios.post('/users.viewer');
+  },
+};
+
+export const search = {
+  list() {
+    return axios.post('/users.list');
   },
 };

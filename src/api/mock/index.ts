@@ -37,6 +37,13 @@ export function runMockServer() {
       server.db.loadData({ cards, users });
     },
     routes() {
+      this.post('/search.list', (schema) => {
+        return {
+          users: schema.db.users,
+          cards: schema.db.cards,
+        };
+      });
+
       this.post('/users.viewer', (schema) => {
         return { user: schema.db.users.find(viewer.id) };
       });
