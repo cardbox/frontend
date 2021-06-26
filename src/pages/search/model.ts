@@ -1,4 +1,4 @@
-import type { Card, User } from '@cardbox/api';
+import type { Card, User } from '@box/api';
 import {
   combine,
   createEffect,
@@ -6,8 +6,8 @@ import {
   createStore,
   sample,
 } from 'effector-root';
-import { internalApi } from '@cardbox/api';
-import { model } from '@cardbox/features/search-bar';
+import { internalApi } from '@box/api';
+import { model } from '@box/features/search-bar';
 
 export const $searchResultCardList = createStore<Card[]>([]);
 export const $searchResultUserList = createStore<User[]>([]);

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, PaperContainer, Text, TextType } from '@cardbox/ui';
-import type { User } from '@cardbox/api';
-import { plural } from '@cardbox/lib/plural';
-import { useSearchQuery } from '@cardbox/features/search-bar';
+import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
+import type { User } from '@box/api';
+import { plural } from '@box/lib/plural';
+import { useSearchQuery } from '@box/features/search-bar';
 
 import { getFoundData } from '../lib';
 

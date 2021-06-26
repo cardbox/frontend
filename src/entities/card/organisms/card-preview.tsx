@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import type { Card } from '@cardbox/api';
+import type { Card } from '@box/api';
 import { Link } from 'react-router-dom';
 import {
   PaperContainer,
@@ -11,7 +11,7 @@ import {
   button,
   iconDeckArrow,
   iconDeckCheck,
-} from '@cardbox/ui';
+} from '@box/ui';
 
 interface CardPreviewProps {
   card: Card | null;

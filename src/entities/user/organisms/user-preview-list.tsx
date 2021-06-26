@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SkeletonGroup } from '@cardbox/ui';
-import type { User } from '@cardbox/api';
+import { SkeletonGroup } from '@box/ui';
+import type { User } from '@box/api';
 
 import { UserPreview } from './user-preview';
 

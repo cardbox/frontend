@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardList, cardModel } from '@cardbox/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
 import {
   ContentCenteredTemplate,
   Text,
   TextType,
   Toast,
   button,
-} from '@cardbox/ui';
-import { useStart, withStart } from '@cardbox/lib/page-routing';
+} from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';

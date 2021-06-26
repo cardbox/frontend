@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardPreview, cardModel } from '@cardbox/entities/card';
-import { ContentCenteredTemplate, UserCard } from '@cardbox/ui';
-import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { CardPreview, cardModel } from '@box/entities/card';
+import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';

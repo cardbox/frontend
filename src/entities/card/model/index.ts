@@ -1,6 +1,6 @@
-import type { Card } from '@cardbox/api';
+import type { Card } from '@box/api';
 import { createEffect, createStore } from 'effector-root';
-import { internalApi } from '@cardbox/api';
+import { internalApi } from '@box/api';
 
 export const getCardByIdFx = createEffect(async (cardId: string) => {
   const response = await internalApi.cards.get(cardId);

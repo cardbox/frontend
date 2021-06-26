@@ -7,7 +7,7 @@ import { Provider } from 'effector-react/ssr';
 import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
-import { Searchbar } from '@cardbox/features/search-bar';
+import { Searchbar } from '@box/features/search-bar';
 
 import { Pages } from '../pages';
 

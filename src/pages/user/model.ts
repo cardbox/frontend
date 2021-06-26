@@ -1,6 +1,6 @@
-import { StartParams } from '@cardbox/lib/page-routing';
+import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, forward, restore } from 'effector-root';
-import { cardModel } from '@cardbox/entities/card';
+import { cardModel } from '@box/entities/card';
 
 export const getCardsListFx = attach({ effect: cardModel.getCardsListFx });
 export const pageLoaded = createEvent<StartParams>();
