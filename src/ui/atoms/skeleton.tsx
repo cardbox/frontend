@@ -10,8 +10,8 @@ interface SkeletonGroupProps {
 }
 export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({ amount }) => (
   <Group>
-    {new Array(amount).fill(null).map((_, i) => (
-      <Skeleton key={i} />
+    {Array.from({ length: amount }, (_, idx) => (
+      <Skeleton key={idx} />
     ))}
   </Group>
 );
