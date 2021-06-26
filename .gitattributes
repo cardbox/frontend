@@ -1,0 +1,6 @@
+text=lf
+*.css linguist-vendored eol=lf
+*.scss linguist-vendored eol=lf
+*.js linguist-vendored eol=lf
+*.ts linguist-vendored eol=lf
+*.tsx linguist-vendored eol=lf

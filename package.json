@@ -10,7 +10,7 @@
     "start:prod": "NODE_ENV=production node build/server.js",
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
     "commit": "git-cz",
-    "lint": "eslint --fix ./src"
+    "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
   "dependencies": {
     "@effector/reflect": "^0.6.0",
