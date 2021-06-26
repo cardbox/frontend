@@ -24,7 +24,7 @@ export const CardPage = () => {
           {/* TODO: Process "empty" case correctly */}
         </Main>
         <Sidebar>
-          <UserCard user={user} />
+          <UserCard user={user} href="/user" />
           <Links>
             <LinkEdit href="#edit">Edit card</LinkEdit>
             <LinkDelete href="#delete">Delete card</LinkDelete>
