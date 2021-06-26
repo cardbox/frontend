@@ -11,7 +11,7 @@ import {
 
 export interface Request {
   path: string;
-  method: string;
+  method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
   body?: Record<string, unknown> | null | void;
   query?: Record<string, string>;
   headers?: Record<string, string>;

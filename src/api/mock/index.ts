@@ -37,6 +37,8 @@ export function runMockServer() {
       server.db.loadData({ cards, users });
     },
     routes() {
+      this.namespace = 'api';
+
       this.post('/search.results', (schema) => {
         // TODO: add search-query param processing
         return {

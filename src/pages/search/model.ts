@@ -17,7 +17,7 @@ export const $searchUsersCount = createStore<number>(0);
 export const searchQueryChanged = createEvent();
 const searchFx = createEffect(async (query: string) => {
   const response = await internalApi.search.results(query);
-  return response.data;
+  return response.body;
 });
 
 export const $isShowLoading = combine(

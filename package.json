@@ -15,7 +15,6 @@
   "dependencies": {
     "@cardbox/editor": "^0.0.8",
     "@effector/reflect": "^0.6.0",
-    "axios": "^0.21.1",
     "@tippyjs/react": "^4.2.5",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.0.4",

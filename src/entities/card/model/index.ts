@@ -4,12 +4,12 @@ import { internalApi } from '@box/api';
 
 export const getCardByIdFx = createEffect(async (cardId: string) => {
   const response = await internalApi.cards.get(cardId);
-  return response.data;
+  return response.body;
 });
 // TODO: add params
 export const getCardsListFx = createEffect(async () => {
   const response = await internalApi.cards.list();
-  return response.data;
+  return response.body;
 });
 
 // TODO: add "normalizr"
