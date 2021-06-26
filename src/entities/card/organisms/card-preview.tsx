@@ -126,6 +126,7 @@ const AddButtonStyled = styled(button.Icon)<{
     }
   }
 `;
+
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
