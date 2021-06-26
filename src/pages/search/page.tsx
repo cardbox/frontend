@@ -1,20 +1,19 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { CardList } from '@cardbox/entities/card';
+import { ContentCenteredTemplate, Text, TextType } from '@cardbox/ui';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@cardbox/entities/user';
 import { historyReplace } from '@cardbox/entities/navigation';
-import { reflect } from '@effector/reflect';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { reflect } from '@effector/reflect/ssr';
+import { useEvent } from 'effector-react/ssr';
 import { useSearchQuery } from '@cardbox/features/search-bar';
 
 import * as model from './model';
-import { ContentCenteredTemplate, Text, TextType } from '../../ui';
 import { paths } from '../paths';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
-  const isShowLoading = useStore(model.$isShowLoading);
   const searchQuery = useSearchQuery();
 
   useEffect(() => {
@@ -25,13 +24,6 @@ export const SearchPage = () => {
     if (searchQuery === '') historyReplace(paths.home());
   }, [searchQuery]);
 
-  if (isShowLoading) {
-    return (
-      <ContentCenteredTemplate>
-        <p>Loading...</p>
-      </ContentCenteredTemplate>
-    );
-  }
   return (
     <ContentCenteredTemplate>
       <SearchTitle />
@@ -48,9 +40,11 @@ const SearchTitle = () => {
     </SearchTitleStyled>
   );
 };
+
 const SearchTitleStyled = styled(Text)`
   margin-bottom: 2rem;
 `;
+
 const SearchTabs = () => {
   return (
     <Tabs>
@@ -64,10 +58,10 @@ const SearchTabs = () => {
       </TabListStyled>
 
       <TabPanel>
-        <CardRes />
+        <CardResults />
       </TabPanel>
       <TabPanel>
-        <UserRes />
+        <UserResults />
       </TabPanel>
     </Tabs>
   );
@@ -94,13 +88,19 @@ const TabStyled = styled(Tab)`
     color: #000;
   }
 `;
-const CardRes = reflect({
+const CardResults = reflect({
   view: CardList,
-  // @ts-ignore
-  bind: { cards: model.$searchResultCardList },
+  bind: {
+    cards: model.$searchResultCardList,
+    getHref: (card) => `/card/${card.id}`,
+    loading: model.$isShowLoading,
+  },
 });
 
-const UserRes = reflect({
+const UserResults = reflect({
   view: UserPreviewList,
-  bind: { users: model.$searchResultUserList },
+  bind: {
+    users: model.$searchResultUserList,
+    loading: model.$isShowLoading,
+  },
 });

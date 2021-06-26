@@ -1,18 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SkeletonGroup } from '@cardbox/ui';
+import type { User } from '@cardbox/api';
 
-import type { IUserPreview } from '../types';
 import { UserPreview } from './user-preview';
 
 interface UserListProps {
-  users: IUserPreview[];
+  users: User[];
+  loading?: boolean;
 }
-export const UserPreviewList = ({ users }: UserListProps) => (
-  <Container>
-    {users.map((user) => (
-      <UserPreview key={user.id} user={user} />
-    ))}
-  </Container>
+export const UserPreviewList = ({ users, loading }: UserListProps) => (
+  <>
+    {loading && <SkeletonGroup amount={4} />}
+    {!loading && (
+      <Container>
+        {users.map((user) => (
+          <UserPreview key={user.id} user={user} />
+        ))}
+      </Container>
+    )}
+  </>
 );
 
 const Container = styled.div`

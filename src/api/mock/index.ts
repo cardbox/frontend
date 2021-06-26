@@ -38,6 +38,7 @@ export function runMockServer() {
     },
     routes() {
       this.post('/search.results', (schema) => {
+        // TODO: add search-query param processing
         return {
           users: schema.db.users,
           cards: schema.db.cards,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import type { Card } from '../types';
+import type { Card, User } from '../types';
 
 // FIXME: Удалю модуль позднее, после генерации через OpenApi
 // Но для этого надо поправить саму схему
@@ -51,7 +51,9 @@ export const users = {
 };
 
 export const search = {
-  results() {
-    return axios.post('/search.results');
+  results(query: string) {
+    return axios.post<{ cards: Card[]; users: User[] }>('/search.results', {
+      query,
+    });
   },
 };

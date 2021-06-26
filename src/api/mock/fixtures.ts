@@ -1,5 +1,7 @@
 import type { Card, User } from '../types';
 
+const stubCards = (amount: number) => new Array(amount).fill('-1');
+
 // NOTE: preudo "uuid" for id property
 export const userSova: User = {
   id: '1',
@@ -10,8 +12,8 @@ export const userSova: User = {
   bio: '🦀 Rustacean, Frontender, Podcaster 🔍 @howtocards @accesso-app',
   work: 'red_mad_robot',
   avatar: 'https://avatars.githubusercontent.com/u/5620073?v=4',
-  cards: ['1', '2', '5'],
-  favorites: ['3', '4'],
+  cards: stubCards(242),
+  favorites: stubCards(1900),
 };
 
 export const userEvgeny: User = {
@@ -23,8 +25,8 @@ export const userEvgeny: User = {
   bio: 'Front-end developer (React.js)',
   work: 'risenforces',
   avatar: 'https://avatars.githubusercontent.com/u/35740512?v=4',
-  cards: new Array(26).fill('-1'),
-  favorites: new Array(60).fill('-1'),
+  cards: stubCards(26),
+  favorites: stubCards(60),
 };
 
 export const userIlya: User = {
@@ -33,11 +35,11 @@ export const userIlya: User = {
   firstName: 'Ilya',
   lastName: 'Azin',
   socials: { github: 'https://github.com/martis-git' },
-  bio: 'Front-end developer (React.js)',
+  bio: 'design.code @feature-sliced',
   work: 'Yandex',
   avatar: 'https://avatars.githubusercontent.com/u/42924400?v=4',
-  cards: new Array(42).fill('-1'),
-  favorites: new Array(190).fill('-1'),
+  cards: stubCards(42),
+  favorites: stubCards(190),
 };
 
 export const userOleg: User = {
@@ -48,8 +50,8 @@ export const userOleg: User = {
   socials: { github: 'https://github.com/OlegBrony' },
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/19880334?v=4',
-  cards: new Array(19).fill('-1'),
-  favorites: new Array(20).fill('-1'),
+  cards: stubCards(19),
+  favorites: stubCards(20),
 };
 
 export const userDmitry: User = {
@@ -60,8 +62,8 @@ export const userDmitry: User = {
   socials: { github: 'https://github.com/dmi-ch' },
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/5101606?v=4',
-  cards: new Array(4).fill('-1'),
-  favorites: new Array(120).fill('-1'),
+  cards: stubCards(4),
+  favorites: stubCards(20),
 };
 
 export const userKirill: User = {
@@ -73,8 +75,8 @@ export const userKirill: User = {
   bio: 'Proud son of the Motherland, also known as the Inverted Netherlands.',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/53709100?v=4',
-  cards: new Array(30).fill('-1'),
-  favorites: new Array(23).fill('-1'),
+  cards: stubCards(30),
+  favorites: stubCards(23),
 };
 
 export const userAlex: User = {
@@ -86,8 +88,8 @@ export const userAlex: User = {
   bio: 'Cherry-picky and into master :)',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/9406938?v=4',
-  cards: new Array(3).fill('-1'),
-  favorites: new Array(8).fill('-1'),
+  cards: stubCards(3),
+  favorites: stubCards(8),
 };
 
 export const userAnton: User = {
@@ -98,11 +100,31 @@ export const userAnton: User = {
   socials: { github: 'https://github.com/antonmazhuto' },
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/36848395?v=4',
-  cards: new Array(20).fill('-1'),
-  favorites: new Array(1).fill('-1'),
+  cards: stubCards(20),
+  favorites: stubCards(1),
 };
 
-export const viewer = userSova;
+export const userIrina: User = {
+  id: '10',
+  username: 'Irinaristova',
+  firstName: 'Irina',
+  lastName: 'Aristova',
+  socials: { github: 'https://github.com/Irinaristova' },
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/38761239?v=4',
+  cards: stubCards(3),
+  favorites: stubCards(2),
+};
+
+export const viewer: User = {
+  id: '100',
+  username: 'LangCreator',
+  socials: { github: 'https://github.com/langcreator' },
+  work: 'Frontend Lead at Yandex Music Saint-Petersburg, Russia',
+  avatar: '',
+  cards: ['1', '3', '5'],
+  favorites: ['2', '4'],
+};
 
 export const users: User[] = [
   userSova,
@@ -113,6 +135,7 @@ export const users: User[] = [
   userKirill,
   userAlex,
   userAnton,
+  userIrina,
 ];
 
 // NOTE: preudo "uuid" for id property
