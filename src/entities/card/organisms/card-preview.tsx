@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
 import { Link } from 'react-router-dom';
+import { Editor } from '@cardbox/editor';
 import {
   PaperContainer,
   Skeleton,
@@ -32,7 +33,7 @@ export const CardPreview = ({
   return (
     <PaperContainerStyled>
       <Header>
-        <Content title={card.title} href={href}>
+        <Content title={card.title} content={card.content} href={href}>
           {card.content}
         </Content>
         <AddButton isCardToDeckAdded={isCardInFavorite} />
@@ -42,6 +43,7 @@ export const CardPreview = ({
     </PaperContainerStyled>
   );
 };
+
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   height: 190px;
@@ -52,9 +54,9 @@ const PaperContainerStyled = styled(PaperContainer)`
   }
 `;
 
-type ContentProps = Pick<Card, 'title'> & Pick<CardPreviewProps, 'href'>;
+type ContentProps = Pick<Card, 'title' | 'content'> & Pick<CardPreviewProps, 'href'>;
 
-const Content: React.FC<ContentProps> = ({ children, title, href }) => {
+const Content: React.FC<ContentProps> = ({ content, title, href }) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
@@ -62,19 +64,10 @@ const Content: React.FC<ContentProps> = ({ children, title, href }) => {
         {href && <TitleLink to={href}>{title}</TitleLink>}
         {!href && title}
       </Text>
-      <ContentText type={TextType.small}>{children}</ContentText>
+      <Editor value={content} readOnly={true} />
     </ContentStyled>
   );
 };
-const ContentText = styled(Text)`
-  color: #62616d;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  white-space: pre-line;
-`;
 
 const TitleLink = styled(Link)`
   color: unset;
