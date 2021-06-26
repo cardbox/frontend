@@ -20,6 +20,7 @@ export const CardPage = () => {
             card={card}
             loading={isLoading}
             isCardInFavorite={false}
+            type="details"
           />
           {/* TODO: Process "empty" case correctly */}
         </Main>
@@ -46,7 +47,7 @@ const user = {
 
 const Container = styled.div`
   display: flex;
-  padding: 0 126px;
+  padding: 0 126px 126px 126px;
 
   & > *:first-child {
     margin-right: 2.25rem;

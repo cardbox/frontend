@@ -15,11 +15,18 @@ import {
   iconDeckCheck,
 } from '@box/ui';
 
+type CardType = 'item' | 'details';
+
 interface CardPreviewProps {
   card: Card | null;
   isCardInFavorite: boolean;
   href?: string;
   loading?: boolean;
+  /**
+   * @remark May be in future - make sense to split independent components - CardItem, CardDetails
+   * @default "item"
+   */
+  type?: CardType;
 }
 
 export const CardPreview = ({
@@ -27,38 +34,62 @@ export const CardPreview = ({
   isCardInFavorite,
   href,
   loading,
+  type = 'item',
 }: CardPreviewProps) => {
+  // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
 
   return (
-    <PaperContainerStyled>
+    <PaperContainerStyled data-type={type}>
       <Header>
-        <Content title={card.title} content={card.content} href={href}>
-          {card.content}
-        </Content>
+        <Content
+          title={card.title}
+          content={card.content}
+          href={href}
+          type={type}
+          updatedAt={card.updatedAt}
+        />
         <AddButton isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      <Meta author={card.author} updatedAt={card.updatedAt} />
+      {type === 'item' && (
+        <Meta author={card.author} updatedAt={card.updatedAt} />
+      )}
     </PaperContainerStyled>
   );
 };
 
-const PaperContainerStyled = styled(PaperContainer)`
+const PaperContainerStyled = styled(PaperContainer)<{
+  'data-type': CardType;
+}>`
   justify-content: space-between;
-  height: 190px;
-  transition: 0.25s;
 
-  &:hover {
-    box-shadow: 0px 3px 9px #ebebeb;
+  &[data-type='item'] {
+    height: 190px;
+    transition: 0.25s;
+
+    &:hover {
+      box-shadow: 0px 3px 9px #ebebeb;
+    }
+  }
+
+  &[data-type='details'] {
+    background: #fff;
+    min-height: 190px;
   }
 `;
 
-type ContentProps = Pick<Card, 'title' | 'content'> &
-  Pick<CardPreviewProps, 'href'>;
+type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
+  Pick<CardPreviewProps, 'href' | 'type'>;
 
-const Content: React.FC<ContentProps> = ({ content, title, href }) => {
+const Content: React.FC<ContentProps> = ({
+  content,
+  title,
+  href,
+  type,
+  updatedAt,
+}) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
@@ -66,7 +97,19 @@ const Content: React.FC<ContentProps> = ({ content, title, href }) => {
         {href && <TitleLink to={href}>{title}</TitleLink>}
         {!href && title}
       </Text>
-      <Editor value={editorLib.getValueNode(content)} readOnly={true} />
+      {type === 'details' && (
+        <>
+          <MetaStyled>
+            <Text type={TextType.mini}>
+              Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
+            </Text>
+          </MetaStyled>
+          <Editor value={editorLib.getValueNode(content)} readOnly={true} />
+        </>
+      )}
+      {type === 'item' && (
+        <ContentText type={TextType.small}>{content}</ContentText>
+      )}
     </ContentStyled>
   );
 };
@@ -79,6 +122,16 @@ const TitleLink = styled(Link)`
   &:hover {
     color: var(--wizard500);
   }
+`;
+
+const ContentText = styled(Text)`
+  color: #62616d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: pre-line;
 `;
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
@@ -105,6 +158,7 @@ const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
       <img
         src={addButtonData[isCardToDeckAdded.toString()].src}
         alt={addButtonData[isCardToDeckAdded.toString()].alt}
+        title={addButtonData[isCardToDeckAdded.toString()].alt}
       />
     </AddButtonStyled>
   );
