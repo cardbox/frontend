@@ -51,7 +51,7 @@ export const users = {
 };
 
 export const search = {
-  list() {
-    return axios.post('/users.list');
+  results() {
+    return axios.post('/search.results');
   },
 };
