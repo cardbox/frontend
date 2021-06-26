@@ -1,12 +1,12 @@
 import type { Card, User } from '../types';
 
 // NOTE: preudo "uuid" for id property
-export const viewer: User = {
+export const userSova: User = {
   id: '1',
   username: 'sergeysova',
   firstName: 'Sergey',
   lastName: 'Sova',
-  socials: {},
+  socials: { github: 'https://github.com/sergeysova' },
   bio: '🦀 Rustacean, Frontender, Podcaster 🔍 @howtocards @accesso-app',
   work: 'red_mad_robot',
   avatar: 'https://avatars.githubusercontent.com/u/5620073?v=4',
@@ -14,7 +14,106 @@ export const viewer: User = {
   favorites: ['3', '4'],
 };
 
-export const users: User[] = [viewer];
+export const userEvgeny: User = {
+  id: '2',
+  username: 'risenforces',
+  firstName: 'Evgeny',
+  lastName: 'Zakharov',
+  socials: { github: 'https://github.com/risenforces' },
+  bio: 'Front-end developer (React.js)',
+  work: 'risenforces',
+  avatar: 'https://avatars.githubusercontent.com/u/35740512?v=4',
+  cards: new Array(26).fill('-1'),
+  favorites: new Array(60).fill('-1'),
+};
+
+export const userIlya: User = {
+  id: '3',
+  username: 'martis-git',
+  firstName: 'Ilya',
+  lastName: 'Azin',
+  socials: { github: 'https://github.com/martis-git' },
+  bio: 'Front-end developer (React.js)',
+  work: 'Yandex',
+  avatar: 'https://avatars.githubusercontent.com/u/42924400?v=4',
+  cards: new Array(42).fill('-1'),
+  favorites: new Array(190).fill('-1'),
+};
+
+export const userOleg: User = {
+  id: '4',
+  username: 'OlegBrony',
+  firstName: 'Oleg',
+  lastName: 'Brony',
+  socials: { github: 'https://github.com/OlegBrony' },
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/19880334?v=4',
+  cards: new Array(19).fill('-1'),
+  favorites: new Array(20).fill('-1'),
+};
+
+export const userDmitry: User = {
+  id: '5',
+  username: 'dmi-ch',
+  firstName: 'Dmitriy',
+  lastName: 'Chikhanov',
+  socials: { github: 'https://github.com/dmi-ch' },
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/5101606?v=4',
+  cards: new Array(4).fill('-1'),
+  favorites: new Array(120).fill('-1'),
+};
+
+export const userKirill: User = {
+  id: '6',
+  username: 'Drevoed',
+  firstName: 'Kirill',
+  lastName: 'Mironov',
+  socials: { github: 'https://github.com/Drevoed' },
+  bio: 'Proud son of the Motherland, also known as the Inverted Netherlands.',
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/53709100?v=4',
+  cards: new Array(30).fill('-1'),
+  favorites: new Array(23).fill('-1'),
+};
+
+export const userAlex: User = {
+  id: '7',
+  username: 'asvtsv',
+  firstName: 'Alexander',
+  lastName: '',
+  socials: { github: 'https://github.com/asvtsv' },
+  bio: 'Cherry-picky and into master :)',
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/9406938?v=4',
+  cards: new Array(3).fill('-1'),
+  favorites: new Array(8).fill('-1'),
+};
+
+export const userAnton: User = {
+  id: '8',
+  username: 'antonmazhuto',
+  firstName: 'Anton',
+  lastName: 'Mazhuto',
+  socials: { github: 'https://github.com/antonmazhuto' },
+  work: '',
+  avatar: 'https://avatars.githubusercontent.com/u/36848395?v=4',
+  cards: new Array(20).fill('-1'),
+  favorites: new Array(1).fill('-1'),
+};
+
+export const viewer = userSova;
+
+export const users: User[] = [
+  userSova,
+  userEvgeny,
+  userIlya,
+  userOleg,
+  userDmitry,
+  userKirill,
+  userAlex,
+  userAnton,
+];
 
 // NOTE: preudo "uuid" for id property
 export const cards: Card[] = [
