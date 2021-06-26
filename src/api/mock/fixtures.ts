@@ -121,7 +121,8 @@ export const viewer: User = {
   username: 'LangCreator',
   socials: { github: 'https://github.com/langcreator' },
   work: 'Frontend Lead at Yandex Music Saint-Petersburg, Russia',
-  avatar: '',
+  avatar:
+    'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
   cards: ['1', '3', '5'],
   favorites: ['2', '4'],
 };

@@ -1,9 +1,10 @@
+import * as editorLib from '@box/lib/editor';
 import React from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
-import { Link } from 'react-router-dom';
 import { Editor } from '@cardbox/editor';
+import { Link } from 'react-router-dom';
 import {
   PaperContainer,
   Skeleton,
@@ -54,7 +55,8 @@ const PaperContainerStyled = styled(PaperContainer)`
   }
 `;
 
-type ContentProps = Pick<Card, 'title' | 'content'> & Pick<CardPreviewProps, 'href'>;
+type ContentProps = Pick<Card, 'title' | 'content'> &
+  Pick<CardPreviewProps, 'href'>;
 
 const Content: React.FC<ContentProps> = ({ content, title, href }) => {
   return (
@@ -64,7 +66,7 @@ const Content: React.FC<ContentProps> = ({ content, title, href }) => {
         {href && <TitleLink to={href}>{title}</TitleLink>}
         {!href && title}
       </Text>
-      <Editor value={content} readOnly={true} />
+      <Editor value={editorLib.getValueNode(content)} readOnly={true} />
     </ContentStyled>
   );
 };
