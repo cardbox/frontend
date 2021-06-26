@@ -6,6 +6,7 @@ import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
+import { paths } from '../paths';
 
 export const UserPage = () => {
   useStart(model.pageLoaded);
@@ -28,7 +29,7 @@ export const UserPage = () => {
           </UserFace>
           <CardList
             cards={cards}
-            getHref={(card) => `/card/${card.id}`}
+            getHref={(card) => paths.card(card.id)}
             loading={isLoading}
           />
           {/* TODO: Process "empty" case correctly */}

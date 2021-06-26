@@ -92,7 +92,7 @@ const CardResults = reflect({
   view: CardList,
   bind: {
     cards: model.$searchResultCardList,
-    getHref: (card) => `/card/${card.id}`,
+    getHref: (card) => paths.card(card.id),
     loading: model.$isShowLoading,
   },
 });

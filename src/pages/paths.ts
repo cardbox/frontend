@@ -2,7 +2,7 @@ export const paths = {
   home: () => '/',
   /** @test */
   comments: () => '/comments',
-  card: () => '/card/:cardId',
+  card: (cardId: string) => `/card/${cardId}`,
   user: () => '/user',
   search: (query = '') => {
     if (query) return `/search?query=${query}`;
