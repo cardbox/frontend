@@ -9,18 +9,19 @@ interface UserListProps {
   users: User[];
   loading?: boolean;
 }
-export const UserPreviewList = ({ users, loading }: UserListProps) => (
-  <>
-    {loading && <SkeletonGroup amount={4} />}
-    {!loading && (
-      <Container>
-        {users.map((user) => (
-          <UserPreview key={user.id} user={user} />
-        ))}
-      </Container>
-    )}
-  </>
-);
+export const UserPreviewList = ({ users, loading }: UserListProps) => {
+  if (loading) {
+    return <SkeletonGroup amount={4} />;
+  }
+
+  return (
+    <Container>
+      {users.map((user) => (
+        <UserPreview key={user.id} user={user} />
+      ))}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: grid;

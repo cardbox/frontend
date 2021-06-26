@@ -11,23 +11,24 @@ interface Props {
   loading?: boolean;
 }
 
-export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => (
-  <>
-    {loading && <SkeletonGroup amount={4} />}
-    {!loading && (
-      <Container>
-        {cards.map((card, i) => (
-          <CardPreview
-            key={card.id}
-            card={card}
-            isCardInFavorite={i % 2 === 0}
-            href={getHref?.(card)}
-          />
-        ))}
-      </Container>
-    )}
-  </>
-);
+export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => {
+  if (loading) {
+    return <SkeletonGroup amount={4} />;
+  }
+
+  return (
+    <Container>
+      {cards.map((card, i) => (
+        <CardPreview
+          key={card.id}
+          card={card}
+          isCardInFavorite={i % 2 === 0}
+          href={getHref?.(card)}
+        />
+      ))}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: grid;
