@@ -46,6 +46,7 @@ const user = {
 
 const Container = styled.div`
   display: flex;
+  padding: 0 126px;
 
   & > *:first-child {
     margin-right: 2.25rem;

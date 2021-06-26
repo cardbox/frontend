@@ -31,11 +31,11 @@ export const HomePage = () => {
           </p>
         </HeroCol>
         <HeroCol>
-          <div>
+          <ToastContainer>
             <Toast extra={<button.Secondary>More...</button.Secondary>}>
               Help us make the best idea storage service!
             </Toast>
-          </div>
+          </ToastContainer>
         </HeroCol>
       </Hero>
       <Content>
@@ -55,12 +55,19 @@ export const HomePage = () => {
 withStart(model.pageLoaded, HomePage);
 
 const Hero = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
   margin-bottom: 60px;
 `;
 
 const HeroCol = styled.div``;
+
+const ToastContainer = styled.div`
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
 
 const PrimaryText = styled(Text)`
   color: var(--wizard500);
