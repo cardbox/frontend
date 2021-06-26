@@ -26,10 +26,11 @@ export const UserPage = () => {
               <UserFaceDescription>Username description</UserFaceDescription>
             </UserFaceContent>
           </UserFace>
-          {isLoading && 'Loading...'}
-          {!isLoading && cards.length > 0 && (
-            <CardList cards={cards} getHref={(card) => `/card/${card.id}`} />
-          )}
+          <CardList
+            cards={cards}
+            getHref={(card) => `/card/${card.id}`}
+            loading={isLoading}
+          />
           {/* TODO: Process "empty" case correctly */}
         </Main>
         <Sidebar>
@@ -72,6 +73,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 
   & > *:last-child {
     margin-top: 6.25rem;

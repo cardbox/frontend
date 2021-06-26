@@ -31,6 +31,8 @@ const Globals = createGlobalStyle`
     --wizard500: #4231FF;
     --wizard300: #B6AFFF;
     --wizard100: #F7F6FF;
+
+    --gray100: #FBFAFB;
   }
 `;
 

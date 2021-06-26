@@ -40,10 +40,11 @@ export const HomePage = () => {
       </Hero>
       <Content>
         <Main>
-          {isLoading && 'Loading...'}
-          {!isLoading && cards.length > 0 && (
-            <CardList cards={cards} getHref={(card) => `/card/${card.id}`} />
-          )}
+          <CardList
+            cards={cards}
+            getHref={(card) => `/card/${card.id}`}
+            loading={isLoading}
+          />
           {/* TODO: Process "empty" case correctly */}
         </Main>
       </Content>
@@ -71,5 +72,7 @@ const Content = styled.div`
 `;
 
 const Main = styled.div`
+  /* NOTE: Maybe return back later or delete permanently */
   // width: 74.5%; /* 1044 / 1404 * 100 */
+  width: 100%;
 `;
