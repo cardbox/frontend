@@ -16,10 +16,11 @@ export const CardPage = () => {
     <ContentCenteredTemplate>
       <Container>
         <Main>
-          {isLoading && 'Loading'}
-          {!isLoading && card && (
-            <CardPreview card={card} isCardInFavorite={false} />
-          )}
+          <CardPreview
+            card={card}
+            loading={isLoading}
+            isCardInFavorite={false}
+          />
           {/* TODO: Process "empty" case correctly */}
         </Main>
         <Sidebar>

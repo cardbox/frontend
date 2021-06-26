@@ -5,6 +5,7 @@ import type { Card } from '@cardbox/api';
 import { Link } from 'react-router-dom';
 import {
   PaperContainer,
+  Skeleton,
   Text,
   TextType,
   button,
@@ -13,27 +14,34 @@ import {
 } from '@cardbox/ui';
 
 interface CardPreviewProps {
-  card: Card;
+  card: Card | null;
   isCardInFavorite: boolean;
   href?: string;
+  loading?: boolean;
 }
 
 export const CardPreview = ({
   card,
   isCardInFavorite,
   href,
-}: CardPreviewProps) => (
-  <PaperContainerStyled>
-    <Header>
-      <Content title={card.title} href={href}>
-        {card.content}
-      </Content>
-      <AddButton isCardToDeckAdded={isCardInFavorite} />
-    </Header>
+  loading,
+}: CardPreviewProps) => {
+  if (loading) return <Skeleton />;
+  if (!card) return null;
 
-    <Meta author={card.author} updatedAt={card.updatedAt} />
-  </PaperContainerStyled>
-);
+  return (
+    <PaperContainerStyled>
+      <Header>
+        <Content title={card.title} href={href}>
+          {card.content}
+        </Content>
+        <AddButton isCardToDeckAdded={isCardInFavorite} />
+      </Header>
+
+      <Meta author={card.author} updatedAt={card.updatedAt} />
+    </PaperContainerStyled>
+  );
+};
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   height: 190px;
