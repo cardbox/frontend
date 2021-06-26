@@ -27,7 +27,6 @@ export const $isShowLoading = combine(
   (isPending, cardsCount, usersCount) =>
     isPending && !cardsCount && !usersCount,
 );
-
 sample({
   clock: searchQueryChanged,
   source: model.$searchValue,
