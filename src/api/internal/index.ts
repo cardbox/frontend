@@ -8,30 +8,33 @@ import { requestClient } from '../request/client';
 // TODO: bind with /api/request
 // TODO: autogen later by openapi-generator
 
-export interface CardListParams {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CardListParams = {
   search?: string;
   authorId?: string;
-}
+};
 
-export interface CardCreateParams {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CardCreateParams = {
   title: string;
   content: string;
   tags: string[];
-}
+};
 
-export interface CardUpdateParams {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CardUpdateParams = {
   cardId: string;
   title?: string;
   content?: string;
   tags?: string[];
-}
+};
 
 export const cards = {
   list(params?: CardListParams) {
     return requestClient<{ cards: Card[] }>({
       path: '/cards.list',
       method: 'POST',
-      body: params as Record<string, unknown>,
+      body: params,
     });
   },
   get(cardId: string) {
@@ -45,14 +48,14 @@ export const cards = {
     return requestClient({
       path: '/cards.create',
       method: 'POST',
-      body: (payload as unknown) as Record<string, unknown>,
+      body: payload,
     });
   },
   update(payload: CardUpdateParams) {
     return requestClient({
       path: '/cards.update',
       method: 'POST',
-      body: (payload as unknown) as Record<string, unknown>,
+      body: payload,
     });
   },
   delete(cardId: string) {
