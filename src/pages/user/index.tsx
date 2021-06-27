@@ -1,72 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Avatar, ContentCenteredTemplate } from '@box/ui';
-import { Card, CardList, content } from '@box/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
-export const UserPage = () => (
-  <ContentCenteredTemplate>
-    <Container>
-      <Main>
-        <UserFace>
-          <Avatar
-            size="large"
-            src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+import * as model from './model';
+import { paths } from '../paths';
+
+export const UserPage = () => {
+  useStart(model.pageLoaded);
+  const cards = useStore(cardModel.$cards);
+  const isLoading = useStore(model.$pagePending);
+
+  return (
+    <ContentCenteredTemplate>
+      <Container>
+        <Main>
+          <UserFace>
+            <Avatar
+              size="large"
+              src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            />
+            <UserFaceContent>
+              <UserFaceName>LangCreator</UserFaceName>
+              <UserFaceDescription>Username description</UserFaceDescription>
+            </UserFaceContent>
+          </UserFace>
+          <CardList
+            cards={cards}
+            getHref={(card) => paths.card(card.id)}
+            loading={isLoading}
           />
-          <UserFaceContent>
-            <UserFaceName>LangCreator</UserFaceName>
-            <UserFaceDescription>Username description</UserFaceDescription>
-          </UserFaceContent>
-        </UserFace>
-        <CardList cards={cards} />
-      </Main>
-      <Sidebar>
-        <SocialStaff>
-          <SocialStaffTitle>Social staff</SocialStaffTitle>
-          <SocialStaffList>
-            <SocialStaffItem>
-              <Avatar
-                size="small"
-                src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              />
-              <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-            </SocialStaffItem>
-            <SocialStaffItem>
-              <Avatar
-                size="small"
-                src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              />
-              <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-            </SocialStaffItem>
-          </SocialStaffList>
-        </SocialStaff>
-      </Sidebar>
-    </Container>
-  </ContentCenteredTemplate>
-);
+          {/* TODO: Process "empty" case correctly */}
+        </Main>
+        <Sidebar>
+          <SocialStaff>
+            <SocialStaffTitle>Social staff</SocialStaffTitle>
+            <SocialStaffList>
+              <SocialStaffItem>
+                <Avatar
+                  size="small"
+                  src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                />
+                <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+              </SocialStaffItem>
+              <SocialStaffItem>
+                <Avatar
+                  size="small"
+                  src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                />
+                <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+              </SocialStaffItem>
+            </SocialStaffList>
+          </SocialStaff>
+        </Sidebar>
+      </Container>
+    </ContentCenteredTemplate>
+  );
+};
 
-const cards: Card[] = [
-  {
-    id: 1,
-    title: 'Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content,
-  },
-  {
-    id: 2,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content,
-  },
-  {
-    id: 3,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content,
-  },
-];
+withStart(model.pageLoaded, UserPage);
 
 const Container = styled.div`
   display: flex;
@@ -80,6 +74,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 
   & > *:last-child {
     margin-top: 6.25rem;

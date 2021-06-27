@@ -4,7 +4,11 @@ sendRequestFx.use(requestClient);
 
 export const API_PREFIX = process.env.CLIENT_BACKEND_URL ?? `/api`;
 
-async function requestClient({ path, method, ...options }: Request) {
+export async function requestClient<Response = unknown>({
+  path,
+  method,
+  ...options
+}: Request) {
   const headers = new Headers(options.headers);
   contentDefault(headers, 'application/json; charset=utf-8');
 
@@ -23,7 +27,7 @@ async function requestClient({ path, method, ...options }: Request) {
 
   // TODO: rewrite error system
 
-  const answer = contentIs(response.headers, 'application/json')
+  const answer: Response = contentIs(response.headers, 'application/json')
     ? await response.json()
     : await response.text();
 

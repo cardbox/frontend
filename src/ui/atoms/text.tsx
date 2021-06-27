@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// FIXME: refine usage API
 export enum TextType {
   header1 = 'header-1',
   header2 = 'header-2',
@@ -10,6 +11,7 @@ export enum TextType {
   header6 = 'header-6',
   primary = 'p',
   small = 'small',
+  mini = 'mini',
 }
 
 interface TextProps {
@@ -70,7 +72,16 @@ const TextStyled = styled.p<{ 'data-type': TextType }>`
     font-size: 15px;
     line-height: 21px;
   }
+  &[data-type=${TextType.mini}] {
+    font-size: 12px;
+    line-height: 15px;
+  }
   &[data-type=${TextType.header1}] {
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 81px;
+  }
+  &[data-type=${TextType.header3}] {
     font-size: 36px;
     line-height: 54px;
   }

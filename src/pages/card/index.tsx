@@ -1,32 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, CardPreview, content } from '@box/entities/card';
+import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
-export const CardPage = () => (
-  <ContentCenteredTemplate>
-    <Container>
-      <Main>
-        <CardPreview card={card} isCardInFavorite={false} />
-      </Main>
-      <Sidebar>
-        <UserCard user={user} />
-        <Links>
-          <LinkEdit href="#edit">Edit card</LinkEdit>
-          <LinkDelete href="#delete">Delete card</LinkDelete>
-        </Links>
-      </Sidebar>
-    </Container>
-  </ContentCenteredTemplate>
-);
+import * as model from './model';
 
-const card: Card = {
-  id: 1,
-  title: 'Manage map or Set in effector store.',
-  updatedAt: '05:03 03.01.2',
-  author: 'Sova',
-  content,
+export const CardPage = () => {
+  useStart(model.pageLoaded);
+  const card = useStore(cardModel.$currentCard);
+  const isLoading = useStore(model.$pagePending);
+
+  return (
+    <ContentCenteredTemplate>
+      <Container>
+        <Main>
+          <CardPreview
+            card={card}
+            loading={isLoading}
+            isCardInFavorite={false}
+            type="details"
+          />
+          {/* TODO: Process "empty" case correctly */}
+        </Main>
+        <Sidebar>
+          <UserCard user={user} href="/user" />
+          <Links>
+            <LinkEdit href="#edit">Edit card</LinkEdit>
+            <LinkDelete href="#delete">Delete card</LinkDelete>
+          </Links>
+        </Sidebar>
+      </Container>
+    </ContentCenteredTemplate>
+  );
 };
+
+withStart(model.pageLoaded, CardPage);
 
 const user = {
   avatar:
@@ -37,6 +47,7 @@ const user = {
 
 const Container = styled.div`
   display: flex;
+  padding: 0 126px 126px 126px;
 
   & > *:first-child {
     margin-right: 2.25rem;
