@@ -12,11 +12,6 @@ export const getCardsListFx = createEffect(async () => {
   return response.body;
 });
 
-// TODO: add "normalizr"
-// export const cardSchema = new schema.Entity('cards');
-// export const cardsSchema = new schema.Array(cardSchema);
-// export const normalizeCards = (data: Card[]) =>
-//   normalize(data, cardsSchema).entities.cards;
 
 export const $cards = createStore<Card[]>([]).on(
   getCardsListFx.doneData,
