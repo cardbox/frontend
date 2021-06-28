@@ -12,7 +12,6 @@ export const getCardsListFx = createEffect(async () => {
   return response.body;
 });
 
-
 export const $cards = createStore<Card[]>([]).on(
   getCardsListFx.doneData,
   (_, payload) => payload.cards,
