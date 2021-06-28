@@ -9,21 +9,21 @@ import {
   restore,
 } from 'effector-root';
 
-export type Request = {
+export interface Request {
   path: string;
-  method: string;
+  method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
   body?: Record<string, unknown> | null | void;
   query?: Record<string, string>;
   headers?: Record<string, string>;
   cookies?: string;
-};
+}
 
-export type Answer = {
+export interface Answer {
   ok: boolean;
   body: unknown;
   status: number;
   headers: Record<string, string>;
-};
+}
 
 export const setCookiesForRequest = createEvent<string>();
 // WARNING: cookies should be sent only to an OUR backend

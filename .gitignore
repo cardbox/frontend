@@ -5,7 +5,6 @@ npm-debug.log*
 
 coverage
 node_modules
-.idea
 build
 public/static
 .env.local
@@ -13,4 +12,8 @@ public/static
 .env.test.local
 .env.production.local.env
 .env
+
+.vscode
+.idea
+
 ./package-lock.json
