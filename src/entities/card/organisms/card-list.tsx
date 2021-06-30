@@ -12,18 +12,52 @@ interface Props {
 }
 
 export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => {
+  const containerRef = React.useRef<null | HTMLDivElement>(null);
+
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
 
+  const focusNext = () => {
+    if (!containerRef.current) return;
+    const children = [...containerRef.current.children];
+    const curFocusIndex = children.findIndex(
+      (el) => el === document.activeElement,
+    );
+    const indexToFocus = curFocusIndex + 1;
+    const isIndexIncorrect = indexToFocus >= children.length;
+    if (isIndexIncorrect) return;
+    const el = containerRef.current.children[indexToFocus] as HTMLElement;
+    el.focus();
+  };
+
+  const focusPrev = () => {
+    if (!containerRef.current) return;
+    const children = [...containerRef.current.children];
+    const curFocusIndex = children.findIndex(
+      (el) => el === document.activeElement,
+    );
+    const indexToFocus = curFocusIndex - 1;
+    const isIndexIncorrect = indexToFocus < 0;
+    if (isIndexIncorrect) return;
+    const el = containerRef.current.children[indexToFocus] as HTMLElement;
+    el.focus();
+  };
+
+  const focusItemChanged = (direction: 'next' | 'prev') => {
+    if (direction === 'next') focusNext();
+    else focusPrev();
+  };
+
   return (
-    <Container>
+    <Container ref={containerRef}>
       {cards.map((card, i) => (
         <CardPreview
           key={card.id}
           card={card}
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
+          focusItemChanged={focusItemChanged}
         />
       ))}
     </Container>

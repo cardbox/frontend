@@ -1,7 +1,7 @@
 import * as editorLib from '@box/lib/editor';
-import React from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
+import React, { KeyboardEventHandler, MouseEventHandler } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
@@ -14,8 +14,11 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import { useEvent } from 'effector-react';
 
-type CardType = 'item' | 'details';
+import { navigationModel } from '../../navigation';
+
+type CardType = 'preview' | 'details';
 
 interface CardPreviewProps {
   card: Card | null;
@@ -24,9 +27,10 @@ interface CardPreviewProps {
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
-   * @default "item"
+   * @default "preview"
    */
   type?: CardType;
+  focusItemChanged: (direction: 'next' | 'prev') => void;
 }
 
 export const CardPreview = ({
@@ -34,14 +38,53 @@ export const CardPreview = ({
   isCardInFavorite,
   href,
   loading,
-  type = 'item',
+  type = 'preview',
+  focusItemChanged,
 }: CardPreviewProps) => {
+  const historyPush = useEvent(navigationModel.historyPush);
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
 
+  const goToCard = ({ inNewTab } = { inNewTab: false }) => {
+    if (!href) return;
+    if (inNewTab) window.open(href, '_blank');
+    else historyPush(href);
+  };
+
+  const handleClick = () => goToCard();
+  const handleWheel = () => goToCard({ inNewTab: true });
+
+  const handleMouseDown: MouseEventHandler = (e) => {
+    if (e.button === 1) handleWheel();
+  };
+
+  const handleKeyDown: KeyboardEventHandler = (e) => {
+    const { key, ctrlKey } = e;
+    if (key === 'Enter') {
+      goToCard({ inNewTab: ctrlKey });
+    }
+
+    if (key === 'ArrowDown' || key === 'ArrowRight') {
+      e.preventDefault();
+      focusItemChanged('next');
+    }
+    if (key === 'ArrowUp' || key === 'ArrowLeft') {
+      e.preventDefault();
+      focusItemChanged('prev');
+    }
+  };
+
   return (
-    <PaperContainerStyled data-type={type}>
+    <PaperContainerStyled
+      data-type={type}
+      // fixme: make paper as a link? (Link, a)
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label="Open card"
+    >
       <Header>
         <Content
           title={card.title}
@@ -53,7 +96,7 @@ export const CardPreview = ({
         <AddButton isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {type === 'item' && (
+      {type === 'preview' && (
         <Meta author={card.author} updatedAt={card.updatedAt} />
       )}
     </PaperContainerStyled>
@@ -65,12 +108,15 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
 
-  &[data-type='item'] {
+  &[data-type='preview'] {
     height: 190px;
     transition: 0.25s;
 
-    &:hover {
-      box-shadow: 0px 3px 9px #ebebeb;
+    &:hover,
+    &:focus {
+      border-color: var(--wizard300);
+      background-color: var(--bnw0);
+      cursor: pointer;
     }
   }
 
@@ -107,7 +153,7 @@ const Content: React.FC<ContentProps> = ({
           <Editor value={editorLib.getValueNode(content)} readOnly={true} />
         </>
       )}
-      {type === 'item' && (
+      {type === 'preview' && (
         <ContentText type={TextType.small}>{content}</ContentText>
       )}
     </ContentStyled>
@@ -153,8 +199,14 @@ const addButtonData = {
   false: { src: iconDeckArrow, alt: 'Add card to my deck' },
 };
 const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
+  const click: MouseEventHandler = (e) => {
+    e.stopPropagation();
+  };
   return (
-    <AddButtonStyled data-is-card-to-deck-added={isCardToDeckAdded}>
+    <AddButtonStyled
+      data-is-card-to-deck-added={isCardToDeckAdded}
+      onClick={click}
+    >
       <img
         src={addButtonData[isCardToDeckAdded.toString()].src}
         alt={addButtonData[isCardToDeckAdded.toString()].alt}
