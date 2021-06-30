@@ -28,11 +28,18 @@ const Globals = createGlobalStyle`
   }
 
   :root {
-    --wizard500: #4231FF;
-    --wizard300: #B6AFFF;
-    --wizard100: #F7F6FF;
+    --wizard500: #4231ff;
+    --wizard300: #b6Afff;
+    --wizard100: #f7f6ff;
 
-    --gray100: #FBFAFB;
+    --gray100: #fbfafb;
+
+    /* backgrounds */
+    --bnw100: #fbfafb;
+    --bnw200: #eeeef1;
+    --bnw0: #fff;
+
+    --box-shadow-1: 0px 3px 9px #ebebeb;
   }
 `;
 

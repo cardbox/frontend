@@ -16,3 +16,8 @@ if (process.env.BUILD_TARGET === 'client') {
   const historyUpdate = merge([historyPush, historyReplace]);
   $lastPushed.on(historyUpdate, (_, url) => url);
 }
+
+export const navigationModel = {
+  historyPush,
+  historyReplace,
+};

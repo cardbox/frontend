@@ -29,7 +29,7 @@ export const UserPage = () => {
           </UserFace>
           <CardList
             cards={cards}
-            getHref={(card) => paths.card(card.id)}
+            getHref={(card) => paths.card({ id: card.id })}
             loading={isLoading}
           />
           {/* TODO: Process "empty" case correctly */}

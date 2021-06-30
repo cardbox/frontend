@@ -167,7 +167,7 @@ export const cards: Card[] = [
     import ReactDOM from 'react-dom'
 
     const getAllId = createEffect({handler: async () => [1, 2, 3]})
-    
+
     const getPostsByIds = createEffect({
       handler: ids => Promise.all(ids.map(
         async id => {
@@ -179,12 +179,12 @@ export const cards: Card[] = [
         }
       ))
     })
-    
+
     forward({
       from: getAllId.done.map(({result}) => result),
       to: getPostsByIds,
     })
-    
+
     const postGroups = createStore([])
       .on(getPostsByIds.done, (list, {result}) => [
         ...list,
@@ -212,7 +212,7 @@ export const cards: Card[] = [
   },
   {
     id: '5',
-    title: `Effector live comparsion`,
+    title: `Stop using Effector`,
     content: `Effector is a brand new reactive state manager. Its ambitious team aims to solve all the problems that existing solutions have. Writing the core of the library from scratch took several attempts across six months, and recently the team released the first stable release.
 
     In this article, I will show why I prefer using Effector for my new projects instead of other state managers. Let's get started with the Effector API.`,
