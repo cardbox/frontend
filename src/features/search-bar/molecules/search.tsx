@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { reflect } from '@effector/reflect/ssr';
 
 import * as model from '../models';
 
 export const Search = () => (
   <Container>
-    <Input
-      placeholder="Search placeholder"
-      value={useStore(model.$searchValue)}
-      onChange={useEvent(model.searchFieldChanged)}
-    />
+    <SearchInput />
     {/* todo: implement in v1 */}
     {/*<button.Text>Advanced</button.Text>*/}
   </Container>
@@ -35,3 +31,11 @@ const Input = styled.input`
     color: #a39bb2;
   }
 `;
+const SearchInput = reflect({
+  view: Input,
+  bind: {
+    placeholder: 'Search placeholder',
+    value: model.$searchValue,
+    onChange: model.searchFieldChanged,
+  },
+});
