@@ -10,16 +10,18 @@ import { getFoundData } from '../lib';
 interface UserPreviewProps {
   user: User;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({ user }) => (
-  <PaperContainerStyled>
-    <Header>
-      <Content username={user.username}>{user.bio}</Content>
-      <Avatar src={user.avatar} />
-    </Header>
+export const UserPreview: React.FC<UserPreviewProps> = ({ user }) => {
+  return (
+    <PaperContainerStyled>
+      <Header>
+        <Content username={user.username}>{user.bio}</Content>
+        <Avatar src={user.avatar} />
+      </Header>
 
-    <Meta cards={user.cards} />
-  </PaperContainerStyled>
-);
+      <Meta cards={user.cards} />
+    </PaperContainerStyled>
+  );
+};
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   min-height: 120px;
@@ -29,7 +31,7 @@ const PaperContainerStyled = styled(PaperContainer)`
   transition: 0.25s;
 
   &:hover {
-    box-shadow: 0px 3px 9px #ebebeb;
+    box-shadow: 0 3px 9px #ebebeb;
   }
 `;
 
@@ -48,8 +50,9 @@ const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
   return (
     <ContentStyled>
       <UserName type={TextType.header4} title={username}>
-        {data.map(({ isFound, text }) => (
-          <PartUserName key={text} data-is-selected={isFound}>
+        {data.map(({ isFound, text }, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <PartUserName key={index} data-is-selected={isFound}>
             {text}
           </PartUserName>
         ))}
@@ -69,13 +72,15 @@ const UserName = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-const Meta = ({ cards }: Pick<User, 'cards'>) => (
-  <MetaStyled>
-    <Text type={TextType.small}>
-      {cards.length} {plural(cards.length, 'card', 'cards')}
-    </Text>
-  </MetaStyled>
-);
+const Meta = ({ cards }: Pick<User, 'cards'>) => {
+  return (
+    <MetaStyled>
+      <Text type={TextType.small}>
+        {cards.length} {plural(cards.length, 'card', 'cards')}
+      </Text>
+    </MetaStyled>
+  );
+};
 const MetaStyled = styled.div`
   color: #9b99ac;
   display: flex;
