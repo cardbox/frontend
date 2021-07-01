@@ -5,9 +5,9 @@ import {
   ContentCenteredTemplate,
   Tab,
   Tabs,
-  iconUserBg,
   button,
   iconDeckArrow,
+  iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
 import { useStart, withStart } from '@box/lib/page-routing';

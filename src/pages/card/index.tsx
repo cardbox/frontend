@@ -28,8 +28,12 @@ export const CardPage = () => {
         <Sidebar>
           <UserCard user={user} />
           <Links>
-            <LinkEdit disabled href="#edit">Edit card</LinkEdit>
-            <LinkDelete disabled href="#delete">Delete card</LinkDelete>
+            <LinkEdit disabled href="#edit">
+              Edit card
+            </LinkEdit>
+            <LinkDelete disabled href="#delete">
+              Delete card
+            </LinkDelete>
           </Links>
         </Sidebar>
       </Container>

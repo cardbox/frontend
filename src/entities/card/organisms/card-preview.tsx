@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
+import { Link } from 'react-router-dom';
 import {
   PaperContainer,
   Skeleton,
@@ -13,7 +14,6 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
-import { Link } from 'react-router-dom';
 
 type CardType = 'item' | 'details';
 
