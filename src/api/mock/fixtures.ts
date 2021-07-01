@@ -152,7 +152,7 @@ export const cards: Card[] = [
   },
   {
     id: '2',
-    title: `Effector: sample vs forward`,
+    title: `Effector: sample vs forward, Effector: sample vs forward`,
     content: `Sample: This method can be used for linking two nodes, resulting the third one, which will fire only upon clock node trigger.\nForward: Method to create connection between units in a declarative way. Sends updates from one set of units to another`,
     author: viewer,
     createdAt: '2021-01-04T05:03:00.000Z',
@@ -161,7 +161,7 @@ export const cards: Card[] = [
   },
   {
     id: '3',
-    title: `Effects sequence`,
+    title: `Effects sequence, Effects sequence, Effects sequence`,
     content: `We'll need it when second request to the server requires resolved data from the first one
     \`\`\`
     import ReactDOM from 'react-dom'

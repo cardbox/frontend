@@ -30,7 +30,7 @@ interface CardPreviewProps {
    * @default "preview"
    */
   type?: CardType;
-  focusItemChanged: (direction: 'next' | 'prev') => void;
+  focusItemChanged?: (direction: 'next' | 'prev') => void;
 }
 
 export const CardPreview = ({
@@ -41,6 +41,11 @@ export const CardPreview = ({
   type = 'preview',
   focusItemChanged,
 }: CardPreviewProps) => {
+  const mouseDownCoords = React.useRef({
+    x: 0,
+    y: 0,
+  });
+
   const historyPush = useEvent(navigationModel.historyPush);
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
@@ -52,14 +57,32 @@ export const CardPreview = ({
     else historyPush(href);
   };
 
-  const handleClick = () => goToCard();
-  const handleWheel = () => goToCard({ inNewTab: true });
-
   const handleMouseDown: MouseEventHandler = (e) => {
-    if (e.button === 1) handleWheel();
+    if (e.button === 1) {
+      goToCard({ inNewTab: true });
+      return;
+    }
+    if (e.button === 0) {
+      mouseDownCoords.current = {
+        x: e.pageX,
+        y: e.pageY,
+      };
+    }
+  };
+
+  const handleMouseUp: MouseEventHandler = (e) => {
+    const yDiff = Math.abs(e.pageY - mouseDownCoords.current.y);
+    if (yDiff <= 5) {
+      goToCard();
+      return;
+    }
+    const xDiff = Math.abs(e.pageX - mouseDownCoords.current.x);
+    if (xDiff <= 5) goToCard();
   };
 
   const handleKeyDown: KeyboardEventHandler = (e) => {
+    if (!focusItemChanged) return;
+
     const { key, ctrlKey } = e;
     if (key === 'Enter') {
       goToCard({ inNewTab: ctrlKey });
@@ -79,9 +102,9 @@ export const CardPreview = ({
     <PaperContainerStyled
       data-type={type}
       // fixme: make paper as a link? (Link, a)
-      onClick={handleClick}
-      onMouseDown={handleMouseDown}
       tabIndex={0}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onKeyDown={handleKeyDown}
       aria-label="Open card"
     >
@@ -107,6 +130,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
   'data-type': CardType;
 }>`
   justify-content: space-between;
+  overflow: hidden;
 
   &[data-type='preview'] {
     height: 190px;
@@ -139,10 +163,10 @@ const Content: React.FC<ContentProps> = ({
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <Text type={TextType.header4}>
+      <TextStyled type={TextType.header4}>
         {href && <TitleLink to={href}>{title}</TitleLink>}
         {!href && title}
-      </Text>
+      </TextStyled>
       {type === 'details' && (
         <>
           <MetaStyled>
@@ -159,6 +183,11 @@ const Content: React.FC<ContentProps> = ({
     </ContentStyled>
   );
 };
+const TextStyled = styled(Text)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 
 const TitleLink = styled(Link)`
   color: unset;
@@ -192,6 +221,7 @@ const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
 
 const ContentStyled = styled.div`
   width: 100%;
+  overflow: hidden;
 `;
 
 const addButtonData = {
