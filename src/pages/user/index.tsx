@@ -1,119 +1,98 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, ContentCenteredTemplate, button } from '@cardbox/ui';
-import { CardList } from '@cardbox/entities/card';
+import {
+  Avatar,
+  ContentCenteredTemplate,
+  Tab,
+  Tabs,
+  iconUserBg,
+  button,
+  iconDeckArrow,
+} from '@box/ui';
+import { CardList, cardModel } from '@box/entities/card';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
-import { IconSave, LikeIcon, UserBg, UserLogoDefault } from '../../ui';
-import { Tab, Tabs } from '../../features/tabs';
+import * as model from './model';
+import { avatarUri } from '../../shared/constants';
+import { paths } from '../paths';
 
-export const UserPage = () => (
-  <>
-    <UnderLay bg={UserBg} />
-    <ContentCenteredTemplate>
-      <Container>
-        <UserHeader>
-          <UserFace>
-            <UserFaceContent>
-              <UserFaceName>LangCreator</UserFaceName>
-              <UserFacePosition>Frontend Lead at Yandex Music</UserFacePosition>
-              <UserLocation>Saint-Petersburg, Russia</UserLocation>
-              <UserFaceDescription>
-                Username description first row, second row
-              </UserFaceDescription>
-            </UserFaceContent>
-          </UserFace>
-          <UserSocial>
-            <SocialStaff>
-              <SocialStaffTitle>Social staff</SocialStaffTitle>
-              <SocialStaffList>
-                <SocialStaffItem>
-                  <Avatar
-                    size="small"
-                    src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+export const UserPage = () => {
+  useStart(model.pageLoaded);
+  const cards = useStore(cardModel.$cards);
+  const reversedCards = [...cards].reverse();
+  const isLoading = useStore(model.$pagePending);
+
+  return (
+    <>
+      <UnderLay bg={iconUserBg} />
+      <ContentCenteredTemplate>
+        <Container>
+          <UserHeader>
+            <UserFace>
+              <UserFaceContent>
+                <UserFaceName>LangCreator</UserFaceName>
+                <UserFacePosition>
+                  Frontend Lead at Yandex Music
+                </UserFacePosition>
+                <UserLocation>Saint-Petersburg, Russia</UserLocation>
+                <UserFaceDescription>
+                  Username description first row, second row
+                </UserFaceDescription>
+              </UserFaceContent>
+            </UserFace>
+            <UserSocial>
+              <SocialStaff>
+                <SocialStaffTitle>Social staff</SocialStaffTitle>
+                <SocialStaffList>
+                  <SocialStaffItem>
+                    <Avatar size="small" src={avatarUri} />
+                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+                  </SocialStaffItem>
+                  <SocialStaffItem>
+                    <Avatar size="small" src={avatarUri} />
+                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+                  </SocialStaffItem>
+                </SocialStaffList>
+              </SocialStaff>
+            </UserSocial>
+            <UserLogo>
+              <StAvatar size="large" src={avatarUri} />
+            </UserLogo>
+            <EditProfile disabled>
+              <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
+              Edit profile
+            </EditProfile>
+          </UserHeader>
+          <Main>
+            <UserCards>
+              <Tabs>
+                <Tab label="My cards">
+                  <CardList
+                    cards={cards}
+                    getHref={(card) => paths.card(card.id)}
+                    loading={isLoading}
                   />
-                  <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-                </SocialStaffItem>
-                <SocialStaffItem>
-                  <Avatar
-                    size="small"
-                    src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                  {/* TODO: Process "empty" case correctly */}
+                </Tab>
+                <Tab label="Saved">
+                  <CardList
+                    cards={reversedCards}
+                    getHref={(card) => paths.card(card.id)}
+                    loading={isLoading}
                   />
-                  <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-                </SocialStaffItem>
-              </SocialStaffList>
-            </SocialStaff>
-          </UserSocial>
-          <UserLogo>
-            <StAvatar
-              size="large"
-              src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            />
-            {/*<StAvatar size="large" src={UserLogoDefault} />*/}
-          </UserLogo>
-          <EditProfile>
-            <Icon src={IconSave} margin="0 1rem 0 0" />
-            Edit profile
-          </EditProfile>
-        </UserHeader>
-        <Main>
-          <UserCards>
-            <Tabs>
-              <Tab label="My cards">
-                <CardList cards={cards} />
-              </Tab>
-              <Tab label="Saved">
-                <CardList cards={cards} />
-              </Tab>
-            </Tabs>
-          </UserCards>
-        </Main>
+                  {/* TODO: Process "empty" case correctly */}
+                </Tab>
+              </Tabs>
+            </UserCards>
+          </Main>
+        </Container>
+      </ContentCenteredTemplate>
+    </>
+  );
+};
 
-        {/*<Main>*/}
-        {/*  <UserCards>*/}
-        {/*    <Tabs>*/}
-        {/*      <Tab label="Recent">*/}
-        {/*        <CardList cards={cards} />*/}
-        {/*      </Tab>*/}
-        {/*      <Tab label="Most view">*/}
-        {/*        <CardList cards={cards} />*/}
-        {/*      </Tab>*/}
-        {/*    </Tabs>*/}
-        {/*  </UserCards>*/}
-        {/*</Main>*/}
-        {/*<Sidebar>*/}
-        {/*</Sidebar>*/}
-      </Container>
-    </ContentCenteredTemplate>
-  </>
-);
-
-const cards = [
-  {
-    id: 1,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 2,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 3,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-];
+withStart(model.pageLoaded, UserPage);
 
 const Container = styled.div`
   display: flex;
@@ -158,6 +137,8 @@ const UserLogo = styled.div`
 
 const EditProfile = styled(button.Outline)`
   position: absolute;
+  display: flex;
+  align-items: center;
   right: 1.875rem;
   bottom: 1.5rem;
 `;
@@ -173,6 +154,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 
   & > *:last-child {
     margin-top: 6.25rem;

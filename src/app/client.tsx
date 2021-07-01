@@ -5,13 +5,21 @@ import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router';
 import { fork, hydrate } from 'effector/fork';
-import { history } from '@cardbox/entities/navigation';
+import { history } from '@box/entities/navigation';
 import { root } from 'effector-root';
 
 import { Application } from './application';
+import { runMockServer } from '../api/mock';
 
 // import { LOGGER_DOMAIN_NAME } from 'effector-logger/attach';
 // createInspector({ trimDomain: LOGGER_DOMAIN_NAME });
+
+/**
+ * Run mock-api server for frontend
+ * @see https://miragejs.com/quickstarts/react/develop-an-app/
+ * @see https://miragejs.com/quickstarts/nextjs/develop-an-app/
+ */
+runMockServer();
 
 hydrate(root, { values: INITIAL_STATE });
 

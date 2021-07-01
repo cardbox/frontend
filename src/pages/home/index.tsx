@@ -1,84 +1,86 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { CardList } from '@cardbox/entities/card';
-import { ContentCenteredTemplate } from '@cardbox/ui';
-import { useEvent, useStore } from 'effector-react/ssr';
-import { useStart, withStart } from '@cardbox/lib/page-routing';
+import { CardList, cardModel } from '@box/entities/card';
+import {
+  ContentCenteredTemplate,
+  Text,
+  TextType,
+  Toast,
+  button,
+} from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
+import { paths } from '../paths';
 
 export const HomePage = () => {
   useStart(model.pageLoaded);
-  const increment = useEvent(model.incrementClicked);
-  const reset = useEvent(model.resetClicked);
-
-  const counterValue = useStore(model.$counterValue);
-  const pagePending = useStore(model.$pagePending);
+  const cards = useStore(cardModel.$cards);
+  const isLoading = useStore(model.$pagePending);
 
   return (
     <ContentCenteredTemplate>
-      <Container>
+      <Hero>
+        <HeroCol>
+          <PrimaryText type={TextType.header1}>Cardbox</PrimaryText>
+          <Text type={TextType.header1}>Storage of all your ideas</Text>
+          <p>
+            The purpose of this product is to create a convenient repository of
+            your ideas with the ability to share them with others and keep all
+            the accumulated knowledge up to date.
+          </p>
+        </HeroCol>
+        <HeroCol>
+          <ToastContainer>
+            <Toast extra={<button.Secondary>More...</button.Secondary>}>
+              Help us make the best idea storage service!
+            </Toast>
+          </ToastContainer>
+        </HeroCol>
+      </Hero>
+      <Content>
         <Main>
-          <CardList cards={cards} />
+          <CardList
+            cards={cards}
+            getHref={(card) => paths.card(card.id)}
+            loading={isLoading}
+          />
+          {/* TODO: Process "empty" case correctly */}
         </Main>
-      </Container>
+      </Content>
     </ContentCenteredTemplate>
   );
 };
 
 withStart(model.pageLoaded, HomePage);
 
-const cards = [
-  {
-    id: 1,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 2,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 3,
-    title: 'Manage map or Set in effector store',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 4,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-  {
-    id: 5,
-    title:
-      'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-    updatedAt: '05:03 03.01.2',
-    author: 'Sova',
-    content:
-      'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
-  },
-];
+const Hero = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  margin-bottom: 60px;
+`;
 
-const Container = styled.div`
+const HeroCol = styled.div``;
+
+const ToastContainer = styled.div`
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const PrimaryText = styled(Text)`
+  color: var(--wizard500);
+`;
+
+const Content = styled.div`
   display: flex;
   padding-bottom: 3rem;
 `;
 
 const Main = styled.div`
-  //width: 74.5%; /* 1044 / 1404 * 100 */
+  /* NOTE: Maybe return back later or delete permanently */
+  // width: 74.5%; /* 1044 / 1404 * 100 */
+  width: 100%;
 `;

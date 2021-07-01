@@ -1,81 +1,192 @@
+import * as editorLib from '@box/lib/editor';
 import React from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
+import type { Card } from '@box/api';
+import { Editor } from '@cardbox/editor';
+import {
+  PaperContainer,
+  Skeleton,
+  Text,
+  TextType,
+  button,
+  iconDeckArrow,
+  iconDeckCheck,
+} from '@box/ui';
 import { Link } from 'react-router-dom';
 
-import { Card } from '../types';
-import { IconSave } from '../../../ui';
+type CardType = 'item' | 'details';
 
-interface Props {
-  card: Card;
+interface CardPreviewProps {
+  card: Card | null;
+  isCardInFavorite: boolean;
+  href?: string;
+  loading?: boolean;
+  /**
+   * @remark May be in future - make sense to split independent components - CardItem, CardDetails
+   * @default "item"
+   */
+  type?: CardType;
 }
 
-export const CardPreview: React.FC<Props> = ({ card }) => {
-  const truncate = (str: string, n: number) => {
-    return str.length > n ? str.slice(0, n - 1) + '...' : str;
-  };
+export const CardPreview: React.FC<CardPreviewProps> = ({
+  card,
+  isCardInFavorite,
+  href,
+  loading,
+  type = 'item',
+}) => {
+  // FIXME: refine size of card pre-detecting
+  if (loading) return <Skeleton />;
+  if (!card) return null;
   return (
-    <Container>
+    <PaperContainerStyled data-type={type}>
+      {/*<Container>*/}
       <Header>
-        <Title>{card.title}</Title>
-        <Link to={`/card/${card.id}`}>
-          <SaveButton src={IconSave} />
-        </Link>
+        <Content
+          title={card.title}
+          content={card.content}
+          href={href}
+          type={type}
+          updatedAt={card.updatedAt}
+        />
+        <AddButton isCardToDeckAdded={isCardInFavorite} />
       </Header>
-      <Meta>
-        Update {card.updatedAt}, {card.author}
-      </Meta>
-      <Body>{truncate(card.content, 115)}</Body>
-    </Container>
+      {type === 'item' && (
+        <Meta author={card.author} updatedAt={card.updatedAt} />
+      )}
+    </PaperContainerStyled>
   );
 };
 
-const Container = styled.article`
-  position: relative;
-  background-color: #fbfafb;
-  border: 1px solid #e7e5ee;
-  border-radius: 6px;
-  box-shadow: 0 6px 9px #f6f5f8;
-  color: #1a1e23;
-  padding: 1.125rem 1.5rem 3.938rem 1.5rem;
-  cursor: pointer;
-  max-height: 13.5rem;
+const PaperContainerStyled = styled(PaperContainer)<{
+  'data-type': CardType;
+}>`
+  justify-content: space-between;
+
+  &[data-type='item'] {
+    height: 190px;
+    transition: 0.25s;
+
+    &:hover {
+      box-shadow: 0px 3px 9px #ebebeb;
+    }
+  }
+
+  &[data-type='details'] {
+    background: #fff;
+    min-height: 190px;
+  }
+`;
+
+type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
+  Pick<CardPreviewProps, 'href' | 'type'>;
+
+const Content: React.FC<ContentProps> = ({
+  content,
+  title,
+  href,
+  type,
+  updatedAt,
+}) => {
+  return (
+    <ContentStyled>
+      {/* FIXME: Add text-overflow processing */}
+      <Text type={TextType.header4}>
+        {href && <TitleLink to={href}>{title}</TitleLink>}
+        {!href && title}
+      </Text>
+      {type === 'details' && (
+        <>
+          <MetaStyled>
+            <Text type={TextType.mini}>
+              Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
+            </Text>
+          </MetaStyled>
+          <Editor value={editorLib.getValueNode(content)} readOnly={true} />
+        </>
+      )}
+      {type === 'item' && (
+        <ContentText type={TextType.small}>{content}</ContentText>
+      )}
+    </ContentStyled>
+  );
+};
+
+const TitleLink = styled(Link)`
+  color: unset;
+  text-decoration: unset;
+  transition: 0.25s;
+
+  &:hover {
+    color: var(--wizard500);
+  }
+`;
+
+const ContentText = styled(Text)`
+  color: #62616d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: pre-line;
+`;
+
+const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
+  <MetaStyled>
+    {/* FIXME: bind with API later */}
+    <Text type={TextType.small}>EffectorMaster</Text>
+    <Text type={TextType.mini}>
+      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
+    </Text>
+  </MetaStyled>
+);
+
+const ContentStyled = styled.div`
+  width: 100%;
+`;
+
+const addButtonData = {
+  true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
+  false: { src: iconDeckArrow, alt: 'Add card to my deck' },
+};
+const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
+  return (
+    <AddButtonStyled data-is-card-to-deck-added={isCardToDeckAdded}>
+      <img
+        src={addButtonData[isCardToDeckAdded.toString()].src}
+        alt={addButtonData[isCardToDeckAdded.toString()].alt}
+        title={addButtonData[isCardToDeckAdded.toString()].alt}
+      />
+    </AddButtonStyled>
+  );
+};
+
+const AddButtonStyled = styled(button.Icon)<{
+  'data-is-card-to-deck-added': boolean;
+}>`
+  &[data-is-card-to-deck-added='true'] {
+    background-color: #f7f6ff;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
 `;
 
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  position: relative;
+
+  & > *:not(:first-child) {
+    margin-left: 1rem;
+  }
 `;
 
-const Title = styled.h3`
-  font-size: 1.875rem;
-  font-weight: 500;
-  line-height: 2.625rem;
-  margin: 0;
-  text-decoration: none;
-`;
-
-const Meta = styled.div`
-  color: #a39bb2;
-  flex-shrink: 0;
-  font-size: 0.75rem;
-  margin-left: auto;
-  position: absolute;
-  right: 1.875rem;
-  bottom: 1.5rem;
-`;
-
-const SaveButton = styled.img`
-  background: #ffffff;
-
-  border: 1px solid #eeeef1;
-  border-radius: 3px;
-  width: 3rem;
-  height: 2.625rem;
-`;
-
-const Body = styled.div`
-  font-size: 0.9375rem;
-  line-height: 1.3125rem;
-  padding: 1rem 0;
+const MetaStyled = styled.div`
+  color: #9b99ac;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

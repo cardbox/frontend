@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@cardbox/ui';
+import { Avatar } from '@box/ui';
+import { Link } from 'react-router-dom';
 
 // Временно
 interface User {
@@ -11,12 +12,16 @@ interface User {
 
 interface Props {
   user: User;
+  href?: string;
 }
 
-export const UserCard: React.FC<Props> = ({ user }) => (
+export const UserCard: React.FC<Props> = ({ user, href }) => (
   <Container>
     <Content>
-      <Name>{user.name}</Name>
+      <Name>
+        {href && <TitleLink to={href}>{user.name}</TitleLink>}
+        {!href && user.name}
+      </Name>
       <Role>{user.role}</Role>
     </Content>
     <Avatar src={user.avatar} />
@@ -48,4 +53,14 @@ const Role = styled.div`
   color: #a39bb2;
   font-size: 0.8125rem;
   line-height: 1rem;
+`;
+
+const TitleLink = styled(Link)`
+  color: unset;
+  text-decoration: unset;
+  transition: 0.25s;
+
+  &:hover {
+    color: var(--wizard500);
+  }
 `;

@@ -1,16 +1,23 @@
-import React from 'react';
 import styled from 'styled-components';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@cardbox/ui';
+import React, { useEffect } from 'react';
+import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import { useEvent } from 'effector-react/ssr';
 
+import * as model from '../models';
 import { Search } from '../molecules';
+import { avatarUri } from '../../../shared/constants';
+import { paths } from '../../../pages/paths';
+import { useSearchQuery } from '../lib';
 
 export const Searchbar = () => {
+  useSearchQueryChanged();
+
   return (
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Link to="/">
+          <Link to={paths.home()}>
             <img src={IconLogo} alt="Logo" />
           </Link>
           <SearchWrapper>
@@ -18,7 +25,7 @@ export const Searchbar = () => {
           </SearchWrapper>
           <Link to="/user">
             <LoginBlock>
-              <Avatar src="https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+              <Avatar src={avatarUri} />
             </LoginBlock>
           </Link>
           <button.Base>New card</button.Base>
@@ -28,9 +35,18 @@ export const Searchbar = () => {
   );
 };
 
+function useSearchQueryChanged() {
+  const query = useSearchQuery();
+  const searchValueChanged = useEvent(model.searchValueChanged);
+
+  useEffect(() => {
+    searchValueChanged(query);
+  }, [query, searchValueChanged]);
+}
+
 const Container = styled.header`
   background-color: #fff;
-  box-shadow: 0px 6px 9px #f6f5f8;
+  box-shadow: 0 6px 9px #f6f5f8;
   display: flex;
   flex-shrink: 0;
   justify-content: center;

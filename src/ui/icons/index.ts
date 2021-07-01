@@ -1,5 +1,6 @@
 export { default as IconLogo } from './logo.svg';
-export { default as LikeIcon } from './like.svg';
-export { default as UserLogoDefault } from './default_userlogo.svg';
-export { default as IconSave } from './save.svg';
-export { default as UserBg } from './user_bg.svg';
+export { default as iconLike } from './like.svg';
+export { default as iconUserLogoDefault } from './default_userlogo.svg';
+export { default as iconUserBg } from './user_bg.svg';
+export { default as iconDeckCheck } from './deck-check.svg';
+export { default as iconDeckArrow } from './deck-arrow.svg';

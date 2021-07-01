@@ -10,12 +10,15 @@
     "start:prod": "NODE_ENV=production node build/server.js",
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
     "commit": "git-cz",
-    "lint": "eslint --fix ./src"
+    "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
   "dependencies": {
-    "@effector/reflect": "^0.5.0",
+    "@cardbox/editor": "^0.0.8",
+    "@effector/reflect": "^0.6.0",
+    "@tippyjs/react": "^4.2.5",
     "cookie-parser": "^1.4.5",
     "cross-fetch": "^3.0.4",
+    "dayjs": "^1.10.5",
     "dotenv": "^8.2.0",
     "effector": "^21.2.2",
     "effector-inspector": "^0.4.2",
@@ -24,8 +27,9 @@
     "effector-root": "^1.1.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
+    "miragejs": "^0.1.41",
     "node-fetch": "^2.6.1",
-    "patronum": "^0.106.0",
+    "patronum": "^1.1.0",
     "query-string": "^6.13.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -34,10 +38,14 @@
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.0.1",
+    "react-tabs": "^3.2.2",
     "styled-components": "^5.1.1",
-    "through": "^2.3.8"
+    "through": "^2.3.8",
+    "tippy.js": "^6.3.1",
+    "use-query-params": "^1.2.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.14.5",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
     "@eslint-kit/eslint-config-base": "^2.1.0",
@@ -57,6 +65,7 @@
     "@types/react-router": "^5.1.12",
     "@types/react-router-config": "^5.0.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-tabs": "^2.3.2",
     "@types/styled-components": "^5.1.1",
     "@types/webpack-env": "^1.15.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -96,7 +105,7 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "json"],
     "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
     "moduleNameMapper": {
-      "^@cardbox/(.*)$": "<rootDir>/src/$1"
+      "^@box/(.*)$": "<rootDir>/src/$1"
     }
   },
   "config": {

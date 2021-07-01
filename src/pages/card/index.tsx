@@ -1,77 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardPreview } from '@cardbox/entities/card';
-import {
-  ContentCenteredTemplate,
-  IconSave,
-  UserCard,
-  button,
-} from '@cardbox/ui';
+import { CardPreview, cardModel } from '@box/entities/card';
+import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
 
-const SaveEditIcon = ({ fill = 'black' }) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M19.9504 9.04956L17 12V17C17 17.5523 16.5523 18 16 18H8C7.44771 18 7 17.5523 7 17V12L4.04957 9.04956"
-      stroke={fill}
-      strokeWidth="1.5"
-    />
-    <path d="M12 6V10" stroke={fill} strokeWidth="1.5" strokeLinecap="square" />
-    <path d="M14.8284 8L12 10.8284L9.17157 8" stroke={fill} strokeWidth="1.5" />
-  </svg>
-);
+import * as model from './model';
+import { avatarUri } from '../../shared/constants';
 
-export const CardPage = () => (
-  <ContentCenteredTemplate>
-    <Container>
-      <Main>
-        <CardPreview card={card} />
-      </Main>
-      <Sidebar>
-        <UserCard user={user} />
-        <Links>
-          <button.Outline>
-            <Icon>
-              <img src={IconSave} alt="edit" />
-            </Icon>
-            Edit card
-          </button.Outline>
-          <DeleteCardButton>
-            <Icon>
-              <SaveEditIcon fill="#ef3a5b" />
-            </Icon>
-            Delete card
-          </DeleteCardButton>
-        </Links>
-      </Sidebar>
-    </Container>
-  </ContentCenteredTemplate>
-);
+export const CardPage = () => {
+  useStart(model.pageLoaded);
+  const card = useStore(cardModel.$currentCard);
+  const isLoading = useStore(model.$pagePending);
 
-const card = {
-  id: 1,
-  title:
-    'Manage map or Set in effector store. Manage map or Set in effector store. Manage map or Set in effector store.',
-  updatedAt: '05:03 03.01.2',
-  author: 'Sova',
-  content:
-    'Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)',
+  return (
+    <ContentCenteredTemplate>
+      <Container>
+        <Main>
+          <CardPreview
+            card={card}
+            loading={isLoading}
+            isCardInFavorite={false}
+            type="details"
+          />
+          {/* TODO: Process "empty" case correctly */}
+        </Main>
+        <Sidebar>
+          <UserCard user={user} />
+          <Links>
+            <LinkEdit disabled href="#edit">Edit card</LinkEdit>
+            <LinkDelete disabled href="#delete">Delete card</LinkDelete>
+          </Links>
+        </Sidebar>
+      </Container>
+    </ContentCenteredTemplate>
+  );
 };
 
+withStart(model.pageLoaded, CardPage);
+
 const user = {
-  avatar:
-    'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  avatar: avatarUri,
   name: 'LangCreator',
   role: 'Owner',
 };
 
+const map = (props: { disabled?: boolean }) => ({
+  'data-disabled': props.disabled,
+});
+
 const Container = styled.div`
   display: flex;
+  padding: 0 126px 126px 126px;
 
   & > *:first-child {
     margin-right: 2.25rem;
@@ -102,10 +82,23 @@ const Links = styled.div`
   }
 `;
 
-const DeleteCardButton = styled(button.Outline)`
-  color: #ef3a5b;
+const Link = styled.a.attrs(map)<{ disabled?: boolean }>`
+  font-size: 0.9375rem;
+  line-height: 1.1875rem;
+  &:not(:hover) {
+    text-decoration: none;
+  }
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+  }
 `;
 
-const Icon = styled.div`
-  margin-right: 0.75rem;
+const LinkEdit = styled(Link)`
+  color: #683aef;
+`;
+
+const LinkDelete = styled(Link)`
+  color: #ef3a5b;
 `;

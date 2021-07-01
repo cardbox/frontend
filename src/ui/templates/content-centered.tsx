@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const ContentCenteredTemplate: React.FC<Props> = ({ children }) => (
+export const ContentCenteredTemplate: React.FC = ({ children }) => (
   <Container>
     <Content>{children}</Content>
   </Container>
@@ -19,5 +15,8 @@ const Container = styled.div`
 
 const Content = styled.div`
   max-width: calc(100% - 36px);
-  width: 1404px;
+  /* NOTE: Return later, after "large-pages" adaptation */
+  /* width: 1404px; */
+  width: 100%;
+  padding: 0 66px;
 `;

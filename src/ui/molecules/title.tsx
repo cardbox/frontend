@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { button } from '@cardbox/ui';
+import { button } from '@box/ui';
 
 interface TitleProps {
   title: string;
@@ -19,7 +19,7 @@ const TabTitle: React.FC<TitleProps> = ({
     setSelectedTab(index);
   }, [setSelectedTab, index]);
   return (
-    <Button active={index === active} onClick={onClick}>
+    <Button type="button" active={index === active} onClick={onClick}>
       {title}
     </Button>
   );
