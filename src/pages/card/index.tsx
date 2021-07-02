@@ -6,6 +6,7 @@ import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
+import { avatarUri } from '../../shared/constants';
 
 export const CardPage = () => {
   useStart(model.pageLoaded);
@@ -25,10 +26,14 @@ export const CardPage = () => {
           {/* TODO: Process "empty" case correctly */}
         </Main>
         <Sidebar>
-          <UserCard user={user} href="/user" />
+          <UserCard user={user} />
           <Links>
-            <LinkEdit href="#edit">Edit card</LinkEdit>
-            <LinkDelete href="#delete">Delete card</LinkDelete>
+            <LinkEdit disabled href="#edit">
+              Edit card
+            </LinkEdit>
+            <LinkDelete disabled href="#delete">
+              Delete card
+            </LinkDelete>
           </Links>
         </Sidebar>
       </Container>
@@ -39,11 +44,14 @@ export const CardPage = () => {
 withStart(model.pageLoaded, CardPage);
 
 const user = {
-  avatar:
-    'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  avatar: avatarUri,
   name: 'LangCreator',
   role: 'Owner',
 };
+
+const map = (props: { disabled?: boolean }) => ({
+  'data-disabled': props.disabled,
+});
 
 const Container = styled.div`
   display: flex;
@@ -78,11 +86,15 @@ const Links = styled.div`
   }
 `;
 
-const Link = styled.a`
+const Link = styled.a.attrs(map)<{ disabled?: boolean }>`
   font-size: 0.9375rem;
   line-height: 1.1875rem;
-
   &:not(:hover) {
+    text-decoration: none;
+  }
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
     text-decoration: none;
   }
 `;

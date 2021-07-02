@@ -29,19 +29,19 @@ interface CardPreviewProps {
   type?: CardType;
 }
 
-export const CardPreview = ({
+export const CardPreview: React.FC<CardPreviewProps> = ({
   card,
   isCardInFavorite,
   href,
   loading,
   type = 'item',
-}: CardPreviewProps) => {
+}) => {
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
-
   return (
     <PaperContainerStyled data-type={type}>
+      {/*<Container>*/}
       <Header>
         <Content
           title={card.title}
@@ -52,7 +52,6 @@ export const CardPreview = ({
         />
         <AddButton isCardToDeckAdded={isCardInFavorite} />
       </Header>
-
       {type === 'item' && (
         <Meta author={card.author} updatedAt={card.updatedAt} />
       )}

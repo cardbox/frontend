@@ -32,7 +32,10 @@ export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 1.5rem;
-  flex-direction: column;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1.125rem;
+
+  & > *:not(:last-child) {
+    margin-bottom: 1.125rem;
+  }
 `;

@@ -4,8 +4,11 @@ const Base = styled.button`
   align-items: center;
   background-color: transparent;
   border: 1px solid var(--wizard500);
+  // background-color: #000;
+  // border: 1px solid #000;
   border-radius: 3px;
-  color: var(--wizard500);
+  color: var(--wizard500)
+  // color: #fff;
   display: flex;
   font-size: 1.125rem;
   height: 42px;
@@ -54,9 +57,17 @@ const Icon = styled(Base)`
   }
 `;
 
+const Outline = styled(Base)`
+  background-color: #ffffff;
+  border: 1px solid #eeeef1;
+  border-radius: 0.188rem;
+  color: #000000;
+`;
+
 export const button = {
   Base,
   Secondary,
   Text,
   Icon,
+  Outline,
 };
