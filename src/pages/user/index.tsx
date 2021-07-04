@@ -10,6 +10,7 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
+import { Helmet } from 'react-helmet-async';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
@@ -25,6 +26,8 @@ export const UserPage = () => {
 
   return (
     <>
+      {/* TODO: Remove later hardcoding after fetching current user */}
+      <Helmet title="LangCreator" />
       <UnderLay bg={iconUserBg} />
       <ContentCenteredTemplate>
         <Container>

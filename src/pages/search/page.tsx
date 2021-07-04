@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { CardList } from '@box/entities/card';
 import { ContentCenteredTemplate, Text, TextType } from '@box/ui';
+import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
@@ -25,10 +26,13 @@ export const SearchPage = () => {
   }, [searchQuery]);
 
   return (
-    <ContentCenteredTemplate>
-      <SearchTitle />
-      <SearchTabs />
-    </ContentCenteredTemplate>
+    <>
+      <Helmet title={`Search · ${searchQuery}`} />
+      <ContentCenteredTemplate>
+        <SearchTitle />
+        <SearchTabs />
+      </ContentCenteredTemplate>
+    </>
   );
 };
 
