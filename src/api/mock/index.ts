@@ -51,6 +51,16 @@ export function runMockServer() {
         return { user: schema.db.users.find(viewer.id) };
       });
 
+      this.post('/users.get', (schema, request) => {
+        const payload = JSON.parse(request.requestBody);
+        const { username } = payload;
+        if (!username) return { user: null };
+
+        return {
+          user: schema.db.users.findBy({ username: username.params.username }),
+        };
+      });
+
       this.post('/cards.list', (schema) => {
         return { cards: schema.db.cards };
       });

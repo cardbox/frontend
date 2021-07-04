@@ -83,12 +83,12 @@ export const userAlex: User = {
   id: '7',
   username: 'asvtsv',
   firstName: 'Alexander',
-  lastName: '',
+  lastName: 'Sivtsov',
   socials: { github: 'https://github.com/asvtsv' },
   bio: 'Cherry-picky and into master :)',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/9406938?v=4',
-  cards: stubCards(3),
+  cards: ['1', '3', '5'],
   favorites: stubCards(8),
 };
 
@@ -167,7 +167,7 @@ export const cards: Card[] = [
     import ReactDOM from 'react-dom'
 
     const getAllId = createEffect({handler: async () => [1, 2, 3]})
-    
+
     const getPostsByIds = createEffect({
       handler: ids => Promise.all(ids.map(
         async id => {
@@ -179,12 +179,12 @@ export const cards: Card[] = [
         }
       ))
     })
-    
+
     forward({
       from: getAllId.done.map(({result}) => result),
       to: getPostsByIds,
     })
-    
+
     const postGroups = createStore([])
       .on(getPostsByIds.done, (list, {result}) => [
         ...list,

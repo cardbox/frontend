@@ -74,6 +74,13 @@ export const users = {
       method: 'POST',
     });
   },
+  get(username: string) {
+    return requestClient<{ user: User | null }>({
+      path: '/users.get',
+      method: 'POST',
+      body: { username },
+    });
+  },
 };
 
 export const search = {

@@ -12,7 +12,6 @@ export const CardPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
-
   return (
     <ContentCenteredTemplate>
       <Container>
