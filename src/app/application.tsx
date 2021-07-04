@@ -42,7 +42,7 @@ export const Application: React.FC<Props> = ({ root }) => (
       <Container>
         <Helmet
           htmlAttributes={{ lang: 'en' }}
-          titleTemplate="%s @ Cardbox"
+          titleTemplate="%s | Cardbox"
           defaultTitle="Welcome to Cardbox"
         >
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

@@ -1,3 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
-export const Error404Page = () => <div>Page not found</div>;
+export const Error404Page = () => (
+  <>
+    <Helmet title="Not found" />
+    <div>Page not found</div>
+  </>
+);
