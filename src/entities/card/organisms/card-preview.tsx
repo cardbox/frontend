@@ -14,9 +14,8 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
-
-import { navigationModel } from '../../navigation';
 
 type CardType = 'preview' | 'details';
 

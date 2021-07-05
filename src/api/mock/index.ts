@@ -3,6 +3,7 @@ import { Model, belongsTo, createServer, hasMany } from 'miragejs';
 import type { Card, User } from '../types';
 import { cards, users, viewer } from './fixtures';
 
+/** little shortcut for search */
 function hasIncluding({
   including,
   query,
