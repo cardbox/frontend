@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   Avatar,
   ContentCenteredTemplate,
@@ -7,7 +7,7 @@ import {
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
-import { CardList, cardModel } from '@box/entities/card';
+import { CardList } from '@box/entities/card';
 // import { Redirect } from 'react-router';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
@@ -20,7 +20,6 @@ import { paths } from '../paths';
 export const UserPage = () => {
   useStart(model.pageLoaded);
   const userInfo = useStore(userModel.$currentUser);
-  const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
   if (isLoading || !userInfo) return <Skeleton />;
@@ -48,18 +47,14 @@ export const UserPage = () => {
               <SocialStaff>
                 <SocialStaffTitle>Social staff</SocialStaffTitle>
                 <SocialStaffList>
-                  <SocialStaffItem>
-                    <Avatar size="small" src={userInfo.avatar} />
-                    <SocialStaffItemText>
-                      {userInfo.username}
-                    </SocialStaffItemText>
-                  </SocialStaffItem>
-                  <SocialStaffItem>
-                    <Avatar size="small" src={userInfo.avatar} />
-                    <SocialStaffItemText>
-                      {userInfo.username}
-                    </SocialStaffItemText>
-                  </SocialStaffItem>
+                  {userInfo.socials?.map(({ link, nickname }) => (
+                    <SocialStaffItem key={`${nickname}`}>
+                      <SocialLink href={link}>
+                        <Avatar size="small" src={userInfo.avatar} />
+                        <SocialStaffItemText>@{nickname}</SocialStaffItemText>
+                      </SocialLink>
+                    </SocialStaffItem>
+                  ))}
                 </SocialStaffList>
               </SocialStaff>
             </UserSocial>
@@ -75,7 +70,8 @@ export const UserPage = () => {
             <UserCards>
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
-                cards={cards}
+                // @ts-ignore
+                cards={userInfo.cards}
                 getHref={(card) => paths.card(card.id)}
                 loading={isLoading}
               />
@@ -177,13 +173,17 @@ const UserFaceName = styled.div`
   line-height: 3rem;
 `;
 
-const UserFaceDescription = styled.div`
+const FontDescription = css`
   font-style: normal;
   font-weight: normal;
   font-size: 1.125rem;
   line-height: 1.5rem;
   max-width: 16.5rem;
   margin-top: 2.25rem;
+`;
+
+const UserFaceDescription = styled.div`
+  ${FontDescription}
 `;
 
 const UserFacePosition = styled(UserFaceDescription)`
@@ -227,13 +227,13 @@ const SocialStaffItem = styled.div`
   align-items: center;
   display: flex;
 
-  & > *:first-child {
+  & > a > *:first-child {
     margin-right: 12px;
   }
 `;
 
-const SocialStaffItemText = styled.div`
-  font-size: 0.9375rem;
+const SocialStaffItemText = styled.span`
+  color: #000;
 `;
 
 const UserCardTitle = styled.div`
@@ -246,4 +246,12 @@ const UserCardTitle = styled.div`
   & > *:last-child {
     margin-right: 0;
   }
+`;
+
+const SocialLink = styled.a`
+  ${FontDescription}
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 0;
 `;
