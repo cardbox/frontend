@@ -3,45 +3,45 @@ import styled from 'styled-components';
 import {
   Avatar,
   ContentCenteredTemplate,
-  Tab,
-  Tabs,
   button,
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
-import { Helmet } from 'react-helmet-async';
+// import { Redirect } from 'react-router';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+import { userModel } from '@box/entities/user';
 
 import * as model from './model';
-import { avatarUri } from '../../shared/constants';
+import { Skeleton } from './skeleton';
 import { paths } from '../paths';
 
 export const UserPage = () => {
   useStart(model.pageLoaded);
+  const userInfo = useStore(userModel.$currentUser);
   const cards = useStore(cardModel.$cards);
-  const reversedCards = [...cards].reverse();
   const isLoading = useStore(model.$pagePending);
+
+  if (isLoading || !userInfo) return <Skeleton />;
+
+  // if (!userInfo) return <Redirect to="/404" />;
 
   return (
     <>
-      {/* TODO: Remove later hardcoding after fetching current user */}
-      <Helmet title="LangCreator" />
       <UnderLay bg={iconUserBg} />
       <ContentCenteredTemplate>
         <Container>
           <UserHeader>
             <UserFace>
               <UserFaceContent>
-                <UserFaceName>LangCreator</UserFaceName>
-                <UserFacePosition>
-                  Frontend Lead at Yandex Music
-                </UserFacePosition>
+                <UserFaceName>
+                  {userInfo.firstName}&nbsp;
+                  {userInfo.lastName}
+                </UserFaceName>
+                <UserFacePosition>{userInfo.work}</UserFacePosition>
                 <UserLocation>Saint-Petersburg, Russia</UserLocation>
-                <UserFaceDescription>
-                  Username description first row, second row
-                </UserFaceDescription>
+                <UserFaceDescription>{userInfo.bio}</UserFaceDescription>
               </UserFaceContent>
             </UserFace>
             <UserSocial>
@@ -49,18 +49,22 @@ export const UserPage = () => {
                 <SocialStaffTitle>Social staff</SocialStaffTitle>
                 <SocialStaffList>
                   <SocialStaffItem>
-                    <Avatar size="small" src={avatarUri} />
-                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+                    <Avatar size="small" src={userInfo.avatar} />
+                    <SocialStaffItemText>
+                      {userInfo.username}
+                    </SocialStaffItemText>
                   </SocialStaffItem>
                   <SocialStaffItem>
-                    <Avatar size="small" src={avatarUri} />
-                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
+                    <Avatar size="small" src={userInfo.avatar} />
+                    <SocialStaffItemText>
+                      {userInfo.username}
+                    </SocialStaffItemText>
                   </SocialStaffItem>
                 </SocialStaffList>
               </SocialStaff>
             </UserSocial>
             <UserLogo>
-              <StAvatar size="large" src={avatarUri} />
+              <StAvatar size="large" src={userInfo.avatar} />
             </UserLogo>
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
@@ -69,24 +73,12 @@ export const UserPage = () => {
           </UserHeader>
           <Main>
             <UserCards>
-              <Tabs>
-                <Tab label="My cards">
-                  <CardList
-                    cards={cards}
-                    getHref={(card) => paths.card(card.id)}
-                    loading={isLoading}
-                  />
-                  {/* TODO: Process "empty" case correctly */}
-                </Tab>
-                <Tab label="Saved">
-                  <CardList
-                    cards={reversedCards}
-                    getHref={(card) => paths.card(card.id)}
-                    loading={isLoading}
-                  />
-                  {/* TODO: Process "empty" case correctly */}
-                </Tab>
-              </Tabs>
+              <UserCardTitle>User cards</UserCardTitle>
+              <CardList
+                cards={cards}
+                getHref={(card) => paths.card(card.id)}
+                loading={isLoading}
+              />
             </UserCards>
           </Main>
         </Container>
@@ -261,4 +253,16 @@ const SocialStaffItem = styled.div`
 
 const SocialStaffItemText = styled.div`
   font-size: 0.9375rem;
+`;
+
+const UserCardTitle = styled.div`
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  color: #000000;
+  padding: 0;
+  margin-right: 1.875rem;
+  margin-bottom: 20px;
+  & > *:last-child {
+    margin-right: 0;
+  }
 `;
