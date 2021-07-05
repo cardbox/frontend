@@ -51,6 +51,7 @@ const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
     <ContentStyled>
       <UserName type={TextType.header4} title={username}>
         {data.map(({ isFound, text }, index) => (
+          // no need to handle index issue here
           // eslint-disable-next-line react/no-array-index-key
           <PartUserName key={index} data-is-selected={isFound}>
             {text}
