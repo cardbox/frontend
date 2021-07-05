@@ -177,12 +177,6 @@ const UserFaceName = styled.div`
   line-height: 3rem;
 `;
 
-const UserFaceFollowers = styled.div`
-  font-size: 0.938rem;
-  line-height: 1.125rem;
-  margin-bottom: 1rem;
-`;
-
 const UserFaceDescription = styled.div`
   font-style: normal;
   font-weight: normal;
@@ -201,25 +195,12 @@ const UserLocation = styled(UserFaceDescription)`
   margin-top: 0;
 `;
 
-const UserActions = styled.div`
-  display: flex;
-  margin-left: 3.375rem;
-  & > *:first-child {
-    margin-right: 0.938rem;
-  }
-`;
-
 const Icon = styled.img<{ margin?: string }>`
   margin: ${({ margin }) => margin || 0};
 `;
 
 const UserCards = styled.div`
   margin-bottom: 8.25rem;
-`;
-
-const Sidebar = styled.div`
-  flex-shrink: 0;
-  width: 324px;
 `;
 
 const SocialStaff = styled.div`

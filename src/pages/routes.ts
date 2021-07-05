@@ -1,9 +1,9 @@
-import { UserPage } from './user';
 import { CardPage } from './card';
 import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
 import { SearchPage } from './search';
+import { UserPage } from './user';
 // import { UserPage } from './user';
 import { paths } from './paths';
 
