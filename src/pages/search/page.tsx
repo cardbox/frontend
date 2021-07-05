@@ -6,8 +6,8 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
 import { reflect } from '@effector/reflect/ssr';
+import { searchModel, useSearchQuery } from '@box/features/search-bar';
 import { useEvent } from 'effector-react/ssr';
-import { useSearchQuery } from '@box/features/search-bar';
 
 import * as model from './model';
 import { paths } from '../paths';
@@ -91,7 +91,7 @@ const TabStyled = styled(Tab)`
 const CardResults = reflect({
   view: CardList,
   bind: {
-    cards: model.$searchResultCardList,
+    cards: searchModel.$searchResultCardList,
     getHref: (card) => paths.card({ id: card.id }),
     loading: model.$isShowLoading,
   },
@@ -100,7 +100,7 @@ const CardResults = reflect({
 const UserResults = reflect({
   view: UserPreviewList,
   bind: {
-    users: model.$searchResultUserList,
+    users: searchModel.$searchResultUserList,
     loading: model.$isShowLoading,
   },
 });

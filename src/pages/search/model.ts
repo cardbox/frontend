@@ -1,39 +1,13 @@
-import type { Card, User } from '@box/api';
-import {
-  combine,
-  createEffect,
-  createEvent,
-  createStore,
-  sample,
-} from 'effector-root';
-import { internalApi } from '@box/api';
-import { model } from '@box/features/search-bar';
+import { combine, createEvent } from 'effector-root';
 
-export const $searchResultCardList = createStore<Card[]>([]);
-export const $searchResultUserList = createStore<User[]>([]);
-export const $searchCardsCount = createStore<number>(0);
-export const $searchUsersCount = createStore<number>(0);
+import { searchModel } from '../../features/search-bar';
 
 export const searchQueryChanged = createEvent();
-const searchFx = createEffect(async (query: string) => {
-  const response = await internalApi.search.results(query);
-  return response.body;
-});
 
 export const $isShowLoading = combine(
-  searchFx.pending,
-  $searchCardsCount,
-  $searchUsersCount,
+  searchModel.searchFx.pending,
+  searchModel.$searchCardsCount,
+  searchModel.$searchUsersCount,
   (isPending, cardsCount, usersCount) =>
     isPending && !cardsCount && !usersCount,
 );
-sample({
-  clock: searchQueryChanged,
-  source: model.$searchValue,
-  target: searchFx,
-});
-
-$searchResultCardList.on(searchFx.doneData, (_, { cards }) => cards);
-$searchResultUserList.on(searchFx.doneData, (_, { users }) => users);
-$searchCardsCount.on(searchFx.doneData, (_, { cards }) => cards.length);
-$searchUsersCount.on(searchFx.doneData, (_, { users }) => users.length);

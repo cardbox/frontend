@@ -1,14 +1,24 @@
 import { Model, belongsTo, createServer, hasMany } from 'miragejs';
 
-import type { User } from '../types';
+import type { Card, User } from '../types';
 import { cards, users, viewer } from './fixtures';
 
+function hasIncluding({
+  including,
+  query,
+}: {
+  including?: string;
+  query: string;
+}) {
+  if (!including) return false;
+  return including.toLowerCase().includes(query);
+}
 /**
  * Mock-api server for internal development
  * @see https://cardbox.github.io/backend/api-internal/index.html
  */
 export function runMockServer() {
-  const instance = createServer({
+  return createServer({
     environment: 'development',
     models: {
       user: Model.extend({
@@ -39,11 +49,28 @@ export function runMockServer() {
     routes() {
       this.namespace = 'api';
 
-      this.post('/search.results', (schema) => {
-        // TODO: add search-query param processing
+      this.post('/search.results', (schema, req) => {
+        const { query } = JSON.parse(req.requestBody);
+        const allUsers: User[] = Array.from(schema.db.users as any);
+        const users = allUsers.filter((user) => {
+          return (
+            hasIncluding({ including: user.username, query }) ||
+            hasIncluding({ including: user.firstName, query }) ||
+            hasIncluding({ including: user.lastName, query })
+          );
+        });
+
+        const allCards: Card[] = Array.from(schema.db.cards as any);
+        const cards = allCards.filter((card) => {
+          return (
+            hasIncluding({ including: card.title, query }) ||
+            hasIncluding({ including: card.content, query })
+          );
+        });
+
         return {
-          users: schema.db.users,
-          cards: schema.db.cards,
+          users,
+          cards,
         };
       });
 
@@ -106,6 +133,4 @@ export function runMockServer() {
       });
     },
   });
-
-  return instance;
 }
