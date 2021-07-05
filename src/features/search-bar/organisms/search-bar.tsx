@@ -6,6 +6,7 @@ import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';
 import { Search } from '../molecules';
+import { avatarUri } from '../../../shared/constants';
 import { paths } from '../../../pages/paths';
 import { useSearchQuery } from '../lib';
 
@@ -22,9 +23,11 @@ export const Searchbar = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <LoginBlock>
-            <Avatar />
-          </LoginBlock>
+          <Link to="/user">
+            <LoginBlock>
+              <Avatar src={avatarUri} />
+            </LoginBlock>
+          </Link>
           <button.Base>New card</button.Base>
         </Nav>
       </ContentCenteredTemplate>

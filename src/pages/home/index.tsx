@@ -8,6 +8,7 @@ import {
   Toast,
   button,
 } from '@box/ui';
+import { Helmet } from 'react-helmet-async';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
@@ -20,36 +21,39 @@ export const HomePage = () => {
   const isLoading = useStore(model.$pagePending);
 
   return (
-    <ContentCenteredTemplate>
-      <Hero>
-        <HeroCol>
-          <PrimaryText type={TextType.header1}>Cardbox</PrimaryText>
-          <Text type={TextType.header1}>Storage of all your ideas</Text>
-          <p>
-            The purpose of this product is to create a convenient repository of
-            your ideas with the ability to share them with others and keep all
-            the accumulated knowledge up to date.
-          </p>
-        </HeroCol>
-        <HeroCol>
-          <ToastContainer>
-            <Toast extra={<button.Secondary>More...</button.Secondary>}>
-              Help us make the best idea storage service!
-            </Toast>
-          </ToastContainer>
-        </HeroCol>
-      </Hero>
-      <Content>
-        <Main>
-          <CardList
-            cards={cards}
-            getHref={(card) => paths.card({ id: card.id })}
-            loading={isLoading}
-          />
-          {/* TODO: Process "empty" case correctly */}
-        </Main>
-      </Content>
-    </ContentCenteredTemplate>
+    <>
+      <Helmet title="Welcome to Cardbox" />
+      <ContentCenteredTemplate>
+        <Hero>
+          <HeroCol>
+            <PrimaryText type={TextType.header1}>Cardbox</PrimaryText>
+            <Text type={TextType.header1}>Storage of all your ideas</Text>
+            <p>
+              The purpose of this product is to create a convenient repository
+              of your ideas with the ability to share them with others and keep
+              all the accumulated knowledge up to date.
+            </p>
+          </HeroCol>
+          <HeroCol>
+            <ToastContainer>
+              <Toast extra={<button.Secondary>More...</button.Secondary>}>
+                Help us make the best idea storage service!
+              </Toast>
+            </ToastContainer>
+          </HeroCol>
+        </Hero>
+        <Content>
+          <Main>
+            <CardList
+              cards={cards}
+              getHref={(card) => paths.card({ id: card.id })}
+              loading={isLoading}
+            />
+            {/* TODO: Process "empty" case correctly */}
+          </Main>
+        </Content>
+      </ContentCenteredTemplate>
+    </>
   );
 };
 

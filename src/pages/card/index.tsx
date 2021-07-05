@@ -2,48 +2,61 @@ import React from 'react';
 import styled from 'styled-components';
 import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { Helmet } from 'react-helmet-async';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
+import { avatarUri } from '../../shared/constants';
 
 export const CardPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
+  const pageTitle = useStore(model.$pageTitle);
 
   return (
-    <ContentCenteredTemplate>
-      <Container>
-        <Main>
-          <CardPreview
-            card={card}
-            loading={isLoading}
-            isCardInFavorite={false}
-            type="details"
-          />
-          {/* TODO: Process "empty" case correctly */}
-        </Main>
-        <Sidebar>
-          <UserCard user={user} href="/user" />
-          <Links>
-            <LinkEdit href="#edit">Edit card</LinkEdit>
-            <LinkDelete href="#delete">Delete card</LinkDelete>
-          </Links>
-        </Sidebar>
-      </Container>
-    </ContentCenteredTemplate>
+    <>
+      <Helmet title={pageTitle} />
+      <ContentCenteredTemplate>
+        <Container>
+          <Main>
+            <CardPreview
+              card={card}
+              loading={isLoading}
+              isCardInFavorite={false}
+              type="details"
+            />
+            {/* TODO: Process "empty" case correctly */}
+          </Main>
+          <Sidebar>
+            <UserCard user={user} />
+            <Links>
+              <LinkEdit disabled href="#edit">
+                Edit card
+              </LinkEdit>
+              <LinkDelete disabled href="#delete">
+                Delete card
+              </LinkDelete>
+            </Links>
+          </Sidebar>
+        </Container>
+      </ContentCenteredTemplate>
+    </>
   );
 };
 
 withStart(model.pageLoaded, CardPage);
 
 const user = {
-  avatar:
-    'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  avatar: avatarUri,
   name: 'LangCreator',
   role: 'Owner',
 };
+
+const map = (props: { disabled?: boolean }) => ({
+  'data-disabled': props.disabled,
+});
 
 const Container = styled.div`
   display: flex;
@@ -78,11 +91,15 @@ const Links = styled.div`
   }
 `;
 
-const Link = styled.a`
+const Link = styled.a.attrs(map)<{ disabled?: boolean }>`
   font-size: 0.9375rem;
   line-height: 1.1875rem;
-
   &:not(:hover) {
+    text-decoration: none;
+  }
+  &[data-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
     text-decoration: none;
   }
 `;
