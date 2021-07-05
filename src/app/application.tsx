@@ -43,7 +43,7 @@ const Globals = createGlobalStyle`
   }
 `;
 
-export const Application: React.FC<Props> = ({ root }) => (
+export const Application = ({ root }: Props) => (
   <QueryParamProvider ReactRouterRoute={Route}>
     <Provider value={root}>
       <Container>

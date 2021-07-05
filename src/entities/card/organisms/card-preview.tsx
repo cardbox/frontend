@@ -1,7 +1,7 @@
 import * as editorLib from '@box/lib/editor';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { KeyboardEventHandler, MouseEventHandler } from 'react';
+import React, { KeyboardEventHandler, MouseEventHandler, useRef } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
@@ -41,7 +41,7 @@ export const CardPreview = ({
   type = 'preview',
   focusItemChanged,
 }: CardPreviewProps) => {
-  const mouseDownCoords = React.useRef({
+  const mouseDownCoords = useRef({
     x: 0,
     y: 0,
   });
@@ -153,13 +153,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
   Pick<CardPreviewProps, 'href' | 'type'>;
 
-const Content: React.FC<ContentProps> = ({
-  content,
-  title,
-  href,
-  type,
-  updatedAt,
-}) => {
+const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}

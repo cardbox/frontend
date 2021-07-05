@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useRef } from 'react';
 import type { Card } from '@box/api';
 import { SkeletonGroup } from '@box/ui';
 
@@ -11,8 +11,8 @@ interface Props {
   loading?: boolean;
 }
 
-export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => {
-  const containerRef = React.useRef<null | HTMLDivElement>(null);
+export const CardList = ({ cards, getHref, loading }: Props) => {
+  const containerRef = useRef<null | HTMLDivElement>(null);
 
   if (loading) {
     return <SkeletonGroup amount={4} />;
