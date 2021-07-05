@@ -6,8 +6,8 @@ export const searchQueryChanged = createEvent();
 
 export const $isShowLoading = combine(
   searchModel.searchFx.pending,
-  searchModel.$searchCardsCount,
-  searchModel.$searchUsersCount,
+  searchModel.$cardsCount,
+  searchModel.$usersCount,
   (isPending, cardsCount, usersCount) =>
     isPending && !cardsCount && !usersCount,
 );

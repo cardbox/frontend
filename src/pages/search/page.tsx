@@ -91,7 +91,7 @@ const TabStyled = styled(Tab)`
 const CardResults = reflect({
   view: CardList,
   bind: {
-    cards: searchModel.$searchResultCardList,
+    cards: searchModel.$cardList,
     getHref: (card) => paths.card({ id: card.id }),
     loading: model.$isShowLoading,
   },
@@ -100,7 +100,7 @@ const CardResults = reflect({
 const UserResults = reflect({
   view: UserPreviewList,
   bind: {
-    users: searchModel.$searchResultUserList,
+    users: searchModel.$userList,
     loading: model.$isShowLoading,
   },
 });

@@ -36,13 +36,12 @@ const searchSubmitted = guard({
 
 const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
 
-export const $searchResultCardList = createStore<Card[]>([]);
-export const $searchResultUserList = createStore<User[]>([]);
-export const $searchCardsCount = createStore<number>(0);
-export const $searchUsersCount = createStore<number>(0);
+export const $cardList = createStore<Card[]>([]);
+export const $userList = createStore<User[]>([]);
+export const $cardsCount = createStore<number>(0);
+export const $usersCount = createStore<number>(0);
 
 export const searchFx = createEffect(async (query: string) => {
-  console.log(query);
   const response = await internalApi.search.results(query);
   return response.body;
 });
@@ -56,7 +55,7 @@ forward({
   to: searchFx,
 });
 
-$searchResultCardList.on(searchFx.doneData, (_, { cards }) => cards);
-$searchResultUserList.on(searchFx.doneData, (_, { users }) => users);
-$searchCardsCount.on(searchFx.doneData, (_, { cards }) => cards.length);
-$searchUsersCount.on(searchFx.doneData, (_, { users }) => users.length);
+$cardList.on(searchFx.doneData, (_, { cards }) => cards);
+$userList.on(searchFx.doneData, (_, { users }) => users);
+$cardsCount.on(searchFx.doneData, (_, { cards }) => cards.length);
+$usersCount.on(searchFx.doneData, (_, { users }) => users.length);

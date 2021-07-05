@@ -51,8 +51,7 @@ export function runMockServer() {
 
       this.post('/search.results', (schema, req) => {
         const { query } = JSON.parse(req.requestBody);
-        const allUsers: User[] = Array.from(schema.db.users as any);
-        const users = allUsers.filter((user) => {
+        const users = schema.db.users.where((user: User) => {
           return (
             hasIncluding({ including: user.username, query }) ||
             hasIncluding({ including: user.firstName, query }) ||
@@ -60,8 +59,7 @@ export function runMockServer() {
           );
         });
 
-        const allCards: Card[] = Array.from(schema.db.cards as any);
-        const cards = allCards.filter((card) => {
+        const cards = schema.db.cards.where((card: Card) => {
           return (
             hasIncluding({ including: card.title, query }) ||
             hasIncluding({ including: card.content, query })
