@@ -22,9 +22,9 @@ export interface User {
   bio?: string;
   avatar?: string;
   // FIXME: resolve to Card[]
-  cards: string[] | Card[];
+  cards: string[];
   // FIXME: resolve to Card[]
-  favorites: string[] | Card[];
+  favorites: string[];
   socials?: Social[];
   work?: string;
 }

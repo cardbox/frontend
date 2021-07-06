@@ -130,26 +130,7 @@ export const userAlex: User = {
   bio: 'Cherry-picky and into master :)',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/9406938?v=4',
-  cards: [
-    {
-      id: '1',
-      title: `Manage map or Set in effector store`,
-      content: `Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item). Sometimes we need to save Set in effector store. Simple createStore(new Set) will not trigger updates on.add(item)`,
-      author: userDmitry,
-      createdAt: '2021-01-03T05:03:00.000Z',
-      updatedAt: '2021-01-03T12:34:00.000Z',
-      tags: [],
-    },
-    {
-      id: '2',
-      title: `Effector: sample vs forward`,
-      content: `Sample: This method can be used for linking two nodes, resulting the third one, which will fire only upon clock node trigger.\nForward: Method to create connection between units in a declarative way. Sends updates from one set of units to another`,
-      author: userDmitry,
-      createdAt: '2021-01-04T05:03:00.000Z',
-      updatedAt: '2021-01-04T12:34:00.000Z',
-      tags: [],
-    }
-  ],
+  cards: stubCards(20),
   favorites: stubCards(8),
 };
 

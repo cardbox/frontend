@@ -7,7 +7,7 @@ import {
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
-import { CardList } from '@box/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
 // import { Redirect } from 'react-router';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
@@ -20,6 +20,7 @@ import { paths } from '../paths';
 export const UserPage = () => {
   useStart(model.pageLoaded);
   const userInfo = useStore(userModel.$currentUser);
+  const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
   if (isLoading || !userInfo) return <Skeleton />;
@@ -70,8 +71,7 @@ export const UserPage = () => {
             <UserCards>
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
-                // @ts-ignore
-                cards={userInfo.cards}
+                cards={cards}
                 getHref={(card) => paths.card(card.id)}
                 loading={isLoading}
               />
