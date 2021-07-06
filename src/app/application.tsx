@@ -1,4 +1,4 @@
-// import 'react-tabs/style/react-tabs.css';
+import './custom-props.css';
 
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -25,21 +25,6 @@ const Globals = createGlobalStyle`
     overflow: hidden;
     padding: 0;
     font-family: sans-serif;
-  }
-
-  :root {
-    --wizard500: #4231ff;
-    --wizard300: #b6Afff;
-    --wizard100: #f7f6ff;
-
-    --gray100: #fbfafb;
-
-    /* backgrounds */
-    --bnw100: #fbfafb;
-    --bnw200: #eeeef1;
-    --bnw0: #fff;
-
-    --box-shadow-1: 0px 3px 9px #ebebeb;
   }
 `;
 

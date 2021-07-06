@@ -19,7 +19,7 @@ function hasIncluding({
  * @see https://cardbox.github.io/backend/api-internal/index.html
  */
 export function runMockServer() {
-  return createServer({
+  const instance = createServer({
     environment: 'development',
     models: {
       user: Model.extend({
@@ -132,4 +132,5 @@ export function runMockServer() {
       });
     },
   });
+  return instance;
 }
