@@ -1,7 +1,8 @@
+import React from 'react';
 import styled from 'styled-components';
-import React, { useRef } from 'react';
 import type { Card } from '@box/api';
 import { SkeletonGroup } from '@box/ui';
+import { useFocus } from '@box/lib/use-focus';
 
 import { CardPreview } from './card-preview';
 
@@ -12,42 +13,11 @@ interface Props {
 }
 
 export const CardList = ({ cards, getHref, loading }: Props) => {
-  const containerRef = useRef<null | HTMLDivElement>(null);
+  const { focusItemChanged, containerRef } = useFocus();
 
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
-
-  const focusNext = () => {
-    if (!containerRef.current) return;
-    const children = [...containerRef.current.children];
-    const curFocusIndex = children.findIndex(
-      (el) => el === document.activeElement,
-    );
-    const indexToFocus = curFocusIndex + 1;
-    const isIndexIncorrect = indexToFocus >= children.length;
-    if (isIndexIncorrect) return;
-    const el = containerRef.current.children[indexToFocus] as HTMLElement;
-    el.focus();
-  };
-
-  const focusPrev = () => {
-    if (!containerRef.current) return;
-    const children = [...containerRef.current.children];
-    const curFocusIndex = children.findIndex(
-      (el) => el === document.activeElement,
-    );
-    const indexToFocus = curFocusIndex - 1;
-    const isIndexIncorrect = indexToFocus < 0;
-    if (isIndexIncorrect) return;
-    const el = containerRef.current.children[indexToFocus] as HTMLElement;
-    el.focus();
-  };
-
-  const focusItemChanged = (direction: 'next' | 'prev') => {
-    if (direction === 'next') focusNext();
-    else focusPrev();
-  };
 
   return (
     <Container ref={containerRef}>
