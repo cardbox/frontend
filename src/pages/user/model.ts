@@ -13,6 +13,7 @@ export const getUserByNicknameFx = attach({
 export const $pagePending = restore(getUserByNicknameFx.pending.updates, true);
 export const getCardsListFx = attach({ effect: cardModel.getCardsListFx });
 
+// FIXME
 const options: { from: Unit<unknown>; to: Unit<unknown> } = {
   from: pageLoaded,
   to: getUserByNicknameFx,

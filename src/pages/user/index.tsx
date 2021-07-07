@@ -8,7 +8,6 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
-// import { Redirect } from 'react-router';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 import { userModel } from '@box/entities/user';
@@ -24,8 +23,6 @@ export const UserPage = () => {
   const isLoading = useStore(model.$pagePending);
 
   if (isLoading || !userInfo) return <Skeleton />;
-
-  // if (!userInfo) return <Redirect to="/404" />;
 
   return (
     <>

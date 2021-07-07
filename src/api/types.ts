@@ -25,6 +25,6 @@ export interface User {
   cards: string[];
   // FIXME: resolve to Card[]
   favorites: string[];
-  socials?: Social[];
+  socials: Social[];
   work?: string;
 }
