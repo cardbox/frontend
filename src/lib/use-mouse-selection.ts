@@ -1,5 +1,10 @@
 import { MouseEventHandler, MutableRefObject, useRef } from 'react';
 
+// todo:
+//  it's a hook to handle click on interactive elements
+//  if user wants to select text on interactive element he can drag his mouse
+//  over selected text
+//  probably a temporary solution
 export function useMouseSelection({
   callback,
   preventingRef,
