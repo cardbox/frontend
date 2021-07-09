@@ -4,7 +4,7 @@ import { useRef } from 'react';
 //  currently used only in card-list,
 //  need to optimize this hook for navigation with keyboard
 //  e.g. - handle arrow down (focus on cur item index + row len)
-export function useFocus() {
+export function useKeyboardFocus() {
   const containerRef = useRef<null | HTMLDivElement>(null);
 
   const focusNext = () => {

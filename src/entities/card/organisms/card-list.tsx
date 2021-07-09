@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
 import { SkeletonGroup } from '@box/ui';
-import { useFocus } from '@box/lib/use-focus';
+import { useKeyboardFocus } from '@box/lib/use-keyboard-focus';
 
 import { CardPreview } from './card-preview';
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const CardList = ({ cards, getHref, loading }: Props) => {
-  const { focusItemChanged, containerRef } = useFocus();
+  const { focusItemChanged, containerRef } = useKeyboardFocus();
 
   if (loading) {
     return <SkeletonGroup amount={4} />;

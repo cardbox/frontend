@@ -73,7 +73,7 @@ export const UserPage = () => {
                 <Tab label="My cards">
                   <CardList
                     cards={cards}
-                    getHref={(card) => paths.card({ id: card.id })}
+                    getHref={(card) => paths.card(card.id)}
                     loading={isLoading}
                   />
                   {/* TODO: Process "empty" case correctly */}
@@ -81,7 +81,7 @@ export const UserPage = () => {
                 <Tab label="Saved">
                   <CardList
                     cards={reversedCards}
-                    getHref={(card) => paths.card({ id: card.id })}
+                    getHref={(card) => paths.card(card.id)}
                     loading={isLoading}
                   />
                   {/* TODO: Process "empty" case correctly */}

@@ -1,3 +1,4 @@
+import { Card, User, internalApi } from '@box/api';
 import { ChangeEvent } from 'react';
 import {
   createEffect,
@@ -9,9 +10,7 @@ import {
 } from 'effector-root';
 import { debounce } from 'patronum/debounce';
 import { historyPush } from '@box/entities/navigation';
-
-import { Card, User, internalApi } from '../../../api';
-import { paths } from '../../../pages/paths';
+import { paths } from '@box/pages/paths';
 
 export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 
