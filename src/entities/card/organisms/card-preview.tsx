@@ -1,7 +1,12 @@
 import * as editorLib from '@box/lib/editor';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { KeyboardEventHandler, MouseEventHandler, useRef } from 'react';
+import React, {
+  KeyboardEventHandler,
+  MouseEventHandler,
+  forwardRef,
+  useRef,
+} from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
@@ -16,6 +21,7 @@ import {
 } from '@box/ui';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
+import { useMouseSelection } from '@box/lib/use-mouse-selection';
 
 type CardType = 'preview' | 'details';
 
@@ -40,51 +46,30 @@ export const CardPreview = ({
   type = 'preview',
   focusItemChanged,
 }: CardPreviewProps) => {
-  const mouseDownCoords = useRef({
-    x: 0,
-    y: 0,
-  });
-
   const historyPush = useEvent(navigationModel.historyPush);
-  // FIXME: refine size of card pre-detecting
-  if (loading) return <Skeleton />;
-  if (!card) return null;
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const goToCard = ({ inNewTab } = { inNewTab: false }) => {
+  const goToCard = (inNewTab = false) => {
     if (!href) return;
     if (inNewTab) window.open(href, '_blank');
     else historyPush(href);
   };
 
-  const handleMouseDown: MouseEventHandler = (e) => {
-    if (e.button === 1) {
-      goToCard({ inNewTab: true });
-      return;
-    }
-    if (e.button === 0) {
-      mouseDownCoords.current = {
-        x: e.pageX,
-        y: e.pageY,
-      };
-    }
-  };
+  const { handleMouseDown, handleMouseUp } = useMouseSelection({
+    callback: goToCard,
+    preventingRef: buttonRef,
+  });
 
-  const handleMouseUp: MouseEventHandler = (e) => {
-    const yDiff = Math.abs(e.pageY - mouseDownCoords.current.y);
-    if (yDiff <= 5) {
-      goToCard();
-      return;
-    }
-    const xDiff = Math.abs(e.pageX - mouseDownCoords.current.x);
-    if (xDiff <= 5) goToCard();
-  };
+  // FIXME: refine size of card pre-detecting
+  if (loading) return <Skeleton />;
+  if (!card) return null;
 
   const handleKeyDown: KeyboardEventHandler = (e) => {
     if (!focusItemChanged) return;
 
     const { key, ctrlKey } = e;
     if (key === 'Enter') {
-      goToCard({ inNewTab: ctrlKey });
+      goToCard(ctrlKey);
     }
 
     if (key === 'ArrowDown' || key === 'ArrowRight') {
@@ -115,7 +100,7 @@ export const CardPreview = ({
           type={type}
           updatedAt={card.updatedAt}
         />
-        <AddButton isCardToDeckAdded={isCardInFavorite} />
+        <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
       {type === 'preview' && (
@@ -221,23 +206,26 @@ const addButtonData = {
   true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
   false: { src: iconDeckArrow, alt: 'Add card to my deck' },
 };
-const AddButton = ({ isCardToDeckAdded }: { isCardToDeckAdded: boolean }) => {
-  const click: MouseEventHandler = (e) => {
-    e.stopPropagation();
-  };
-  return (
-    <AddButtonStyled
-      data-is-card-to-deck-added={isCardToDeckAdded}
-      onClick={click}
-    >
-      <img
-        src={addButtonData[isCardToDeckAdded.toString()].src}
-        alt={addButtonData[isCardToDeckAdded.toString()].alt}
-        title={addButtonData[isCardToDeckAdded.toString()].alt}
-      />
-    </AddButtonStyled>
-  );
-};
+const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
+  ({ isCardToDeckAdded }, ref) => {
+    const click: MouseEventHandler = (e) => {
+      e.stopPropagation();
+    };
+    return (
+      <AddButtonStyled
+        data-is-card-to-deck-added={isCardToDeckAdded}
+        onClick={click}
+        ref={ref}
+      >
+        <img
+          src={addButtonData[isCardToDeckAdded.toString()].src}
+          alt={addButtonData[isCardToDeckAdded.toString()].alt}
+          title={addButtonData[isCardToDeckAdded.toString()].alt}
+        />
+      </AddButtonStyled>
+    );
+  },
+);
 
 const AddButtonStyled = styled(button.Icon)<{
   'data-is-card-to-deck-added': boolean;
