@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
 import { SkeletonGroup } from '@box/ui';
+import { useKeyboardFocus } from '@box/lib/use-keyboard-focus';
 
 import { CardPreview } from './card-preview';
 
@@ -11,19 +12,22 @@ interface Props {
   loading?: boolean;
 }
 
-export const CardList: React.FC<Props> = ({ cards, getHref, loading }) => {
+export const CardList = ({ cards, getHref, loading }: Props) => {
+  const { focusItemChanged, containerRef } = useKeyboardFocus();
+
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       {cards.map((card, i) => (
         <CardPreview
           key={card.id}
           card={card}
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
+          focusItemChanged={focusItemChanged}
         />
       ))}
     </Container>

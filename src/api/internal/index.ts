@@ -2,8 +2,9 @@ import type { Card, User } from '../types';
 // NOTE: По сути будет использоваться только на клиенте, поэтому импорчу напрямую
 import { requestClient } from '../request/client';
 
-// FIXME: Удалю модуль позднее, после генерации через OpenApi
-// Но для этого надо поправить саму схему
+// FIXME:
+//  Удалю модуль позднее, после генерации через OpenApi
+//  Но для этого надо поправить саму схему
 
 // TODO: bind with /api/request
 // TODO: autogen later by openapi-generator

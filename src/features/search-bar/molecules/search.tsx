@@ -4,13 +4,15 @@ import { reflect } from '@effector/reflect/ssr';
 
 import * as model from '../models';
 
-export const Search = () => (
-  <Container>
-    <SearchInput />
-    {/* todo: implement in v1 */}
-    {/*<button.Text>Advanced</button.Text>*/}
-  </Container>
-);
+export const Search = () => {
+  return (
+    <Container>
+      <SearchInput />
+      {/* todo: implement in v1 */}
+      {/*<button.Text>Advanced</button.Text>*/}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   border: 1px solid #e7e5ee;
