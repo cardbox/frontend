@@ -18,8 +18,8 @@ import {
 type CardType = 'item' | 'details';
 
 interface CardPreviewProps {
-  card: Card | null;
-  isCardInFavorite: boolean;
+  card?: Card;
+  isCardInFavorite?: boolean;
   href?: string;
   loading?: boolean;
   /**
@@ -33,7 +33,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   card,
   isCardInFavorite,
   href,
-  loading,
+  loading = false,
   type = 'item',
 }) => {
   // FIXME: refine size of card pre-detecting

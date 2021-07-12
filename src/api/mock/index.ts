@@ -57,7 +57,7 @@ export function runMockServer() {
         if (!username) return { user: null };
 
         return {
-          user: schema.db.users.findBy({ username: username.params.username }),
+          user: schema.db.users.findBy({ username }),
         };
       });
 

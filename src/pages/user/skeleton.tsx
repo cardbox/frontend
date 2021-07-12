@@ -46,9 +46,7 @@ export const Skeleton = () => {
           <Main>
             <UserCards>
               <CardListContainer>
-                {/* @ts-ignore */}
                 <CardPreview loading />
-                {/* @ts-ignore */}
                 <CardPreview loading />
               </CardListContainer>
             </UserCards>

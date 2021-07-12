@@ -1,27 +1,27 @@
 import { StartParams } from '@box/lib/page-routing';
-import { Unit } from 'effector';
 import { attach, createEvent, forward, restore } from 'effector-root';
 import { cardModel } from '@box/entities/card';
 import { userModel } from '@box/entities/user';
 
 export const pageLoaded = createEvent<StartParams>();
+export const $pagePending = restore(
+  userModel.getUserByNicknameFx.pending.updates,
+  true,
+);
 
 export const getUserByNicknameFx = attach({
   effect: userModel.getUserByNicknameFx,
+  mapParams: (res: StartParams) => {
+    return res.params.username;
+  },
 });
-
-export const $pagePending = restore(getUserByNicknameFx.pending.updates, true);
-export const getCardsListFx = attach({ effect: cardModel.getCardsListFx });
-
-// FIXME
-const options: { from: Unit<unknown>; to: Unit<unknown> } = {
-  from: pageLoaded,
-  to: getUserByNicknameFx,
-};
-
-forward(options);
 
 forward({
   from: pageLoaded,
-  to: getCardsListFx,
+  to: getUserByNicknameFx,
+});
+
+forward({
+  from: pageLoaded,
+  to: cardModel.getCardsListFx,
 });
