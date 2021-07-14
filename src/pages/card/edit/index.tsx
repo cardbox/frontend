@@ -7,6 +7,9 @@ import { useStart, withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 
+const CANCEL_WARN =
+  'Are you sure you want to undo the changes? The action is not reversible!';
+
 export const CardEditPage = () => {
   useStart(model.pageLoaded);
   const draft = useStore(model.$cardDraft);
@@ -41,7 +44,13 @@ export const CardEditPage = () => {
             <button.Primary onClick={() => model.submitChangesFx(draft)}>
               Save
             </button.Primary>
-            <button.Base onClick={() => resetChanges(draft.id)}>
+            <button.Base
+              onClick={() => {
+                // FIXME: replace to UIKit implementation
+                if (!window.confirm(CANCEL_WARN)) return;
+                resetChanges(draft.id);
+              }}
+            >
               Cancel
             </button.Base>
           </ButtonGroup>
