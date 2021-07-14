@@ -51,7 +51,7 @@ export const CardEditPage = () => {
 withStart(model.pageLoaded, CardEditPage);
 
 const Container = styled.div`
-  margin: 30px 120px 0 120px;
+  margin: 30px 120px 120px 120px;
 `;
 
 // Layout
