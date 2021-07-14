@@ -172,8 +172,7 @@ export const cards: Card[] = [
   {
     id: '3',
     title: `Effects sequence, Effects sequence, Effects sequence`,
-    content:
-      asCardContent(`We'll need it when second request to the server requires resolved data from the first one
+    content: asCardContent(`We'll need it when second request to the server requires resolved data from the first one
     \`\`\`
     import ReactDOM from 'react-dom'
 
@@ -213,8 +212,7 @@ export const cards: Card[] = [
   {
     id: '4',
     title: `Effector: Domain usage`,
-    content:
-      asCardContent(`Domain is a namespace for your events, stores and effects.
+    content: asCardContent(`Domain is a namespace for your events, stores and effects.
     Domain can subscribe to event, effect, store or nested domain creation with onCreateEvent, onCreateStore, onCreateEffect, onCreateDomain methods.
     It is useful for logging or other side effects.`),
     author: viewer,
@@ -225,8 +223,7 @@ export const cards: Card[] = [
   {
     id: '5',
     title: `Stop using Effector`,
-    content:
-      asCardContent(`Effector is a brand new reactive state manager. Its ambitious team aims to solve all the problems that existing solutions have. Writing the core of the library from scratch took several attempts across six months, and recently the team released the first stable release.
+    content: asCardContent(`Effector is a brand new reactive state manager. Its ambitious team aims to solve all the problems that existing solutions have. Writing the core of the library from scratch took several attempts across six months, and recently the team released the first stable release.
 
     In this article, I will show why I prefer using Effector for my new projects instead of other state managers. Let's get started with the Effector API.`),
     author: viewer,

@@ -1,4 +1,3 @@
-import * as editorLib from '@box/lib/editor';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, {
@@ -152,7 +151,7 @@ const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
-          <Editor value={editorLib.getValueNode(content)} readOnly={true} />
+          <Editor value={JSON.parse(content)} readOnly={true} />
         </>
       )}
       {type === 'preview' && (
