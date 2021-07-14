@@ -13,7 +13,7 @@
     "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
   "dependencies": {
-    "@cardbox/editor": "^0.0.8",
+    "@cardbox/editor": "^0.1.4",
     "@effector/reflect": "^0.6.0",
     "@tippyjs/react": "^4.2.5",
     "cookie-parser": "^1.4.5",

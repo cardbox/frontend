@@ -1037,13 +1037,15 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cardbox/editor@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@cardbox/editor/-/editor-0.0.8.tgz#d46a5cb27afa9a1b2a00d2978bd3221e2570833f"
-  integrity sha512-yTAiHOmIJYkdY0TotsxNDabPh2RBFhiEtU75mTqTt2K/hh8tK9jiYsF39r/2lBux06FkaminWn1OPS9u0aur/g==
+"@cardbox/editor@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@cardbox/editor/-/editor-0.1.4.tgz#d100e7bf01d68911626b6842b933f55a22cc3838"
+  integrity sha512-bMPBHvAMlvExiEiCROZjpGxlSvTWo0A0/KNhLnuU6e9pL1GN46g98M5UCxaoiSyGjV6ZthTkNGxnL+ZgSvAfRg==
   dependencies:
+    clsx "^1.1.1"
     is-hotkey "0.1.8"
     just-debounce-it "^1.5.0"
+    prismjs "^1.24.0"
     slate "0.63.0"
     slate-history "0.62.0"
     slate-react "0.65.2"
@@ -3734,7 +3736,7 @@ cliui@^6.0.0:
     strip-ansi "^6.0.0"
     wrap-ansi "^6.2.0"
 
-clsx@^1.1.0:
+clsx@^1.1.0, clsx@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
@@ -11002,6 +11004,11 @@ pretty-time@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
+
+prismjs@^1.24.0:
+  version "1.24.1"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.24.1.tgz#c4d7895c4d6500289482fa8936d9cdd192684036"
+  integrity sha512-mNPsedLuk90RVJioIky8ANZEwYm5w9LcvCXrxHlwf4fNVSn8jEipMybMkWUyyF0JhnC+C4VcOVSBuHRKs1L5Ow==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
