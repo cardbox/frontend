@@ -64,8 +64,14 @@ const Outline = styled(Base)`
   color: #000000;
 `;
 
+const Primary = styled(Base)`
+  background-color: #4231ff;
+  color: #ffffff;
+`;
+
 export const button = {
   Base,
+  Primary,
   Secondary,
   Text,
   Icon,
