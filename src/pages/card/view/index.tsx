@@ -8,8 +8,8 @@ import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
-import { avatarUri } from '../../shared/constants';
-import { paths } from '../paths';
+import { avatarUri } from '../../../shared/constants';
+import { paths } from '../../paths';
 
 export const CardPage = () => {
   useStart(model.pageLoaded);

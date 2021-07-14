@@ -1,5 +1,4 @@
-import { CardEditPage } from './card/edit';
-import { CardPage } from './card';
+import { CardEditPage, CardPage } from './card';
 import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
