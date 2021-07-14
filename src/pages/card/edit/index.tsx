@@ -3,19 +3,31 @@ import React, { useState } from 'react';
 import { ContentCenteredTemplate, button } from '@box/ui';
 import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
+import { cardModel } from '@box/entities/card';
 import { getValueNode } from '@box/lib/editor';
+import { useStart, withStart } from '@box/lib/page-routing';
+import { useStore } from 'effector-react/ssr';
+
+import * as model from './model';
 
 export const CardEditPage = () => {
   const [value, setValue] = useState<EditorValue>(getValueNode('Test'));
+  useStart(model.pageLoaded);
+  const card = useStore(cardModel.$currentCard);
+  const isLoading = useStore(model.$pagePending);
+  //   const pageTitle = useStore(model.$pageTitle);
+
+  if (isLoading) return <>Loading...</>;
+  if (!card) return null;
 
   return (
     <ContentCenteredTemplate>
       <Container>
         <Header>
-          <Title placeholder="Card name" />
+          <Title placeholder="Card name" value={card.title} />
         </Header>
         <Content>
-          <Editor value={value} onChange={setValue} />
+          <Editor value={getValueNode(card.content)} onChange={setValue} />
         </Content>
         <Footer>
           <ButtonGroup>
@@ -27,6 +39,8 @@ export const CardEditPage = () => {
     </ContentCenteredTemplate>
   );
 };
+
+withStart(model.pageLoaded, CardEditPage);
 
 const Container = styled.div`
   margin: 30px 120px 0 120px;
@@ -51,6 +65,7 @@ const Footer = styled.div`
 const Title = styled.input`
   font-size: 42px;
   border: 0;
+  width: 100%;
 
   &:focus-visible {
     outline: 0;
