@@ -8,6 +8,7 @@ import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
 import { avatarUri } from '../../shared/constants';
+import { paths } from '../paths';
 
 export const CardPage = () => {
   useStart(model.pageLoaded);
@@ -32,12 +33,14 @@ export const CardPage = () => {
           <Sidebar>
             <UserCard user={user} />
             <Links>
-              <LinkEdit disabled href="#edit">
-                Edit card
-              </LinkEdit>
-              <LinkDelete disabled href="#delete">
-                Delete card
-              </LinkDelete>
+              {card && (
+                <LinkEdit href={paths.cardEdit(card.id)}>Edit card</LinkEdit>
+              )}
+              {card && (
+                <LinkDelete disabled href="#delete">
+                  Delete card
+                </LinkDelete>
+              )}
             </Links>
           </Sidebar>
         </Container>
