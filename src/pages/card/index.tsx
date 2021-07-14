@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
@@ -34,10 +35,10 @@ export const CardPage = () => {
             <UserCard user={user} />
             <Links>
               {card && (
-                <LinkEdit href={paths.cardEdit(card.id)}>Edit card</LinkEdit>
+                <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
               {card && (
-                <LinkDelete disabled href="#delete">
+                <LinkDelete disabled to="#delete">
                   Delete card
                 </LinkDelete>
               )}
@@ -94,7 +95,7 @@ const Links = styled.div`
   }
 `;
 
-const Link = styled.a.attrs(map)<{ disabled?: boolean }>`
+const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
   font-size: 0.9375rem;
   line-height: 1.1875rem;
   &:not(:hover) {
@@ -107,10 +108,10 @@ const Link = styled.a.attrs(map)<{ disabled?: boolean }>`
   }
 `;
 
-const LinkEdit = styled(Link)`
+const LinkEdit = styled(LinkBase)`
   color: #683aef;
 `;
 
-const LinkDelete = styled(Link)`
+const LinkDelete = styled(LinkBase)`
   color: #ef3a5b;
 `;
