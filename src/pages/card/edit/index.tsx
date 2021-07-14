@@ -1,33 +1,39 @@
+import React from 'react';
 import styled from 'styled-components';
-import React, { useState } from 'react';
 import { ContentCenteredTemplate, button } from '@box/ui';
 import { Editor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
-import { cardModel } from '@box/entities/card';
-import { getValueNode } from '@box/lib/editor';
+import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
-import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
 
 export const CardEditPage = () => {
-  const [value, setValue] = useState<EditorValue>(getValueNode('Test'));
   useStart(model.pageLoaded);
-  const card = useStore(cardModel.$currentCard);
+  const draft = useStore(model.$cardDraft);
   const isLoading = useStore(model.$pagePending);
+
+  const setDraftTitle = useEvent(model.setDraftTitle);
+  const setDraftContent = useEvent(model.setDraftContent);
   //   const pageTitle = useStore(model.$pageTitle);
 
   if (isLoading) return <>Loading...</>;
-  if (!card) return null;
+  if (!draft) return null;
 
   return (
     <ContentCenteredTemplate>
       <Container>
         <Header>
-          <Title placeholder="Card name" value={card.title} />
+          <Title
+            placeholder="Card name"
+            value={draft.title}
+            onChange={(e) => setDraftTitle(e.target.value)}
+          />
         </Header>
         <Content>
-          <Editor value={getValueNode(card.content)} onChange={setValue} />
+          <Editor
+            value={JSON.parse(draft.content)}
+            onChange={(nextValue) => setDraftContent(JSON.stringify(nextValue))}
+          />
         </Content>
         <Footer>
           <ButtonGroup>
