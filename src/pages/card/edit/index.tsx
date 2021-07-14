@@ -14,6 +14,7 @@ export const CardEditPage = () => {
 
   const setDraftTitle = useEvent(model.setDraftTitle);
   const setDraftContent = useEvent(model.setDraftContent);
+  const resetChanges = useEvent(model.resetChanges);
   //   const pageTitle = useStore(model.$pageTitle);
 
   if (isLoading) return <>Loading...</>;
@@ -40,7 +41,9 @@ export const CardEditPage = () => {
             <button.Primary onClick={() => model.submitChangesFx(draft)}>
               Save
             </button.Primary>
-            <button.Base>Cancel</button.Base>
+            <button.Base onClick={() => resetChanges(draft.id)}>
+              Cancel
+            </button.Base>
           </ButtonGroup>
         </Footer>
       </Container>

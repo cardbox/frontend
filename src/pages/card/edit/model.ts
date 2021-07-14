@@ -81,3 +81,16 @@ sample({
   fn: ({ params }) => paths.card(params.id),
   target: historyPush,
 });
+
+// Reset changes
+
+// FIXME: get from store
+export const resetChanges = createEvent<string>();
+
+$cardDraft.on(resetChanges, () => null);
+
+sample({
+  source: resetChanges,
+  fn: (cartId) => paths.card(cartId),
+  target: historyPush,
+});
