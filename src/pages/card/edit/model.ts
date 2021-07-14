@@ -4,12 +4,17 @@ import { StartParams } from '@box/lib/page-routing';
 import {
   attach,
   combine,
+  createEffect,
   createEvent,
   createStore,
   restore,
   sample,
 } from 'effector-root';
 import { cardModel } from '@box/entities/card';
+import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
+
+import { paths } from '../../paths';
 
 // FIXME: dry with pages/card/view
 export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
@@ -40,6 +45,18 @@ export const $pageTitle = combine(
 export const setDraftTitle = createEvent<string>();
 
 export const setDraftContent = createEvent<string>();
+
+// FIXME: simplify, get from store
+export const submitChangesFx = createEffect((payload: Card) => {
+  // FIXME: validate payload
+  return internalApi.cards.update({
+    cardId: payload.id,
+    title: payload.title,
+    content: payload.content,
+    tags: payload.tags,
+  });
+});
+
 export const $cardDraft = createStore<Card | null>(null);
 
 $cardDraft.on(getCardByIdFx.doneData, (_, payload) => payload.card);
@@ -55,3 +72,12 @@ $cardDraft.on(setDraftContent, (state, payload) =>
     draft.content = payload;
   }),
 );
+
+// FIXME: process response success
+$cardDraft.on(submitChangesFx.done, () => null);
+
+sample({
+  source: submitChangesFx.done,
+  fn: ({ params }) => paths.card(params.id),
+  target: historyPush,
+});

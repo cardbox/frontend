@@ -37,7 +37,9 @@ export const CardEditPage = () => {
         </Content>
         <Footer>
           <ButtonGroup>
-            <button.Primary>Save</button.Primary>
+            <button.Primary onClick={() => model.submitChangesFx(draft)}>
+              Save
+            </button.Primary>
             <button.Base>Cancel</button.Base>
           </ButtonGroup>
         </Footer>
