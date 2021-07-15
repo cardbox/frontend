@@ -11,10 +11,11 @@ import * as model from '../model';
 export const UpdateChanges = () => {
   const draft = useStore(model.$draft);
 
-  if (!draft) return null;
-
   return (
-    <button.Primary onClick={() => model.submitChangesFx(draft)}>
+    <button.Primary
+      onClick={() => model.submitDraftChangesFx()}
+      disabled={!draft}
+    >
       Save
     </button.Primary>
   );

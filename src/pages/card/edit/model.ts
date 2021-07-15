@@ -1,5 +1,5 @@
 import { StartParams } from '@box/lib/page-routing';
-import { attach, createEvent, sample } from 'effector-root';
+import { attach, createEvent, merge, sample } from 'effector-root';
 import { cardActionsModel } from '@box/features/card/actions';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
@@ -18,14 +18,16 @@ sample({
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
-  // FIXME: process response success
-  source: cardActionsModel.submitChangesFx.done,
-  fn: ({ params }) => paths.card(params.id),
-  target: historyPush,
-});
-sample({
-  source: cardActionsModel.resetChanges,
-  // FIXME: get from store
-  fn: (cartId) => paths.card(cartId),
+  clock: merge([
+    cardActionsModel.submitChangesFx.done,
+    cardActionsModel.resetChanges,
+  ]),
+  source: cardModel.$currentCardId,
+  fn: (cardId) => {
+    // FIXME: Пока что есть странный баг (поправлю позже)
+    // Из-за которого cardId получается как "null" когда мы вызываем эффект
+    // (с событием же все ок)
+    return cardId ? paths.card(cardId) : paths.home();
+  },
   target: historyPush,
 });

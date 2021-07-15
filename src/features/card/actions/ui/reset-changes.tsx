@@ -16,15 +16,14 @@ export const ResetChanges = () => {
   const draft = useStore(model.$draft);
   const resetChanges = useEvent(model.resetChanges);
 
-  if (!draft) return null;
-
   return (
     <button.Base
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
-        resetChanges(draft.id);
+        resetChanges();
       }}
+      disabled={!draft}
     >
       Cancel
     </button.Base>
