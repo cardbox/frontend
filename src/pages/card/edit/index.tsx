@@ -42,7 +42,6 @@ const Container = styled.div`
 `;
 
 // Layout
-// FIXME: move to @box/ui/layout
 const Header = styled.div`
   margin-bottom: 50px;
 `;

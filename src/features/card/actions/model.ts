@@ -21,6 +21,9 @@ export const submitChangesFx = createEffect((payload: Card) => {
 });
 
 export const $draft = createStore<Card | null>(null);
+export const $draftContentNode = $draft.map((data) =>
+  data ? JSON.parse(data.content) : null,
+);
 
 // Init
 $draft.on(cardModel.getCardByIdFx.doneData, (_, payload) => payload.card);
