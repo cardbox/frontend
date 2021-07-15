@@ -69,6 +69,12 @@ const Primary = styled(Base)`
   color: #ffffff;
 `;
 
+const Group = styled.div`
+  button + button {
+    margin-left: 12px;
+  }
+`;
+
 export const button = {
   Base,
   Primary,
@@ -76,4 +82,5 @@ export const button = {
   Text,
   Icon,
   Outline,
+  Group,
 };

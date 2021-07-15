@@ -1,9 +1,8 @@
 import produce from 'immer';
 import type { Card } from '@box/api';
+import { cardModel } from '@box/entities/card';
 import { createEffect, createEvent, createStore } from 'effector-root';
 import { internalApi } from '@box/api';
-
-import { getCardByIdFx } from './base';
 
 // FIXME: simplify to one event?
 export const setTitle = createEvent<string>();
@@ -24,7 +23,7 @@ export const submitChangesFx = createEffect((payload: Card) => {
 export const $draft = createStore<Card | null>(null);
 
 // Init
-$draft.on(getCardByIdFx.doneData, (_, payload) => payload.card);
+$draft.on(cardModel.getCardByIdFx.doneData, (_, payload) => payload.card);
 // Update
 $draft.on(setTitle, (state, payload) =>
   produce(state, (draft) => {
