@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ContentCenteredTemplate, button } from '@box/ui';
 import { Editor } from '@cardbox/editor';
+import { cardModel } from '@box/entities/card';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
 
@@ -12,12 +13,12 @@ const CANCEL_WARN =
 
 export const CardEditPage = () => {
   useStart(model.pageLoaded);
-  const draft = useStore(model.$cardDraft);
+  const draft = useStore(cardModel.draft.$draft);
   const isLoading = useStore(model.$pagePending);
 
-  const setDraftTitle = useEvent(model.setDraftTitle);
-  const setDraftContent = useEvent(model.setDraftContent);
-  const resetChanges = useEvent(model.resetChanges);
+  const setDraftTitle = useEvent(cardModel.draft.setTitle);
+  const setDraftContent = useEvent(cardModel.draft.setContent);
+  const resetChanges = useEvent(cardModel.draft.resetChanges);
   //   const pageTitle = useStore(model.$pageTitle);
 
   if (isLoading) return <>Loading...</>;
