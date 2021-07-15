@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const Skeleton: React.FC = ({ children }) => {
-  return <Root>{children}</Root>;
+interface SkeletonProps {
+  // Для базовых кастомизаций (например для высоты)
+  style?: React.CSSProperties;
+}
+
+export const Skeleton: React.FC<SkeletonProps> = ({ children, style }) => {
+  return <Root style={style}>{children}</Root>;
 };
 
 interface SkeletonGroupProps {

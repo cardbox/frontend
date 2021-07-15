@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text, TextType } from '@box/ui';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../model';
@@ -11,7 +12,9 @@ export const EditTitle = () => {
   const draft = useStore(model.$draft);
   const setDraftTitle = useEvent(model.setTitle);
 
-  if (!draft) return null;
+  if (!draft) {
+    return <Text type={TextType.header2}>Not Found</Text>;
+  }
 
   return (
     <Title

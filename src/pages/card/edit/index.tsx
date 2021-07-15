@@ -45,7 +45,6 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  margin-left: -50px;
   min-height: 500px;
 `;
 
