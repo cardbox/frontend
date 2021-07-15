@@ -155,7 +155,9 @@ const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
         </>
       )}
       {type === 'item' && (
-        <ContentText type={TextType.small}>{content}</ContentText>
+        <ItemEditorContainer>
+          <Editor value={JSON.parse(content)} readOnly={true} />
+        </ItemEditorContainer>
       )}
     </ContentStyled>
   );
@@ -176,14 +178,14 @@ const TitleLink = styled(Link)`
   }
 `;
 
-const ContentText = styled(Text)`
-  color: #62616d;
-  overflow: hidden;
-  text-overflow: ellipsis;
+const ItemEditorContainer = styled.div`
+  --editor-color: #62616d;
+  --editor-font-size: 15px;
+  --editor-line-height: 21px;
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  white-space: pre-line;
+  max-height: 90px;
 `;
 
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
