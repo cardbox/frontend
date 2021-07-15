@@ -1,16 +1,19 @@
 import produce from 'immer';
 import type { Card } from '@box/api';
-import { attach, createEffect, createEvent, createStore } from 'effector-root';
 import { cardModel } from '@box/entities/card';
+import { createEffect, createEvent, createStore, forward } from 'effector-root';
 import { internalApi } from '@box/api';
+
+type Draft = Card | null;
 
 // FIXME: simplify to one event?
 export const setTitle = createEvent<string>();
 export const setContent = createEvent<string>();
+export const submitChanges = createEvent<Draft>();
 export const resetChanges = createEvent();
 
 // FIXME: process response
-export const submitChangesFx = createEffect((payload: Card | null) => {
+export const submitChangesFx = createEffect((payload: Draft) => {
   if (!payload || !payload.id || !payload.title || !payload.content) return;
 
   return internalApi.cards.update({
@@ -20,7 +23,7 @@ export const submitChangesFx = createEffect((payload: Card | null) => {
     tags: payload.tags,
   });
 });
-export const $draft = createStore<Card | null>(null);
+export const $draft = createStore<Draft>(null);
 
 // Combine
 export const $draftContentNode = $draft.map((data) =>
@@ -45,3 +48,8 @@ $draft.on(setContent, (state, payload) =>
 // On:Reset
 $draft.reset(submitChangesFx.done);
 $draft.reset(resetChanges);
+
+forward({
+  from: submitChanges,
+  to: submitChangesFx,
+});

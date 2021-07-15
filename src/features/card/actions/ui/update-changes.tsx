@@ -1,6 +1,6 @@
 import React from 'react';
 import { button } from '@box/ui';
-import { useStore } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../model';
 
@@ -10,12 +10,10 @@ import * as model from '../model';
  */
 export const UpdateChanges = () => {
   const draft = useStore(model.$draft);
+  const submitChanges = useEvent(model.submitChanges);
 
   return (
-    <button.Primary
-      onClick={() => model.submitChangesFx(draft)}
-      disabled={!draft}
-    >
+    <button.Primary onClick={() => submitChanges(draft)} disabled={!draft}>
       Save
     </button.Primary>
   );

@@ -23,11 +23,6 @@ sample({
     cardActionsModel.resetChanges,
   ]),
   source: cardModel.$currentCardId,
-  fn: (cardId) => {
-    // FIXME: Пока что есть странный баг (поправлю позже)
-    // Из-за которого cardId получается как "null" когда мы вызываем эффект
-    // (с событием же все ок)
-    return cardId ? paths.card(cardId) : paths.home();
-  },
+  fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
   target: historyPush,
 });
