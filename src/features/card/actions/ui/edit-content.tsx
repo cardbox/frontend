@@ -21,7 +21,7 @@ export const EditContent = () => {
   // eslint-disable-next-line prettier/prettier
   return (
     <Editor
-      value={JSON.parse(draftNode)}
+      value={draftNode}
       onChange={handleChange}
     />
   );

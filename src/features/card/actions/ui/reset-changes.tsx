@@ -21,7 +21,7 @@ export const ResetChanges = () => {
   return (
     <button.Base
       onClick={() => {
-        // FIXME: replace to UIKit implementation
+        // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
         resetChanges(draft.id);
       }}
