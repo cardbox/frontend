@@ -22,18 +22,14 @@ export const EditContent = () => {
   if (!draftNode) {
     return <Skeleton style={{ height: 500 }} />;
   }
-  // eslint-disable-next-line prettier/prettier
   return (
-    <EditorAligned
-      value={draftNode}
-      // @ts-ignore
-      // FIXME: Чет ТС начинает чудить, когда мы покрываем Editor стайледами,
-      // Пока хз как быть, но обязон поправим
-      onChange={handleChange}
-    />
+    <Container>
+      <Editor value={draftNode} onChange={handleChange} />
+    </Container>
   );
 };
 
-const EditorAligned = styled(Editor)`
+const Container = styled.div`
+  /* Делаем отступ, из-за того что в Editor изначально заложен отступ для боковых действий над блоками */
   margin-left: -50px;
 `;
