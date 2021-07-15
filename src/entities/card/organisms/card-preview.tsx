@@ -22,7 +22,7 @@ import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
 
-type CardType = 'preview' | 'details';
+type CardType = 'item' | 'details';
 
 interface CardPreviewProps {
   card: Card | null;
@@ -42,7 +42,7 @@ export const CardPreview = ({
   isCardInFavorite,
   href,
   loading,
-  type = 'preview',
+  type = 'item',
   focusItemChanged,
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
@@ -102,7 +102,7 @@ export const CardPreview = ({
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {type === 'preview' && (
+      {type === 'item' && (
         <Meta author={card.author} updatedAt={card.updatedAt} />
       )}
     </PaperContainerStyled>
@@ -115,7 +115,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
   justify-content: space-between;
   overflow: hidden;
 
-  &[data-type='preview'] {
+  &[data-type='item'] {
     height: 190px;
     transition: 0.25s;
 
@@ -154,7 +154,7 @@ const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
           <Editor value={JSON.parse(content)} readOnly={true} />
         </>
       )}
-      {type === 'preview' && (
+      {type === 'item' && (
         <ContentText type={TextType.small}>{content}</ContentText>
       )}
     </ContentStyled>
