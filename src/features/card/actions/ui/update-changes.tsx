@@ -13,7 +13,7 @@ export const UpdateChanges = () => {
 
   return (
     <button.Primary
-      onClick={() => model.submitDraftChangesFx()}
+      onClick={() => model.submitChangesFx(draft)}
       disabled={!draft}
     >
       Save

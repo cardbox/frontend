@@ -26,10 +26,6 @@ export const $draft = createStore<Card | null>(null);
 export const $draftContentNode = $draft.map((data) =>
   data ? JSON.parse(data.content) : null,
 );
-export const submitDraftChangesFx = attach({
-  effect: submitChangesFx,
-  source: $draft,
-});
 
 // On:Init
 $draft.on(cardModel.getCardByIdFx.doneData, (_, payload) => payload.card);
