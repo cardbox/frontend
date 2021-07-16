@@ -26,8 +26,8 @@ import { useMouseSelection } from '@box/lib/use-mouse-selection';
 type CardType = 'preview' | 'details';
 
 interface CardPreviewProps {
-  card: Card | null;
-  isCardInFavorite: boolean;
+  card?: Card | null;
+  isCardInFavorite?: boolean;
   href?: string;
   loading?: boolean;
   /**
@@ -40,9 +40,9 @@ interface CardPreviewProps {
 
 export const CardPreview = ({
   card,
-  isCardInFavorite,
+  isCardInFavorite = false,
   href,
-  loading,
+  loading = false,
   type = 'preview',
   focusItemChanged,
 }: CardPreviewProps) => {

@@ -8,6 +8,12 @@ export interface Card {
   tags: string[];
 }
 
+export interface Social {
+  type: string;
+  link: string;
+  nickname: string;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -19,10 +25,6 @@ export interface User {
   cards: string[];
   // FIXME: resolve to Card[]
   favorites: string[];
-  socials: {
-    github?: string;
-    devto?: string;
-    twitter?: string;
-  };
+  socials: Social[];
   work?: string;
 }

@@ -8,7 +8,13 @@ export const userSova: User = {
   username: 'sergeysova',
   firstName: 'Sergey',
   lastName: 'Sova',
-  socials: { github: 'https://github.com/sergeysova' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/sergeysova',
+      nickname: 'sergeysova',
+    },
+  ],
   bio: '🦀 Rustacean, Frontender, Podcaster 🔍 @howtocards @accesso-app',
   work: 'red_mad_robot',
   avatar: 'https://avatars.githubusercontent.com/u/5620073?v=4',
@@ -21,7 +27,13 @@ export const userEvgeny: User = {
   username: 'risenforces',
   firstName: 'Evgeny',
   lastName: 'Zakharov',
-  socials: { github: 'https://github.com/risenforces' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/risenforces',
+      nickname: 'risenforces',
+    },
+  ],
   bio: 'Front-end developer (React.js)',
   work: 'risenforces',
   avatar: 'https://avatars.githubusercontent.com/u/35740512?v=4',
@@ -34,7 +46,13 @@ export const userIlya: User = {
   username: 'martis-git',
   firstName: 'Ilya',
   lastName: 'Azin',
-  socials: { github: 'https://github.com/martis-git' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/martis-git',
+      nickname: 'martis-git',
+    },
+  ],
   bio: 'design.code @feature-sliced',
   work: 'Yandex',
   avatar: 'https://avatars.githubusercontent.com/u/42924400?v=4',
@@ -47,7 +65,13 @@ export const userOleg: User = {
   username: 'OlegBrony',
   firstName: 'Oleg',
   lastName: 'Brony',
-  socials: { github: 'https://github.com/OlegBrony' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/OlegBrony',
+      nickname: 'OlegBrony',
+    },
+  ],
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/19880334?v=4',
   cards: stubCards(19),
@@ -59,7 +83,13 @@ export const userDmitry: User = {
   username: 'dmi-ch',
   firstName: 'Dmitriy',
   lastName: 'Chikhanov',
-  socials: { github: 'https://github.com/dmi-ch' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/dmi-ch',
+      nickname: 'dmi-ch',
+    },
+  ],
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/5101606?v=4',
   cards: stubCards(4),
@@ -71,7 +101,13 @@ export const userKirill: User = {
   username: 'Drevoed',
   firstName: 'Kirill',
   lastName: 'Mironov',
-  socials: { github: 'https://github.com/Drevoed' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/Drevoed',
+      nickname: 'Drevoed',
+    },
+  ],
   bio: 'Proud son of the Motherland, also known as the Inverted Netherlands.',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/53709100?v=4',
@@ -83,12 +119,18 @@ export const userAlex: User = {
   id: '7',
   username: 'asvtsv',
   firstName: 'Alexander',
-  lastName: '',
-  socials: { github: 'https://github.com/asvtsv' },
+  lastName: 'Sivtsov',
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/asvtsv',
+      nickname: 'asvtsv',
+    },
+  ],
   bio: 'Cherry-picky and into master :)',
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/9406938?v=4',
-  cards: stubCards(3),
+  cards: stubCards(20),
   favorites: stubCards(8),
 };
 
@@ -97,7 +139,13 @@ export const userAnton: User = {
   username: 'antonmazhuto',
   firstName: 'Anton',
   lastName: 'Mazhuto',
-  socials: { github: 'https://github.com/antonmazhuto' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/antonmazhuto',
+      nickname: 'antonmazhuto',
+    },
+  ],
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/36848395?v=4',
   cards: stubCards(20),
@@ -109,7 +157,13 @@ export const userIrina: User = {
   username: 'Irinaristova',
   firstName: 'Irina',
   lastName: 'Aristova',
-  socials: { github: 'https://github.com/Irinaristova' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/Irinaristova',
+      nickname: 'Irinaristova',
+    },
+  ],
   work: '',
   avatar: 'https://avatars.githubusercontent.com/u/38761239?v=4',
   cards: stubCards(3),
@@ -119,7 +173,13 @@ export const userIrina: User = {
 export const viewer: User = {
   id: '100',
   username: 'LangCreator',
-  socials: { github: 'https://github.com/langcreator' },
+  socials: [
+    {
+      type: 'github',
+      link: 'https://github.com/langcreator',
+      nickname: 'langcreator',
+    },
+  ],
   work: 'Frontend Lead at Yandex Music Saint-Petersburg, Russia',
   avatar:
     'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',

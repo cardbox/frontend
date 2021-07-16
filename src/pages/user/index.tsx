@@ -1,66 +1,63 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   Avatar,
   ContentCenteredTemplate,
-  Tab,
-  Tabs,
   button,
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
-import { Helmet } from 'react-helmet-async';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+import { userModel } from '@box/entities/user';
 
 import * as model from './model';
-import { avatarUri } from '../../shared/constants';
+import { Skeleton } from './skeleton';
 import { paths } from '../paths';
 
 export const UserPage = () => {
   useStart(model.pageLoaded);
+  const userInfo = useStore(userModel.$currentUser);
   const cards = useStore(cardModel.$cards);
-  const reversedCards = [...cards].reverse();
   const isLoading = useStore(model.$pagePending);
+
+  if (isLoading || !userInfo) return <Skeleton />;
 
   return (
     <>
-      {/* TODO: Remove later hardcoding after fetching current user */}
-      <Helmet title="LangCreator" />
       <UnderLay bg={iconUserBg} />
       <ContentCenteredTemplate>
         <Container>
           <UserHeader>
             <UserFace>
               <UserFaceContent>
-                <UserFaceName>LangCreator</UserFaceName>
-                <UserFacePosition>
-                  Frontend Lead at Yandex Music
-                </UserFacePosition>
+                <UserFaceName>
+                  {userInfo.firstName}&nbsp;
+                  {userInfo.lastName}
+                </UserFaceName>
+                <UserFacePosition>{userInfo.work}</UserFacePosition>
                 <UserLocation>Saint-Petersburg, Russia</UserLocation>
-                <UserFaceDescription>
-                  Username description first row, second row
-                </UserFaceDescription>
+                <UserFaceDescription>{userInfo.bio}</UserFaceDescription>
               </UserFaceContent>
             </UserFace>
             <UserSocial>
               <SocialStaff>
                 <SocialStaffTitle>Social staff</SocialStaffTitle>
                 <SocialStaffList>
-                  <SocialStaffItem>
-                    <Avatar size="small" src={avatarUri} />
-                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-                  </SocialStaffItem>
-                  <SocialStaffItem>
-                    <Avatar size="small" src={avatarUri} />
-                    <SocialStaffItemText>Usernamegit</SocialStaffItemText>
-                  </SocialStaffItem>
+                  {userInfo.socials?.map(({ link, nickname }) => (
+                    <SocialStaffItem key={`${nickname}`}>
+                      <SocialLink href={link}>
+                        <Avatar size="small" src={userInfo.avatar} />
+                        <SocialStaffItemText>@{nickname}</SocialStaffItemText>
+                      </SocialLink>
+                    </SocialStaffItem>
+                  ))}
                 </SocialStaffList>
               </SocialStaff>
             </UserSocial>
             <UserLogo>
-              <StAvatar size="large" src={avatarUri} />
+              <StAvatar size="large" src={userInfo.avatar} />
             </UserLogo>
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
@@ -69,24 +66,12 @@ export const UserPage = () => {
           </UserHeader>
           <Main>
             <UserCards>
-              <Tabs>
-                <Tab label="My cards">
-                  <CardList
-                    cards={cards}
-                    getHref={(card) => paths.card(card.id)}
-                    loading={isLoading}
-                  />
-                  {/* TODO: Process "empty" case correctly */}
-                </Tab>
-                <Tab label="Saved">
-                  <CardList
-                    cards={reversedCards}
-                    getHref={(card) => paths.card(card.id)}
-                    loading={isLoading}
-                  />
-                  {/* TODO: Process "empty" case correctly */}
-                </Tab>
-              </Tabs>
+              <UserCardTitle>User cards</UserCardTitle>
+              <CardList
+                cards={cards}
+                getHref={(card) => paths.card(card.id)}
+                loading={isLoading}
+              />
             </UserCards>
           </Main>
         </Container>
@@ -185,19 +170,17 @@ const UserFaceName = styled.div`
   line-height: 3rem;
 `;
 
-const UserFaceFollowers = styled.div`
-  font-size: 0.938rem;
-  line-height: 1.125rem;
-  margin-bottom: 1rem;
-`;
-
-const UserFaceDescription = styled.div`
+const FontDescription = css`
   font-style: normal;
   font-weight: normal;
   font-size: 1.125rem;
   line-height: 1.5rem;
   max-width: 16.5rem;
   margin-top: 2.25rem;
+`;
+
+const UserFaceDescription = styled.div`
+  ${FontDescription}
 `;
 
 const UserFacePosition = styled(UserFaceDescription)`
@@ -209,25 +192,12 @@ const UserLocation = styled(UserFaceDescription)`
   margin-top: 0;
 `;
 
-const UserActions = styled.div`
-  display: flex;
-  margin-left: 3.375rem;
-  & > *:first-child {
-    margin-right: 0.938rem;
-  }
-`;
-
 const Icon = styled.img<{ margin?: string }>`
   margin: ${({ margin }) => margin || 0};
 `;
 
 const UserCards = styled.div`
   margin-bottom: 8.25rem;
-`;
-
-const Sidebar = styled.div`
-  flex-shrink: 0;
-  width: 324px;
 `;
 
 const SocialStaff = styled.div`
@@ -254,11 +224,31 @@ const SocialStaffItem = styled.div`
   align-items: center;
   display: flex;
 
-  & > *:first-child {
+  & > a > *:first-child {
     margin-right: 12px;
   }
 `;
 
-const SocialStaffItemText = styled.div`
-  font-size: 0.9375rem;
+const SocialStaffItemText = styled.span`
+  color: #000;
+`;
+
+const UserCardTitle = styled.div`
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  color: #000000;
+  padding: 0;
+  margin-right: 1.875rem;
+  margin-bottom: 20px;
+  & > *:last-child {
+    margin-right: 0;
+  }
+`;
+
+const SocialLink = styled.a`
+  ${FontDescription}
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 0;
 `;
