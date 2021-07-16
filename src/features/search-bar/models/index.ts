@@ -1,9 +1,16 @@
+import { Card, User, internalApi } from '@box/api';
 import { ChangeEvent } from 'react';
-import { createEvent, forward, guard, restore } from 'effector-root';
+import {
+  createEffect,
+  createEvent,
+  createStore,
+  forward,
+  guard,
+  restore,
+} from 'effector-root';
 import { debounce } from 'patronum/debounce';
 import { historyPush } from '@box/entities/navigation';
-
-import { paths } from '../../../pages/paths';
+import { paths } from '@box/pages/paths';
 
 export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 
@@ -28,7 +35,26 @@ const searchSubmitted = guard({
 
 const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
 
+export const $cardList = createStore<Card[]>([]);
+export const $userList = createStore<User[]>([]);
+export const $cardsCount = createStore<number>(0);
+export const $usersCount = createStore<number>(0);
+
+export const searchFx = createEffect(async (query: string) => {
+  const response = await internalApi.search.results(query);
+  return response.body;
+});
+
 forward({
   from: trimmedSearchSubmitted.map(paths.search),
   to: historyPush,
 });
+forward({
+  from: trimmedSearchSubmitted,
+  to: searchFx,
+});
+
+$cardList.on(searchFx.doneData, (_, { cards }) => cards);
+$userList.on(searchFx.doneData, (_, { users }) => users);
+$cardsCount.on(searchFx.doneData, (_, { cards }) => cards.length);
+$usersCount.on(searchFx.doneData, (_, { users }) => users.length);

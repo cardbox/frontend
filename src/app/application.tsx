@@ -1,4 +1,4 @@
-// import 'react-tabs/style/react-tabs.css';
+import './custom-props.css';
 
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -26,17 +26,9 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: sans-serif;
   }
-
-  :root {
-    --wizard500: #4231FF;
-    --wizard300: #B6AFFF;
-    --wizard100: #F7F6FF;
-
-    --gray100: #FBFAFB;
-  }
 `;
 
-export const Application: React.FC<Props> = ({ root }) => (
+export const Application = ({ root }: Props) => (
   <QueryParamProvider ReactRouterRoute={Route}>
     <Provider value={root}>
       <Container>

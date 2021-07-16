@@ -212,7 +212,7 @@ export const cards: Card[] = [
   },
   {
     id: '2',
-    title: `Effector: sample vs forward`,
+    title: `Effector: sample vs forward, Effector: sample vs forward`,
     content: `Sample: This method can be used for linking two nodes, resulting the third one, which will fire only upon clock node trigger.\nForward: Method to create connection between units in a declarative way. Sends updates from one set of units to another`,
     author: viewer,
     createdAt: '2021-01-04T05:03:00.000Z',
@@ -221,7 +221,7 @@ export const cards: Card[] = [
   },
   {
     id: '3',
-    title: `Effects sequence`,
+    title: `Effects sequence, Effects sequence, Effects sequence`,
     content: `We'll need it when second request to the server requires resolved data from the first one
     \`\`\`
     import ReactDOM from 'react-dom'
@@ -272,7 +272,7 @@ export const cards: Card[] = [
   },
   {
     id: '5',
-    title: `Effector live comparsion`,
+    title: `Stop using Effector`,
     content: `Effector is a brand new reactive state manager. Its ambitious team aims to solve all the problems that existing solutions have. Writing the core of the library from scratch took several attempts across six months, and recently the team released the first stable release.
 
     In this article, I will show why I prefer using Effector for my new projects instead of other state managers. Let's get started with the Effector API.`,
