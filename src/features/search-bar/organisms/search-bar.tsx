@@ -2,15 +2,19 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import { User } from '@box/api';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';
 import { Search } from '../molecules';
-import { avatarUri } from '../../../shared/constants';
 import { paths } from '../../../pages/paths';
 import { useSearchQuery } from '../lib';
 
-export const Searchbar = () => {
+interface SearchbarProps {
+  user: User;
+}
+
+export const Searchbar = ({ user }: SearchbarProps) => {
   useSearchQueryChanged();
 
   return (
@@ -23,11 +27,11 @@ export const Searchbar = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <Link to="/user">
+          <UserLink href={`/u/${user.username}`}>
             <LoginBlock>
-              <Avatar src={avatarUri} />
+              <Avatar src={user.avatar} />
             </LoginBlock>
-          </Link>
+          </UserLink>
           <button.Base>New card</button.Base>
         </Nav>
       </ContentCenteredTemplate>
@@ -65,5 +69,9 @@ const SearchWrapper = styled.div`
 `;
 
 const LoginBlock = styled.div`
+  margin: 0 1.125rem;
+`;
+
+const UserLink = styled.a`
   margin: 0 1.125rem;
 `;

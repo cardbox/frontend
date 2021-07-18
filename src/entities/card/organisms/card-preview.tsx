@@ -190,7 +190,9 @@ const ContentText = styled(Text)`
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
   <MetaStyled>
     {/* FIXME: bind with API later */}
-    <Text type={TextType.small}>EffectorMaster</Text>
+    <UserLink href={`/u/${author.username}`}>
+      <Text type={TextType.small}>EffectorMaster</Text>
+    </UserLink>
     <Text type={TextType.mini}>
       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
     </Text>
@@ -253,4 +255,9 @@ const MetaStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const UserLink = styled.a`
+  text-decoration: none;
+  color: #9b99ac;
 `;

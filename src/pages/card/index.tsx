@@ -30,7 +30,7 @@ export const CardPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard user={user} />
+            <UserCard user={user} href={`/u/${card?.author.username}`} />
             <Links>
               <LinkEdit disabled href="#edit">
                 Edit card

@@ -49,15 +49,17 @@ const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
 
   return (
     <ContentStyled>
-      <UserName type={TextType.header4} title={username}>
-        {data.map(({ isFound, text }, index) => (
-          // no need to handle index issue here
-          // eslint-disable-next-line react/no-array-index-key
-          <PartUserName key={index} data-is-selected={isFound}>
-            {text}
-          </PartUserName>
-        ))}
-      </UserName>
+      <UserLink href={`/u/${username}`}>
+        <UserName type={TextType.header4} title={username}>
+          {data.map(({ isFound, text }, index) => (
+            // no need to handle index issue here
+            // eslint-disable-next-line react/no-array-index-key
+            <PartUserName key={index} data-is-selected={isFound}>
+              {text}
+            </PartUserName>
+          ))}
+        </UserName>
+      </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
     </ContentStyled>
   );
@@ -104,4 +106,8 @@ const ContentText = styled(Text)`
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+`;
+
+const UserLink = styled.a`
+  text-decoration: none;
 `;
