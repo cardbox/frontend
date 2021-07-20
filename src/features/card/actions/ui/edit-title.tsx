@@ -9,17 +9,18 @@ import * as model from '../model';
  * Редактирование заголовка карточки
  */
 export const EditTitle = () => {
-  const draft = useStore(model.$draft);
+  const title = useStore(model.$title);
+  const isValidTitle = useStore(model.$isValidTitle);
   const setDraftTitle = useEvent(model.setTitle);
 
-  if (!draft) {
+  if (!isValidTitle) {
     return <Text type={TextType.header2}>Not Found</Text>;
   }
 
   return (
     <Title
       placeholder="Card name"
-      value={draft.title}
+      value={title}
       onChange={(e) => setDraftTitle(e.target.value)}
     />
   );

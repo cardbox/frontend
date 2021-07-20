@@ -11,7 +11,8 @@ import * as model from '../model';
  * Редактирование контента карточки
  */
 export const EditContent = () => {
-  const draftNode = useStore(model.$draftContentNode);
+  const content = useStore(model.$content);
+  const isValidContent = useStore(model.$isValidContent);
   const setDraftContent = useEvent(model.setContent);
 
   const handleChange = useCallback(
@@ -19,12 +20,12 @@ export const EditContent = () => {
     [],
   );
 
-  if (!draftNode) {
+  if (!isValidContent) {
     return <Skeleton style={{ height: 500 }} />;
   }
   return (
     <Container>
-      <Editor value={draftNode} onChange={handleChange} />
+      <Editor value={content} onChange={handleChange} />
     </Container>
   );
 };

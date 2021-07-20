@@ -9,11 +9,11 @@ import * as model from '../model';
  * @remark Сброс до изначального состояния модели
  */
 export const UpdateChanges = () => {
-  const draft = useStore(model.$draft);
   const submitChanges = useEvent(model.submitChanges);
+  const isValidDraft = useStore(model.$isValidDraft);
 
   return (
-    <button.Primary onClick={() => submitChanges(draft)} disabled={!draft}>
+    <button.Primary onClick={() => submitChanges()} disabled={!isValidDraft}>
       Save
     </button.Primary>
   );

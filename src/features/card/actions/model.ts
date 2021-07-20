@@ -1,33 +1,27 @@
 import type { Card, CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
 import {
+  combine,
   createDomain,
   createEffect,
   createEvent,
-  forward,
+  guard,
 } from 'effector-root';
+import { every } from 'patronum/every';
 import { internalApi } from '@box/api';
+import { isNonEmpty } from '@box/lib/fp';
 import { spread } from 'patronum/spread';
 
-type Draft = Card | null;
+type Draft = Pick<Card, 'id' | 'title' | 'content' | 'tags'>;
 
 // FIXME: simplify to one event?
 export const setTitle = createEvent<string>();
 export const setContent = createEvent<CardContent>();
-export const submitChanges = createEvent<Draft>();
+export const submitChanges = createEvent();
 export const resetChanges = createEvent();
 
 // FIXME: process response
 export const submitChangesFx = createEffect((payload: Draft) => {
-  if (
-    !payload ||
-    !payload.id ||
-    !payload.title ||
-    payload.content.length === 0
-  ) {
-    return;
-  }
-
   return internalApi.cards.update({
     cardId: payload.id,
     title: payload.title,
@@ -38,32 +32,39 @@ export const submitChangesFx = createEffect((payload: Draft) => {
 
 const draft = createDomain();
 
+export const $id = draft.createStore<string>('');
 export const $title = draft.createStore<string>('');
 export const $content = draft.createStore<CardContent>([]);
 export const $tags = draft.createStore<string[]>([]);
+
+export const $draft = combine({
+  id: $id,
+  title: $title,
+  content: $content,
+  tags: $tags,
+});
+
+export const $isValidId = $id.map(isNonEmpty);
+export const $isValidTitle = $title.map(isNonEmpty);
+export const $isValidContent = $content.map(isNonEmpty);
+// TODO: impl later after tags logic implementing
+// export const $isValidTags = $tags.map(isNonEmpty);
+
+export const $isValidDraft = every({
+  predicate: true,
+  stores: [$isValidId, $isValidTitle, $isValidContent],
+});
 
 // On:Init
 spread({
   source: cardModel.getCardByIdFx.doneData.map(({ card }) => card),
   targets: {
+    id: $id,
     title: $title,
     content: $content,
     tags: $tags,
   },
 });
-
-// $title.on(
-//   cardModel.getCardByIdFx.doneData,
-//   (state, payload) => payload.card?.title || state,
-// );
-// $content.on(
-//   cardModel.getCardByIdFx.doneData,
-//   (state, payload) => payload.card?.content || state,
-// );
-// $tags.on(
-//   cardModel.getCardByIdFx.doneData,
-//   (state, payload) => payload.card?.tags || state,
-// );
 
 // On:Update
 $title.on(setTitle, (_, payload) => payload);
@@ -74,7 +75,9 @@ draft.onCreateStore((store) => {
   store.reset(submitChangesFx.done, resetChanges);
 });
 
-forward({
-  from: submitChanges,
-  to: submitChangesFx,
+guard({
+  clock: submitChanges,
+  source: $draft,
+  filter: $isValidDraft,
+  target: submitChangesFx,
 });
