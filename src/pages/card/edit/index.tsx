@@ -1,4 +1,4 @@
-import * as CardActions from '@box/features/card/actions';
+import * as CardDraft from '@box/features/card/draft';
 import React from 'react';
 import styled from 'styled-components';
 import { ContentCenteredTemplate, button } from '@box/ui';
@@ -16,15 +16,15 @@ export const CardEditPage = () => {
       <ContentCenteredTemplate>
         <Container>
           <Header>
-            <CardActions.EditTitle />
+            <CardDraft.EditTitle />
           </Header>
           <Content>
-            <CardActions.EditContent />
+            <CardDraft.EditContent />
           </Content>
           <Footer>
             <button.Group>
-              <CardActions.UpdateChanges />
-              <CardActions.ResetChanges />
+              <CardDraft.UpdateChanges />
+              <CardDraft.ResetChanges />
             </button.Group>
           </Footer>
         </Container>

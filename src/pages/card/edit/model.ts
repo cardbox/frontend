@@ -1,6 +1,6 @@
 import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, merge, sample } from 'effector-root';
-import { cardActionsModel } from '@box/features/card/actions';
+import { cardDraftModel } from '@box/features/card/draft';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
 
@@ -19,8 +19,8 @@ sample({
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
   clock: merge([
-    cardActionsModel.submitChangesFx.done,
-    cardActionsModel.resetChanges,
+    cardDraftModel.submitChangesFx.done,
+    cardDraftModel.resetChanges,
   ]),
   source: cardModel.$currentCardId,
   fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
