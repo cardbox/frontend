@@ -11,7 +11,7 @@ export const ROUTES = [
   { exact: true, path: paths.comments(), component: CommentsPage },
   { exact: true, path: paths.card(':cardId'), component: CardPage },
   { exact: true, path: paths.cardEdit(':cardId'), component: CardEditPage },
-  { exact: true, path: paths.user(), component: UserPage },
+  { exact: true, path: paths.user(':username'), component: UserPage },
   { exact: true, path: paths.search(), component: SearchPage },
   { path: '*', component: Error404Page },
 ];
