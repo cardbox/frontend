@@ -151,12 +151,12 @@ const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
-          <Editor value={JSON.parse(content)} readOnly={true} />
+          <Editor value={content} readOnly={true} />
         </>
       )}
       {type === 'item' && (
         <ItemEditorContainer>
-          <Editor value={JSON.parse(content)} readOnly={true} />
+          <Editor value={content} readOnly={true} />
         </ItemEditorContainer>
       )}
     </ContentStyled>

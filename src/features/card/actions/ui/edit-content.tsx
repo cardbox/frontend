@@ -15,7 +15,7 @@ export const EditContent = () => {
   const setDraftContent = useEvent(model.setContent);
 
   const handleChange = useCallback(
-    (nextValue: EditorValue) => setDraftContent(JSON.stringify(nextValue)),
+    (nextValue: EditorValue) => setDraftContent(nextValue),
     [],
   );
 

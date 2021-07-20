@@ -16,18 +16,13 @@ export type CardListParams = {
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type CardCreateParams = {
-  title: string;
-  content: string;
-  tags: string[];
-};
+export type CardCreateParams = Pick<Card, 'title' | 'content' | 'tags'>;
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type CardUpdateParams = {
+export type CardUpdateParams = Partial<
+  Pick<Card, 'title' | 'content' | 'tags'>
+> & {
   cardId: string;
-  title?: string;
-  content?: string;
-  tags?: string[];
 };
 
 export const cards = {

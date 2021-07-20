@@ -1,5 +1,5 @@
 import produce from 'immer';
-import type { Card } from '@box/api';
+import type { Card, CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
 import { createEffect, createEvent, createStore, forward } from 'effector-root';
 import { internalApi } from '@box/api';
@@ -8,13 +8,20 @@ type Draft = Card | null;
 
 // FIXME: simplify to one event?
 export const setTitle = createEvent<string>();
-export const setContent = createEvent<string>();
+export const setContent = createEvent<CardContent>();
 export const submitChanges = createEvent<Draft>();
 export const resetChanges = createEvent();
 
 // FIXME: process response
 export const submitChangesFx = createEffect((payload: Draft) => {
-  if (!payload || !payload.id || !payload.title || !payload.content) return;
+  if (
+    !payload ||
+    !payload.id ||
+    !payload.title ||
+    payload.content.length === 0
+  ) {
+    return;
+  }
 
   return internalApi.cards.update({
     cardId: payload.id,
@@ -27,7 +34,7 @@ export const $draft = createStore<Draft>(null);
 
 // Combine
 export const $draftContentNode = $draft.map((data) =>
-  data ? JSON.parse(data.content) : null,
+  data ? data.content : null,
 );
 
 // On:Init
