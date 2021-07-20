@@ -4,11 +4,11 @@ import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { avatarUri } from '@box/shared/constants';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
 import * as model from './model';
-import { avatarUri } from '../../../shared/constants';
 import { paths } from '../../paths';
 
 export const CardViewPage = () => {
