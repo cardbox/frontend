@@ -1,6 +1,6 @@
 import React from 'react';
 import { button } from '@box/ui';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../model';
 
@@ -13,7 +13,6 @@ const CANCEL_WARN = 'Are you sure you want to undo the changes? The action is no
  * @remark Сброс до изначального состояния модели
  */
 export const ResetChanges = () => {
-  const draft = useStore(model.$draft);
   const resetChanges = useEvent(model.resetChanges);
 
   return (
@@ -23,7 +22,6 @@ export const ResetChanges = () => {
         if (!window.confirm(CANCEL_WARN)) return;
         resetChanges();
       }}
-      disabled={!draft}
     >
       Cancel
     </button.Base>

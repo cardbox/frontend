@@ -37,13 +37,6 @@ export const $title = draft.createStore<string>('');
 export const $content = draft.createStore<CardContent>([]);
 export const $tags = draft.createStore<string[]>([]);
 
-export const $draft = combine({
-  id: $id,
-  title: $title,
-  content: $content,
-  tags: $tags,
-});
-
 export const $isValidId = $id.map(isNonEmpty);
 export const $isValidTitle = $title.map(isNonEmpty);
 export const $isValidContent = $content.map(isNonEmpty);
@@ -55,7 +48,7 @@ export const $isValidDraft = every({
   stores: [$isValidId, $isValidTitle, $isValidContent],
 });
 
-// On:Init
+// Init
 spread({
   source: cardModel.getCardByIdFx.doneData.map(({ card }) => card),
   targets: {
@@ -66,18 +59,24 @@ spread({
   },
 });
 
-// On:Update
+// Update
 $title.on(setTitle, (_, payload) => payload);
 $content.on(setContent, (_, payload) => payload);
 
-// On:Reset
+// Reset
 draft.onCreateStore((store) => {
   store.reset(submitChangesFx.done, resetChanges);
 });
 
+// Submit
 guard({
   clock: submitChanges,
-  source: $draft,
+  source: {
+    id: $id,
+    title: $title,
+    content: $content,
+    tags: $tags,
+  },
   filter: $isValidDraft,
   target: submitChangesFx,
 });
