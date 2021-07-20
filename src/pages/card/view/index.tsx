@@ -11,7 +11,7 @@ import * as model from './model';
 import { avatarUri } from '../../../shared/constants';
 import { paths } from '../../paths';
 
-export const CardPage = () => {
+export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
@@ -50,7 +50,7 @@ export const CardPage = () => {
   );
 };
 
-withStart(model.pageLoaded, CardPage);
+withStart(model.pageLoaded, CardViewPage);
 
 const user = {
   avatar: avatarUri,
