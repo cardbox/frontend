@@ -27,7 +27,6 @@
     "effector-root": "^1.1.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
-    "immer": "^9.0.5",
     "miragejs": "^0.1.41",
     "node-fetch": "^2.6.1",
     "patronum": "^1.1.0",

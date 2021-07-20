@@ -1,8 +1,13 @@
-import produce from 'immer';
 import type { Card, CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
-import { createEffect, createEvent, createStore, forward } from 'effector-root';
+import {
+  createDomain,
+  createEffect,
+  createEvent,
+  forward,
+} from 'effector-root';
 import { internalApi } from '@box/api';
+import { spread } from 'patronum/spread';
 
 type Draft = Card | null;
 
@@ -30,31 +35,44 @@ export const submitChangesFx = createEffect((payload: Draft) => {
     tags: payload.tags,
   });
 });
-export const $draft = createStore<Draft>(null);
 
-// Combine
-export const $draftContentNode = $draft.map((data) =>
-  data ? data.content : null,
-);
+const draft = createDomain();
+
+export const $title = draft.createStore<string>('');
+export const $content = draft.createStore<CardContent>([]);
+export const $tags = draft.createStore<string[]>([]);
 
 // On:Init
-$draft.on(cardModel.getCardByIdFx.doneData, (_, payload) => payload.card);
+spread({
+  source: cardModel.getCardByIdFx.doneData.map(({ card }) => card),
+  targets: {
+    title: $title,
+    content: $content,
+    tags: $tags,
+  },
+});
+
+// $title.on(
+//   cardModel.getCardByIdFx.doneData,
+//   (state, payload) => payload.card?.title || state,
+// );
+// $content.on(
+//   cardModel.getCardByIdFx.doneData,
+//   (state, payload) => payload.card?.content || state,
+// );
+// $tags.on(
+//   cardModel.getCardByIdFx.doneData,
+//   (state, payload) => payload.card?.tags || state,
+// );
+
 // On:Update
-$draft.on(setTitle, (state, payload) =>
-  produce(state, (draft) => {
-    if (!draft) return;
-    draft.title = payload;
-  }),
-);
-$draft.on(setContent, (state, payload) =>
-  produce(state, (draft) => {
-    if (!draft) return;
-    draft.content = payload;
-  }),
-);
+$title.on(setTitle, (_, payload) => payload);
+$content.on(setContent, (_, payload) => payload);
+
 // On:Reset
-$draft.reset(submitChangesFx.done);
-$draft.reset(resetChanges);
+draft.onCreateStore((store) => {
+  store.reset(submitChangesFx.done, resetChanges);
+});
 
 forward({
   from: submitChanges,
