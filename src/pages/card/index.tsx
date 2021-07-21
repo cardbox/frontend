@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
+import { paths } from '@box/pages/paths';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 
@@ -30,7 +31,7 @@ export const CardPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard user={user} href={`/u/${card?.author.username}`} />
+            <UserCard user={user} href={paths.user(card?.author.username)} />
             <Links>
               <LinkEdit disabled href="#edit">
                 Edit card

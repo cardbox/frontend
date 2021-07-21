@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
-import { User } from '@box/api';
+import type { User } from '@box/api';
+import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';
 import { Search } from '../molecules';
-import { paths } from '../../../pages/paths';
 import { useSearchQuery } from '../lib';
 
 interface SearchbarProps {
@@ -27,7 +27,7 @@ export const Searchbar = ({ user }: SearchbarProps) => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink href={`/u/${user.username}`}>
+          <UserLink to={paths.user(user.username)}>
             <LoginBlock>
               <Avatar src={user.avatar} />
             </LoginBlock>
@@ -72,6 +72,6 @@ const LoginBlock = styled.div`
   margin: 0 1.125rem;
 `;
 
-const UserLink = styled.a`
+const UserLink = styled(Link)`
   margin: 0 1.125rem;
 `;

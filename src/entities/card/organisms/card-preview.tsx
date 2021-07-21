@@ -20,6 +20,7 @@ import {
   iconDeckCheck,
 } from '@box/ui';
 import { navigationModel } from '@box/entities/navigation';
+import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
 
@@ -190,7 +191,7 @@ const ContentText = styled(Text)`
 const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
   <MetaStyled>
     {/* FIXME: bind with API later */}
-    <UserLink href={`/u/${author.username}`}>
+    <UserLink to={paths.user(author.username)}>
       <Text type={TextType.small}>EffectorMaster</Text>
     </UserLink>
     <Text type={TextType.mini}>
@@ -257,7 +258,7 @@ const MetaStyled = styled.div`
   justify-content: space-between;
 `;
 
-const UserLink = styled.a`
+const UserLink = styled(Link)`
   text-decoration: none;
   color: #9b99ac;
 `;

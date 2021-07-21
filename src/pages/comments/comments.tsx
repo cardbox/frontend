@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet-async';
+import { paths } from '@box/pages/paths';
 
 export const Comments = () => (
   <>
@@ -140,7 +141,7 @@ const Question: React.FC<Question> = ({
 }) => (
   <QuestionContainer>
     <Heading>
-      <UserLink href={`/u/${author.username}`}>
+      <UserLink to={paths.user(author.username)}>
         <AuthorImage src={`https://i.pravatar.cc/72?u=${author.id}`} />
       </UserLink>
       <Topic>{topic}</Topic>
@@ -315,4 +316,4 @@ const ResolvedChip = styled.div`
   }
 `;
 
-const UserLink = styled.a``;
+const UserLink = styled(Link)``;

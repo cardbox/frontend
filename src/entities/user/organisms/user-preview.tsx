@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
+import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { paths } from '@box/pages/paths';
 import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
@@ -49,7 +51,7 @@ const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
 
   return (
     <ContentStyled>
-      <UserLink href={`/u/${username}`}>
+      <UserLink to={paths.user(username)}>
         <UserName type={TextType.header4} title={username}>
           {data.map(({ isFound, text }, index) => (
             // no need to handle index issue here
@@ -108,6 +110,6 @@ const ContentText = styled(Text)`
   -webkit-box-orient: vertical;
 `;
 
-const UserLink = styled.a`
+const UserLink = styled(Link)`
   text-decoration: none;
 `;
