@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import type { User } from '@box/api';
 import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react/ssr';
 import { viewer } from '@box/api/mock/fixtures';
@@ -10,8 +11,15 @@ import * as model from '../models';
 import { Search } from '../molecules';
 import { useSearchQuery } from '../lib';
 
-export const Searchbar = () => {
+interface SearchbarProps {
+  getUserHref?: (data: User) => string | undefined;
+}
+
+// TODO: вынести из Searchbar логику с пользователем
+export const Searchbar: React.FC<SearchbarProps> = ({ getUserHref }) => {
   useSearchQueryChanged();
+
+  const userLink = getUserHref?.(viewer) || '';
 
   return (
     <Container>
@@ -23,7 +31,7 @@ export const Searchbar = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={paths.user(viewer.username)}>
+          <UserLink to={userLink}>
             <LoginBlock>
               <Avatar src={viewer.avatar} />
             </LoginBlock>

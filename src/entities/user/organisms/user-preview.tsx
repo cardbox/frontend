@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
-import { paths } from '@box/pages/paths';
 import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
@@ -11,12 +10,15 @@ import { getFoundData } from '../lib';
 
 interface UserPreviewProps {
   user: User;
+  userHref?: string;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({ user }) => {
+export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
   return (
     <PaperContainerStyled>
       <Header>
-        <Content username={user.username}>{user.bio}</Content>
+        <Content username={user.username} userHref={userHref}>
+          {user.bio}
+        </Content>
         <Avatar src={user.avatar} />
       </Header>
 
@@ -45,13 +47,23 @@ const Header = styled.header`
     margin-left: 1rem;
   }
 `;
-const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
+
+interface ContencProps extends Pick<User, 'username'> {
+  children: React.ReactNode | React.ReactNode[];
+  userHref?: string;
+}
+
+const Content: React.FC<ContencProps> = ({
+  children,
+  username,
+  userHref = '',
+}) => {
   const query = useSearchQuery();
   const data = getFoundData({ search: username, query });
 
   return (
     <ContentStyled>
-      <UserLink to={paths.user(username)}>
+      <Link to={userHref}>
         <UserName type={TextType.header4} title={username}>
           {data.map(({ isFound, text }, index) => (
             // no need to handle index issue here
@@ -61,7 +73,7 @@ const Content: React.FC<Pick<User, 'username'>> = ({ children, username }) => {
             </PartUserName>
           ))}
         </UserName>
-      </UserLink>
+      </Link>
       <ContentText type={TextType.small}>{children}</ContentText>
     </ContentStyled>
   );
@@ -108,8 +120,4 @@ const ContentText = styled(Text)`
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-`;
-
-const UserLink = styled(Link)`
-  text-decoration: none;
 `;

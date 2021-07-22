@@ -106,5 +106,6 @@ const UserResults = reflect({
   bind: {
     users: searchModel.$userList,
     loading: model.$isShowLoading,
+    getUserHref: (user) => paths.user(user.username),
   },
 });

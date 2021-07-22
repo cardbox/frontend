@@ -201,7 +201,7 @@ const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
   <MetaStyled>
     {/* FIXME: bind with API later */}
     <UserLink to={userHref}>
-      <Text type={TextType.small}>EffectorMaster</Text>
+      <Text type={TextType.small}>{author.username}</Text>
     </UserLink>
     <Text type={TextType.mini}>
       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
