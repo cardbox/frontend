@@ -29,6 +29,7 @@ interface CardPreviewProps {
   card?: Card | null;
   isCardInFavorite?: boolean;
   href?: string;
+  userHref?: string;
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
@@ -42,6 +43,7 @@ export const CardPreview = ({
   card,
   isCardInFavorite = false,
   href,
+  userHref,
   loading = false,
   type = 'preview',
   focusItemChanged,
@@ -104,7 +106,11 @@ export const CardPreview = ({
       </Header>
 
       {type === 'preview' && (
-        <Meta author={card.author} updatedAt={card.updatedAt} />
+        <Meta
+          author={card.author}
+          userHref={userHref}
+          updatedAt={card.updatedAt}
+        />
       )}
     </PaperContainerStyled>
   );
@@ -187,10 +193,16 @@ const ContentText = styled(Text)`
   white-space: pre-line;
 `;
 
-const Meta = ({ author, updatedAt }: Pick<Card, 'author' | 'updatedAt'>) => (
+interface MetaProps extends Pick<Card, 'author' | 'updatedAt'> {
+  userHref?: string;
+}
+
+const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
   <MetaStyled>
     {/* FIXME: bind with API later */}
-    <Text type={TextType.small}>EffectorMaster</Text>
+    <UserLink to={userHref}>
+      <Text type={TextType.small}>{author.username}</Text>
+    </UserLink>
     <Text type={TextType.mini}>
       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
     </Text>
@@ -253,4 +265,9 @@ const MetaStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const UserLink = styled(Link)`
+  text-decoration: none;
+  color: #9b99ac;
 `;

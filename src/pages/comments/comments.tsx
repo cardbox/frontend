@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { paths } from '@box/pages/paths';
 
 export const Comments = () => (
   <>
@@ -12,7 +14,7 @@ export const Comments = () => (
       <List>
         <Question
           topic="How to use it with redux?"
-          author={{ id: '1' }}
+          author={{ id: '1', username: 'LangCreator' }}
           when="today"
           resolved
           text={
@@ -30,7 +32,7 @@ export const Comments = () => (
           }}
         >
           <Answer
-            author={{ id: '4' }}
+            author={{ id: '4', username: 'LangCreator' }}
             when="11 hours ago"
             title="Artur Bon"
             text={
@@ -47,7 +49,7 @@ export const Comments = () => (
         </Question>
         <Question
           topic="What version of Effector supports it?"
-          author={{ id: '2' }}
+          author={{ id: '2', username: 'LangCreator' }}
           when="3 days ago"
           text={
             <>
@@ -65,7 +67,7 @@ export const Comments = () => (
         />
         <Question
           topic="What about to add native support for Set in Effector core?"
-          author={{ id: '3' }}
+          author={{ id: '3', username: 'LangCreator' }}
           when="week ago"
           text={
             <>
@@ -111,9 +113,14 @@ const List = styled.div`
   }
 `;
 
+interface Author {
+  id: string;
+  username: string;
+}
+
 interface Question {
   topic: string;
-  author: { id: string };
+  author: Author;
   when: string;
   text: React.ReactNode;
   resolved?: boolean;
@@ -135,7 +142,9 @@ const Question: React.FC<Question> = ({
 }) => (
   <QuestionContainer>
     <Heading>
-      <AuthorImage src={`https://i.pravatar.cc/72?u=${author.id}`} />
+      <UserLink to={paths.user(author.username)}>
+        <AuthorImage src={`https://i.pravatar.cc/72?u=${author.id}`} />
+      </UserLink>
       <Topic>{topic}</Topic>
       <When>{when}</When>
       {resolved ? (
@@ -159,7 +168,7 @@ const Question: React.FC<Question> = ({
 );
 
 interface Answer {
-  author: { id: string };
+  author: Author;
   title: string;
   when: string;
   why: 'liked' | false;
@@ -307,3 +316,5 @@ const ResolvedChip = styled.div`
     background-color: #683aef;
   }
 `;
+
+const UserLink = styled(Link)``;

@@ -70,6 +70,7 @@ export const UserPage = () => {
               <CardList
                 cards={cards}
                 getHref={(card) => paths.card(card.id)}
+                getUserHref={(card) => paths.user(card.author.username)}
                 loading={isLoading}
               />
             </UserCards>
