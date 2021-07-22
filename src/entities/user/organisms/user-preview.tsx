@@ -63,7 +63,7 @@ const Content: React.FC<ContentProps> = ({
 
   return (
     <ContentStyled>
-      <Link to={userHref}>
+      <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
           {data.map(({ isFound, text }, index) => (
             // no need to handle index issue here
@@ -73,7 +73,7 @@ const Content: React.FC<ContentProps> = ({
             </PartUserName>
           ))}
         </UserName>
-      </Link>
+      </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
     </ContentStyled>
   );
@@ -120,4 +120,8 @@ const ContentText = styled(Text)`
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+`;
+
+const UserLink = styled(Link)`
+  text-decoration: none;
 `;
