@@ -8,7 +8,6 @@ import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
-import { viewer } from '@box/api/mock/fixtures';
 
 import { Pages } from '../pages';
 
@@ -44,7 +43,7 @@ export const Application = ({ root }: Props) => (
         </Helmet>
         <Globals />
         {/* FIXME: научиться получать авторизированного пользователя и сюда прокидывать в поле user */}
-        <Searchbar user={viewer} />
+        <Searchbar />
         <PagesContainer>
           <PagesContent>
             <Pages />

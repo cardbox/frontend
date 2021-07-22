@@ -2,19 +2,15 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/api';
 import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react/ssr';
+import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from '../models';
 import { Search } from '../molecules';
 import { useSearchQuery } from '../lib';
 
-interface SearchbarProps {
-  user: User;
-}
-
-export const Searchbar = ({ user }: SearchbarProps) => {
+export const Searchbar = () => {
   useSearchQueryChanged();
 
   return (
@@ -27,9 +23,9 @@ export const Searchbar = ({ user }: SearchbarProps) => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={paths.user(user.username)}>
+          <UserLink to={paths.user(viewer.username)}>
             <LoginBlock>
-              <Avatar src={user.avatar} />
+              <Avatar src={viewer.avatar} />
             </LoginBlock>
           </UserLink>
           <button.Base>New card</button.Base>
