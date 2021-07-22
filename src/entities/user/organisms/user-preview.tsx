@@ -124,4 +124,9 @@ const ContentText = styled(Text)`
 
 const UserLink = styled(Link)`
   text-decoration: none;
+  color: #000000;
+
+  &:hover {
+    color: blue;
+  }
 `;
