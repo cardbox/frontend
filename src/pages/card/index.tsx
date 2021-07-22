@@ -6,9 +6,10 @@ import { Helmet } from 'react-helmet-async';
 import { paths } from '@box/pages/paths';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+//FIXME
+import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
-import { avatarUri } from '../../shared/constants';
 
 export const CardPage = () => {
   useStart(model.pageLoaded);
@@ -31,7 +32,10 @@ export const CardPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard user={user} href={paths.user(card?.author.username)} />
+            <UserCard
+              user={viewer}
+              getUserHref={(user) => paths.user(user.username)}
+            />
             <Links>
               <LinkEdit disabled href="#edit">
                 Edit card
@@ -48,12 +52,6 @@ export const CardPage = () => {
 };
 
 withStart(model.pageLoaded, CardPage);
-
-const user = {
-  avatar: avatarUri,
-  name: 'LangCreator',
-  role: 'Owner',
-};
 
 const map = (props: { disabled?: boolean }) => ({
   'data-disabled': props.disabled,

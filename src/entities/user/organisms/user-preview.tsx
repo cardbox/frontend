@@ -48,12 +48,12 @@ const Header = styled.header`
   }
 `;
 
-interface ContencProps extends Pick<User, 'username'> {
+interface ContentProps extends Pick<User, 'username'> {
   children: React.ReactNode | React.ReactNode[];
   userHref?: string;
 }
 
-const Content: React.FC<ContencProps> = ({
+const Content: React.FC<ContentProps> = ({
   children,
   username,
   userHref = '',

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { paths } from '@box/pages/paths';
 
 export const Comments = () => (
