@@ -173,6 +173,8 @@ export const userIrina: User = {
 export const viewer: User = {
   id: '100',
   username: 'LangCreator',
+  firstName: 'Lang',
+  lastName: 'Creator',
   socials: [
     {
       type: 'github',
@@ -183,8 +185,8 @@ export const viewer: User = {
   work: 'Frontend Lead at Yandex Music Saint-Petersburg, Russia',
   avatar:
     'https://images.pexels.com/photos/2927811/pexels-photo-2927811.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  cards: ['1', '3', '5'],
-  favorites: ['2', '4'],
+  cards: stubCards(3),
+  favorites: stubCards(2),
 };
 
 export const users: User[] = [
@@ -197,6 +199,7 @@ export const users: User[] = [
   userAlex,
   userAnton,
   userIrina,
+  viewer,
 ];
 
 // NOTE: preudo "uuid" for id property

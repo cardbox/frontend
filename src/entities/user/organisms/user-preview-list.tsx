@@ -8,8 +8,13 @@ import { UserPreview } from './user-preview';
 interface UserListProps {
   users: User[];
   loading?: boolean;
+  getUserHref?: (data: User) => string | undefined;
 }
-export const UserPreviewList = ({ users, loading }: UserListProps) => {
+export const UserPreviewList = ({
+  users,
+  loading,
+  getUserHref,
+}: UserListProps) => {
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
@@ -17,7 +22,7 @@ export const UserPreviewList = ({ users, loading }: UserListProps) => {
   return (
     <Container>
       {users.map((user) => (
-        <UserPreview key={user.id} user={user} />
+        <UserPreview key={user.id} user={user} userHref={getUserHref?.(user)} />
       ))}
     </Container>
   );

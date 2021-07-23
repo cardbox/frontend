@@ -8,6 +8,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
+import { paths } from '@box/pages/paths';
 
 import { Pages } from '../pages';
 
@@ -42,7 +43,8 @@ export const Application = ({ root }: Props) => (
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <Globals />
-        <Searchbar />
+        {/* FIXME: научиться получать авторизированного пользователя и сюда прокидывать в поле user */}
+        <Searchbar getUserHref={(user) => paths.user(user.username)} />
         <PagesContainer>
           <PagesContent>
             <Pages />
