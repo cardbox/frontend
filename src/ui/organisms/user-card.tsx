@@ -2,31 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@box/ui';
 import { Link } from 'react-router-dom';
-
-// Временно
-interface User {
-  avatar: string;
-  name: string;
-  role: string;
-}
+import type { User } from '@box/api';
 
 interface Props {
   user: User;
-  href?: string;
+  getUserHref?: (data: User) => string | undefined;
 }
 
-export const UserCard: React.FC<Props> = ({ user, href }) => (
-  <Container>
-    <Content>
-      <Name>
-        {href && <TitleLink to={href}>{user.name}</TitleLink>}
-        {!href && user.name}
-      </Name>
-      <Role>{user.role}</Role>
-    </Content>
-    <Avatar src={user.avatar} />
-  </Container>
-);
+export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
+  const href = getUserHref?.(user) || '';
+
+  return (
+    <Container>
+      <Content>
+        <Name>
+          {href && (
+            <TitleLink to={href}>
+              {user.firstName}&nbsp;{user.lastName}
+            </TitleLink>
+          )}
+          {!href && `${user.firstName}\u00A0${user.lastName}`}
+        </Name>
+        <Role>{user.work}</Role>
+      </Content>
+      <Avatar src={user.avatar} />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   align-items: center;

@@ -9,10 +9,11 @@ import { CardPreview } from './card-preview';
 interface Props {
   cards: Card[];
   getHref?: (data: Card) => string | undefined;
+  getUserHref?: (data: Card) => string | undefined;
   loading?: boolean;
 }
 
-export const CardList = ({ cards, getHref, loading }: Props) => {
+export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
   const { focusItemChanged, containerRef } = useKeyboardFocus();
 
   if (loading) {
@@ -27,6 +28,7 @@ export const CardList = ({ cards, getHref, loading }: Props) => {
           card={card}
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
+          userHref={getUserHref?.(card)}
           focusItemChanged={focusItemChanged}
         />
       ))}

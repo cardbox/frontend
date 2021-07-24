@@ -4,9 +4,10 @@ import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { avatarUri } from '@box/shared/constants';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+//FIXME
+import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
@@ -32,7 +33,10 @@ export const CardViewPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard user={user} />
+            <UserCard
+              user={viewer}
+              getUserHref={(user) => paths.user(user.username)}
+            />
             <Links>
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
@@ -51,12 +55,6 @@ export const CardViewPage = () => {
 };
 
 withStart(model.pageLoaded, CardViewPage);
-
-const user = {
-  avatar: avatarUri,
-  name: 'LangCreator',
-  role: 'Owner',
-};
 
 const map = (props: { disabled?: boolean }) => ({
   'data-disabled': props.disabled,
