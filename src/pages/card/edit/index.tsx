@@ -23,7 +23,7 @@ export const CardEditPage = () => {
           </Content>
           <Footer>
             <button.Group>
-              <CardDraft.UpdateChanges />
+              <CardDraft.SubmitChanges />
               <CardDraft.ResetChanges />
             </button.Group>
           </Footer>

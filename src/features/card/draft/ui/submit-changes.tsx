@@ -8,7 +8,7 @@ import * as model from '../model';
  * Сохранение изменений по карточке (edit)
  * @remark Сброс до изначального состояния модели
  */
-export const UpdateChanges = () => {
+export const SubmitChanges = () => {
   const submitChanges = useEvent(model.submitChanges);
   const isValidDraft = useStore(model.$isValidDraft);
 
