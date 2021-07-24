@@ -13,14 +13,14 @@ const CANCEL_WARN = 'Are you sure you want to undo the changes? The action is no
  * @remark Сброс до изначального состояния модели
  */
 export const ResetChanges = () => {
-  const resetChanges = useEvent(model.resetChanges);
+  const formReset = useEvent(model.formReset);
 
   return (
     <button.Base
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
-        resetChanges();
+        formReset();
       }}
     >
       Cancel

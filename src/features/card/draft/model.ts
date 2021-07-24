@@ -1,12 +1,6 @@
 import type { Card, CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
-import {
-  combine,
-  createDomain,
-  createEffect,
-  createEvent,
-  guard,
-} from 'effector-root';
+import { createDomain, createEffect, createEvent, guard } from 'effector-root';
 import { every } from 'patronum/every';
 import { internalApi } from '@box/api';
 import { isNonEmpty } from '@box/lib/fp';
@@ -15,10 +9,10 @@ import { spread } from 'patronum/spread';
 type Draft = Pick<Card, 'id' | 'title' | 'content' | 'tags'>;
 
 // FIXME: simplify to one event?
-export const setTitle = createEvent<string>();
-export const setContent = createEvent<CardContent>();
-export const submitChanges = createEvent();
-export const resetChanges = createEvent();
+export const titleChanged = createEvent<string>();
+export const contentChanged = createEvent<CardContent>();
+export const formSubmitted = createEvent();
+export const formReset = createEvent();
 
 // FIXME: process response
 export const submitChangesFx = createEffect((payload: Draft) => {
@@ -60,17 +54,17 @@ spread({
 });
 
 // Update
-$title.on(setTitle, (_, payload) => payload);
-$content.on(setContent, (_, payload) => payload);
+$title.on(titleChanged, (_, payload) => payload);
+$content.on(contentChanged, (_, payload) => payload);
 
 // Reset
 draft.onCreateStore((store) => {
-  store.reset(submitChangesFx.done, resetChanges);
+  store.reset(submitChangesFx.done, formReset);
 });
 
 // Submit
 guard({
-  clock: submitChanges,
+  clock: formSubmitted,
   source: {
     id: $id,
     title: $title,

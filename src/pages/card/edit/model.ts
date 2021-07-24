@@ -18,10 +18,7 @@ sample({
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
-  clock: merge([
-    cardDraftModel.submitChangesFx.done,
-    cardDraftModel.resetChanges,
-  ]),
+  clock: merge([cardDraftModel.submitChangesFx.done, cardDraftModel.formReset]),
   source: cardModel.$currentCardId,
   fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
   target: historyPush,

@@ -13,10 +13,10 @@ import * as model from '../model';
 export const EditContent = () => {
   const content = useStore(model.$content);
   const isValidContent = useStore(model.$isValidContent);
-  const setDraftContent = useEvent(model.setContent);
+  const contentChange = useEvent(model.contentChanged);
 
   const handleChange = useCallback(
-    (nextValue: EditorValue) => setDraftContent(nextValue),
+    (nextValue: EditorValue) => contentChange(nextValue),
     [],
   );
 

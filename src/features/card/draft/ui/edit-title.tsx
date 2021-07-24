@@ -11,7 +11,7 @@ import * as model from '../model';
 export const EditTitle = () => {
   const title = useStore(model.$title);
   const isValidTitle = useStore(model.$isValidTitle);
-  const setDraftTitle = useEvent(model.setTitle);
+  const titleChange = useEvent(model.titleChanged);
 
   if (!isValidTitle) {
     return <Text type={TextType.header2}>Not Found</Text>;
@@ -21,7 +21,7 @@ export const EditTitle = () => {
     <Title
       placeholder="Card name"
       value={title}
-      onChange={(e) => setDraftTitle(e.target.value)}
+      onChange={(e) => titleChange(e.target.value)}
     />
   );
 };
