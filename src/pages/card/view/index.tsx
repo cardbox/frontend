@@ -28,7 +28,7 @@ export const CardViewPage = () => {
               card={card}
               loading={isLoading}
               isCardInFavorite={false}
-              type="details"
+              size="large"
             />
             {/* TODO: Process "empty" case correctly */}
           </Main>
