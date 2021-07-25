@@ -4,17 +4,21 @@ import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../model';
 
+interface Props {
+  title?: string;
+}
+
 /**
  * Сохранение изменений по карточке (edit)
  * @remark Сброс до изначального состояния модели
  */
-export const SubmitChanges = () => {
+export const SubmitChanges = ({ title = 'Submit' }: Props) => {
   const submitForm = useEvent(model.formSubmitted);
   const isValidDraft = useStore(model.$isValidDraft);
 
   return (
     <button.Primary onClick={() => submitForm()} disabled={!isValidDraft}>
-      Save
+      {title}
     </button.Primary>
   );
 };

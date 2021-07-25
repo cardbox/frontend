@@ -26,7 +26,7 @@ export const CardCreatePage = () => {
           </Content>
           <Footer>
             <button.Group>
-              <CardDraft.SubmitChanges />
+              <CardDraft.SubmitChanges title="Create and publish" />
               <CardDraft.ResetChanges />
             </button.Group>
           </Footer>
