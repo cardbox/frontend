@@ -1,3 +1,4 @@
+import * as editorLib from '@box/lib/editor';
 import type { CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
 import { combine, createDomain, createEvent } from 'effector-root';
@@ -19,7 +20,7 @@ const draft = createDomain();
 
 export const $id = draft.createStore<string>('');
 export const $title = draft.createStore<string>('');
-export const $content = draft.createStore<CardContent>([]);
+export const $content = draft.createStore<CardContent>(editorLib.INITIAL_VALUE);
 export const $tags = draft.createStore<string[]>([]);
 
 export const $isValidId = $id.map(isNonEmpty);
