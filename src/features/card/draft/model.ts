@@ -1,11 +1,9 @@
-import type { Card, CardContent } from '@box/api';
+import type { CardContent } from '@box/api';
 import { cardModel } from '@box/entities/card';
 import { combine, createDomain, createEvent } from 'effector-root';
 import { every } from 'patronum/every';
 import { isNonEmpty } from '@box/lib/fp';
 import { spread } from 'patronum/spread';
-
-export type Draft = Pick<Card, 'id' | 'title' | 'content' | 'tags'>;
 
 // FIXME: simplify to one event?
 export const titleChanged = createEvent<string>();
@@ -27,18 +25,20 @@ export const $isValidContent = $content.map(isNonEmpty);
 // TODO: impl later after tags logic implementing
 // export const $isValidTags = $tags.map(isNonEmpty);
 
+// FIXME: for editing (no create) maybe all fields (id, author, ...) should be validated
 export const $isValidDraft = every({
   predicate: true,
   stores: [$isValidTitle, $isValidContent],
 });
 
 // FIXME: delete later
-export const $draft = combine<Draft>({
+export const $draft = combine({
   id: $id,
   title: $title,
   content: $content,
   tags: $tags,
 });
+export type Draft = ReturnType<typeof $draft.getState>;
 
 // Init
 spread({
