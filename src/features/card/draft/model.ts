@@ -28,7 +28,8 @@ export const $isValidContent = $content.map(isNonEmpty);
 
 export const $isValidDraft = every({
   predicate: true,
-  stores: [$isValidId, $isValidTitle, $isValidContent],
+  // FIXME: not forget about $isValidId
+  stores: [$isValidTitle, $isValidContent],
 });
 
 // FIXME: delete later
