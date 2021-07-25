@@ -2,14 +2,14 @@ import { StartParams } from '@box/lib/page-routing';
 import { attach, combine, createEvent, restore, sample } from 'effector-root';
 import { cardModel } from '@box/entities/card';
 
-export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
+export const cardGetByIdFx = attach({ effect: cardModel.cardGetByIdFx });
 export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(getCardByIdFx.pending.updates, true);
+export const $pagePending = restore(cardGetByIdFx.pending.updates, true);
 
 sample({
   source: pageLoaded,
   fn: ({ params }) => params.cardId,
-  target: getCardByIdFx,
+  target: cardGetByIdFx,
 });
 
 export const $pageTitle = combine(

@@ -1,12 +1,5 @@
 import { StartParams } from '@box/lib/page-routing';
-import {
-  attach,
-  createEffect,
-  createEvent,
-  guard,
-  merge,
-  sample,
-} from 'effector-root';
+import { attach, createEvent, guard, merge, sample } from 'effector-root';
 import { cardDraftModel } from '@box/features/card/draft';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
@@ -15,7 +8,7 @@ import { paths } from '../../paths';
 
 export const pageLoaded = createEvent<StartParams>();
 
-export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
+export const getCardByIdFx = attach({ effect: cardModel.cardGetByIdFx });
 export const cardUpdateFx = attach({ effect: cardModel.cardUpdateFx });
 
 // FIXME: may be should be replace to "$errors" in future
