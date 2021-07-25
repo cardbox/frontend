@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useEvent, useStore } from 'effector-react/ssr';
 
-import * as model from '../model';
+import * as model from '../../model';
 
 /**
  * Редактирование заголовка карточки

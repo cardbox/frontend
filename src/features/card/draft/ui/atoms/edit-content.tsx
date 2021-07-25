@@ -4,7 +4,7 @@ import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { useEvent, useStore } from 'effector-react/ssr';
 
-import * as model from '../model';
+import * as model from '../../model';
 
 /**
  * Редактирование контента карточки
