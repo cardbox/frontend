@@ -34,15 +34,18 @@ guard({
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
-  source: merge([submitChangesFx.done, cardDraftModel.formReset]),
+  clock: [submitChangesFx.done, cardDraftModel.formReset],
   // TODO: if reset -> redirect to prevPage
   // TODO: if submit -> redirect to cardPage
   fn: () => paths.home(),
   target: historyPush,
 });
 
-// Сбрасываем форму при успешной отправке
+// Сбрасываем форму при
+// - инициализации страницы
+// - успешной отправке
+// FIXME: Позднее будет обеспечиваться фабриками модели для страницы
 sample({
-  source: submitChangesFx.done,
-  target: cardDraftModel.formReset,
+  clock: [submitChangesFx.done, pageLoaded],
+  target: cardDraftModel._formInit,
 });

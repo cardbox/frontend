@@ -8,6 +8,11 @@ import { spread } from 'patronum/spread';
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
 export const formSubmitted = createEvent();
+
+// Need only for cross-draft reset
+// FIXME: remove after converting to page-unique fabric
+
+export const _formInit = createEvent();
 export const formReset = createEvent();
 
 const draft = createDomain();
@@ -56,5 +61,5 @@ $content.on(contentChanged, (_, payload) => payload);
 
 // Reset
 draft.onCreateStore((store) => {
-  store.reset(formReset);
+  store.reset(formReset, _formInit);
 });
