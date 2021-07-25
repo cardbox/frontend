@@ -13,7 +13,8 @@ export const cardCreateFx = attach({ effect: cardModel.cardCreateFx });
 // Обрабатываем отправку формы
 guard({
   clock: cardDraftModel.formSubmitted,
-  source: cardDraftModel.$draft,
+  // Убираем прокидывание заглушки для ID
+  source: cardDraftModel.$draft.map(({ id, ...data }) => data),
   filter: cardDraftModel.$isValidDraft,
   target: cardCreateFx,
 });
