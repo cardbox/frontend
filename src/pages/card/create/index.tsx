@@ -7,6 +7,9 @@ import { useStart, withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 
+/**
+ * Страница создания карточки
+ */
 export const CardCreatePage = () => {
   useStart(model.pageLoaded);
 

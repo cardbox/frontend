@@ -12,6 +12,10 @@ import { viewer } from '@box/api/mock/fixtures';
 import * as model from './model';
 import { paths } from '../../paths';
 
+/**
+ * Страница просмотра карточки
+ */
+
 export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
