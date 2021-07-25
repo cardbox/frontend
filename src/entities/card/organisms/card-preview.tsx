@@ -1,4 +1,3 @@
-import * as editorLib from '@box/lib/editor';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, {
@@ -23,7 +22,7 @@ import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
 
-type CardType = 'preview' | 'details';
+type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card?: Card | null;
@@ -33,9 +32,9 @@ interface CardPreviewProps {
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
-   * @default "preview"
+   * @default "small"
    */
-  type?: CardType;
+  size?: CardSize;
   focusItemChanged?: (direction: 'next' | 'prev') => void;
 }
 
@@ -45,7 +44,7 @@ export const CardPreview = ({
   href,
   userHref,
   loading = false,
-  type = 'preview',
+  size = 'small',
   focusItemChanged,
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
@@ -86,7 +85,7 @@ export const CardPreview = ({
 
   return (
     <PaperContainerStyled
-      data-type={type}
+      data-size={size}
       // fixme: make paper as a link? (Link, a)
       tabIndex={0}
       onMouseDown={handleMouseDown}
@@ -99,13 +98,13 @@ export const CardPreview = ({
           title={card.title}
           content={card.content}
           href={href}
-          type={type}
+          size={size}
           updatedAt={card.updatedAt}
         />
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {type === 'preview' && (
+      {size === 'small' && (
         <Meta
           author={card.author}
           userHref={userHref}
@@ -117,12 +116,12 @@ export const CardPreview = ({
 };
 
 const PaperContainerStyled = styled(PaperContainer)<{
-  'data-type': CardType;
+  'data-size': CardSize;
 }>`
   justify-content: space-between;
   overflow: hidden;
 
-  &[data-type='preview'] {
+  &[data-size='small'] {
     height: 190px;
     transition: 0.25s;
 
@@ -134,16 +133,16 @@ const PaperContainerStyled = styled(PaperContainer)<{
     }
   }
 
-  &[data-type='details'] {
+  &[data-size='large'] {
     background: #fff;
     min-height: 190px;
   }
 `;
 
 type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
-  Pick<CardPreviewProps, 'href' | 'type'>;
+  Pick<CardPreviewProps, 'href' | 'size'>;
 
-const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
+const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
@@ -151,18 +150,20 @@ const Content = ({ content, title, href, type, updatedAt }: ContentProps) => {
         {href && <TitleLink to={href}>{title}</TitleLink>}
         {!href && title}
       </TextStyled>
-      {type === 'details' && (
+      {size === 'large' && (
         <>
           <MetaStyled>
             <Text type={TextType.mini}>
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
-          <Editor value={editorLib.getValueNode(content)} readOnly={true} />
+          <Editor value={content} readOnly={true} />
         </>
       )}
-      {type === 'preview' && (
-        <ContentText type={TextType.small}>{content}</ContentText>
+      {size === 'small' && (
+        <ItemEditorContainer>
+          <Editor value={content} readOnly={true} />
+        </ItemEditorContainer>
       )}
     </ContentStyled>
   );
@@ -183,14 +184,14 @@ const TitleLink = styled(Link)`
   }
 `;
 
-const ContentText = styled(Text)`
-  color: #62616d;
-  overflow: hidden;
-  text-overflow: ellipsis;
+const ItemEditorContainer = styled.div`
+  --editor-color: #62616d;
+  --editor-font-size: 15px;
+  --editor-line-height: 21px;
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  white-space: pre-line;
+  max-height: 90px;
 `;
 
 interface MetaProps extends Pick<Card, 'author' | 'updatedAt'> {

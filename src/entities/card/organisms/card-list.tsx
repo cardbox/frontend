@@ -30,6 +30,7 @@ export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
           href={getHref?.(card)}
           userHref={getUserHref?.(card)}
           focusItemChanged={focusItemChanged}
+          size="small"
         />
       ))}
     </Container>

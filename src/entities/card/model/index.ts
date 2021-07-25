@@ -21,3 +21,7 @@ export const $currentCard = createStore<Card | null>(null).on(
   getCardByIdFx.doneData,
   (_, payload) => payload.card,
 );
+
+export const $currentCardId = $currentCard.map((card) =>
+  card ? card.id : null,
+);

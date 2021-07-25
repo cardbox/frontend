@@ -63,7 +63,8 @@ export function runMockServer() {
         const cards = schema.db.cards.where((card: Card) => {
           return (
             hasIncluding({ including: card.title, query }) ||
-            hasIncluding({ including: card.content, query })
+            // FIXME: impl full-text search later
+            hasIncluding({ including: JSON.stringify(card.content), query })
           );
         });
 

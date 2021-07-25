@@ -1,7 +1,12 @@
+import type { EditorValue } from '@cardbox/editor';
+
+// Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
+export type CardContent = EditorValue;
+
 export interface Card {
   id: string;
   title: string;
-  content: string;
+  content: CardContent;
   createdAt: string;
   updatedAt: string;
   author: User;

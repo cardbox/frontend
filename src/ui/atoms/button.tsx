@@ -64,10 +64,23 @@ const Outline = styled(Base)`
   color: #000000;
 `;
 
+const Primary = styled(Base)`
+  background-color: #4231ff;
+  color: #ffffff;
+`;
+
+const Group = styled.div`
+  button + button {
+    margin-left: 12px;
+  }
+`;
+
 export const button = {
   Base,
+  Primary,
   Secondary,
   Text,
   Icon,
   Outline,
+  Group,
 };
