@@ -5,7 +5,6 @@ import { every } from 'patronum/every';
 import { isNonEmpty } from '@box/lib/fp';
 import { spread } from 'patronum/spread';
 
-// FIXME: simplify to one event?
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
 export const formSubmitted = createEvent();
