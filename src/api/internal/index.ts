@@ -41,7 +41,7 @@ export const cards = {
     });
   },
   create(payload: CardCreateParams) {
-    return requestClient({
+    return requestClient<{ card: Card }>({
       path: '/cards.create',
       method: 'POST',
       body: payload,

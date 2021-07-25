@@ -4,7 +4,6 @@ import {
   createEffect,
   createEvent,
   guard,
-  merge,
   sample,
 } from 'effector-root';
 import { cardDraftModel } from '@box/features/card/draft';
@@ -32,11 +31,15 @@ guard({
   target: submitChangesFx,
 });
 
-// Возвращаем на страницу карточки после сохранения/отмены изменений
+// Редиректим на страницу созданной карточки после сохранения изменений
 sample({
-  clock: [submitChangesFx.done, cardDraftModel.formReset],
-  // TODO: if reset -> redirect to prevPage
-  // TODO: if submit -> redirect to cardPage
+  clock: submitChangesFx.done,
+  fn: ({ result }) => paths.card(result.body.card.id),
+  target: historyPush,
+});
+// Редиректим на home-страницу после отмены изменений
+sample({
+  clock: cardDraftModel.formReset,
   fn: () => paths.home(),
   target: historyPush,
 });
