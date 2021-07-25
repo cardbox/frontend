@@ -12,6 +12,20 @@ export const getCardsListFx = createEffect(async () => {
   return response.body;
 });
 
+export const cardCreateFx = createEffect(
+  async (params: internalApi.CardCreateParams) => {
+    const response = await internalApi.cards.create(params);
+    return response.body;
+  },
+);
+
+export const cardUpdateFx = createEffect(
+  async (params: internalApi.CardUpdateParams) => {
+    const response = await internalApi.cards.update(params);
+    return response.body;
+  },
+);
+
 export const $cards = createStore<Card[]>([]).on(
   getCardsListFx.doneData,
   (_, payload) => payload.cards,

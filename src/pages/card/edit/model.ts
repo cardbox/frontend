@@ -10,20 +10,13 @@ import {
 import { cardDraftModel } from '@box/features/card/draft';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
-export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
 export const pageLoaded = createEvent<StartParams>();
-export const submitChangesFx = createEffect((payload: cardDraftModel.Draft) => {
-  return internalApi.cards.update({
-    cardId: payload.id,
-    title: payload.title,
-    content: payload.content,
-    tags: payload.tags,
-  });
-});
+
+export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
+export const cardUpdateFx = attach({ effect: cardModel.cardUpdateFx });
 
 // FIXME: may be should be replace to "$errors" in future
 export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
@@ -38,14 +31,17 @@ sample({
 // Обрабатываем отправку формы
 guard({
   clock: cardDraftModel.formSubmitted,
-  source: cardDraftModel.$draft,
+  source: cardDraftModel.$draft.map(({ id, ...data }) => ({
+    ...data,
+    cardId: id,
+  })),
   filter: cardDraftModel.$isValidDraft,
-  target: submitChangesFx,
+  target: cardUpdateFx,
 });
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
-  clock: merge([submitChangesFx.done, cardDraftModel.formReset]),
+  clock: merge([cardUpdateFx.done, cardDraftModel.formReset]),
   source: cardModel.$currentCardId,
   fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
   target: historyPush,
@@ -53,6 +49,6 @@ sample({
 
 // Сбрасываем форму при успешной отправке
 sample({
-  source: submitChangesFx.done,
+  source: cardUpdateFx.done,
   target: cardDraftModel.formReset,
 });
