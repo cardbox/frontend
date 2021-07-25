@@ -105,6 +105,7 @@ export function runMockServer() {
 
         return schema.db.cards.insert({
           ...payload,
+          author: viewer,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });
