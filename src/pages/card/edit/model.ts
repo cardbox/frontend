@@ -25,6 +25,9 @@ export const submitChangesFx = createEffect((payload: cardDraftModel.Draft) => {
   });
 });
 
+// FIXME: may be should be replace to "$errors" in future
+export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
+
 // Подгружаем данные после монтирования страницы
 sample({
   source: pageLoaded,

@@ -22,13 +22,13 @@ export const $tags = draft.createStore<string[]>([]);
 
 export const $isValidId = $id.map(isNonEmpty);
 export const $isValidTitle = $title.map(isNonEmpty);
+// FIXME: add slate-specific validation later
 export const $isValidContent = $content.map(isNonEmpty);
 // TODO: impl later after tags logic implementing
 // export const $isValidTags = $tags.map(isNonEmpty);
 
 export const $isValidDraft = every({
   predicate: true,
-  // FIXME: not forget about $isValidId
   stores: [$isValidTitle, $isValidContent],
 });
 

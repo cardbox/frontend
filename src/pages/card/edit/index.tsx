@@ -1,9 +1,11 @@
 import * as CardDraft from '@box/features/card/draft';
 import React from 'react';
 import styled from 'styled-components';
-import { ContentCenteredTemplate, button } from '@box/ui';
+import { ContentCenteredTemplate, Text, TextType, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
+import { combine } from 'effector-root';
 import { useStart, withStart } from '@box/lib/page-routing';
+import { variant } from '@effector/reflect/ssr';
 
 import * as model from './model';
 
@@ -18,23 +20,40 @@ export const CardEditPage = () => {
       <Helmet title="Edit card" />
       <ContentCenteredTemplate>
         <Container>
-          <Header>
-            <CardDraft.EditTitle />
-          </Header>
-          <Content>
-            <CardDraft.EditContent />
-          </Content>
-          <Footer>
-            <button.Group>
-              <CardDraft.SubmitChanges title="Save" />
-              <CardDraft.ResetChanges />
-            </button.Group>
-          </Footer>
+          <PageContent />
         </Container>
       </ContentCenteredTemplate>
     </>
   );
 };
+
+const PageContent = variant({
+  source: combine({ isFound: model.$isCardFound }, ({ isFound }) => {
+    if (!isFound) return 'notFound';
+    return 'ready';
+  }),
+  cases: {
+    // FIXME: replace to Error widget later
+    // @see https://ant.design/components/result/#components-result-demo-404
+    notFound: () => <Text type={TextType.header2}>Card not found</Text>,
+    ready: () => (
+      <>
+        <Header>
+          <CardDraft.EditTitle />
+        </Header>
+        <Content>
+          <CardDraft.EditContent />
+        </Content>
+        <Footer>
+          <button.Group>
+            <CardDraft.SubmitChanges title="Save" />
+            <CardDraft.ResetChanges />
+          </button.Group>
+        </Footer>
+      </>
+    ),
+  },
+});
 
 withStart(model.pageLoaded, CardEditPage);
 
