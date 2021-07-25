@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/api';
-import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react/ssr';
 import { viewer } from '@box/api/mock/fixtures';
 
@@ -12,31 +10,37 @@ import { Search } from '../molecules';
 import { useSearchQuery } from '../lib';
 
 interface SearchbarProps {
-  getUserHref?: (data: User) => string | undefined;
+  logoHref: string;
+  viewerHref: string;
+  newCardHref: string;
 }
 
 // TODO: вынести из Searchbar логику с пользователем
-export const Searchbar: React.FC<SearchbarProps> = ({ getUserHref }) => {
+export const Searchbar: React.FC<SearchbarProps> = ({
+  logoHref,
+  viewerHref,
+  newCardHref,
+}) => {
   useSearchQueryChanged();
-
-  const userLink = getUserHref?.(viewer) || '';
 
   return (
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Link to={paths.home()}>
+          <Link to={logoHref}>
             <img src={IconLogo} alt="Logo" />
           </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={userLink}>
+          <UserLink to={viewerHref}>
             <LoginBlock>
               <Avatar src={viewer.avatar} />
             </LoginBlock>
           </UserLink>
-          <button.Base>New card</button.Base>
+          <Link to={newCardHref}>
+            <button.Base>New card</button.Base>
+          </Link>
         </Nav>
       </ContentCenteredTemplate>
     </Container>
