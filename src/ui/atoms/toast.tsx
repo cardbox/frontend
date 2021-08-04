@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '@box/lib/theme';
 
 interface Props {
   extra?: React.ReactNode;
@@ -17,8 +18,8 @@ export const Toast: React.FC<Props> = ({ extra, children }) => {
 const Root = styled.article`
   display: flex;
 
-  background: var(--wizard100);
-  border: 1px solid var(--wizard300);
+  background: var(${theme.palette.wizard100});
+  border: 1px solid var(${theme.palette.wizard300});
   box-sizing: border-box;
   box-shadow: 0px 3px 9px #fbfafb;
   border-radius: 6px;

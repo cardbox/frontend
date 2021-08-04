@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Avatar } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { theme } from '@box/lib/theme';
 
 interface Props {
   user: User;
@@ -63,6 +64,6 @@ const TitleLink = styled(Link)`
   transition: 0.25s;
 
   &:hover {
-    color: var(--wizard500);
+    color: var(${theme.palette.wizard500});
   }
 `;

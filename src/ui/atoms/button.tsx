@@ -1,13 +1,14 @@
 import styled from 'styled-components';
+import { theme } from '@box/lib/theme';
 
 const Base = styled.button`
   align-items: center;
   background-color: transparent;
-  border: 1px solid var(--wizard500);
+  border: 1px solid var(${theme.palette.wizard500});
   // background-color: #000;
   // border: 1px solid #000;
   border-radius: 3px;
-  color: var(--wizard500)
+  color: var(${theme.palette.wizard500});
   // color: #fff;
   display: flex;
   font-size: 1.125rem;

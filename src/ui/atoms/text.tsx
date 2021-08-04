@@ -38,7 +38,6 @@ export const Text: React.FC<TextProps> = ({
 );
 
 function mapTypeToAs(type: TextType) {
-  /* eslint-disable prettier/prettier */
   switch (type) {
     case TextType.header1:
       return 'h1';
@@ -57,7 +56,6 @@ function mapTypeToAs(type: TextType) {
     default:
       return 'p';
   }
-  /* eslint-enable prettier/prettier */
 }
 
 const TextStyled = styled.p<{ 'data-type': TextType }>`

@@ -19,6 +19,7 @@ import {
   iconDeckCheck,
 } from '@box/ui';
 import { navigationModel } from '@box/entities/navigation';
+import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
 
@@ -127,8 +128,8 @@ const PaperContainerStyled = styled(PaperContainer)<{
 
     &:hover,
     &:focus {
-      border-color: var(--wizard300);
-      background-color: var(--bnw0);
+      border-color: var(${theme.palette.wizard300});
+      background-color: var(${theme.palette.bnw0});
       cursor: pointer;
     }
   }
@@ -180,7 +181,7 @@ const TitleLink = styled(Link)`
   transition: 0.25s;
 
   &:hover {
-    color: var(--wizard500);
+    color: var(${theme.palette.wizard500});
   }
 `;
 

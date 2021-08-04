@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { Avatar, ContentCenteredTemplate, button, iconUserBg } from '@box/ui';
 import { CardPreview } from '@box/entities/card';
+import { theme } from '@box/lib/theme';
 import { withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
@@ -115,7 +116,7 @@ const shine = keyframes`
 `;
 
 const bgColorSkeleton = css`
-  background: var(--gray100);
+  background: var(${theme.palette.gray100});
   box-sizing: border-box;
   border: 1px solid #eeeef1;
   box-shadow: 0px 3px 9px #fbfafb;

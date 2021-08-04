@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '@box/lib/theme';
 
 interface SkeletonProps {
   // Для базовых кастомизаций (например для высоты)
@@ -23,7 +24,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({ amount }) => (
 
 const Root = styled.article`
   height: 220px;
-  background: var(--gray100);
+  background: var(${theme.palette.gray100});
   border: 1px solid #eeeef1;
   box-sizing: border-box;
   box-shadow: 0px 3px 9px #fbfafb;
