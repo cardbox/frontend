@@ -28,9 +28,9 @@ const Base = styled.button`
 `;
 
 const Secondary = styled(Base)`
-  background-color: #f4f2f7;
-  border-color: #f4f2f7;
-  color: #000;
+  background-color: var(${theme.palette.unknown8});
+  border-color: var(${theme.palette.unknown8});
+  color: var(${theme.palette.bnw1000});
 `;
 
 const Text = styled(Base)<{ type: 'submit' | 'reset' | 'button' }>`
@@ -41,9 +41,9 @@ const Text = styled(Base)<{ type: 'submit' | 'reset' | 'button' }>`
 `;
 
 const Icon = styled(Base)`
-  background-color: #fff;
+  background-color: var(${theme.palette.bnw0});
   color: currentColor;
-  border-color: #eeeef1;
+  border-color: var(${theme.palette.bnw200});
   padding: 0;
   min-width: 42px;
   justify-content: center;
@@ -59,15 +59,15 @@ const Icon = styled(Base)`
 `;
 
 const Outline = styled(Base)`
-  background-color: #ffffff;
-  border: 1px solid #eeeef1;
+  background-color: var(${theme.palette.bnw0});
+  border: 1px solid var(${theme.palette.bnw200});
   border-radius: 0.188rem;
-  color: #000000;
+  color: var(${theme.palette.bnw1000});
 `;
 
 const Primary = styled(Base)`
-  background-color: #4231ff;
-  color: #ffffff;
+  background-color: var(${theme.palette.wizard500});
+  color: var(${theme.palette.bnw0});
 `;
 
 const Group = styled.div`

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { button } from '@box/ui';
+import { theme } from '@box/lib/theme';
 
 interface TitleProps {
   title: string;
@@ -28,7 +29,8 @@ const TabTitle: React.FC<TitleProps> = ({
 const Button = styled(button.Text)<{ active?: boolean }>`
   font-size: 1.125rem;
   line-height: 1.375rem;
-  color: ${({ active }) => (active ? '#000000' : '#A39BB2')};
+  color: ${({ active }) =>
+    active ? `var(${theme.palette.bnw1000})` : '#A39BB2'};
   padding: 0;
   margin-right: 1.875rem;
   & > *:last-child {

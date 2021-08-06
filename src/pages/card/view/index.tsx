@@ -4,6 +4,7 @@ import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { theme } from '@box/lib/theme';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 //FIXME
@@ -106,10 +107,11 @@ const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
   }
 `;
 
+// todo: change view for links (according to design from figma)
 const LinkEdit = styled(LinkBase)`
-  color: #683aef;
+  color: var(${theme.palette.unknown2});
 `;
 
 const LinkDelete = styled(LinkBase)`
-  color: #ef3a5b;
+  color: var(${theme.palette.notice500});
 `;

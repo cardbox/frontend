@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@box/ui';
+import { Avatar } from '@box/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { theme } from '@box/lib/theme';
@@ -13,16 +13,13 @@ interface Props {
 export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
   const href = getUserHref?.(user) || '';
 
+  const username = `${user.firstName} ${user.lastName}`;
   return (
     <Container>
       <Content>
         <Name>
-          {href && (
-            <TitleLink to={href}>
-              {user.firstName}&nbsp;{user.lastName}
-            </TitleLink>
-          )}
-          {!href && `${user.firstName}\u00A0${user.lastName}`}
+          {href && <TitleLink to={href}>{username}</TitleLink>}
+          {!href && username}
         </Name>
         <Role>{user.work}</Role>
       </Content>
@@ -33,10 +30,10 @@ export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
 
 const Container = styled.div`
   align-items: center;
-  background-color: #fff;
-  border: 1px solid #e7e5ee;
+  background-color: var(${theme.palette.bnw0});
+  border: 1px solid var(${theme.palette.bnw200});
   border-radius: 6px;
-  box-shadow: 0px 6px 9px #f6f5f8;
+  box-shadow: 0px 6px 9px var(${theme.palette.unknown7});
   display: flex;
   justify-content: space-between;
   padding: 1.0625rem 1.3125rem;
@@ -50,10 +47,11 @@ const Content = styled.div`
 const Name = styled.div`
   font-size: 1.3125rem;
   line-height: 1.5625rem;
+  white-space: nowrap;
 `;
 
 const Role = styled.div`
-  color: #a39bb2;
+  color: var(${theme.palette.unknown1});
   font-size: 0.8125rem;
   line-height: 1rem;
 `;

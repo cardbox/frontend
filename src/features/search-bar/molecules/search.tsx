@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { reflect } from '@effector/reflect/ssr';
+import { theme } from '@box/lib/theme';
 
 import * as model from '../models';
 
@@ -15,22 +16,21 @@ export const Search = () => {
 };
 
 const Container = styled.div`
-  border: 1px solid #e7e5ee;
-  border-radius: 3px;
   display: flex;
   height: 42px;
 `;
 
 const Input = styled.input`
   border: none;
-  border-right: 1px solid #e7e5ee;
+  border-radius: 6px;
+  background: var(${theme.palette.bnw100});
   flex-grow: 1;
   font-size: 0.9375rem;
   outline: 0;
   padding: 0 1.125rem;
 
   &::placeholder {
-    color: #a39bb2;
+    color: var(${theme.palette.bnw500});
   }
 `;
 const SearchInput = reflect({

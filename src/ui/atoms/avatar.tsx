@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { theme } from '@box/lib/theme';
 
 interface Props {
   src?: string;
@@ -10,7 +11,7 @@ const attrs = (props: Props) => ({
 });
 
 export const Avatar = styled.div.attrs(attrs)<Props>`
-  background-color: #f4f2f7;
+  background-color: var(${theme.palette.unknown8});
   border-radius: 3px;
 
   ${({ src }) =>

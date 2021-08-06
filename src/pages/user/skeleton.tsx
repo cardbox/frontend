@@ -70,10 +70,10 @@ const Container = styled.div`
 const UserHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: #ffffff;
+  background: var(${theme.palette.bnw0});
 
-  border: 1px solid #eeeef1;
-  box-shadow: 0px 6px 9px #fbfafb;
+  border: 1px solid var(${theme.palette.bnw200});
+  box-shadow: ${theme.shadows[2]};
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
   position: relative;
@@ -118,8 +118,8 @@ const shine = keyframes`
 const bgColorSkeleton = css`
   background: var(${theme.palette.gray100});
   box-sizing: border-box;
-  border: 1px solid #eeeef1;
-  box-shadow: 0px 3px 9px #fbfafb;
+  border: 1px solid var(${theme.palette.bnw200});
+  box-shadow: ${theme.shadows[1]};
   opacity: 0.9;
   animation: blink 4s infinite ease;
 
@@ -182,11 +182,6 @@ const SocialStaff = styled.div`
   }
 `;
 
-const SocialStaffTitle = styled.div`
-  color: #a39bb2;
-  font-size: 0.9375rem;
-`;
-
 const SocialStaffList = styled.div`
   display: flex;
   flex-direction: column;
@@ -212,7 +207,7 @@ const SocialStaffItemText = styled.div`
 `;
 
 const StAvatar = styled(Avatar)`
-  border: 1px solid #eeeef1;
+  border: 1px solid var(${theme.palette.bnw200});
   border-radius: 3px;
   ${bgColorSkeleton}
 `;
@@ -254,8 +249,8 @@ const EditProfile = styled(button.Outline)`
   display: flex;
   align-items: center;
   right: 1.875rem;
-  bottom: 1.5rem;$
-  ${bgColorSkeleton}
+  bottom: 1.5rem;
+  ${bgColorSkeleton};
   width: 160px;
 `;
 

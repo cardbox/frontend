@@ -135,7 +135,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
   }
 
   &[data-size='large'] {
-    background: #fff;
+    background: var(${theme.palette.bnw0});
     min-height: 190px;
   }
 `;
@@ -186,7 +186,7 @@ const TitleLink = styled(Link)`
 `;
 
 const ItemEditorContainer = styled.div`
-  --editor-color: #62616d;
+  --editor-color: var(${theme.palette.bnw700});
   --editor-font-size: 15px;
   --editor-line-height: 21px;
   -webkit-line-clamp: 3;
@@ -245,7 +245,7 @@ const AddButtonStyled = styled(button.Icon)<{
   'data-is-card-to-deck-added': boolean;
 }>`
   &[data-is-card-to-deck-added='true'] {
-    background-color: #f7f6ff;
+    background-color: var(${theme.palette.wizard100});
 
     &:hover {
       background-color: inherit;
@@ -263,7 +263,7 @@ const Header = styled.header`
 `;
 
 const MetaStyled = styled.div`
-  color: #9b99ac;
+  color: var(${theme.palette.bnw500});
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -271,5 +271,5 @@ const MetaStyled = styled.div`
 
 const UserLink = styled(Link)`
   text-decoration: none;
-  color: #9b99ac;
+  color: var(${theme.palette.bnw500});
 `;
