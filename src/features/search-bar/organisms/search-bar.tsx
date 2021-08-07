@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import { SessionPanel } from '@box/entities/session';
 import type { User } from '@box/api';
 import { paths } from '@box/pages/paths';
 import { useEvent } from 'effector-react/ssr';
@@ -31,11 +32,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ getUserHref }) => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={userLink}>
-            <LoginBlock>
-              <Avatar src={viewer.avatar} />
-            </LoginBlock>
-          </UserLink>
+          <SessionPanel />
           <button.Base>New card</button.Base>
         </Nav>
       </ContentCenteredTemplate>
