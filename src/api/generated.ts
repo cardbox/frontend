@@ -80,22 +80,23 @@ function parseByStatus<
 
 //#endregion prebuilt code/* --- */
 //#region authDone
-export interface AuthDone {
+export type AuthDone = {
   body?: {
     /* Authorization code */
     authorizationCode?: string;
   };
-}
+};
 export const authDoneOk = typed.object({
-  userInfo: typed.object({
+  user: typed.object({
+    id: typed.string,
     firstName: typed.string,
     lastName: typed.string,
   }),
 });
-export interface AuthDoneDone {
+export type AuthDoneDone = {
   status: 'ok';
   answer: typed.Get<typeof authDoneOk>;
-}
+};
 
 /* Failed to authorize */
 export const authDoneUnauthorized = typed.object({
@@ -135,20 +136,20 @@ export const authDone = createEffect<AuthDone, AuthDoneDone, AuthDoneFail>({
 
 /* --- */
 //#region authParams
-export interface AuthParams {
+export type AuthParams = {
   body?: {
     /* oauth state */
     state?: string;
   };
-}
+};
 export const authParamsOk = typed.object({
   /* Accesso Url */
   accessoUrl: typed.string,
 });
-export interface AuthParamsDone {
+export type AuthParamsDone = {
   status: 'ok';
   answer: typed.Get<typeof authParamsOk>;
-}
+};
 
 /* SERVER_ERROR */
 export const authParamsInternalServerError = typed.nul;
@@ -182,12 +183,12 @@ export const authParams = createEffect<
 
 /* --- */
 //#region cardsSearch
-export interface CardsSearch {
+export type CardsSearch = {
   body?: {
     /* Search term */
     query: string;
   };
-}
+};
 
 /* OK */
 export const cardsSearchOk = typed.object({
@@ -236,10 +237,10 @@ export const cardsSearchOk = typed.object({
   ),
   total: typed.number,
 });
-export interface CardsSearchDone {
+export type CardsSearchDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsSearchOk>;
-}
+};
 
 /* Server error */
 export const cardsSearchInternalServerError = typed.nul;
@@ -275,12 +276,12 @@ export const cardsSearch = createEffect<
 
 /* --- */
 //#region cardsList
-export interface CardsList {
+export type CardsList = {
   body?: {
     /* Author id */
     authorId?: string;
   };
-}
+};
 
 /* OK */
 export const cardsListOk = typed.object({
@@ -305,10 +306,10 @@ export const cardsListOk = typed.object({
   ),
   total: typed.number,
 });
-export interface CardsListDone {
+export type CardsListDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsListOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsListBadRequest = typed.object({
@@ -358,11 +359,11 @@ export const cardsList = createEffect<CardsList, CardsListDone, CardsListFail>({
 
 /* --- */
 //#region cardsGet
-export interface CardsGet {
+export type CardsGet = {
   body?: {
     cardId: string;
   };
-}
+};
 
 /* OK */
 export const cardsGetOk = typed.object({
@@ -384,10 +385,10 @@ export const cardsGetOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export interface CardsGetDone {
+export type CardsGetDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsGetOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsGetBadRequest = typed.object({
@@ -426,13 +427,13 @@ export const cardsGet = createEffect<CardsGet, CardsGetDone, CardsGetFail>({
 
 /* --- */
 //#region cardsCreate
-export interface CardsCreate {
+export type CardsCreate = {
   body?: {
     title: string;
     content: {};
     tags?: string[];
   };
-}
+};
 
 /* Ok */
 export const cardsCreateOk = typed.object({
@@ -454,10 +455,10 @@ export const cardsCreateOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export interface CardsCreateDone {
+export type CardsCreateDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsCreateOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsCreateBadRequest = typed.object({
@@ -499,14 +500,14 @@ export const cardsCreate = createEffect<
 
 /* --- */
 //#region cardsEdit
-export interface CardsEdit {
+export type CardsEdit = {
   body?: {
     cardId: string;
     title?: string;
     content?: {};
     tags?: string[];
   };
-}
+};
 
 /* OK */
 export const cardsEditOk = typed.object({
@@ -528,10 +529,10 @@ export const cardsEditOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export interface CardsEditDone {
+export type CardsEditDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsEditOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsEditBadRequest = typed.object({
@@ -572,20 +573,20 @@ export const cardsEdit = createEffect<CardsEdit, CardsEditDone, CardsEditFail>({
 
 /* --- */
 //#region cardsDelete
-export interface CardsDelete {
+export type CardsDelete = {
   body?: {
     cardId: string;
   };
-}
+};
 
 /* OK */
 export const cardsDeleteOk = typed.object({
   cardId: typed.string,
 });
-export interface CardsDeleteDone {
+export type CardsDeleteDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsDeleteOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsDeleteBadRequest = typed.object({
@@ -627,11 +628,11 @@ export const cardsDelete = createEffect<
 
 /* --- */
 //#region cardsSave
-export interface CardsSave {
+export type CardsSave = {
   body?: {
     cardId: string;
   };
-}
+};
 
 /* OK */
 export const cardsSaveOk = typed.object({
@@ -654,10 +655,10 @@ export const cardsSaveOk = typed.object({
   }),
   boxId: typed.string,
 });
-export interface CardsSaveDone {
+export type CardsSaveDone = {
   status: 'ok';
   answer: typed.Get<typeof cardsSaveOk>;
-}
+};
 
 /* CLIENT_ERROR */
 export const cardsSaveBadRequest = typed.object({
@@ -693,3 +694,120 @@ export const cardsSave = createEffect<CardsSave, CardsSaveDone, CardsSaveFail>({
   },
 });
 //#endregion cardsSave
+
+/* --- */
+//#region sessionGet
+export type SessionGet = {};
+
+/* Session exists */
+export const sessionGetOk = typed.object({
+  user: typed.object({
+    id: typed.string,
+    firstName: typed.string,
+    lastName: typed.string,
+  }),
+});
+export type SessionGetDone = {
+  status: 'ok';
+  answer: typed.Get<typeof sessionGetOk>;
+};
+
+/* User not authorized */
+export const sessionGetUnauthorized = typed.nul;
+
+/* Something went wrong */
+export const sessionGetInternalServerError = typed.nul;
+export type SessionGetFail =
+  | {
+      status: 'unauthorized';
+      error: typed.Get<typeof sessionGetUnauthorized>;
+    }
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof sessionGetInternalServerError>;
+    }
+  | GenericErrors;
+
+/* Read session token and show current session. Authenticated checked by session-token cookie */
+export const sessionGet = createEffect<
+  SessionGet,
+  SessionGetDone,
+  SessionGetFail
+>({
+  async handler() {
+    const name = 'sessionGet.body';
+    const response = await requestClient({
+      path: '/session/get',
+      method: 'POST',
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', sessionGetOk],
+      401: ['unauthorized', sessionGetUnauthorized],
+      500: ['internal_server_error', sessionGetInternalServerError],
+    });
+  },
+});
+//#endregion sessionGet
+
+/* --- */
+//#region sessionDelete
+export type SessionDelete = {
+  body: {
+    deleteAllSessions: boolean;
+  };
+};
+
+/* session deleted */
+export const sessionDeleteOk = typed.nul;
+export type SessionDeleteDone = {
+  status: 'ok';
+  answer: typed.Get<typeof sessionDeleteOk>;
+};
+
+/* failed to delete session */
+export const sessionDeleteBadRequest = typed.object({
+  error: typed.union('invalid_payload'),
+});
+
+/* User not authorized */
+export const sessionDeleteUnauthorized = typed.nul;
+
+/* Something went wrong */
+export const sessionDeleteInternalServerError = typed.nul;
+export type SessionDeleteFail =
+  | {
+      status: 'bad_request';
+      error: typed.Get<typeof sessionDeleteBadRequest>;
+    }
+  | {
+      status: 'unauthorized';
+      error: typed.Get<typeof sessionDeleteUnauthorized>;
+    }
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof sessionDeleteInternalServerError>;
+    }
+  | GenericErrors;
+
+/* Delete current or all sessions */
+export const sessionDelete = createEffect<
+  SessionDelete,
+  SessionDeleteDone,
+  SessionDeleteFail
+>({
+  async handler({ body }) {
+    const name = 'sessionDelete.body';
+    const response = await requestClient({
+      path: '/session/delete',
+      method: 'POST',
+      body,
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', sessionDeleteOk],
+      400: ['bad_request', sessionDeleteBadRequest],
+      401: ['unauthorized', sessionDeleteUnauthorized],
+      500: ['internal_server_error', sessionDeleteInternalServerError],
+    });
+  },
+});
+//#endregion sessionDelete

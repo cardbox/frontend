@@ -237,7 +237,7 @@ function htmlStart(p: StartProps) {
 function htmlEnd(p: EndProps) {
   return `</div>
         <script>
-          window.INITIAL_STATE = ${JSON.stringify(p.storesValues)}
+          window['INITIAL_STATE'] = ${JSON.stringify(p.storesValues)}
         </script>
         ${p.helmet.script.toString()}
         ${p.helmet.noscript.toString()}
