@@ -41,7 +41,7 @@ export const $draft = combine<Draft>({
 
 // Init
 spread({
-  source: cardModel.getCardByIdFx.doneData.map(({ card }) => card),
+  source: cardModel.getCardByIdFx.doneData,
   targets: {
     id: $id,
     title: $title,
