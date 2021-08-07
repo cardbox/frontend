@@ -1,11 +1,6 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, {
-  KeyboardEventHandler,
-  MouseEventHandler,
-  forwardRef,
-  useRef,
-} from 'react';
+import React, { MouseEventHandler, forwardRef, useRef } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
@@ -18,9 +13,10 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import { getFoundData } from '@box/entities/user/lib';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
-import { useMouseSelection } from '@box/lib/use-mouse-selection';
+import { useSearchQuery } from '@box/features/search-bar';
 
 type CardSize = 'small' | 'large';
 
@@ -35,7 +31,6 @@ interface CardPreviewProps {
    * @default "small"
    */
   size?: CardSize;
-  focusItemChanged?: (direction: 'next' | 'prev') => void;
 }
 
 export const CardPreview = ({
@@ -45,7 +40,6 @@ export const CardPreview = ({
   userHref,
   loading = false,
   size = 'small',
-  focusItemChanged,
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -56,41 +50,16 @@ export const CardPreview = ({
     else historyPush(href);
   };
 
-  const { handleMouseDown, handleMouseUp } = useMouseSelection({
-    callback: goToCard,
-    preventingRef: buttonRef,
-  });
-
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
-
-  const handleKeyDown: KeyboardEventHandler = (e) => {
-    if (!focusItemChanged) return;
-
-    const { key, ctrlKey } = e;
-    if (key === 'Enter') {
-      goToCard(ctrlKey);
-    }
-
-    if (key === 'ArrowDown' || key === 'ArrowRight') {
-      e.preventDefault();
-      focusItemChanged('next');
-    }
-    if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      e.preventDefault();
-      focusItemChanged('prev');
-    }
-  };
 
   return (
     <PaperContainerStyled
       data-size={size}
       // fixme: make paper as a link? (Link, a)
       tabIndex={0}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onKeyDown={handleKeyDown}
+      onClick={() => goToCard(false)}
       aria-label="Open card"
     >
       <Header>
@@ -143,11 +112,22 @@ type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
   Pick<CardPreviewProps, 'href' | 'size'>;
 
 const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
+  const query = useSearchQuery();
+  const data = getFoundData({ search: title, query });
+
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
       <TextStyled type={TextType.header4}>
-        {href && <TitleLink to={href}>{title}</TitleLink>}
+        {href && (
+          <TitleLink to={href}>
+            {data.map(({ isFound, text }, index) => (
+              // no need to handle index issue here
+              // eslint-disable-next-line react/no-array-index-key
+              <PartCardTitle key={index} data-is-selected={isFound}>{text}</PartCardTitle>
+            ))}
+          </TitleLink>
+        )}
         {!href && title}
       </TextStyled>
       {size === 'large' && (
@@ -181,6 +161,12 @@ const TitleLink = styled(Link)`
 
   &:hover {
     color: var(--wizard500);
+  }
+`;
+
+const PartCardTitle = styled.span<{ 'data-is-selected': boolean }>`
+  &[data-is-selected='true'] {
+    color: blue;
   }
 `;
 

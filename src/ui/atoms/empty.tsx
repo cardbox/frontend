@@ -1,15 +1,17 @@
 import styled from 'styled-components';
-import React, { FC } from 'react';
-import { Text, TextType, iconEmpty } from '@box/ui';
+import React from 'react';
+import { Text, TextType } from '@box/ui';
 
 interface EmptySearchProps {
   text: string;
 }
 
-export const Empty: FC<EmptySearchProps> = ({ text }) => {
+/**
+ * Заглушка для пустых блоков с данными
+ */
+export const Empty: React.FC<EmptySearchProps> = ({ text }) => {
   return (
     <EmptyBlock>
-      <EmptyIcon src={iconEmpty} />
       <Text type={TextType.primary}>{text}</Text>
     </EmptyBlock>
   );
