@@ -6,7 +6,19 @@
 
 1. Press `Clone` button.
 
-2. Install and run:
+2. Setup local certifikate authorithy via [mkcert](https://github.com/FiloSottile/mkcert):
+
+```shell
+mkcert -install
+```
+
+Then generate your personal local certificates for cardbox:
+
+```shell
+./scripts/create-certs.sh
+```
+
+3. Install and run:
 
 ```bash
 yarn install
