@@ -1,14 +1,12 @@
-import React, { FC } from 'react';
 import styled from 'styled-components';
+import React, { FC } from 'react';
 import { Text, TextType, iconEmpty } from '@box/ui';
 
 interface EmptySearchProps {
   text: string;
 }
 
-export const EmptySearch: FC<EmptySearchProps> = ({
-  text
-}) => {
+export const Empty: FC<EmptySearchProps> = ({ text }) => {
   return (
     <EmptyBlock>
       <EmptyIcon src={iconEmpty} />
