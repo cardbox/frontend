@@ -41,7 +41,7 @@ export const CardViewPage = () => {
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
-              {card && (
+              {card && viewer.id === card.author.id && (
                 <LinkDelete disabled to="#delete">
                   Delete card
                 </LinkDelete>
