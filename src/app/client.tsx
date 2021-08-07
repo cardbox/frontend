@@ -9,7 +9,6 @@ import { history } from '@box/entities/navigation';
 import { root } from 'effector-root';
 
 import { Application } from './application';
-
 import { runMockServer } from '../api/mock';
 
 // import { LOGGER_DOMAIN_NAME } from 'effector-logger/attach';

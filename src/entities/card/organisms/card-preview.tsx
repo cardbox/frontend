@@ -124,7 +124,9 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
             {data.map(({ isFound, text }, index) => (
               // no need to handle index issue here
               // eslint-disable-next-line react/no-array-index-key
-              <PartCardTitle key={index} data-is-selected={isFound}>{text}</PartCardTitle>
+              <PartCardTitle key={index} data-is-selected={isFound}>
+                {text}
+              </PartCardTitle>
             ))}
           </TitleLink>
         )}
