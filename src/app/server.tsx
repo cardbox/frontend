@@ -99,7 +99,7 @@ export const server = express()
   .use(
     '/api',
     createProxyMiddleware({
-      target: process.env.SERVER_BACKEND_URL ?? 'http://localhost:9008',
+      target: process.env.BACKEND_URL ?? 'http://localhost:9008',
       pathRewrite: {
         '^/api': '',
       },

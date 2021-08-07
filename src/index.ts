@@ -32,10 +32,25 @@ function createServer() {
     console.info(`Cert: ${CRT}`);
     console.info(`Key: ${KEY}`);
 
-    const options = {
-      cert: fs.readFileSync(CRT),
-      key: fs.readFileSync(KEY),
-    };
+    let options;
+
+    try {
+      options = {
+        cert: fs.readFileSync(CRT),
+        key: fs.readFileSync(KEY),
+      };
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        console.error(
+          `\n\n---------\n` +
+            `ERROR! No local certificates found in ./tls directory.\n` +
+            `Maybe you trying to start application without generating certificates first of all?\n` +
+            'You can fix this via running `$ ./scripts/create-certs.sh`, but before read Development section in README.md',
+        );
+        process.exit(-1);
+      }
+      throw error;
+    }
 
     return https.createServer(options, server);
   }
