@@ -8,7 +8,7 @@ import { spread } from 'patronum/spread';
 
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
-export const formSubmitted = createEvent();
+export const formSubmitted = createEvent<string>();
 
 // Need only for cross-draft reset
 // FIXME: remove after converting to page-unique fabric

@@ -38,9 +38,9 @@ export const Searchbar: React.FC<SearchbarProps> = ({
               <Avatar src={viewer.avatar} />
             </LoginBlock>
           </UserLink>
-          <Link to={newCardHref}>
+          <NewCardLink to={newCardHref}>
             <button.Base>New card</button.Base>
-          </Link>
+          </NewCardLink>
         </Nav>
       </ContentCenteredTemplate>
     </Container>
@@ -82,4 +82,14 @@ const LoginBlock = styled.div`
 
 const UserLink = styled(Link)`
   margin: 0 1.125rem;
+`;
+
+const NewCardLink = styled(Link)`
+  button {
+    color: var(--wizard500);
+  }
+  &:visited {
+    text-decoration: none;
+    color: red;
+  }
 `;

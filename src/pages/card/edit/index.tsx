@@ -36,7 +36,7 @@ const PageContent = variant({
     // FIXME: replace to Error widget later
     // @see https://ant.design/components/result/#components-result-demo-404
     notFound: () => <Text type={TextType.header2}>Card not found</Text>,
-    ready: () => <CardDraft.Form okText="Save" />,
+    ready: () => <CardDraft.Form okText="Save" _name="edit" />,
   },
 });
 

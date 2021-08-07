@@ -21,9 +21,17 @@ sample({
   target: getCardByIdFx,
 });
 
+const formEditSubmitted = createEvent();
+
+guard({
+  source: cardDraftModel.formSubmitted,
+  filter: (payload) => payload === 'edit',
+  target: formEditSubmitted,
+});
+
 // Обрабатываем отправку формы
 guard({
-  clock: cardDraftModel.formSubmitted,
+  clock: formEditSubmitted,
   source: cardDraftModel.$draft.map(({ id, ...data }) => ({
     ...data,
     cardId: id,

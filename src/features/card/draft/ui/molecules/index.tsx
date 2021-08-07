@@ -6,8 +6,10 @@ import * as Controls from '../atoms';
 
 interface Props {
   okText?: string;
+  _name: string;
 }
-export const Form = ({ okText }: Props) => (
+
+export const Form = ({ okText, _name }: Props) => (
   <div>
     <Header>
       <Controls.EditTitle />
@@ -17,7 +19,8 @@ export const Form = ({ okText }: Props) => (
     </Content>
     <Footer>
       <button.Group>
-        <Controls.SubmitChanges title={okText} />
+        {/* FIXME: поправить _name в тикете BOX-167 */}
+        <Controls.SubmitChanges title={okText} _name={_name} />
         <Controls.ResetChanges />
       </button.Group>
     </Footer>

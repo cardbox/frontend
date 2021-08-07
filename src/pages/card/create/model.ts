@@ -10,9 +10,17 @@ export const pageLoaded = createEvent<StartParams>();
 
 export const cardCreateFx = attach({ effect: cardModel.cardCreateFx });
 
+const formCreateSubmitted = createEvent();
+
+guard({
+  source: cardDraftModel.formSubmitted,
+  filter: (payload) => payload === 'edit',
+  target: formCreateSubmitted,
+});
+
 // Обрабатываем отправку формы
 guard({
-  clock: cardDraftModel.formSubmitted,
+  clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
   source: cardDraftModel.$draft.map(({ id, ...data }) => data),
   filter: cardDraftModel.$isValidDraft,

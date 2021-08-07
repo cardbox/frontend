@@ -18,7 +18,7 @@ export const CardCreatePage = () => {
       <Helmet title="Create card" />
       <ContentCenteredTemplate>
         <Container>
-          <CardDraft.Form okText="Create and publish" />
+          <CardDraft.Form okText="Create and publish" _name="create" />
         </Container>
       </ContentCenteredTemplate>
     </>
