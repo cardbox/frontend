@@ -21,7 +21,7 @@ sample({
   target: getCardByIdFx,
 });
 
-const formEditSubmitted = createEvent();
+const formEditSubmitted = createEvent<string>();
 
 guard({
   source: cardDraftModel.formSubmitted,
@@ -40,9 +40,17 @@ guard({
   target: cardUpdateFx,
 });
 
+const formEditReset = createEvent<string>();
+
+guard({
+  source: cardDraftModel.formReset,
+  filter: (payload) => payload === 'edit',
+  target: formEditReset,
+});
+
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
-  clock: merge([cardUpdateFx.done, cardDraftModel.formReset]),
+  clock: merge([cardUpdateFx.done, formEditReset]),
   source: cardModel.$currentCardId,
   fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
   target: historyPush,
@@ -51,5 +59,5 @@ sample({
 // Сбрасываем форму при успешной отправке
 sample({
   source: cardUpdateFx.done,
-  target: cardDraftModel.formReset,
+  target: cardDraftModel._formInit,
 });

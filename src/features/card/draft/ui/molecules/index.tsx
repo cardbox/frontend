@@ -21,7 +21,7 @@ export const Form = ({ okText, _name }: Props) => (
       <button.Group>
         {/* FIXME: поправить _name в тикете BOX-167 */}
         <Controls.SubmitChanges title={okText} _name={_name} />
-        <Controls.ResetChanges />
+        <Controls.ResetChanges _name={_name} />
       </button.Group>
     </Footer>
   </div>

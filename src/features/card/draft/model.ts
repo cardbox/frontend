@@ -14,7 +14,7 @@ export const formSubmitted = createEvent<string>();
 // FIXME: remove after converting to page-unique fabric
 
 export const _formInit = createEvent();
-export const formReset = createEvent();
+export const formReset = createEvent<string>();
 
 const draft = createDomain();
 

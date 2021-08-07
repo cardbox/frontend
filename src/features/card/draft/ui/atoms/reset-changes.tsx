@@ -7,12 +7,15 @@ import * as model from '../../model';
 // eslint-disable-next-line prettier/prettier
 const CANCEL_WARN = 'Are you sure you want to undo the changes? The action is not reversible!';
 
+interface Props {
+  _name: string;
+}
 
 /**
  * Сброс изменений по карточке
  * @remark Сброс до изначального состояния модели
  */
-export const ResetChanges = () => {
+export const ResetChanges = ({ _name }: Props) => {
   const formReset = useEvent(model.formReset);
 
   return (
@@ -20,7 +23,7 @@ export const ResetChanges = () => {
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
-        formReset();
+        formReset(_name);
       }}
     >
       Cancel

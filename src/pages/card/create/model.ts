@@ -10,7 +10,7 @@ export const pageLoaded = createEvent<StartParams>();
 
 export const cardCreateFx = attach({ effect: cardModel.cardCreateFx });
 
-const formCreateSubmitted = createEvent();
+const formCreateSubmitted = createEvent<string>();
 
 guard({
   source: cardDraftModel.formSubmitted,
@@ -33,6 +33,15 @@ sample({
   fn: ({ result }) => paths.card(result.card.id),
   target: historyPush,
 });
+
+const formCreaetReset = createEvent<string>();
+
+guard({
+  source: cardDraftModel.formReset,
+  filter: (payload) => payload === 'create',
+  target: formCreaetReset,
+});
+
 // Редиректим на home-страницу после отмены изменений
 sample({
   clock: cardDraftModel.formReset,
