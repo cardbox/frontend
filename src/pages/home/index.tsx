@@ -45,7 +45,7 @@ export const HomePage = () => {
         <Content>
           <Main>
             <CardList
-              cards={cards}
+              cards={cards as any}
               getHref={(card) => paths.card(card.id)}
               getUserHref={(card) => paths.user(card.author.username)}
               loading={isLoading}

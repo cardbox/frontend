@@ -1,17 +1,19 @@
 {
-  "name": "razzle-examples-with-typescript",
-  "version": "3.3.0",
+  "name": "@cardbox/frontend",
+  "version": "0.1.0",
   "private": true,
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js",
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
+    "api": "openapi && prettier --write ./src/api/generated.ts",
     "commit": "git-cz",
     "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
+  "author": "github.com/cardbox",
   "dependencies": {
     "@cardbox/editor": "^0.1.4",
     "@effector/reflect": "^0.6.0",
@@ -42,6 +44,7 @@
     "styled-components": "^5.1.1",
     "through": "^2.3.8",
     "tippy.js": "^6.3.1",
+    "typed-contracts": "^3.0.0",
     "use-query-params": "^1.2.2"
   },
   "devDependencies": {
@@ -75,6 +78,7 @@
     "cross-env": "^7.0.2",
     "cz-conventional-changelog": "3.0.2",
     "cz-customizable": "^6.2.1",
+    "effector-openapi-preset": "^0.3.3",
     "eslint": "6.8.0",
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.22.0",
@@ -84,6 +88,7 @@
     "import-sort-style-sova": "^0.1.0",
     "jest": "^26.6.3",
     "lint-staged": "^9.5.0",
+    "openapi": "^1.0.0",
     "prettier": "^2.0.5",
     "prettier-plugin-import-sort": "^0.0.4",
     "razzle": "^3.1.5",

@@ -1,27 +1,27 @@
-import type { Card } from '@box/api';
+import * as api from '@box/api/generated';
+import { CardsGetDone } from '@box/api/generated';
 import { createEffect, createStore } from 'effector-root';
-import { internalApi } from '@box/api';
+
+type Card = CardsGetDone['answer']['card'];
 
 export const getCardByIdFx = createEffect(async (cardId: string) => {
-  const response = await internalApi.cards.get(cardId);
-  return response.body;
+  const { answer } = await api.cardsGet({ body: { cardId } });
+  return answer.card;
 });
+
 // TODO: add params
 export const getCardsListFx = createEffect(async () => {
-  const response = await internalApi.cards.list();
-  return response.body;
+  const { answer } = await api.cardsList({});
+  return answer.cards as Card[];
 });
 
-export const $cards = createStore<Card[]>([]).on(
-  getCardsListFx.doneData,
-  (_, payload) => payload.cards,
-);
-
-export const $currentCard = createStore<Card | null>(null).on(
-  getCardByIdFx.doneData,
-  (_, payload) => payload.card,
-);
+export const $cards = createStore<Card[]>([]);
+export const $currentCard = createStore<Card | null>(null);
 
 export const $currentCardId = $currentCard.map((card) =>
   card ? card.id : null,
 );
+
+$cards.on(getCardsListFx.doneData, (_, cards) => cards);
+
+$currentCard.on(getCardByIdFx.doneData, (_, card) => card);
