@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Empty, SkeletonGroup } from "@box/ui";
+import { Empty, SkeletonGroup } from '@box/ui';
 import type { User } from '@box/api';
 
 import { UserPreview } from './user-preview';
@@ -20,7 +20,7 @@ export const UserPreviewList = ({
   }
 
   if (users.length === 0) {
-    return <Empty text='No users found' />;
+    return <Empty text="No users found" />;
   }
 
   return (

@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import type { Card } from "@box/api";
-import { Empty, iconEmpty, SkeletonGroup, Text, TextType } from "@box/ui";
-import { useKeyboardFocus } from "@box/lib/use-keyboard-focus";
+import React from 'react';
+import styled from 'styled-components';
+import type { Card } from '@box/api';
+import { Empty, SkeletonGroup, Text, TextType, iconEmpty } from '@box/ui';
+import { useKeyboardFocus } from '@box/lib/use-keyboard-focus';
 
-import { CardPreview } from "./card-preview";
+import { CardPreview } from './card-preview';
 
 interface Props {
   cards: Card[];
@@ -21,7 +21,7 @@ export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
   }
 
   if (cards.length === 0) {
-    return <Empty text='No cards found' />;
+    return <Empty text="No cards found" />;
   }
 
   return (
