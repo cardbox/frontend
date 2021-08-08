@@ -1,4 +1,3 @@
-// import * as api from '@box/api/internal';
 import type { User } from '@box/api';
 import { createEffect, createStore } from 'effector-root';
 

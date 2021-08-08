@@ -46,7 +46,7 @@ guard({
 // Возвращаем на домашнюю страницу после события удаления карточки
 sample({
   clock: deleteCardByIdFx.done,
-  // FIXME: push user to profile
+  // FIXME: push later to card.author page
   fn: () => paths.home(),
   target: historyPush,
 });
