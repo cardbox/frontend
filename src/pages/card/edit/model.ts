@@ -17,11 +17,13 @@ import { paths } from '../../paths';
 export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
 export const pageLoaded = createEvent<StartParams>();
 export const submitChangesFx = createEffect((payload: cardDraftModel.Draft) => {
-  return internalApi.cards.update({
-    cardId: payload.id,
-    title: payload.title,
-    content: payload.content,
-    tags: payload.tags,
+  return internalApi.cardsEdit({
+    body: {
+      cardId: payload.id,
+      title: payload.title,
+      content: payload.content,
+      tags: payload.tags,
+    },
   });
 });
 

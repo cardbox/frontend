@@ -1,31 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { userLib } from '@box/entities/user';
+
+import { Avatar } from '../atoms';
 
 interface Props {
   user: User;
   getUserHref?: (data: User) => string | undefined;
 }
 
+// FIXME: move to entities/user (BOX-155)
 export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
   const href = getUserHref?.(user) || '';
+  const fullName = userLib.getFullName(user);
+  const { avatar, work } = user;
 
   return (
     <Container>
       <Content>
         <Name>
-          {href && (
-            <TitleLink to={href}>
-              {user.firstName}&nbsp;{user.lastName}
-            </TitleLink>
-          )}
-          {!href && `${user.firstName}\u00A0${user.lastName}`}
+          {href && <TitleLink to={href}>{fullName}</TitleLink>}
+          {!href && fullName}
         </Name>
-        <Role>{user.work}</Role>
+        {work && <Role>{work}</Role>}
       </Content>
-      <Avatar src={user.avatar} />
+      {avatar && <Avatar src={avatar} />}
     </Container>
   );
 };

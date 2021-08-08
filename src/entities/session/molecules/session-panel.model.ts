@@ -1,7 +1,7 @@
-import * as api from '@box/api/generated';
 import { attach, createEffect, createEvent, sample } from 'effector-root';
+import { internalApi } from '@box/api';
 
-const authParamsFx = attach({ effect: api.authParams });
+const authParamsFx = attach({ effect: internalApi.authParams });
 
 export const loginClicked = createEvent();
 

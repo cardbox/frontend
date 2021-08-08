@@ -10,7 +10,7 @@ import {
 import { CardList, cardModel } from '@box/entities/card';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
-import { userModel } from '@box/entities/user';
+import { userLib, userModel } from '@box/entities/user';
 
 import * as model from './model';
 import { Skeleton } from './skeleton';
@@ -24,6 +24,9 @@ export const UserPage = () => {
 
   if (isLoading || !userInfo) return <Skeleton />;
 
+  const { work, bio, socials, avatar } = userInfo;
+  const fullName = userLib.getFullName(userInfo);
+
   return (
     <>
       <UnderLay bg={iconUserBg} />
@@ -32,33 +35,34 @@ export const UserPage = () => {
           <UserHeader>
             <UserFace>
               <UserFaceContent>
-                <UserFaceName>
-                  {userInfo.firstName}&nbsp;
-                  {userInfo.lastName}
-                </UserFaceName>
-                <UserFacePosition>{userInfo.work}</UserFacePosition>
+                <UserFaceName>{fullName}</UserFaceName>
+                {work && <UserFacePosition>{work}</UserFacePosition>}
                 <UserLocation>Saint-Petersburg, Russia</UserLocation>
-                <UserFaceDescription>{userInfo.bio}</UserFaceDescription>
+                {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
               </UserFaceContent>
             </UserFace>
             <UserSocial>
               <SocialStaff>
                 <SocialStaffTitle>Social staff</SocialStaffTitle>
                 <SocialStaffList>
-                  {userInfo.socials?.map(({ link, nickname }) => (
-                    <SocialStaffItem key={`${nickname}`}>
-                      <SocialLink href={link}>
-                        <Avatar size="small" src={userInfo.avatar} />
-                        <SocialStaffItemText>@{nickname}</SocialStaffItemText>
+                  {socials.map((social) => (
+                    <SocialStaffItem key={social.id}>
+                      <SocialLink href={social.link}>
+                        {avatar && <Avatar size="small" src={avatar} />}
+                        <SocialStaffItemText>
+                          @{social.username}
+                        </SocialStaffItemText>
                       </SocialLink>
                     </SocialStaffItem>
                   ))}
                 </SocialStaffList>
               </SocialStaff>
             </UserSocial>
-            <UserLogo>
-              <StAvatar size="large" src={userInfo.avatar} />
-            </UserLogo>
+            {avatar && (
+              <UserLogo>
+                <StAvatar size="large" src={avatar} />
+              </UserLogo>
+            )}
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
               Edit profile
@@ -70,7 +74,8 @@ export const UserPage = () => {
               <CardList
                 cards={cards as any}
                 getHref={(card) => paths.card(card.id)}
-                getUserHref={(card) => paths.user(card.author.username)}
+                // FIXME: resolve to author.username BOX-185
+                getUserHref={(card) => paths.user(card.authorId)}
                 loading={isLoading}
               />
             </UserCards>

@@ -130,17 +130,17 @@ export function runMockServer() {
         return schema.db.cards.remove(cardId);
       });
 
-      this.post('/cards.save', (schema, request) => {
-        const payload = JSON.parse(request.requestBody);
-        const { cardId } = payload;
-        if (!cardId) return null;
+      // this.post('/cards.save', (schema, request) => {
+      //   const payload = JSON.parse(request.requestBody);
+      //   const { cardId } = payload;
+      //   if (!cardId) return null;
 
-        // FIXME: refine
-        const viewerDb: User = schema.db.users.find(viewer.id);
-        viewerDb.favorites.push(cardId);
+      //   // FIXME: refine
+      //   const viewerDb: User = schema.db.users.find(viewer.id);
+      //   viewerDb.favorites.push(cardId);
 
-        return schema.db.users.update(viewer.id, viewerDb);
-      });
+      //   return schema.db.users.update(viewer.id, viewerDb);
+      // });
     },
   });
   return instance;

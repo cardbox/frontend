@@ -104,13 +104,14 @@ export const CardPreview = ({
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {size === 'small' && (
+      {/* FIXME: resolve relations BOX-185 */}
+      {/* {size === 'small' && (
         <Meta
           author={card.author}
           userHref={userHref}
           updatedAt={card.updatedAt}
         />
-      )}
+      )} */}
     </PaperContainerStyled>
   );
 };
@@ -157,12 +158,14 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
-          <Editor value={content} readOnly={true} />
+          {/* FIXME: resolve EditorValue BOX-185 */}
+          <Editor value={content as any} readOnly={true} />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
-          <Editor value={content} readOnly={true} />
+          {/* FIXME: resolve EditorValue BOX-185 */}
+          <Editor value={content as any} readOnly={true} />
         </ItemEditorContainer>
       )}
     </ContentStyled>
@@ -194,21 +197,21 @@ const ItemEditorContainer = styled.div`
   max-height: 90px;
 `;
 
-interface MetaProps extends Pick<Card, 'author' | 'updatedAt'> {
-  userHref?: string;
-}
+// interface MetaProps extends Pick<Card, 'author' | 'updatedAt'> {
+//   userHref?: string;
+// }
 
-const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
-  <MetaStyled>
-    {/* FIXME: bind with API later */}
-    <UserLink to={userHref}>
-      <Text type={TextType.small}>{author.username}</Text>
-    </UserLink>
-    <Text type={TextType.mini}>
-      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
-    </Text>
-  </MetaStyled>
-);
+// const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
+//   <MetaStyled>
+//     {/* FIXME: bind with API later */}
+//     <UserLink to={userHref}>
+//       <Text type={TextType.small}>{author.username}</Text>
+//     </UserLink>
+//     <Text type={TextType.mini}>
+//       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
+//     </Text>
+//   </MetaStyled>
+// );
 
 const ContentStyled = styled.div`
   width: 100%;

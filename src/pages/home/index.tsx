@@ -47,7 +47,8 @@ export const HomePage = () => {
             <CardList
               cards={cards as any}
               getHref={(card) => paths.card(card.id)}
-              getUserHref={(card) => paths.user(card.author.username)}
+              // FIXME: resolve to author.username BOX-185
+              getUserHref={(card) => paths.user(card.authorId)}
               loading={isLoading}
             />
             {/* TODO: Process "empty" case correctly */}

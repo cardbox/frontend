@@ -1,17 +1,14 @@
-import * as api from '@box/api/generated';
-import { CardsGetDone } from '@box/api/generated';
+import { Card, internalApi } from '@box/api';
 import { createEffect, createStore } from 'effector-root';
 
-type Card = CardsGetDone['answer']['card'];
-
 export const getCardByIdFx = createEffect(async (cardId: string) => {
-  const { answer } = await api.cardsGet({ body: { cardId } });
+  const { answer } = await internalApi.cardsGet({ body: { cardId } });
   return answer.card;
 });
 
 // TODO: add params
 export const getCardsListFx = createEffect(async () => {
-  const { answer } = await api.cardsList({});
+  const { answer } = await internalApi.cardsList({});
   return answer.cards as Card[];
 });
 

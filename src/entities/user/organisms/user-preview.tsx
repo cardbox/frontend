@@ -13,16 +13,20 @@ interface UserPreviewProps {
   userHref?: string;
 }
 export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
+  const { username, avatar, bio } = user;
   return (
     <PaperContainerStyled>
       <Header>
-        <Content username={user.username} userHref={userHref}>
-          {user.bio}
-        </Content>
-        <Avatar src={user.avatar} />
+        {bio && (
+          <Content username={username} userHref={userHref}>
+            {bio}
+          </Content>
+        )}
+        {avatar && <Avatar src={avatar} />}
       </Header>
 
-      <Meta cards={user.cards} />
+      {/* FIXME: resolve relations BOX-185 */}
+      {/* <Meta cards={user.cards} /> */}
     </PaperContainerStyled>
   );
 };
@@ -89,15 +93,15 @@ const UserName = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-const Meta = ({ cards }: Pick<User, 'cards'>) => {
-  return (
-    <MetaStyled>
-      <Text type={TextType.small}>
-        {cards.length} {plural(cards.length, 'card', 'cards')}
-      </Text>
-    </MetaStyled>
-  );
-};
+// const Meta = ({ cards }: Pick<User, 'cards'>) => {
+//   return (
+//     <MetaStyled>
+//       <Text type={TextType.small}>
+//         {cards.length} {plural(cards.length, 'card', 'cards')}
+//       </Text>
+//     </MetaStyled>
+//   );
+// };
 const MetaStyled = styled.div`
   color: #9b99ac;
   display: flex;

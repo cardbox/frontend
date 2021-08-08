@@ -5,8 +5,6 @@ import { every } from 'patronum/every';
 import { isNonEmpty } from '@box/lib/fp';
 import { spread } from 'patronum/spread';
 
-export type Draft = Pick<Card, 'id' | 'title' | 'content' | 'tags'>;
-
 // FIXME: simplify to one event?
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
@@ -32,12 +30,14 @@ export const $isValidDraft = every({
 });
 
 // FIXME: delete later
-export const $draft = combine<Draft>({
+export const $draft = combine({
   id: $id,
   title: $title,
   content: $content,
   tags: $tags,
 });
+
+export type Draft = import('effector').StoreValue<typeof $draft>;
 
 // Init
 spread({
