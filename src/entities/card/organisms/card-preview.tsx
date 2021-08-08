@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { MouseEventHandler, forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
+import type { MouseEventHandler } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
-import { Link } from 'react-router-dom';
 import {
+  HighlightText,
   PaperContainer,
   Skeleton,
   Text,
@@ -13,6 +14,7 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import { Link } from 'react-router-dom';
 import { getFoundData } from '@box/entities/user/lib';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
@@ -121,12 +123,9 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       <TextStyled type={TextType.header4}>
         {href && (
           <TitleLink to={href}>
+            {/* eslint-disable-next-line react/no-array-index-key */}
             {data.map(({ isFound, text }, index) => (
-              // no need to handle index issue here
-              // eslint-disable-next-line react/no-array-index-key
-              <PartCardTitle key={index} data-is-selected={isFound}>
-                {text}
-              </PartCardTitle>
+              <HighlightText key={index} isFound={isFound} text={text} />
             ))}
           </TitleLink>
         )}
@@ -163,12 +162,6 @@ const TitleLink = styled(Link)`
 
   &:hover {
     color: var(--wizard500);
-  }
-`;
-
-const PartCardTitle = styled.span<{ 'data-is-selected': boolean }>`
-  &[data-is-selected='true'] {
-    color: blue;
   }
 `;
 
