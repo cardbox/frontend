@@ -80,12 +80,12 @@ function parseByStatus<
 
 //#endregion prebuilt code/* --- */
 //#region authDone
-export type AuthDone = {
+export interface AuthDone {
   body?: {
     /* Authorization code */
     authorizationCode?: string;
   };
-};
+}
 export const authDoneOk = typed.object({
   user: typed.object({
     id: typed.string,
@@ -93,10 +93,10 @@ export const authDoneOk = typed.object({
     lastName: typed.string,
   }),
 });
-export type AuthDoneDone = {
+export interface AuthDoneDone {
   status: 'ok';
   answer: typed.Get<typeof authDoneOk>;
-};
+}
 
 /* Failed to authorize */
 export const authDoneUnauthorized = typed.object({
@@ -136,20 +136,20 @@ export const authDone = createEffect<AuthDone, AuthDoneDone, AuthDoneFail>({
 
 /* --- */
 //#region authParams
-export type AuthParams = {
+export interface AuthParams {
   body?: {
     /* oauth state */
     state?: string;
   };
-};
+}
 export const authParamsOk = typed.object({
   /* Accesso Url */
   accessoUrl: typed.string,
 });
-export type AuthParamsDone = {
+export interface AuthParamsDone {
   status: 'ok';
   answer: typed.Get<typeof authParamsOk>;
-};
+}
 
 /* SERVER_ERROR */
 export const authParamsInternalServerError = typed.nul;
@@ -183,12 +183,12 @@ export const authParams = createEffect<
 
 /* --- */
 //#region cardsSearch
-export type CardsSearch = {
+export interface CardsSearch {
   body?: {
     /* Search term */
     query: string;
   };
-};
+}
 
 /* OK */
 export const cardsSearchOk = typed.object({
@@ -201,7 +201,7 @@ export const cardsSearchOk = typed.object({
       updatedAt: typed.string,
 
       /* Author user uuid */
-      authorId: typed.string.optional,
+      authorId: typed.string,
 
       /* Later, we can create `Tag` entity */
       tags: typed.array(typed.string),
@@ -233,7 +233,7 @@ export const cardsSearchOk = typed.object({
           /* Username at social platform (gaearon => github/gaearon) */
           username: typed.string,
         }),
-      ).optional,
+      ),
 
       /* Later, can implement as `Work` entity */
       work: typed.string.maybe,
@@ -244,10 +244,10 @@ export const cardsSearchOk = typed.object({
   ),
   total: typed.number,
 });
-export type CardsSearchDone = {
+export interface CardsSearchDone {
   status: 'ok';
   answer: typed.Get<typeof cardsSearchOk>;
-};
+}
 
 /* SERVER_ERROR */
 export const cardsSearchInternalServerError = typed.nul;
@@ -283,7 +283,7 @@ export const cardsSearch = createEffect<
 
 /* --- */
 //#region cardsList
-export type CardsList = {
+export interface CardsList {
   body?: {
     /* Author id */
     authorId?: string;
@@ -291,7 +291,7 @@ export type CardsList = {
     /* Show favorited cards instead of created */
     favorites?: boolean;
   };
-};
+}
 
 /* OK */
 export const cardsListOk = typed.object({
@@ -304,7 +304,7 @@ export const cardsListOk = typed.object({
       updatedAt: typed.string,
 
       /* Author user uuid */
-      authorId: typed.string.optional,
+      authorId: typed.string,
 
       /* Later, we can create `Tag` entity */
       tags: typed.array(typed.string),
@@ -316,10 +316,10 @@ export const cardsListOk = typed.object({
   ),
   total: typed.number,
 });
-export type CardsListDone = {
+export interface CardsListDone {
   status: 'ok';
   answer: typed.Get<typeof cardsListOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsListBadRequest = typed.object({
@@ -369,11 +369,11 @@ export const cardsList = createEffect<CardsList, CardsListDone, CardsListFail>({
 
 /* --- */
 //#region cardsGet
-export type CardsGet = {
+export interface CardsGet {
   body?: {
     cardId: string;
   };
-};
+}
 
 /* OK */
 export const cardsGetOk = typed.object({
@@ -385,7 +385,7 @@ export const cardsGetOk = typed.object({
     updatedAt: typed.string,
 
     /* Author user uuid */
-    authorId: typed.string.optional,
+    authorId: typed.string,
 
     /* Later, we can create `Tag` entity */
     tags: typed.array(typed.string),
@@ -395,10 +395,10 @@ export const cardsGetOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export type CardsGetDone = {
+export interface CardsGetDone {
   status: 'ok';
   answer: typed.Get<typeof cardsGetOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsGetBadRequest = typed.object({
@@ -437,13 +437,13 @@ export const cardsGet = createEffect<CardsGet, CardsGetDone, CardsGetFail>({
 
 /* --- */
 //#region cardsCreate
-export type CardsCreate = {
+export interface CardsCreate {
   body?: {
     title: string;
     content: {};
     tags?: string[];
   };
-};
+}
 
 /* Ok */
 export const cardsCreateOk = typed.object({
@@ -455,7 +455,7 @@ export const cardsCreateOk = typed.object({
     updatedAt: typed.string,
 
     /* Author user uuid */
-    authorId: typed.string.optional,
+    authorId: typed.string,
 
     /* Later, we can create `Tag` entity */
     tags: typed.array(typed.string),
@@ -465,10 +465,10 @@ export const cardsCreateOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export type CardsCreateDone = {
+export interface CardsCreateDone {
   status: 'ok';
   answer: typed.Get<typeof cardsCreateOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsCreateBadRequest = typed.object({
@@ -510,14 +510,14 @@ export const cardsCreate = createEffect<
 
 /* --- */
 //#region cardsEdit
-export type CardsEdit = {
+export interface CardsEdit {
   body?: {
     cardId: string;
     title?: string;
     content?: {};
     tags?: string[];
   };
-};
+}
 
 /* OK */
 export const cardsEditOk = typed.object({
@@ -529,7 +529,7 @@ export const cardsEditOk = typed.object({
     updatedAt: typed.string,
 
     /* Author user uuid */
-    authorId: typed.string.optional,
+    authorId: typed.string,
 
     /* Later, we can create `Tag` entity */
     tags: typed.array(typed.string),
@@ -539,10 +539,10 @@ export const cardsEditOk = typed.object({
     summary: typed.string.maybe,
   }),
 });
-export type CardsEditDone = {
+export interface CardsEditDone {
   status: 'ok';
   answer: typed.Get<typeof cardsEditOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsEditBadRequest = typed.object({
@@ -583,20 +583,20 @@ export const cardsEdit = createEffect<CardsEdit, CardsEditDone, CardsEditFail>({
 
 /* --- */
 //#region cardsDelete
-export type CardsDelete = {
+export interface CardsDelete {
   body?: {
     cardId: string;
   };
-};
+}
 
 /* OK */
 export const cardsDeleteOk = typed.object({
   cardId: typed.string,
 });
-export type CardsDeleteDone = {
+export interface CardsDeleteDone {
   status: 'ok';
   answer: typed.Get<typeof cardsDeleteOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsDeleteBadRequest = typed.object({
@@ -638,11 +638,11 @@ export const cardsDelete = createEffect<
 
 /* --- */
 //#region cardsSave
-export type CardsSave = {
+export interface CardsSave {
   body?: {
     cardId: string;
   };
-};
+}
 
 /* OK */
 export const cardsSaveOk = typed.object({
@@ -654,7 +654,7 @@ export const cardsSaveOk = typed.object({
     updatedAt: typed.string,
 
     /* Author user uuid */
-    authorId: typed.string.optional,
+    authorId: typed.string,
 
     /* Later, we can create `Tag` entity */
     tags: typed.array(typed.string),
@@ -665,10 +665,10 @@ export const cardsSaveOk = typed.object({
   }),
   boxId: typed.string,
 });
-export type CardsSaveDone = {
+export interface CardsSaveDone {
   status: 'ok';
   answer: typed.Get<typeof cardsSaveOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const cardsSaveBadRequest = typed.object({
@@ -707,7 +707,7 @@ export const cardsSave = createEffect<CardsSave, CardsSaveDone, CardsSaveFail>({
 
 /* --- */
 //#region sessionGet
-export type SessionGet = {};
+export interface SessionGet {}
 
 /* Session exists */
 export const sessionGetOk = typed.object({
@@ -717,10 +717,10 @@ export const sessionGetOk = typed.object({
     lastName: typed.string,
   }),
 });
-export type SessionGetDone = {
+export interface SessionGetDone {
   status: 'ok';
   answer: typed.Get<typeof sessionGetOk>;
-};
+}
 
 /* User not authorized */
 export const sessionGetUnauthorized = typed.nul;
@@ -761,18 +761,18 @@ export const sessionGet = createEffect<
 
 /* --- */
 //#region sessionDelete
-export type SessionDelete = {
+export interface SessionDelete {
   body: {
     deleteAllSessions: boolean;
   };
-};
+}
 
 /* session deleted */
 export const sessionDeleteOk = typed.nul;
-export type SessionDeleteDone = {
+export interface SessionDeleteDone {
   status: 'ok';
   answer: typed.Get<typeof sessionDeleteOk>;
-};
+}
 
 /* failed to delete session */
 export const sessionDeleteBadRequest = typed.object({
@@ -824,12 +824,12 @@ export const sessionDelete = createEffect<
 
 /* --- */
 //#region usersSearch
-export type UsersSearch = {
+export interface UsersSearch {
   body?: {
     /* Search term */
     query: string;
   };
-};
+}
 
 /* OK */
 export const usersSearchOk = typed.object({
@@ -855,7 +855,7 @@ export const usersSearchOk = typed.object({
           /* Username at social platform (gaearon => github/gaearon) */
           username: typed.string,
         }),
-      ).optional,
+      ),
 
       /* Later, can implement as `Work` entity */
       work: typed.string.maybe,
@@ -866,10 +866,10 @@ export const usersSearchOk = typed.object({
   ),
   total: typed.number,
 });
-export type UsersSearchDone = {
+export interface UsersSearchDone {
   status: 'ok';
   answer: typed.Get<typeof usersSearchOk>;
-};
+}
 
 /* SERVER_ERROR */
 export const usersSearchInternalServerError = typed.nul;
@@ -905,11 +905,11 @@ export const usersSearch = createEffect<
 
 /* --- */
 //#region usersGet
-export type UsersGet = {
+export interface UsersGet {
   body?: {
     username: string;
   };
-};
+}
 
 /* OK */
 export const usersGetOk = typed.object({
@@ -934,7 +934,7 @@ export const usersGetOk = typed.object({
         /* Username at social platform (gaearon => github/gaearon) */
         username: typed.string,
       }),
-    ).optional,
+    ),
 
     /* Later, can implement as `Work` entity */
     work: typed.string.maybe,
@@ -943,10 +943,10 @@ export const usersGetOk = typed.object({
     roles: typed.array(typed.string).maybe,
   }),
 });
-export type UsersGetDone = {
+export interface UsersGetDone {
   status: 'ok';
   answer: typed.Get<typeof usersGetOk>;
-};
+}
 
 /* CLIENT_ERROR */
 export const usersGetBadRequest = typed.object({
