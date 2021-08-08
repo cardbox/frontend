@@ -38,3 +38,5 @@ ReactDOM.hydrate(
 if (module.hot) {
   module.hot.accept();
 }
+
+document.cookie = `session-token=${process.env.SESSION_TOKEN || ''}; Path=/;`;
