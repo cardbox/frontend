@@ -15,6 +15,11 @@ export const getCardsListFx = createEffect(async () => {
   return answer.cards as Card[];
 });
 
+export const deleteCardByIdFx = createEffect(async (cardId: string) => {
+  const { answer } = await api.cardsDelete({ body: { cardId } });
+  return answer.cardId;
+});
+
 export const $cards = createStore<Card[]>([]);
 export const $currentCard = createStore<Card | null>(null);
 
