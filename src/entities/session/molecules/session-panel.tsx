@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { button } from '@box/ui';
 import { useEvent } from 'effector-react/ssr';
 
@@ -9,7 +10,11 @@ export const SessionPanel: React.FC = () => {
 
   return (
     <span>
-      <button.Primary onClick={handleClick}>Login</button.Primary>
+      <Login onClick={handleClick}>Login</Login>
     </span>
   );
 };
+
+const Login = styled(button.Primary)`
+  margin-left: 1.125rem;
+`;

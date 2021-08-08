@@ -14,7 +14,7 @@ const formCreateSubmitted = createEvent<string>();
 
 guard({
   source: cardDraftModel.formSubmitted,
-  filter: (payload) => payload === 'edit',
+  filter: (payload) => payload === 'create',
   target: formCreateSubmitted,
 });
 
