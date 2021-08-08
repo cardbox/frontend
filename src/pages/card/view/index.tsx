@@ -4,19 +4,23 @@ import { CardPreview, cardModel } from '@box/entities/card';
 import { ContentCenteredTemplate, UserCard } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
-import { useStore } from 'effector-react/ssr';
 //FIXME
 import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
 
+// eslint-disable-next-line prettier/prettier
+const DELETE_WARN = 'Are you sure you want to delete this card?';
+
 export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
   const pageTitle = useStore(model.$pageTitle);
+  const deleteCard = useEvent(model.deleteCard);
 
   return (
     <>
@@ -41,8 +45,15 @@ export const CardViewPage = () => {
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
-              {card && viewer.id === card.author.id && (
-                <LinkDelete disabled to="#delete">
+              {card && viewer.id === card.authorId && (
+                <LinkDelete
+                  onClick={() => {
+                    // FIXME: replace to UIKit implementation later
+                    if (!window.confirm(DELETE_WARN)) return;
+                    deleteCard();
+                  }}
+                  to="#delete"
+                >
                   Delete card
                 </LinkDelete>
               )}
