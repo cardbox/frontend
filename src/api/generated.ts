@@ -222,11 +222,18 @@ export const cardsSearchOk = typed.object({
 
       /* Later, can implement as `File` entity */
       avatar: typed.string.maybe,
-      socials: typed.object({
-        github: typed.string.maybe,
-        devto: typed.string.maybe,
-        twitter: typed.string.maybe,
-      }).optional,
+      socials: typed.array(
+        typed.object({
+          id: typed.string,
+
+          /* github | devto | twitter | ... */
+          type: typed.string,
+          link: typed.string,
+
+          /* Username at social platform (gaearon => github/gaearon) */
+          username: typed.string,
+        }),
+      ).optional,
 
       /* Later, can implement as `Work` entity */
       work: typed.string.maybe,
@@ -242,7 +249,7 @@ export type CardsSearchDone = {
   answer: typed.Get<typeof cardsSearchOk>;
 };
 
-/* Server error */
+/* SERVER_ERROR */
 export const cardsSearchInternalServerError = typed.nul;
 export type CardsSearchFail =
   | {
@@ -252,7 +259,7 @@ export type CardsSearchFail =
   | GenericErrors;
 
 /* Full text search of cards
- * - `POST /api/internal/cards.search '{"search": SEARCH_TERM}'`
+ * - `POST /api/internal/cards.search '{"query": SEARCH_TERM}'`
  * - By title, content, tags (and maybe by author) */
 export const cardsSearch = createEffect<
   CardsSearch,
@@ -280,6 +287,9 @@ export type CardsList = {
   body?: {
     /* Author id */
     authorId?: string;
+
+    /* Show favorited cards instead of created */
+    favorites?: boolean;
   };
 };
 
@@ -737,7 +747,7 @@ export const sessionGet = createEffect<
   async handler() {
     const name = 'sessionGet.body';
     const response = await requestClient({
-      path: '/session/get',
+      path: '/session.get',
       method: 'POST',
     });
     return parseByStatus(name, response, {
@@ -798,7 +808,7 @@ export const sessionDelete = createEffect<
   async handler({ body }) {
     const name = 'sessionDelete.body';
     const response = await requestClient({
-      path: '/session/delete',
+      path: '/session.delete',
       method: 'POST',
       body,
     });
@@ -811,3 +821,164 @@ export const sessionDelete = createEffect<
   },
 });
 //#endregion sessionDelete
+
+/* --- */
+//#region usersSearch
+export type UsersSearch = {
+  body?: {
+    /* Search term */
+    query: string;
+  };
+};
+
+/* OK */
+export const usersSearchOk = typed.object({
+  users: typed.array(
+    typed.object({
+      /* ID */
+      id: typed.string,
+      username: typed.string,
+      firstName: typed.string,
+      lastName: typed.string,
+      bio: typed.string.maybe,
+
+      /* Later, can implement as `File` entity */
+      avatar: typed.string.maybe,
+      socials: typed.array(
+        typed.object({
+          id: typed.string,
+
+          /* github | devto | twitter | ... */
+          type: typed.string,
+          link: typed.string,
+
+          /* Username at social platform (gaearon => github/gaearon) */
+          username: typed.string,
+        }),
+      ).optional,
+
+      /* Later, can implement as `Work` entity */
+      work: typed.string.maybe,
+
+      /* Later, can implement checking user permissions by `Role` entity */
+      roles: typed.array(typed.string).maybe,
+    }),
+  ),
+  total: typed.number,
+});
+export type UsersSearchDone = {
+  status: 'ok';
+  answer: typed.Get<typeof usersSearchOk>;
+};
+
+/* SERVER_ERROR */
+export const usersSearchInternalServerError = typed.nul;
+export type UsersSearchFail =
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof usersSearchInternalServerError>;
+    }
+  | GenericErrors;
+
+/* Full text search of users
+ * - `POST /api/internal/users.search '{"query": SEARCH_TERM}'`
+ * - By general fields (bio, username, firstName, lastName, work) */
+export const usersSearch = createEffect<
+  UsersSearch,
+  UsersSearchDone,
+  UsersSearchFail
+>({
+  async handler({ body }) {
+    const name = 'usersSearch.body';
+    const response = await requestClient({
+      path: '/users.search',
+      method: 'POST',
+      body,
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', usersSearchOk],
+      500: ['internal_server_error', usersSearchInternalServerError],
+    });
+  },
+});
+//#endregion usersSearch
+
+/* --- */
+//#region usersGet
+export type UsersGet = {
+  body?: {
+    username: string;
+  };
+};
+
+/* OK */
+export const usersGetOk = typed.object({
+  user: typed.object({
+    /* ID */
+    id: typed.string,
+    username: typed.string,
+    firstName: typed.string,
+    lastName: typed.string,
+    bio: typed.string.maybe,
+
+    /* Later, can implement as `File` entity */
+    avatar: typed.string.maybe,
+    socials: typed.array(
+      typed.object({
+        id: typed.string,
+
+        /* github | devto | twitter | ... */
+        type: typed.string,
+        link: typed.string,
+
+        /* Username at social platform (gaearon => github/gaearon) */
+        username: typed.string,
+      }),
+    ).optional,
+
+    /* Later, can implement as `Work` entity */
+    work: typed.string.maybe,
+
+    /* Later, can implement checking user permissions by `Role` entity */
+    roles: typed.array(typed.string).maybe,
+  }),
+});
+export type UsersGetDone = {
+  status: 'ok';
+  answer: typed.Get<typeof usersGetOk>;
+};
+
+/* CLIENT_ERROR */
+export const usersGetBadRequest = typed.object({
+  error: typed.boolean,
+  code: typed.union('user_not_found'),
+});
+
+/* SERVER_ERROR */
+export const usersGetInternalServerError = typed.nul;
+export type UsersGetFail =
+  | {
+      status: 'bad_request';
+      error: typed.Get<typeof usersGetBadRequest>;
+    }
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof usersGetInternalServerError>;
+    }
+  | GenericErrors;
+export const usersGet = createEffect<UsersGet, UsersGetDone, UsersGetFail>({
+  async handler({ body }) {
+    const name = 'usersGet.body';
+    const response = await requestClient({
+      path: '/users.get',
+      method: 'POST',
+      body,
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', usersGetOk],
+      400: ['bad_request', usersGetBadRequest],
+      500: ['internal_server_error', usersGetInternalServerError],
+    });
+  },
+});
+//#endregion usersGet
