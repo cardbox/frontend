@@ -124,6 +124,7 @@ export function runMockServer() {
         });
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore // FIXME: fix later
       this.post('/cards.delete', (schema, request) => {
         const payload = JSON.parse(request.requestBody);

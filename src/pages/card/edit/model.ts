@@ -8,7 +8,7 @@ import { paths } from '../../paths';
 
 export const pageLoaded = createEvent<StartParams>();
 
-export const getCardByIdFx = attach({ effect: cardModel.cardGetByIdFx });
+export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
 export const cardUpdateFx = attach({ effect: cardModel.cardUpdateFx });
 
 // FIXME: may be should be replace to "$errors" in future

@@ -73,12 +73,9 @@ const SearchWrapper = styled.div`
 
 const NewCardLink = styled(Link)`
   margin-left: 1.125rem;
+  text-decoration: none;
 
   button {
     color: var(--wizard500);
-  }
-  &:visited {
-    text-decoration: none;
-    color: red;
   }
 `;

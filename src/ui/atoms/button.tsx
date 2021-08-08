@@ -7,7 +7,7 @@ const Base = styled.button`
   // background-color: #000;
   // border: 1px solid #000;
   border-radius: 3px;
-  color: var(--wizard500)
+  color: var(--wizard500);
   // color: #fff;
   display: flex;
   font-size: 1.125rem;

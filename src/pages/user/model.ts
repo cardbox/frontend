@@ -23,5 +23,5 @@ forward({
 
 forward({
   from: pageLoaded,
-  to: cardModel.cardGetListFx,
+  to: cardModel.getCardsListFx,
 });
