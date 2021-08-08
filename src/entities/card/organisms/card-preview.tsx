@@ -13,11 +13,11 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
-import { Link } from 'react-router-dom';
 import type { MouseEventHandler } from 'react';
-import { getFoundData } from '@box/entities/user/lib';
+import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
+import { useMouseSelection } from '@box/lib/use-mouse-selection';
 import { useSearchQuery } from '@box/features/search-bar';
 
 type CardSize = 'small' | 'large';
@@ -52,6 +52,11 @@ export const CardPreview = ({
     else historyPush(href);
   };
 
+  const { handleMouseDown, handleMouseUp } = useMouseSelection({
+    callback: goToCard,
+    preventingRef: buttonRef,
+  });
+
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
@@ -61,7 +66,8 @@ export const CardPreview = ({
       data-size={size}
       // fixme: make paper as a link? (Link, a)
       tabIndex={0}
-      onClick={() => goToCard(false)}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       aria-label="Open card"
     >
       <Header>
@@ -115,7 +121,6 @@ type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
 
 const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
   const query = useSearchQuery();
-  const data = getFoundData({ search: title, query });
 
   return (
     <ContentStyled>
@@ -123,10 +128,11 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       <TextStyled type={TextType.header4}>
         {href && (
           <TitleLink to={href}>
-            {/* eslint-disable-next-line react/no-array-index-key */}
-            {data.map(({ isFound, text }, index) => (
-              <HighlightText key={index} isFound={isFound} text={text} />
-            ))}
+            {query !== '' ? (
+              <HighlightText query={query} entity={title} />
+            ) : (
+              title
+            )}
           </TitleLink>
         )}
         {!href && title}

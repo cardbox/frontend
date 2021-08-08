@@ -6,8 +6,6 @@ import type { User } from '@box/api';
 import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
-import { getFoundData } from '../lib';
-
 interface UserPreviewProps {
   user: User;
   userHref?: string;
@@ -59,16 +57,12 @@ const Content: React.FC<ContentProps> = ({
   userHref = '',
 }) => {
   const query = useSearchQuery();
-  const data = getFoundData({ search: username, query });
 
   return (
     <ContentStyled>
       <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
-          {/* eslint-disable-next-line react/no-array-index-key */}
-          {data.map(({ isFound, text }, index) => (
-            <HighlightText key={index} isFound={isFound} text={text} />
-          ))}
+          <HighlightText query={query} entity={username} />
         </UserName>
       </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
