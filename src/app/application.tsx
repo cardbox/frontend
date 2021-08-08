@@ -9,6 +9,8 @@ import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
 import { paths } from '@box/pages/paths';
+// FIXME: replace later to usage of entities/viewer
+import { viewer } from '@box/api/mock/fixtures';
 
 import { Pages } from '../pages';
 
@@ -43,8 +45,15 @@ export const Application = ({ root }: Props) => (
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <Globals />
-        {/* FIXME: научиться получать авторизированного пользователя и сюда прокидывать в поле user */}
-        <Searchbar getUserHref={(user) => paths.user(user.username)} />
+        {/* FIXME: 
+          - научиться получать авторизированного пользователя и сюда прокидывать в поле user 
+          - или прокидывать в виджет напрямую фичи/сущности (Logo, SearchBar, UserAvatar, NewCard)
+        */}
+        <Searchbar
+          logoHref={paths.home()}
+          viewerHref={paths.user(viewer.username)}
+          newCardHref={paths.cardCreate()}
+        />
         <PagesContainer>
           <PagesContent>
             <Pages />

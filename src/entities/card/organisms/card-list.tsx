@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import type { Card } from '@box/api';
-import { SkeletonGroup } from '@box/ui';
-import { useKeyboardFocus } from '@box/lib/use-keyboard-focus';
+import { Empty, SkeletonGroup } from '@box/ui';
 
 import { CardPreview } from './card-preview';
 
@@ -14,14 +13,16 @@ interface Props {
 }
 
 export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
-  const { focusItemChanged, containerRef } = useKeyboardFocus();
-
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
 
+  if (cards.length === 0) {
+    return <Empty text="No cards found" />;
+  }
+
   return (
-    <Container ref={containerRef}>
+    <Container>
       {cards.map((card, i) => (
         <CardPreview
           key={card.id}
@@ -29,7 +30,6 @@ export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
           userHref={getUserHref?.(card)}
-          focusItemChanged={focusItemChanged}
           size="small"
         />
       ))}

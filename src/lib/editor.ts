@@ -11,3 +11,8 @@ export const getValueNode = (text: string): EditorValue => [
     children: [{ text }],
   },
 ];
+
+// FIXME: get from @editor later
+export const INITIAL_VALUE: EditorValue = [
+  { type: 'paragraph', children: [{ text: '' }] },
+];

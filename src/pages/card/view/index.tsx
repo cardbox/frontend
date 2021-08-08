@@ -5,19 +5,27 @@ import { ContentCenteredTemplate } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
+import { isViewerById } from '@box/entities/viewer/lib';
+import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
-import { useStore } from 'effector-react/ssr';
 //FIXME
 import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
 
+// eslint-disable-next-line prettier/prettier
+const DELETE_WARN = 'Are you sure you want to delete this card?';
+
+/**
+ * Страница просмотра карточки
+ */
 export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
   const pageTitle = useStore(model.$pageTitle);
+  const deleteCard = useEvent(model.deleteCard);
 
   return (
     <>
@@ -42,10 +50,17 @@ export const CardViewPage = () => {
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
-              {card && (
-                <LinkDelete disabled to="#delete">
+              {card && isViewerById(card.author.id as string) && (
+                <ButtonDelete
+                  type="button"
+                  onClick={() => {
+                    // FIXME: replace to UIKit implementation later
+                    if (!window.confirm(DELETE_WARN)) return;
+                    deleteCard();
+                  }}
+                >
                   Delete card
-                </LinkDelete>
+                </ButtonDelete>
               )}
             </Links>
           </Sidebar>
@@ -111,6 +126,9 @@ const LinkEdit = styled(LinkBase)`
   color: #683aef;
 `;
 
-const LinkDelete = styled(LinkBase)`
+const ButtonDelete = styled(button.Text)`
   color: #ef3a5b;
+  width: fit-content;
+  height: auto;
+  padding: 0;
 `;

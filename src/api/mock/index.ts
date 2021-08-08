@@ -103,11 +103,14 @@ export function runMockServer() {
       this.post('/cards.create', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
 
-        return schema.db.cards.insert({
+        const nextCard = schema.db.cards.insert({
           ...payload,
+          author: viewer,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });
+
+        return { card: nextCard };
       });
 
       this.post('/cards.update', (schema, request) => {
@@ -121,6 +124,7 @@ export function runMockServer() {
         });
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore // FIXME: fix later
       this.post('/cards.delete', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
