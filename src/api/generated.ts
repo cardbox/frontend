@@ -196,7 +196,7 @@ export const cardsSearchOk = typed.object({
     typed.object({
       id: typed.string,
       title: typed.string,
-      content: typed.object({}),
+      content: typed.array(typed.object({})),
       createdAt: typed.string,
       updatedAt: typed.string,
 
@@ -299,7 +299,7 @@ export const cardsListOk = typed.object({
     typed.object({
       id: typed.string,
       title: typed.string,
-      content: typed.object({}),
+      content: typed.array(typed.object({})),
       createdAt: typed.string,
       updatedAt: typed.string,
 
@@ -380,7 +380,7 @@ export const cardsGetOk = typed.object({
   card: typed.object({
     id: typed.string,
     title: typed.string,
-    content: typed.object({}),
+    content: typed.array(typed.object({})),
     createdAt: typed.string,
     updatedAt: typed.string,
 
@@ -450,7 +450,7 @@ export const cardsCreateOk = typed.object({
   card: typed.object({
     id: typed.string,
     title: typed.string,
-    content: typed.object({}),
+    content: typed.array(typed.object({})),
     createdAt: typed.string,
     updatedAt: typed.string,
 
@@ -524,7 +524,7 @@ export const cardsEditOk = typed.object({
   card: typed.object({
     id: typed.string,
     title: typed.string,
-    content: typed.object({}),
+    content: typed.array(typed.object({})),
     createdAt: typed.string,
     updatedAt: typed.string,
 
@@ -649,7 +649,7 @@ export const cardsSaveOk = typed.object({
   card: typed.object({
     id: typed.string,
     title: typed.string,
-    content: typed.object({}),
+    content: typed.array(typed.object({})),
     createdAt: typed.string,
     updatedAt: typed.string,
 
