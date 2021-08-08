@@ -21,8 +21,10 @@ sample({
   target: getCardByIdFx,
 });
 
+// Ивент, который сабмитит форму при отправке ее со страницы редактирования карточки
 const formEditSubmitted = createEvent<string>();
 
+// Реагируем на сабмит формы только если сабмит происходит на странице редактирования карточки
 guard({
   source: cardDraftModel.formSubmitted,
   filter: (payload) => payload === 'edit',
@@ -40,8 +42,10 @@ guard({
   target: cardUpdateFx,
 });
 
+// Ивент, который ресетит форму при эмите его со страницы редактирования карточки
 const formEditReset = createEvent<string>();
 
+// Реагируем на ресетит формы только если ресет происходит на странице редактирования карточки
 guard({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'edit',

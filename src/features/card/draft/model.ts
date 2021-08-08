@@ -43,7 +43,7 @@ export const $draft = combine({
   content: $content,
   tags: $tags,
 });
-export type Draft = ReturnType<typeof $draft.getState>;
+export type Draft = import('effector').StoreValue<typeof $draft>;
 
 // Init
 spread({

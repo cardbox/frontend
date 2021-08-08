@@ -13,7 +13,6 @@ import { paths } from '@box/pages/paths';
 
 export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
 export const deleteCardByIdFx = attach({ effect: cardModel.deleteCardByIdFx });
-export const cardGetByIdFx = attach({ effect: cardModel.getCardByIdFx });
 export const pageLoaded = createEvent<StartParams>();
 export const $pagePending = restore(getCardByIdFx.pending.updates, true);
 export const deleteCard = createEvent();
@@ -21,7 +20,7 @@ export const deleteCard = createEvent();
 sample({
   source: pageLoaded,
   fn: ({ params }) => params.cardId,
-  target: cardGetByIdFx,
+  target: getCardByIdFx,
 });
 
 export const $pageTitle = combine(

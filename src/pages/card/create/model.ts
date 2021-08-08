@@ -10,8 +10,10 @@ export const pageLoaded = createEvent<StartParams>();
 
 export const cardCreateFx = attach({ effect: cardModel.cardCreateFx });
 
+// Ивент, который сабмитит форму при отправке ее со страницы создания карточки
 const formCreateSubmitted = createEvent<string>();
 
+// Реагируем на сабмит формы только если сабмит происходит на странице создания
 guard({
   source: cardDraftModel.formSubmitted,
   filter: (payload) => payload === 'create',
@@ -34,8 +36,10 @@ sample({
   target: historyPush,
 });
 
+// Ивент, который ресетит форму при эмите его со страницы создания карточки
 const formCreaetReset = createEvent<string>();
 
+// Реагируем на ресетит формы только если ресет происходит на странице создания
 guard({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'create',
