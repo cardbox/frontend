@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef, useRef } from 'react';
-import type { MouseEventHandler } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import {
@@ -15,6 +14,7 @@ import {
   iconDeckCheck,
 } from '@box/ui';
 import { Link } from 'react-router-dom';
+import type { MouseEventHandler } from 'react';
 import { getFoundData } from '@box/entities/user/lib';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';

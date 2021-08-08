@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, HighlightText, PaperContainer, Text, TextType } from "@box/ui";
+import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { plural } from '@box/lib/plural';
@@ -66,7 +66,9 @@ const Content: React.FC<ContentProps> = ({
       <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
           {/* eslint-disable-next-line react/no-array-index-key */}
-          {data.map(({ isFound, text }, index) => <HighlightText key={index} isFound={isFound} text={text} />)}
+          {data.map(({ isFound, text }, index) => (
+            <HighlightText key={index} isFound={isFound} text={text} />
+          ))}
         </UserName>
       </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
