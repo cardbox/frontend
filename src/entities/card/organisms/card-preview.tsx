@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import {
@@ -44,14 +44,13 @@ export const CardPreview = ({
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
 
-  const goToCard = (inNewTab = false) => {
-    if (!href) return;
-    if (inNewTab) window.open(href, '_blank');
-    else historyPush(href);
-  };
-
-  const { handleMouseDown, handleMouseUp, buttonRef } =
-    useMouseSelection(goToCard);
+  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
+    (inNewTab = false) => {
+      if (!href) return;
+      if (inNewTab) window.open(href, '_blank');
+      else historyPush(href);
+    },
+  );
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
