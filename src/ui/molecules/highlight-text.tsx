@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getFoundData } from "@box/entities/user/lib";
+import { getFoundData } from '@box/entities/user/lib';
 
 interface HighlightTextProps {
   query: string;
@@ -16,7 +16,9 @@ export const HighlightText: React.FC<HighlightTextProps> = ({
     <>
       {data.map(({ isFound, text }, index) => (
         // eslint-disable-next-line react/jsx-key,react/no-array-index-key
-        <PartText key={index} data-is-selected={isFound}>{text}</PartText>
+        <PartText key={index} data-is-selected={isFound}>
+          {text}
+        </PartText>
       ))}
     </>
   );

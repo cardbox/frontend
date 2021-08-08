@@ -13,8 +13,8 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
-import type { MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
+import type { MouseEventHandler } from 'react';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
