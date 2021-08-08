@@ -72,6 +72,8 @@ const SearchWrapper = styled.div`
 `;
 
 const NewCardLink = styled(Link)`
+  margin-left: 1.125rem;
+
   button {
     color: var(--wizard500);
   }
