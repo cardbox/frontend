@@ -3,8 +3,6 @@ import type { Card } from '@box/api';
 import { createEffect, createStore } from 'effector-root';
 import { internalApi } from '@box/api';
 
-import { debug } from 'patronum';
-
 export const getCardByIdFx = createEffect(async (cardId: string) => {
   const response = await internalApi.cards.get(cardId);
   return response.body.card;
