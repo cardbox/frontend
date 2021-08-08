@@ -47,7 +47,7 @@ export type Draft = ReturnType<typeof $draft.getState>;
 
 // Init
 spread({
-  source: cardModel.cardGetByIdFx.doneData.map(({ card }) => card),
+  source: cardModel.getCardByIdFx.doneData,
   targets: {
     id: $id,
     title: $title,

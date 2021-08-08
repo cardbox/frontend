@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
+import { ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import { SessionPanel } from '@box/entities/session';
 import { useEvent } from 'effector-react/ssr';
-import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from '../models';
 import { Search } from '../molecules';
@@ -18,7 +18,6 @@ interface SearchbarProps {
 // TODO: вынести из Searchbar логику с пользователем
 export const Searchbar: React.FC<SearchbarProps> = ({
   logoHref,
-  viewerHref,
   newCardHref,
 }) => {
   useSearchQueryChanged();
@@ -33,11 +32,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={viewerHref}>
-            <LoginBlock>
-              <Avatar src={viewer.avatar} />
-            </LoginBlock>
-          </UserLink>
+          <SessionPanel />
           <NewCardLink to={newCardHref}>
             <button.Base>New card</button.Base>
           </NewCardLink>
@@ -74,14 +69,6 @@ const Nav = styled.nav`
 const SearchWrapper = styled.div`
   flex-grow: 1;
   margin-left: 3.125rem;
-`;
-
-const LoginBlock = styled.div`
-  margin: 0 1.125rem;
-`;
-
-const UserLink = styled(Link)`
-  margin: 0 1.125rem;
 `;
 
 const NewCardLink = styled(Link)`

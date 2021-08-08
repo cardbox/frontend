@@ -97,13 +97,18 @@ syncLoadAssets();
 export const server = express()
   .disable('x-powered-by')
   .use(
-    '/api',
+    '/api/internal',
     createProxyMiddleware({
-      target: process.env.SERVER_BACKEND_URL ?? 'http://localhost:9008',
+      target: process.env.BACKEND_URL ?? 'http://localhost:9110',
       pathRewrite: {
-        '^/api': '',
+        '^/api/internal/': '/',
       },
+      logLevel: 'debug',
       secure: false,
+      changeOrigin: true,
+      onError(error) {
+        console.error('[proxy error]', error);
+      },
     }),
   )
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -237,7 +242,7 @@ function htmlStart(p: StartProps) {
 function htmlEnd(p: EndProps) {
   return `</div>
         <script>
-          window.INITIAL_STATE = ${JSON.stringify(p.storesValues)}
+          window['INITIAL_STATE'] = ${JSON.stringify(p.storesValues)}
         </script>
         ${p.helmet.script.toString()}
         ${p.helmet.noscript.toString()}

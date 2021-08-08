@@ -29,7 +29,7 @@ export const CardViewPage = () => {
         <Container>
           <Main>
             <CardPreview
-              card={card}
+              card={card as any}
               loading={isLoading}
               isCardInFavorite={false}
               size="large"
