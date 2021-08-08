@@ -6,7 +6,7 @@ import { MouseEventHandler, useRef } from 'react';
 //  over selected text
 //  probably a temporary solution
 export function useMouseSelection(fn: (inNewTab?: boolean) => void) {
-  const preventingRef = useRef<HTMLButtonElement | null>(null)
+  const preventingRef = useRef<HTMLButtonElement | null>(null);
   const mouseDownCoords = useRef({
     x: 0,
     y: 0,

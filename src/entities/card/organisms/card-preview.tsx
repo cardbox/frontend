@@ -50,7 +50,8 @@ export const CardPreview = ({
     else historyPush(href);
   };
 
-  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(goToCard);
+  const { handleMouseDown, handleMouseUp, buttonRef } =
+    useMouseSelection(goToCard);
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
