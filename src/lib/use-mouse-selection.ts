@@ -1,17 +1,12 @@
-import { MouseEventHandler, MutableRefObject, useRef } from 'react';
+import { MouseEventHandler, useRef } from 'react';
 
 // todo:
 //  it's a hook to handle click on interactive elements
 //  if user wants to select text on interactive element he can drag his mouse
 //  over selected text
 //  probably a temporary solution
-export function useMouseSelection({
-  callback,
-  preventingRef,
-}: {
-  callback: (inNewTab?: boolean) => void;
-  preventingRef?: MutableRefObject<HTMLElement | null>;
-}) {
+export function useMouseSelection(fn: (inNewTab?: boolean) => void) {
+  const preventingRef = useRef<HTMLButtonElement | null>(null);
   const mouseDownCoords = useRef({
     x: 0,
     y: 0,
@@ -19,7 +14,7 @@ export function useMouseSelection({
   const isUpPreventing = useRef(false);
   const handleMouseDown: MouseEventHandler = (e) => {
     if (e.button === 1) {
-      callback(true);
+      fn(true);
       return;
     }
     if (e.button === 0) {
@@ -41,12 +36,13 @@ export function useMouseSelection({
     const yDiff = Math.abs(e.pageY - mouseDownCoords.current.y);
     const xDiff = Math.abs(e.pageX - mouseDownCoords.current.x);
     if (yDiff <= 5 && xDiff <= 5) {
-      callback();
+      fn();
     }
   };
 
   return {
     handleMouseDown,
     handleMouseUp,
+    buttonRef: preventingRef,
   };
 }

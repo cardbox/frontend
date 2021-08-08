@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
+import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
-
-import { getFoundData } from '../lib';
 
 interface UserPreviewProps {
   user: User;
@@ -59,19 +57,12 @@ const Content: React.FC<ContentProps> = ({
   userHref = '',
 }) => {
   const query = useSearchQuery();
-  const data = getFoundData({ search: username, query });
 
   return (
     <ContentStyled>
       <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
-          {data.map(({ isFound, text }, index) => (
-            // no need to handle index issue here
-            // eslint-disable-next-line react/no-array-index-key
-            <PartUserName key={index} data-is-selected={isFound}>
-              {text}
-            </PartUserName>
-          ))}
+          <HighlightText query={query} text={username} />
         </UserName>
       </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
@@ -79,11 +70,6 @@ const Content: React.FC<ContentProps> = ({
   );
 };
 
-const PartUserName = styled.span<{ 'data-is-selected': boolean }>`
-  &[data-is-selected='true'] {
-    color: blue;
-  }
-`;
 const UserName = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;

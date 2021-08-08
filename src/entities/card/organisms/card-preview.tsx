@@ -1,15 +1,10 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, {
-  KeyboardEventHandler,
-  MouseEventHandler,
-  forwardRef,
-  useRef,
-} from 'react';
+import React, { forwardRef } from 'react';
 import type { Card } from '@box/api';
 import { Editor } from '@cardbox/editor';
-import { Link } from 'react-router-dom';
 import {
+  HighlightText,
   PaperContainer,
   Skeleton,
   Text,
@@ -18,9 +13,11 @@ import {
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
+import { useSearchQuery } from '@box/features/search-bar';
 
 type CardSize = 'small' | 'large';
 
@@ -35,7 +32,6 @@ interface CardPreviewProps {
    * @default "small"
    */
   size?: CardSize;
-  focusItemChanged?: (direction: 'next' | 'prev') => void;
 }
 
 export const CardPreview = ({
@@ -45,43 +41,20 @@ export const CardPreview = ({
   userHref,
   loading = false,
   size = 'small',
-  focusItemChanged,
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const goToCard = (inNewTab = false) => {
-    if (!href) return;
-    if (inNewTab) window.open(href, '_blank');
-    else historyPush(href);
-  };
-
-  const { handleMouseDown, handleMouseUp } = useMouseSelection({
-    callback: goToCard,
-    preventingRef: buttonRef,
-  });
+  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
+    (inNewTab = false) => {
+      if (!href) return;
+      if (inNewTab) window.open(href, '_blank');
+      else historyPush(href);
+    },
+  );
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
   if (!card) return null;
-
-  const handleKeyDown: KeyboardEventHandler = (e) => {
-    if (!focusItemChanged) return;
-
-    const { key, ctrlKey } = e;
-    if (key === 'Enter') {
-      goToCard(ctrlKey);
-    }
-
-    if (key === 'ArrowDown' || key === 'ArrowRight') {
-      e.preventDefault();
-      focusItemChanged('next');
-    }
-    if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      e.preventDefault();
-      focusItemChanged('prev');
-    }
-  };
 
   return (
     <PaperContainerStyled
@@ -90,7 +63,6 @@ export const CardPreview = ({
       tabIndex={0}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      onKeyDown={handleKeyDown}
       aria-label="Open card"
     >
       <Header>
@@ -143,11 +115,17 @@ type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
   Pick<CardPreviewProps, 'href' | 'size'>;
 
 const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
+  const query = useSearchQuery();
+
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
       <TextStyled type={TextType.header4}>
-        {href && <TitleLink to={href}>{title}</TitleLink>}
+        {href && (
+          <TitleLink to={href}>
+            <HighlightText query={query} text={title} />
+          </TitleLink>
+        )}
         {!href && title}
       </TextStyled>
       {size === 'large' && (
@@ -221,7 +199,7 @@ const addButtonData = {
 };
 const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   ({ isCardToDeckAdded }, ref) => {
-    const click: MouseEventHandler = (e) => {
+    const click: React.MouseEventHandler = (e) => {
       e.stopPropagation();
     };
     return (
