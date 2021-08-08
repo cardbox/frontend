@@ -1,6 +1,6 @@
 interface SelectedText {
   isFound: boolean;
-  text: string;
+  segment: string;
 }
 type Ret = SelectedText[];
 
@@ -16,7 +16,7 @@ export function getFoundData({
   const lowerQuery = query.toLowerCase();
 
   const hasNoResult = lowerSearch.split(lowerQuery).length === 1;
-  if (hasNoResult) return [{ isFound: false, text: search }];
+  if (hasNoResult) return [{ isFound: false, segment: search }];
 
   const lowerCaseList = lowerSearch.split(lowerQuery);
   const startedIndexes = lowerCaseList.map((searchPart) =>
@@ -38,14 +38,14 @@ export function getFoundData({
     );
 
     if (isFirst && hasAtTheBeginning) {
-      prev.push({ isFound: true, text: queryItem });
+      prev.push({ isFound: true, segment: queryItem });
     }
     if (regularItem) {
-      prev.push({ isFound: false, text: regularItem });
-      if (isFirst) prev.push({ isFound: true, text: queryItem });
+      prev.push({ isFound: false, segment: regularItem });
+      if (isFirst) prev.push({ isFound: true, segment: queryItem });
     }
     if (!isFirst && !isLast && queryItem) {
-      prev.push({ isFound: true, text: queryItem });
+      prev.push({ isFound: true, segment: queryItem });
     }
 
     return prev;

@@ -62,7 +62,7 @@ const Content: React.FC<ContentProps> = ({
     <ContentStyled>
       <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
-          <HighlightText query={query} entity={username} />
+          <HighlightText query={query} text={username} />
         </UserName>
       </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>

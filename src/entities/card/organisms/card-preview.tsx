@@ -14,7 +14,6 @@ import {
   iconDeckCheck,
 } from '@box/ui';
 import { Link } from 'react-router-dom';
-import type { MouseEventHandler } from 'react';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
@@ -44,7 +43,6 @@ export const CardPreview = ({
   size = 'small',
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const goToCard = (inNewTab = false) => {
     if (!href) return;
@@ -52,10 +50,7 @@ export const CardPreview = ({
     else historyPush(href);
   };
 
-  const { handleMouseDown, handleMouseUp } = useMouseSelection({
-    callback: goToCard,
-    preventingRef: buttonRef,
-  });
+  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(goToCard);
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
@@ -128,11 +123,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       <TextStyled type={TextType.header4}>
         {href && (
           <TitleLink to={href}>
-            {query !== '' ? (
-              <HighlightText query={query} entity={title} />
-            ) : (
-              title
-            )}
+            <HighlightText query={query} text={title} />
           </TitleLink>
         )}
         {!href && title}
@@ -208,7 +199,7 @@ const addButtonData = {
 };
 const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   ({ isCardToDeckAdded }, ref) => {
-    const click: MouseEventHandler = (e) => {
+    const click: React.MouseEventHandler = (e) => {
       e.stopPropagation();
     };
     return (
