@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Avatar } from '@box/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
-import { userLib } from '@box/entities/user';
 
-import { Avatar } from '../atoms';
+import { getFullName } from '../lib';
 
 interface Props {
   user: User;
@@ -14,7 +14,7 @@ interface Props {
 // FIXME: move to entities/user (BOX-155)
 export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
   const href = getUserHref?.(user) || '';
-  const fullName = userLib.getFullName(user);
+  const fullName = getFullName(user);
   const { avatar, work } = user;
 
   return (

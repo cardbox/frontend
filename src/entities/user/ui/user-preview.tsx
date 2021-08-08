@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
-import { plural } from '@box/lib/plural';
+// import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
 import { getFoundData } from '../lib';

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardPreview, cardModel } from '@box/entities/card';
-import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { ContentCenteredTemplate } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { UserCard } from '@box/entities/user';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 //FIXME
