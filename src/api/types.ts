@@ -3,33 +3,14 @@ import type { EditorValue } from '@cardbox/editor';
 // Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
 export type CardContent = EditorValue;
 
-export interface Card {
-  id: string;
-  title: string;
-  content: CardContent;
-  createdAt: string;
-  updatedAt: string;
-  author: User;
-  tags: string[];
-}
+export type Card = import('./internal').CardsGetDone['answer']['card'];
 
-export interface Social {
-  type: string;
-  link: string;
-  nickname: string;
-}
+export type User = import('./internal').UsersGetDone['answer']['user'];
 
-export interface User {
-  id: string;
-  username: string;
-  firstName?: string;
-  lastName?: string;
-  bio?: string;
-  avatar?: string;
-  // FIXME: resolve to Card[]
-  cards: string[];
-  // FIXME: resolve to Card[]
-  favorites: string[];
-  socials: Social[];
-  work?: string;
+// FIXME: Просчитывать позднее от User - пока что не получается из-за non-required поля
+export interface UserSocial {
+  readonly id: string;
+  readonly type: string;
+  readonly link: string;
+  readonly username: string;
 }
