@@ -1,14 +1,14 @@
 import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, guard, sample } from 'effector-root';
 import { cardDraftModel } from '@box/features/card/draft';
-import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
 export const pageLoaded = createEvent<StartParams>();
 
-export const cardCreateFx = attach({ effect: cardModel.cardCreateFx });
+export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 
 // Ивент, который сабмитит форму при отправке ее со страницы создания карточки
 const formCreateSubmitted = createEvent<string>();
@@ -24,7 +24,7 @@ guard({
 guard({
   clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
-  source: cardDraftModel.$draft.map(({ id, ...data }) => data),
+  source: cardDraftModel.$draft.map(({ id, ...data }) => ({ body: data })),
   filter: cardDraftModel.$isValidDraft,
   target: cardCreateFx,
 });
@@ -32,7 +32,7 @@ guard({
 // Редиректим на страницу созданной карточки после сохранения изменений
 sample({
   clock: cardCreateFx.done,
-  fn: ({ result }) => paths.card(result.card.id),
+  fn: ({ result }) => paths.card(result.answer.card.id),
   target: historyPush,
 });
 
