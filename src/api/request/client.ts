@@ -2,7 +2,7 @@ import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestClient);
 
-export const API_PREFIX = process.env.CLIENT_BACKEND_URL ?? `/api/internal`;
+export const API_PREFIX = process.env.CLIENT_BACKEND_URL ?? `/api`;
 
 export async function requestClient<Response = unknown>({
   path,

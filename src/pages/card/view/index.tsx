@@ -16,6 +16,9 @@ import { paths } from '../../paths';
 // eslint-disable-next-line prettier/prettier
 const DELETE_WARN = 'Are you sure you want to delete this card?';
 
+/**
+ * Страница просмотра карточки
+ */
 export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
@@ -46,7 +49,7 @@ export const CardViewPage = () => {
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
-              {card && isViewerById(card.authorId as string) && (
+              {card && isViewerById(card.author.id as string) && (
                 <ButtonDelete
                   type="button"
                   onClick={() => {
