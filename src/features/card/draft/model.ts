@@ -1,8 +1,8 @@
 import * as editorLib from '@box/lib/editor';
 import type { CardContent } from '@box/api';
-import { cardModel } from '@box/entities/card';
 import { combine, createDomain, createEvent } from 'effector-root';
 import { every } from 'patronum/every';
+import { internalApi } from '@box/api';
 import { isNonEmpty } from '@box/lib/fp';
 import { spread } from 'patronum/spread';
 
@@ -47,7 +47,7 @@ export type Draft = import('effector').StoreValue<typeof $draft>;
 
 // Init
 spread({
-  source: cardModel.getCardByIdFx.doneData,
+  source: internalApi.cardsGet.doneData.map(({ answer }) => answer.card),
   targets: {
     id: $id,
     title: $title,

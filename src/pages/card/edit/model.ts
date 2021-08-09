@@ -9,7 +9,7 @@ import { paths } from '../../paths';
 
 export const pageLoaded = createEvent<StartParams>();
 
-export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
+export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
 
 // FIXME: may be should be replace to "$errors" in future
@@ -18,8 +18,8 @@ export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
 // Подгружаем данные после монтирования страницы
 sample({
   source: pageLoaded,
-  fn: ({ params }) => params.cardId,
-  target: getCardByIdFx,
+  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
+  target: cardsGetFx,
 });
 
 // Ивент, который сабмитит форму при отправке ее со страницы редактирования карточки

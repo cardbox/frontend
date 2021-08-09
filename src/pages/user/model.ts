@@ -1,6 +1,6 @@
 import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, forward, restore } from 'effector-root';
-import { cardModel } from '@box/entities/card';
+import { internalApi } from '@box/api';
 import { userModel } from '@box/entities/user';
 
 export const pageLoaded = createEvent<StartParams>();
@@ -23,5 +23,5 @@ forward({
 
 forward({
   from: pageLoaded,
-  to: cardModel.getCardsListFx,
+  to: internalApi.cardsList.prepend(({ params }) => ({ body: params })),
 });
