@@ -39,4 +39,7 @@ if (module.hot) {
   module.hot.accept();
 }
 
-document.cookie = `session-token=${process.env.SESSION_TOKEN || ''}; Path=/;`;
+// FIXME: Позднее будет решаться авторизацией
+document.cookie = `session-token=${
+  process.env.RAZZLE_SESSION_TOKEN || ''
+}; Path=/;`;
