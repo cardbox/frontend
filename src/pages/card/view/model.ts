@@ -9,18 +9,19 @@ import {
 } from 'effector-root';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
 
-export const getCardByIdFx = attach({ effect: cardModel.getCardByIdFx });
-export const deleteCardByIdFx = attach({ effect: cardModel.deleteCardByIdFx });
+export const cardsGetFx = attach({ effect: internalApi.cardsGet });
+export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
 export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(getCardByIdFx.pending.updates, true);
+export const $pagePending = restore(cardsGetFx.pending.updates, true);
 export const deleteCard = createEvent();
 
 sample({
   source: pageLoaded,
-  fn: ({ params }) => params.cardId,
-  target: getCardByIdFx,
+  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
+  target: cardsGetFx,
 });
 
 export const $pageTitle = combine(
@@ -40,12 +41,12 @@ guard({
   clock: deleteCard,
   source: cardModel.$currentCardId,
   filter: (id): id is string => id !== null,
-  target: deleteCardByIdFx,
+  target: cardsDeleteFx.prepend((cardId: string) => ({ body: { cardId } })),
 });
 
 // Возвращаем на домашнюю страницу после события удаления карточки
 sample({
-  clock: deleteCardByIdFx.done,
+  clock: cardsDeleteFx.done,
   // FIXME: push later to card.author page
   fn: () => paths.home(),
   target: historyPush,

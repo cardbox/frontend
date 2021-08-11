@@ -1,12 +1,19 @@
+import type { Card } from '@box/api';
 import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, forward, restore } from 'effector-root';
 import { cardModel } from '@box/entities/card';
+import { internalApi } from '@box/api';
 
-export const getCardsListFx = attach({ effect: cardModel.getCardsListFx });
+export const cardsFeedFx = attach({ effect: internalApi.cardsFeedFx });
 export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(getCardsListFx.pending.updates, true);
+export const $pagePending = restore(cardsFeedFx.pending.updates, true);
 
 forward({
   from: pageLoaded,
-  to: getCardsListFx,
+  to: cardsFeedFx,
+});
+
+forward({
+  from: cardsFeedFx.doneData.map(({ answer }) => answer.cards as Card[]),
+  to: cardModel.setCards,
 });

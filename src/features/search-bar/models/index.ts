@@ -41,8 +41,14 @@ export const $cardsCount = createStore<number>(0);
 export const $usersCount = createStore<number>(0);
 
 export const searchFx = createEffect(async (query: string) => {
-  const response = await internalApi.search.results(query);
-  return response.body;
+  const response = await internalApi.cardsSearch({ body: { query } });
+  // TODO: implement usersSearch
+  /* FIXME: resolve relations BOX-185 */
+  return {
+    cards: response.answer.cards as Card[],
+    // FIXME: Временный костыль (см. выше)
+    users: response.answer.users as User[],
+  };
 });
 
 forward({
