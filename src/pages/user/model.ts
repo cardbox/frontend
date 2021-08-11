@@ -1,24 +1,24 @@
 import { StartParams } from '@box/lib/page-routing';
 import { attach, createEvent, forward, restore } from 'effector-root';
 import { internalApi } from '@box/api';
-import { userModel } from '@box/entities/user';
 
 export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(
-  userModel.getUserByNicknameFx.pending.updates,
-  true,
-);
-
-export const getUserByNicknameFx = attach({
-  effect: userModel.getUserByNicknameFx,
+export const usersGetFx = attach({
+  effect: internalApi.usersGet,
   mapParams: (res: StartParams) => {
-    return res.params.username;
+    return {
+      body: {
+        username: res.params.username,
+      },
+    };
   },
 });
 
+export const $pagePending = restore(usersGetFx.pending.updates, true);
+
 forward({
   from: pageLoaded,
-  to: getUserByNicknameFx,
+  to: usersGetFx,
 });
 
 forward({
