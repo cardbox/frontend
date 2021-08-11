@@ -8,7 +8,7 @@ module.exports = {
       {
         effectorImport: 'effector-root',
         requestName: 'requestClient',
-        requestPath: './request/client',
+        requestPath: '../request/client',
       },
     ],
   ],
