@@ -73,7 +73,7 @@ export const UserPage = () => {
             <UserCards>
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
-                cards={cards as any}
+                cards={cards}
                 // FIXME: optimize rerenders
                 getUser={() => userInfo}
                 getHref={(card) => paths.card(card.id)}

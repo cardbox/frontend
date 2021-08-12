@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import React, { forwardRef } from 'react';
 import type { Card, User } from '@box/api';
 import { Editor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
 import {
   HighlightText,
   PaperContainer,
@@ -132,14 +133,14 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
-          {/* FIXME: resolve EditorValue BOX-185 */}
-          <Editor value={content as any} readOnly={true} />
+          {/* FIXME: resolve better later */}
+          <Editor value={content as EditorValue} readOnly={true} />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
-          {/* FIXME: resolve EditorValue BOX-185 */}
-          <Editor value={content as any} readOnly={true} />
+          {/* FIXME: resolve better later */}
+          <Editor value={content as EditorValue} readOnly={true} />
         </ItemEditorContainer>
       )}
     </ContentStyled>
