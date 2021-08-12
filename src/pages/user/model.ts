@@ -21,7 +21,10 @@ forward({
   to: usersGetFx,
 });
 
+// FIXME: simplify, resolve before first render?
 forward({
-  from: pageLoaded,
-  to: internalApi.cardsList.prepend(({ params }) => ({ body: params })),
+  from: usersGetFx.doneData,
+  to: internalApi.cardsList.prepend(({ answer }) => ({
+    body: { authorId: answer.user.id },
+  })),
 });
