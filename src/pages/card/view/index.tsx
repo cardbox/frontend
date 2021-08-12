@@ -8,8 +8,6 @@ import { UserCard } from '@box/entities/user';
 import { isViewerById } from '@box/entities/viewer/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
-//FIXME
-import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
@@ -26,6 +24,7 @@ export const CardViewPage = () => {
   const isLoading = useStore(model.$pagePending);
   const pageTitle = useStore(model.$pageTitle);
   const deleteCard = useEvent(model.deleteCard);
+  const author = useStore(model.$cardAuthor);
 
   return (
     <>
@@ -42,15 +41,17 @@ export const CardViewPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard
-              user={viewer}
-              getUserHref={(user) => paths.user(user.username)}
-            />
+            {author && (
+              <UserCard
+                user={author}
+                getUserHref={(user) => paths.user(user.username)}
+              />
+            )}
             <Links>
               {card && (
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
               )}
-              {card && isViewerById(card.authorId as string) && (
+              {card && isViewerById(card.authorId) && (
                 <ButtonDelete
                   type="button"
                   onClick={() => {

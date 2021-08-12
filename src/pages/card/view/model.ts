@@ -1,8 +1,10 @@
 import { StartParams } from '@box/lib/page-routing';
+import type { User } from '@box/api';
 import {
   attach,
   combine,
   createEvent,
+  createStore,
   guard,
   restore,
   sample,
@@ -14,6 +16,7 @@ import { paths } from '@box/pages/paths';
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
+export const usersGetFx = attach({ effect: internalApi.usersGet });
 export const pageLoaded = createEvent<StartParams>();
 export const $pagePending = restore(cardsGetFx.pending.updates, true);
 export const deleteCard = createEvent();
@@ -51,3 +54,15 @@ sample({
   fn: () => paths.home(),
   target: historyPush,
 });
+
+//#region cardAuthor
+
+// FIXME: move to entities/user?
+export const $cardAuthor = createStore<User | null>(null);
+sample({
+  source: cardsGetFx.doneData,
+  fn: ({ answer }) => ({ body: { username: answer.card.authorId } }),
+  target: usersGetFx,
+});
+
+$cardAuthor.on(usersGetFx.doneData, (_, { answer }) => answer.user);
