@@ -33,6 +33,7 @@ $latestCards.on(
   (_, { answer }) => answer.latest.cards as Card[],
 );
 
+// FIXME: move logic to entities level?
 sample({
   source: cardsFeedFx.doneData,
   fn: ({ answer }) => [...answer.latest.users, ...answer.top.users],

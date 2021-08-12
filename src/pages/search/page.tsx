@@ -8,7 +8,7 @@ import { UserPreviewList, userModel } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
 import { reflect } from '@effector/reflect/ssr';
 import { searchModel, useSearchQuery } from '@box/features/search-bar';
-import { useEvent } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './model';
 import { paths } from '../paths';
@@ -92,15 +92,21 @@ const TabStyled = styled(Tab)`
     color: #000;
   }
 `;
-const CardResults = reflect({
-  view: CardList,
-  bind: {
-    cards: searchModel.$cardList,
-    getHref: (card) => paths.card(card.id),
-    loading: model.$isShowLoading,
-    getUser: (card) => userModel.$usersMap[card.authorId],
-  },
-});
+
+const CardResults = () => {
+  const usersMap = useStore(userModel.$usersMap);
+  const cards = useStore(searchModel.$cardList);
+  const isLoading = useStore(model.$isShowLoading);
+
+  return (
+    <CardList
+      cards={cards}
+      getHref={(card) => paths.card(card.id)}
+      loading={isLoading}
+      getUser={(card) => usersMap[card.authorId]}
+    />
+  );
+};
 
 const UserResults = reflect({
   view: UserPreviewList,
