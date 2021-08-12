@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef } from 'react';
-import type { Card } from '@box/api';
+import type { Card, User } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import {
   HighlightText,
@@ -22,7 +22,8 @@ import { useSearchQuery } from '@box/features/search-bar';
 type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
-  card?: Card | null;
+  card: Card;
+  author: User;
   isCardInFavorite?: boolean;
   href?: string;
   userHref?: string;
@@ -36,6 +37,7 @@ interface CardPreviewProps {
 
 export const CardPreview = ({
   card,
+  author,
   isCardInFavorite = false,
   href,
   userHref,
@@ -54,7 +56,6 @@ export const CardPreview = ({
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
-  if (!card) return null;
 
   return (
     <PaperContainerStyled
@@ -76,14 +77,9 @@ export const CardPreview = ({
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {/* FIXME: resolve relations BOX-185 */}
-      {/* {size === 'small' && (
-        <Meta
-          author={card.author}
-          userHref={userHref}
-          updatedAt={card.updatedAt}
-        />
-      )} */}
+      {size === 'small' && (
+        <Meta author={author} userHref={userHref} updatedAt={card.updatedAt} />
+      )}
     </PaperContainerStyled>
   );
 };
@@ -175,21 +171,22 @@ const ItemEditorContainer = styled.div`
   max-height: 90px;
 `;
 
-// interface MetaProps extends Pick<Card, 'author' | 'updatedAt'> {
-//   userHref?: string;
-// }
+type MetaProps = Pick<Card, 'updatedAt'> & {
+  userHref?: string;
+  author: User;
+};
 
-// const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
-//   <MetaStyled>
-//     {/* FIXME: bind with API later */}
-//     <UserLink to={userHref}>
-//       <Text type={TextType.small}>{author.username}</Text>
-//     </UserLink>
-//     <Text type={TextType.mini}>
-//       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
-//     </Text>
-//   </MetaStyled>
-// );
+const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
+  <MetaStyled>
+    {/* FIXME: Add click processing */}
+    <UserLink to={userHref}>
+      <Text type={TextType.small}>{author.username}</Text>
+    </UserLink>
+    <Text type={TextType.mini}>
+      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
+    </Text>
+  </MetaStyled>
+);
 
 const ContentStyled = styled.div`
   width: 100%;

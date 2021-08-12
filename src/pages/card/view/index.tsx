@@ -32,12 +32,15 @@ export const CardViewPage = () => {
       <ContentCenteredTemplate>
         <Container>
           <Main>
-            <CardPreview
-              card={card as any}
-              loading={isLoading}
-              isCardInFavorite={false}
-              size="large"
-            />
+            {card && author && (
+              <CardPreview
+                card={card}
+                author={author}
+                loading={isLoading}
+                isCardInFavorite={false}
+                size="large"
+              />
+            )}
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>

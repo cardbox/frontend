@@ -14,7 +14,7 @@ import { useStore } from 'effector-react/ssr';
 import { userLib, userModel } from '@box/entities/user';
 
 import * as model from './model';
-import { Skeleton } from './skeleton';
+import { SkeletonLayout } from './skeleton';
 import { paths } from '../paths';
 
 export const UserPage = () => {
@@ -24,7 +24,7 @@ export const UserPage = () => {
   const isLoading = useStore(model.$pagePending);
 
   // FIXME: simplify logic
-  if (isLoading || !userInfo) return <Skeleton />;
+  if (isLoading || !userInfo) return <SkeletonLayout />;
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
@@ -74,9 +74,10 @@ export const UserPage = () => {
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
                 cards={cards as any}
+                // FIXME: optimize rerenders
+                getUser={() => userInfo}
                 getHref={(card) => paths.card(card.id)}
-                // FIXME: resolve to author.username BOX-185
-                getUserHref={(card) => paths.user(card.authorId)}
+                getUserHref={() => paths.user(userInfo.username)}
                 loading={isLoading}
               />
             </UserCards>

@@ -1,5 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useCallback } from 'react';
+import type { Card } from '@box/api';
 import { CardList } from '@box/entities/card';
 import {
   ContentCenteredTemplate,
@@ -11,6 +12,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+import { userModel } from '@box/entities/user';
 
 import * as model from './model';
 import { paths } from '../paths';
@@ -20,6 +22,28 @@ export const HomePage = () => {
   const isLoading = useStore(model.$pagePending);
   const topCards = useStore(model.$topCards);
   const latestCards = useStore(model.$latestCards);
+  const usersMap = useStore(userModel.$usersMap);
+
+  // FIXME: temp handlers
+  const handleUser = useCallback(
+    (card: Card) => {
+      const user = usersMap[card.authorId];
+      return user;
+    },
+    [usersMap],
+  );
+
+  const handleUserHref = useCallback(
+    (card: Card) => {
+      const user = usersMap[card.authorId];
+      return paths.user(user.username);
+    },
+    [usersMap],
+  );
+
+  const handleCardHref = useCallback((card: Card) => {
+    return paths.card(card.id);
+  }, []);
 
   return (
     <>
@@ -51,9 +75,9 @@ export const HomePage = () => {
               <SectionTitle type={TextType.header2}>Top</SectionTitle>
               <CardList
                 cards={topCards}
-                getHref={(card) => paths.card(card.id)}
-                // FIXME: resolve to author.username BOX-185
-                getUserHref={(card) => paths.user(card.authorId)}
+                getUser={handleUser}
+                getHref={handleCardHref}
+                getUserHref={handleUserHref}
                 loading={isLoading}
               />
             </Section>
@@ -61,9 +85,9 @@ export const HomePage = () => {
               <SectionTitle type={TextType.header2}>Latest</SectionTitle>
               <CardList
                 cards={latestCards}
-                getHref={(card) => paths.card(card.id)}
-                // FIXME: resolve to author.username BOX-185
-                getUserHref={(card) => paths.user(card.authorId)}
+                getUser={handleUser}
+                getHref={handleCardHref}
+                getUserHref={handleUserHref}
                 loading={isLoading}
               />
             </Section>

@@ -1,12 +1,17 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { Avatar, ContentCenteredTemplate, button, iconUserBg } from '@box/ui';
-import { CardPreview } from '@box/entities/card';
+import {
+  Avatar,
+  ContentCenteredTemplate,
+  Skeleton,
+  button,
+  iconUserBg,
+} from '@box/ui';
 import { withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 
-export const Skeleton = () => {
+export const SkeletonLayout = () => {
   return (
     <>
       <UnderLay bg={iconUserBg} />
@@ -46,8 +51,8 @@ export const Skeleton = () => {
           <Main>
             <UserCards>
               <CardListContainer>
-                <CardPreview loading />
-                <CardPreview loading />
+                <Skeleton />
+                <Skeleton />
               </CardListContainer>
             </UserCards>
           </Main>
@@ -57,7 +62,7 @@ export const Skeleton = () => {
   );
 };
 
-withStart(model.pageLoaded, Skeleton);
+withStart(model.pageLoaded, SkeletonLayout);
 
 const Container = styled.div`
   display: flex;
@@ -253,7 +258,7 @@ const EditProfile = styled(button.Outline)`
   display: flex;
   align-items: center;
   right: 1.875rem;
-  bottom: 1.5rem;$
+  bottom: 1.5rem;
   ${bgColorSkeleton}
   width: 160px;
 `;
