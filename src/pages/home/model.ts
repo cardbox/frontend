@@ -6,8 +6,10 @@ import {
   createStore,
   forward,
   restore,
+  sample,
 } from 'effector-root';
 import { internalApi } from '@box/api';
+import { userModel } from '@box/entities/user';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
 export const pageLoaded = createEvent<StartParams>();
@@ -30,3 +32,9 @@ $latestCards.on(
   cardsFeedFx.doneData,
   (_, { answer }) => answer.latest.cards as Card[],
 );
+
+sample({
+  source: cardsFeedFx.doneData,
+  fn: ({ answer }) => [...answer.latest.users, ...answer.top.users],
+  target: userModel.updateMap,
+});
