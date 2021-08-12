@@ -77,10 +77,4 @@ sample({
 
 // FIXME: move to entities/user?
 export const $cardAuthor = createStore<User | null>(null);
-sample({
-  source: cardsGetFx.doneData,
-  fn: ({ answer }) => ({ body: { username: answer.card.authorId } }),
-  target: usersGetFx,
-});
-
-$cardAuthor.on(usersGetFx.doneData, (_, { answer }) => answer.user);
+$cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);
