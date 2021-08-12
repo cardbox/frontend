@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CardList, cardModel } from '@box/entities/card';
+import { CardList } from '@box/entities/card';
 import {
   ContentCenteredTemplate,
   Text,
@@ -17,8 +17,9 @@ import { paths } from '../paths';
 
 export const HomePage = () => {
   useStart(model.pageLoaded);
-  const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
+  const topCards = useStore(model.$topCards);
+  const latestCards = useStore(model.$latestCards);
 
   return (
     <>
@@ -44,13 +45,28 @@ export const HomePage = () => {
         </Hero>
         <Content>
           <Main>
-            <CardList
-              cards={cards as any}
-              getHref={(card) => paths.card(card.id)}
-              // FIXME: resolve to author.username BOX-185
-              getUserHref={(card) => paths.user(card.authorId)}
-              loading={isLoading}
-            />
+            {/* FIXME: simplify */}
+            {/* FIXME: handle empty? */}
+            <Section>
+              <SectionTitle type={TextType.header2}>Top</SectionTitle>
+              <CardList
+                cards={topCards}
+                getHref={(card) => paths.card(card.id)}
+                // FIXME: resolve to author.username BOX-185
+                getUserHref={(card) => paths.user(card.authorId)}
+                loading={isLoading}
+              />
+            </Section>
+            <Section>
+              <SectionTitle type={TextType.header2}>Latest</SectionTitle>
+              <CardList
+                cards={latestCards}
+                getHref={(card) => paths.card(card.id)}
+                // FIXME: resolve to author.username BOX-185
+                getUserHref={(card) => paths.user(card.authorId)}
+                loading={isLoading}
+              />
+            </Section>
             {/* TODO: Process "empty" case correctly */}
           </Main>
         </Content>
@@ -89,4 +105,12 @@ const Main = styled.div`
   /* NOTE: Maybe return back later or delete permanently */
   // width: 74.5%; /* 1044 / 1404 * 100 */
   width: 100%;
+`;
+
+const Section = styled.section`
+  margin-bottom: 2rem;
+`;
+
+const SectionTitle = styled(Text)`
+  margin-bottom: 1rem;
 `;
