@@ -562,6 +562,35 @@ export const cardsGetOk = typed.object({
      * For custom text-overflow (instead of truncating with emphasizing) */
     summary: typed.string.maybe,
   }),
+  user: typed.object({
+    /* ID */
+    id: typed.string,
+    username: typed.string,
+    firstName: typed.string,
+    lastName: typed.string,
+    bio: typed.string.maybe,
+
+    /* Later, can implement as `File` entity */
+    avatar: typed.string.maybe,
+    socials: typed.array(
+      typed.object({
+        id: typed.string,
+
+        /* github | devto | twitter | ... */
+        type: typed.string,
+        link: typed.string,
+
+        /* Username at social platform (gaearon => github/gaearon) */
+        username: typed.string,
+      }),
+    ),
+
+    /* Later, can implement as `Work` entity */
+    work: typed.string.maybe,
+
+    /* Later, can implement checking user permissions by `Role` entity */
+    roles: typed.array(typed.string).maybe,
+  }),
 });
 export interface CardsGetDone {
   status: 'ok';
