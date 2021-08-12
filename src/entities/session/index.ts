@@ -1,3 +1,4 @@
+// FIXME: export * as sessionModel from './model';
 export {
   // $isAuthenticated,
   // $sessionPending,
@@ -5,5 +6,7 @@ export {
   // checkAnonymous,
   readyToLoadSession,
   sessionLoaded,
+  _sessionLoadedClient,
+  $sessionUser,
 } from './model';
 export { SessionPanel } from './molecules';

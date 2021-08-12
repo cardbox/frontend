@@ -1,3 +1,4 @@
+import * as sessionModel from '@box/entities/session';
 import { StartParams } from '@box/lib/page-routing';
 import type { User } from '@box/api';
 import {
@@ -27,6 +28,13 @@ sample({
   target: cardsGetFx,
 });
 
+// FIXME: Временный хак, чтобы запросить сессию с клиента для одной страницы
+// (пока что нужно только на CardViewPage, но позже будет фетчится нормальным способом, когда подтянем авторизацию)
+sample({
+  source: pageLoaded,
+  target: sessionModel._sessionLoadedClient,
+});
+
 export const $pageTitle = combine(
   {
     card: cardModel.$currentCard,
@@ -36,6 +44,16 @@ export const $pageTitle = combine(
     if (isLoading) return 'Loading...';
     if (!card) return 'Card not found';
     return card.title;
+  },
+);
+
+export const $isAuthorViewing = combine(
+  {
+    card: cardModel.$currentCard,
+    viewer: sessionModel.$sessionUser,
+  },
+  ({ card, viewer }) => {
+    return card?.authorId === viewer?.id;
   },
 );
 

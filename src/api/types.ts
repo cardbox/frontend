@@ -14,3 +14,5 @@ export interface UserSocial {
   readonly link: string;
   readonly username: string;
 }
+
+export type SessionUser = import('./internal').SessionGetDone['answer']['user'];

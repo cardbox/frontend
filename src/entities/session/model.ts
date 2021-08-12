@@ -7,16 +7,35 @@ import {
   forward,
   guard,
 } from 'effector-root';
+import type { SessionUser } from '@box/api';
 // import { SessionUser, sessionGet } from '@box/api/session';
 import { condition } from 'patronum/condition';
 import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
 
-export const readyToLoadSession = createEvent<void>();
+export const readyToLoadSession = createEvent();
 
 export const sessionLoaded = createEvent();
 
 forward({ from: readyToLoadSession, to: sessionLoaded });
+
+// FIXME: will be replaced to session later
+export const $sessionUser = createStore<SessionUser | null>(null);
+
+// FIXME: Фетчим сессию на клиенте из-за requestClient#Headers issue
+// Позже поправим после втягивания реальной авторизации
+export const _sessionLoadedClient = createEvent();
+
+forward({
+  from: _sessionLoadedClient,
+  to: internalApi.sessionGet.prepend(() => ({})),
+});
+
+$sessionUser.on(
+  internalApi.sessionGet.doneData,
+  (_, { answer }) => answer.user,
+);
 
 // export const $session = createStore<SessionUser | null>(null);
 // export const $isAuthenticated = $session.map((user) => user !== null);
