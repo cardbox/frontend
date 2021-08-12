@@ -50,7 +50,7 @@ export const $pageTitle = combine(
 export const $isAuthorViewing = combine(
   {
     card: cardModel.$currentCard,
-    viewer: sessionModel.$sessionUser,
+    viewer: sessionModel.$session,
   },
   ({ card, viewer }) => {
     return card?.authorId === viewer?.id;

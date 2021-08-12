@@ -24,7 +24,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           tag_semver: skip
           semver_higher: true
-      
+          buildargs: RAZZLE_SESSION_TOKEN=${{ secrets.RAZZLE_SESSION_TOKEN }}
+
       - name: Trigger deploy to Dev
         uses: peter-evans/repository-dispatch@v1
         with:

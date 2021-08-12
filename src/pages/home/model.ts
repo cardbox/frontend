@@ -1,27 +1,21 @@
 import type { Card } from '@box/api';
-import { StartParams } from '@box/lib/page-routing';
-import {
-  attach,
-  createEvent,
-  createStore,
-  forward,
-  restore,
-  sample,
-} from 'effector-root';
+import { attach, createStore, restore, sample } from 'effector-root';
+import { createStart } from '@box/lib/page-routing';
 import { internalApi } from '@box/api';
 import { userModel } from '@box/entities/user';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
-export const pageLoaded = createEvent<StartParams>();
+export const pageStart = createStart();
+
 export const $pagePending = restore(cardsFeedFx.pending.updates, true);
 
 // FIXME: move to entities/card level later? (as cache store?)
 export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
 
-forward({
-  from: pageLoaded,
-  to: cardsFeedFx,
+sample({
+  source: pageStart,
+  target: cardsFeedFx,
 });
 
 $topCards.on(

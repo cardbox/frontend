@@ -38,8 +38,3 @@ ReactDOM.hydrate(
 if (module.hot) {
   module.hot.accept();
 }
-
-// FIXME: Позднее будет решаться авторизацией
-document.cookie = `session-token=${
-  process.env.RAZZLE_SESSION_TOKEN || ''
-}; Path=/;`;

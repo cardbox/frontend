@@ -2,6 +2,10 @@
 # ---- Build ----
 FROM node:12.16.1-alpine3.9 as build
 
+ARG RAZZLE_SESSION_TOKEN
+
+ENV RAZZLE_SESSION_TOKEN=${RAZZLE_SESSION_TOKEN}
+
 LABEL img.name="frontend/main" \
   img.description="Main frontend" \
   img.vcs-url="https://github.com/cardboxdev/frontend" \
