@@ -90,6 +90,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
   overflow: hidden;
+  box-shadow: 0px 3px 9px #faf9fa;
 
   &[data-size='small'] {
     height: 190px;
