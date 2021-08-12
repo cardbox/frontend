@@ -44,21 +44,23 @@ export const UserPage = () => {
               </UserFaceContent>
             </UserFace>
             <UserSocial>
-              <SocialStaff>
-                <SocialStaffTitle>Social staff</SocialStaffTitle>
-                <SocialStaffList>
-                  {socials.map((social) => (
-                    <SocialStaffItem key={social.id}>
-                      <SocialLink href={social.link}>
-                        {avatar && <Avatar size="small" src={avatar} />}
-                        <SocialStaffItemText>
-                          @{social.username}
-                        </SocialStaffItemText>
-                      </SocialLink>
-                    </SocialStaffItem>
-                  ))}
-                </SocialStaffList>
-              </SocialStaff>
+              {Boolean(socials.length) && (
+                <SocialStaff>
+                  <SocialStaffTitle>Social staff</SocialStaffTitle>
+                  <SocialStaffList>
+                    {socials.map((social) => (
+                      <SocialStaffItem key={social.id}>
+                        <SocialLink href={social.link}>
+                          {avatar && <Avatar size="small" src={avatar} />}
+                          <SocialStaffItemText>
+                            @{social.username}
+                          </SocialStaffItemText>
+                        </SocialLink>
+                      </SocialStaffItem>
+                    ))}
+                  </SocialStaffList>
+                </SocialStaff>
+              )}
             </UserSocial>
             {/* FIXME: move to entities/user logic */}
             <UserLogo>
