@@ -8,6 +8,7 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
+import { imgLogo } from '@box/shared/assets';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 import { userLib, userModel } from '@box/entities/user';
@@ -22,6 +23,7 @@ export const UserPage = () => {
   const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
+  // FIXME: simplify logic
   if (isLoading || !userInfo) return <Skeleton />;
 
   const { work, bio, socials, avatar } = userInfo;
@@ -58,11 +60,10 @@ export const UserPage = () => {
                 </SocialStaffList>
               </SocialStaff>
             </UserSocial>
-            {avatar && (
-              <UserLogo>
-                <StAvatar size="large" src={avatar} />
-              </UserLogo>
-            )}
+            {/* FIXME: move to entities/user logic */}
+            <UserLogo>
+              <StAvatar size="large" src={avatar || imgLogo} />
+            </UserLogo>
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
               Edit profile

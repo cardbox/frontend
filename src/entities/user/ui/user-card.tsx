@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Avatar } from '@box/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { imgLogo } from '@box/shared/assets';
 
 import { getFullName } from '../lib';
 
@@ -26,7 +27,7 @@ export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
         </Name>
         {work && <Role>{work}</Role>}
       </Content>
-      {avatar && <Avatar src={avatar} />}
+      <Avatar src={avatar || imgLogo} />
     </Container>
   );
 };

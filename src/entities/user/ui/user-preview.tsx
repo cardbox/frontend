@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { imgLogo } from '@box/shared/assets';
 // import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
@@ -20,7 +21,7 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
             {bio}
           </Content>
         )}
-        {avatar && <Avatar src={avatar} />}
+        <Avatar src={avatar || imgLogo} />
       </Header>
 
       {/* FIXME: resolve relations BOX-185 */}
