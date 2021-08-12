@@ -73,8 +73,6 @@ sample({
   target: historyPush,
 });
 
-//#region cardAuthor
-
 // FIXME: move to entities/user?
 export const $cardAuthor = createStore<User | null>(null);
 $cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);

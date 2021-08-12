@@ -12,7 +12,7 @@ interface UserListProps {
   loading?: boolean;
   getUserHref?: (data: User) => string | undefined;
   // FIXME: will be removed later
-  getCardsCount: (data: User) => number;
+  getCardsCount?: (data: User) => number;
 }
 export const UserPreviewList = ({
   users,
@@ -36,7 +36,7 @@ export const UserPreviewList = ({
           user={user}
           userHref={getUserHref?.(user)}
           // FIXME: temp hack, will be optimized later
-          cardsCount={getCardsCount(user)}
+          cardsCount={getCardsCount?.(user)}
         />
       ))}
     </Container>

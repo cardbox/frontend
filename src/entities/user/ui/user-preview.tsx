@@ -10,7 +10,7 @@ import { useSearchQuery } from '@box/features/search-bar';
 interface UserPreviewProps {
   user: User;
   userHref?: string;
-  cardsCount: number;
+  cardsCount?: number;
 }
 export const UserPreview: React.FC<UserPreviewProps> = ({
   user,
@@ -29,7 +29,7 @@ export const UserPreview: React.FC<UserPreviewProps> = ({
         <Avatar src={avatar || imgLogo} />
       </Header>
 
-      <Meta cardsCount={cardsCount} />
+      {cardsCount && <Meta cardsCount={cardsCount} />}
     </PaperContainerStyled>
   );
 };
@@ -76,7 +76,9 @@ const Content: React.FC<ContentProps> = ({
   );
 };
 
-type MetaProps = Pick<UserPreviewProps, 'cardsCount'>;
+interface MetaProps {
+  cardsCount: number;
+}
 
 const UserName = styled(Text)`
   overflow: hidden;

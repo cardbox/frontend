@@ -114,7 +114,6 @@ const UserResults = reflect({
     users: searchModel.$userList,
     loading: model.$isShowLoading,
     getUserHref: (user) => paths.user(user.username),
-    // FIXME: implement later BOX-185
-    getCardsCount: () => 0,
+    // FIXME: implement later getCardsCount (if 'll be needed)
   },
 });

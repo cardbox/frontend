@@ -51,7 +51,7 @@ export const UserPage = () => {
                     {socials.map((social) => (
                       <SocialStaffItem key={social.id}>
                         <SocialLink href={social.link}>
-                          {avatar && <Avatar size="small" src={avatar} />}
+                          <Avatar size="small" src={avatar || imgLogo} />
                           <SocialStaffItemText>
                             @{social.username}
                           </SocialStaffItemText>
