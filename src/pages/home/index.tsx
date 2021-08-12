@@ -9,14 +9,13 @@ import {
   button,
 } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
-import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
+import { withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 import { paths } from '../paths';
 
 export const HomePage = () => {
-  useStart(model.pageLoaded);
   const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
@@ -59,7 +58,7 @@ export const HomePage = () => {
   );
 };
 
-withStart(model.pageLoaded, HomePage);
+withStart(model.pageStart, HomePage);
 
 const Hero = styled.div`
   display: grid;
