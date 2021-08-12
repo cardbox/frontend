@@ -7,7 +7,6 @@ export {
   checkAnonymous,
   readyToLoadSession,
   sessionLoaded,
-  _sessionLoadedClient,
 } from './model';
 
 export { SessionPanel } from './molecules';

@@ -25,6 +25,7 @@ sample({
   target: $session,
   fn: (source) => {
     return {
+      id: source.answer.user.id,
       firstName: source.answer.user.firstName,
       lastName: source.answer.user.lastName,
     };

@@ -28,13 +28,6 @@ sample({
   target: cardsGetFx,
 });
 
-// FIXME: Временный хак, чтобы запросить сессию с клиента для одной страницы
-// (пока что нужно только на CardViewPage, но позже будет фетчится нормальным способом, когда подтянем авторизацию)
-sample({
-  source: pageLoaded,
-  target: sessionModel._sessionLoadedClient,
-});
-
 export const $pageTitle = combine(
   {
     card: cardModel.$currentCard,
