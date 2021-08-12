@@ -21,7 +21,7 @@ export const UserPreviewList = ({
   getCardsCount,
 }: UserListProps) => {
   if (loading) {
-    return <SkeletonGroup amount={4} />;
+    return <SkeletonGroup amount={3} columns={3} />;
   }
 
   if (users.length === 0) {
