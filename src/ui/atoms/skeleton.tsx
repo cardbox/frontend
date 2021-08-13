@@ -25,9 +25,9 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({ amount }) => (
 const Root = styled.article`
   height: 220px;
   background: var(${theme.palette.gray100});
-  border: 1px solid #eeeef1;
+  border: 1px solid var(${theme.palette.bnw200});
   box-sizing: border-box;
-  box-shadow: 0px 3px 9px #fbfafb;
+  box-shadow: ${theme.shadows[1]};
   border-radius: 6px;
   opacity: 0.5;
   animation: blink 2s infinite ease;

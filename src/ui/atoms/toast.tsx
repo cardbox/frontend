@@ -21,7 +21,7 @@ const Root = styled.article`
   background: var(${theme.palette.wizard100});
   border: 1px solid var(${theme.palette.wizard300});
   box-sizing: border-box;
-  box-shadow: 0px 3px 9px #fbfafb;
+  box-shadow: ${theme.shadows[1]};
   border-radius: 6px;
   padding: 30px 24px;
 `;

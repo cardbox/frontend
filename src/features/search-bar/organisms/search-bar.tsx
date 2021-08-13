@@ -4,6 +4,7 @@ import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { paths } from '@box/pages/paths';
+import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react/ssr';
 import { viewer } from '@box/api/mock/fixtures';
 
@@ -53,8 +54,8 @@ function useSearchQueryChanged() {
 }
 
 const Container = styled.header`
-  background-color: #fff;
-  box-shadow: 0 6px 9px #f6f5f8;
+  background-color: var(${theme.palette.bnw0});
+  box-shadow: 0 6px 9px var(${theme.palette.unknown7});
   display: flex;
   flex-shrink: 0;
   justify-content: center;

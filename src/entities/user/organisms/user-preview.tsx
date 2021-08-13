@@ -4,6 +4,7 @@ import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { plural } from '@box/lib/plural';
+import { theme } from '@box/lib/theme';
 import { useSearchQuery } from '@box/features/search-bar';
 
 import { getFoundData } from '../lib';
@@ -35,7 +36,7 @@ const PaperContainerStyled = styled(PaperContainer)`
   transition: 0.25s;
 
   &:hover {
-    box-shadow: 0 3px 9px #ebebeb;
+    box-shadow: ${theme.shadows[3]};
   }
 `;
 
@@ -81,7 +82,7 @@ const Content: React.FC<ContentProps> = ({
 
 const PartUserName = styled.span<{ 'data-is-selected': boolean }>`
   &[data-is-selected='true'] {
-    color: blue;
+    color: var(${theme.palette.wizard500});
   }
 `;
 const UserName = styled(Text)`
@@ -99,7 +100,7 @@ const Meta = ({ cards }: Pick<User, 'cards'>) => {
   );
 };
 const MetaStyled = styled.div`
-  color: #9b99ac;
+  color: var(${theme.palette.bnw500});
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -114,7 +115,7 @@ const ContentStyled = styled.div`
   }
 `;
 const ContentText = styled(Text)`
-  color: #62616d;
+  color: var(${theme.palette.bnw700});
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
@@ -124,7 +125,7 @@ const ContentText = styled(Text)`
 
 const UserLink = styled(Link)`
   text-decoration: none;
-  color: #000000;
+  color: var(${theme.palette.bnw1000});
 
   &:hover {
     color: blue;

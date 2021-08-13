@@ -33,12 +33,25 @@ const Globals = createGlobalStyle`
 
     --gray100: #fbfafb;
 
+    --notice500: #ef3a5b;
+
     /* backgrounds */
+    --bnw0: #fff;
     --bnw100: #fbfafb;
     --bnw200: #eeeef1;
-    --bnw0: #fff;
+    --bnw500: #9b99ac;
+    --bnw700: #62616d;
+    --bnw1000: #000;
 
-    --box-shadow-1: 0px 3px 9px #ebebeb;
+    /* todo: in figma it presents as it is, without name of variable */
+    --unknown-1: #a39bb2;
+    --unknown-2: #683aef;
+    --unknown-3: #007bff;
+    --unknown-4: #f7f6f9;
+    --unknown-5: #1a1e23;
+    --unknown-6: #e7e5ee;
+    --unknown-7: #f6f5f8;
+    --unknown-8: #f4f2f7;
   }
 `;
 
