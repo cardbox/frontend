@@ -9,7 +9,6 @@ import {
   PaperContainer,
   Skeleton,
   Text,
-  TextType,
   button,
   iconDeckArrow,
   iconDeckCheck,
@@ -119,7 +118,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <TextStyled type={TextType.header4}>
+      <TextStyled type="h4">
         {href && (
           <TitleLink to={href}>
             <HighlightText query={query} text={title} />
@@ -130,7 +129,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       {size === 'large' && (
         <>
           <MetaStyled>
-            <Text type={TextType.mini}>
+            <Text type="p">
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
@@ -182,9 +181,9 @@ const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
   <MetaStyled>
     {/* FIXME: Add click processing */}
     <UserLink to={userHref}>
-      <Text type={TextType.small}>{author.username}</Text>
+      <Text type="span">{author.username}</Text>
     </UserLink>
-    <Text type={TextType.mini}>
+    <Text type="p">
       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
     </Text>
   </MetaStyled>

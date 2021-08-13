@@ -2,13 +2,7 @@ import styled from 'styled-components';
 import React, { useCallback } from 'react';
 import type { Card } from '@box/api';
 import { CardList } from '@box/entities/card';
-import {
-  ContentCenteredTemplate,
-  Text,
-  TextType,
-  Toast,
-  button,
-} from '@box/ui';
+import { ContentCenteredTemplate, Text, Toast, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { useStore } from 'effector-react/ssr';
 import { userModel } from '@box/entities/user';
@@ -50,8 +44,8 @@ export const HomePage = () => {
       <ContentCenteredTemplate>
         <Hero>
           <HeroCol>
-            <PrimaryText type={TextType.header1}>Cardbox</PrimaryText>
-            <Text type={TextType.header1}>Storage of all your ideas</Text>
+            <PrimaryText type="h1">Cardbox</PrimaryText>
+            <Text type="h1">Storage of all your ideas</Text>
             <p>
               The purpose of this product is to create a convenient repository
               of your ideas with the ability to share them with others and keep
@@ -71,7 +65,7 @@ export const HomePage = () => {
             {/* FIXME: simplify */}
             {/* FIXME: handle empty? */}
             <Section>
-              <SectionTitle type={TextType.header2}>Top</SectionTitle>
+              <SectionTitle type="h2">Top</SectionTitle>
               <CardList
                 cards={topCards}
                 getUser={handleUser}
@@ -81,7 +75,7 @@ export const HomePage = () => {
               />
             </Section>
             <Section>
-              <SectionTitle type={TextType.header2}>Latest</SectionTitle>
+              <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
                 cards={latestCards}
                 getUser={handleUser}

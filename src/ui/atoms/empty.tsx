@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text, TextType } from '@box/ui';
+import { Text } from '@box/ui';
 
 interface EmptySearchProps {
   text: string;
@@ -12,7 +12,7 @@ interface EmptySearchProps {
 export const Empty: React.FC<EmptySearchProps> = ({ text }) => {
   return (
     <EmptyBlock>
-      <Text type={TextType.primary}>{text}</Text>
+      <Text>{text}</Text>
     </EmptyBlock>
   );
 };
@@ -24,6 +24,6 @@ const EmptyBlock = styled.div`
   justify-content: center;
 `;
 
-const EmptyIcon = styled.img<{ margin?: string }>`
-  margin: ${({ margin }) => margin || 0};
-`;
+// const EmptyIcon = styled.img<{ margin?: string }>`
+//   margin: ${({ margin }) => margin || 0};
+// `;
