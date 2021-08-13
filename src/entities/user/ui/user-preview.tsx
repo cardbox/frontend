@@ -3,14 +3,20 @@ import styled from 'styled-components';
 import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
-// import { plural } from '@box/lib/plural';
+import { imgLogo } from '@box/shared/assets';
+import { plural } from '@box/lib/plural';
 import { useSearchQuery } from '@box/features/search-bar';
 
 interface UserPreviewProps {
   user: User;
   userHref?: string;
+  cardsCount?: number;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
+export const UserPreview: React.FC<UserPreviewProps> = ({
+  user,
+  userHref,
+  cardsCount,
+}) => {
   const { username, avatar, bio } = user;
   return (
     <PaperContainerStyled>
@@ -20,24 +26,25 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
             {bio}
           </Content>
         )}
-        {avatar && <Avatar src={avatar} />}
+        <Avatar src={avatar || imgLogo} />
       </Header>
 
-      {/* FIXME: resolve relations BOX-185 */}
-      {/* <Meta cards={user.cards} /> */}
+      {cardsCount && <Meta cardsCount={cardsCount} />}
     </PaperContainerStyled>
   );
 };
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
-  min-height: 120px;
-  max-height: 150px;
   overflow: hidden;
-
+  box-shadow: 0px 3px 9px #faf9fa;
   transition: 0.25s;
+  height: 190px;
 
-  &:hover {
-    box-shadow: 0 3px 9px #ebebeb;
+  &:hover,
+  &:focus {
+    border-color: var(--wizard300);
+    background-color: var(--bnw0);
+    cursor: pointer;
   }
 `;
 
@@ -50,10 +57,7 @@ const Header = styled.header`
   }
 `;
 
-interface ContentProps extends Pick<User, 'username'> {
-  children: React.ReactNode | React.ReactNode[];
-  userHref?: string;
-}
+type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
 
 const Content: React.FC<ContentProps> = ({
   children,
@@ -74,20 +78,26 @@ const Content: React.FC<ContentProps> = ({
   );
 };
 
+interface MetaProps {
+  cardsCount: number;
+}
+
 const UserName = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-// const Meta = ({ cards }: Pick<User, 'cards'>) => {
-//   return (
-//     <MetaStyled>
-//       <Text type={TextType.small}>
-//         {cards.length} {plural(cards.length, 'card', 'cards')}
-//       </Text>
-//     </MetaStyled>
-//   );
-// };
+
+const Meta = ({ cardsCount }: MetaProps) => {
+  return (
+    <MetaStyled>
+      <Text type={TextType.small}>
+        {cardsCount} {plural(cardsCount, 'card', 'cards')}
+      </Text>
+    </MetaStyled>
+  );
+};
+
 const MetaStyled = styled.div`
   color: #9b99ac;
   display: flex;

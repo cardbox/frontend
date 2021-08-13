@@ -1,8 +1,11 @@
+import * as sessionModel from '@box/entities/session';
 import { StartParams } from '@box/lib/page-routing';
+import type { User } from '@box/api';
 import {
   attach,
   combine,
   createEvent,
+  createStore,
   guard,
   restore,
   sample,
@@ -14,6 +17,7 @@ import { paths } from '@box/pages/paths';
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
+export const usersGetFx = attach({ effect: internalApi.usersGet });
 export const pageLoaded = createEvent<StartParams>();
 export const $pagePending = restore(cardsGetFx.pending.updates, true);
 export const deleteCard = createEvent();
@@ -36,6 +40,16 @@ export const $pageTitle = combine(
   },
 );
 
+export const $isAuthorViewing = combine(
+  {
+    card: cardModel.$currentCard,
+    viewer: sessionModel.$session,
+  },
+  ({ card, viewer }) => {
+    return card?.authorId === viewer?.id;
+  },
+);
+
 // Обработка события удаления карточки
 guard({
   clock: deleteCard,
@@ -51,3 +65,7 @@ sample({
   fn: () => paths.home(),
   target: historyPush,
 });
+
+// FIXME: move to entities/user?
+export const $cardAuthor = createStore<User | null>(null);
+$cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);

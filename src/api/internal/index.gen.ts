@@ -241,7 +241,6 @@ export const cardsSearchOk = typed.object({
       roles: typed.array(typed.string).maybe,
     }),
   ),
-  total: typed.number,
 });
 export interface CardsSearchDone {
   status: 'ok';
@@ -281,6 +280,145 @@ export const cardsSearch = createEffect<
 //#endregion cardsSearch
 
 /* --- */
+//#region cardsFeed
+export interface CardsFeed {}
+
+/* OK */
+export const cardsFeedOk = typed.object({
+  top: typed.object({
+    cards: typed.array(
+      typed.object({
+        id: typed.string,
+        title: typed.string,
+        content: typed.array(typed.object({})),
+        createdAt: typed.string,
+        updatedAt: typed.string,
+
+        /* Author user uuid */
+        authorId: typed.string,
+
+        /* Later, we can create `Tag` entity */
+        tags: typed.array(typed.string),
+
+        /* Later, we can add this field
+         * For custom text-overflow (instead of truncating with emphasizing) */
+        summary: typed.string.maybe,
+      }),
+    ),
+    users: typed.array(
+      typed.object({
+        /* ID */
+        id: typed.string,
+        username: typed.string,
+        firstName: typed.string,
+        lastName: typed.string,
+        bio: typed.string.maybe,
+
+        /* Later, can implement as `File` entity */
+        avatar: typed.string.maybe,
+        socials: typed.array(
+          typed.object({
+            id: typed.string,
+
+            /* github | devto | twitter | ... */
+            type: typed.string,
+            link: typed.string,
+
+            /* Username at social platform (gaearon => github/gaearon) */
+            username: typed.string,
+          }),
+        ),
+
+        /* Later, can implement as `Work` entity */
+        work: typed.string.maybe,
+
+        /* Later, can implement checking user permissions by `Role` entity */
+        roles: typed.array(typed.string).maybe,
+      }),
+    ),
+  }),
+  latest: typed.object({
+    cards: typed.array(
+      typed.object({
+        id: typed.string,
+        title: typed.string,
+        content: typed.array(typed.object({})),
+        createdAt: typed.string,
+        updatedAt: typed.string,
+
+        /* Author user uuid */
+        authorId: typed.string,
+
+        /* Later, we can create `Tag` entity */
+        tags: typed.array(typed.string),
+
+        /* Later, we can add this field
+         * For custom text-overflow (instead of truncating with emphasizing) */
+        summary: typed.string.maybe,
+      }),
+    ),
+    users: typed.array(
+      typed.object({
+        /* ID */
+        id: typed.string,
+        username: typed.string,
+        firstName: typed.string,
+        lastName: typed.string,
+        bio: typed.string.maybe,
+
+        /* Later, can implement as `File` entity */
+        avatar: typed.string.maybe,
+        socials: typed.array(
+          typed.object({
+            id: typed.string,
+
+            /* github | devto | twitter | ... */
+            type: typed.string,
+            link: typed.string,
+
+            /* Username at social platform (gaearon => github/gaearon) */
+            username: typed.string,
+          }),
+        ),
+
+        /* Later, can implement as `Work` entity */
+        work: typed.string.maybe,
+
+        /* Later, can implement checking user permissions by `Role` entity */
+        roles: typed.array(typed.string).maybe,
+      }),
+    ),
+  }),
+});
+export interface CardsFeedDone {
+  status: 'ok';
+  answer: typed.Get<typeof cardsFeedOk>;
+}
+
+/* SERVER_ERROR */
+export const cardsFeedInternalServerError = typed.nul;
+export type CardsFeedFail =
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof cardsFeedInternalServerError>;
+    }
+  | GenericErrors;
+export const cardsFeed = createEffect<CardsFeed, CardsFeedDone, CardsFeedFail>({
+  async handler() {
+    const name = 'cardsFeed.body';
+    const response = await requestFx({
+      path: '/cards.feed',
+      method: 'POST',
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', cardsFeedOk],
+      500: ['internal_server_error', cardsFeedInternalServerError],
+    });
+  },
+});
+//#endregion cardsFeed
+
+/* --- */
 //#region cardsList
 export interface CardsList {
   body?: {
@@ -313,7 +451,37 @@ export const cardsListOk = typed.object({
       summary: typed.string.maybe,
     }),
   ),
-  total: typed.number,
+  users: typed.array(
+    typed.object({
+      /* ID */
+      id: typed.string,
+      username: typed.string,
+      firstName: typed.string,
+      lastName: typed.string,
+      bio: typed.string.maybe,
+
+      /* Later, can implement as `File` entity */
+      avatar: typed.string.maybe,
+      socials: typed.array(
+        typed.object({
+          id: typed.string,
+
+          /* github | devto | twitter | ... */
+          type: typed.string,
+          link: typed.string,
+
+          /* Username at social platform (gaearon => github/gaearon) */
+          username: typed.string,
+        }),
+      ),
+
+      /* Later, can implement as `Work` entity */
+      work: typed.string.maybe,
+
+      /* Later, can implement checking user permissions by `Role` entity */
+      roles: typed.array(typed.string).maybe,
+    }),
+  ),
 });
 export interface CardsListDone {
   status: 'ok';
@@ -392,6 +560,35 @@ export const cardsGetOk = typed.object({
     /* Later, we can add this field
      * For custom text-overflow (instead of truncating with emphasizing) */
     summary: typed.string.maybe,
+  }),
+  user: typed.object({
+    /* ID */
+    id: typed.string,
+    username: typed.string,
+    firstName: typed.string,
+    lastName: typed.string,
+    bio: typed.string.maybe,
+
+    /* Later, can implement as `File` entity */
+    avatar: typed.string.maybe,
+    socials: typed.array(
+      typed.object({
+        id: typed.string,
+
+        /* github | devto | twitter | ... */
+        type: typed.string,
+        link: typed.string,
+
+        /* Username at social platform (gaearon => github/gaearon) */
+        username: typed.string,
+      }),
+    ),
+
+    /* Later, can implement as `Work` entity */
+    work: typed.string.maybe,
+
+    /* Later, can implement checking user permissions by `Role` entity */
+    roles: typed.array(typed.string).maybe,
   }),
 });
 export interface CardsGetDone {
@@ -863,7 +1060,6 @@ export const usersSearchOk = typed.object({
       roles: typed.array(typed.string).maybe,
     }),
   ),
-  total: typed.number,
 });
 export interface UsersSearchDone {
   status: 'ok';

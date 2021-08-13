@@ -5,11 +5,8 @@ import { ContentCenteredTemplate, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
-import { isViewerById } from '@box/entities/viewer/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
-//FIXME
-import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
@@ -26,6 +23,8 @@ export const CardViewPage = () => {
   const isLoading = useStore(model.$pagePending);
   const pageTitle = useStore(model.$pageTitle);
   const deleteCard = useEvent(model.deleteCard);
+  const author = useStore(model.$cardAuthor);
+  const isAuthorViewing = useStore(model.$isAuthorViewing);
 
   return (
     <>
@@ -33,24 +32,27 @@ export const CardViewPage = () => {
       <ContentCenteredTemplate>
         <Container>
           <Main>
-            <CardPreview
-              card={card as any}
-              loading={isLoading}
-              isCardInFavorite={false}
-              size="large"
-            />
+            {card && author && (
+              <CardPreview
+                card={card}
+                author={author}
+                loading={isLoading}
+                isCardInFavorite={false}
+                size="large"
+              />
+            )}
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard
-              user={viewer}
-              getUserHref={(user) => paths.user(user.username)}
-            />
-            <Links>
-              {card && (
+            {author && (
+              <UserCard
+                user={author}
+                getUserHref={(user) => paths.user(user.username)}
+              />
+            )}
+            {card && isAuthorViewing && (
+              <Links>
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
-              )}
-              {card && isViewerById(card.authorId as string) && (
                 <ButtonDelete
                   type="button"
                   onClick={() => {
@@ -61,8 +63,8 @@ export const CardViewPage = () => {
                 >
                   Delete card
                 </ButtonDelete>
-              )}
-            </Links>
+              </Links>
+            )}
           </Sidebar>
         </Container>
       </ContentCenteredTemplate>

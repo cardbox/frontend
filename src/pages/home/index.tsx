@@ -1,6 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
-import { CardList, cardModel } from '@box/entities/card';
+import React, { useCallback } from 'react';
+import type { Card } from '@box/api';
+import { CardList } from '@box/entities/card';
 import {
   ContentCenteredTemplate,
   Text,
@@ -10,14 +11,38 @@ import {
 } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { useStore } from 'effector-react/ssr';
+import { userModel } from '@box/entities/user';
 import { withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 import { paths } from '../paths';
 
 export const HomePage = () => {
-  const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
+  const topCards = useStore(model.$topCards);
+  const latestCards = useStore(model.$latestCards);
+  const usersMap = useStore(userModel.$usersMap);
+
+  // FIXME: temp handlers
+  const handleUser = useCallback(
+    (card: Card) => {
+      const user = usersMap[card.authorId];
+      return user;
+    },
+    [usersMap],
+  );
+
+  const handleUserHref = useCallback(
+    (card: Card) => {
+      const user = usersMap[card.authorId];
+      return paths.user(user.username);
+    },
+    [usersMap],
+  );
+
+  const handleCardHref = useCallback((card: Card) => {
+    return paths.card(card.id);
+  }, []);
 
   return (
     <>
@@ -43,13 +68,28 @@ export const HomePage = () => {
         </Hero>
         <Content>
           <Main>
-            <CardList
-              cards={cards as any}
-              getHref={(card) => paths.card(card.id)}
-              // FIXME: resolve to author.username BOX-185
-              getUserHref={(card) => paths.user(card.authorId)}
-              loading={isLoading}
-            />
+            {/* FIXME: simplify */}
+            {/* FIXME: handle empty? */}
+            <Section>
+              <SectionTitle type={TextType.header2}>Top</SectionTitle>
+              <CardList
+                cards={topCards}
+                getUser={handleUser}
+                getHref={handleCardHref}
+                getUserHref={handleUserHref}
+                loading={isLoading}
+              />
+            </Section>
+            <Section>
+              <SectionTitle type={TextType.header2}>Latest</SectionTitle>
+              <CardList
+                cards={latestCards}
+                getUser={handleUser}
+                getHref={handleCardHref}
+                getUserHref={handleUserHref}
+                loading={isLoading}
+              />
+            </Section>
             {/* TODO: Process "empty" case correctly */}
           </Main>
         </Content>
@@ -88,4 +128,12 @@ const Main = styled.div`
   /* NOTE: Maybe return back later or delete permanently */
   // width: 74.5%; /* 1044 / 1404 * 100 */
   width: 100%;
+`;
+
+const Section = styled.section`
+  margin-bottom: 2rem;
+`;
+
+const SectionTitle = styled(Text)`
+  margin-bottom: 1rem;
 `;

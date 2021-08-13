@@ -1,18 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import type { Card } from '@box/api';
+import type { Card, User } from '@box/api';
 import { Empty, SkeletonGroup } from '@box/ui';
 
 import { CardPreview } from './card-preview';
+
+// FIXME: remove component as redundant later
 
 interface Props {
   cards: Card[];
   getHref?: (data: Card) => string | undefined;
   getUserHref?: (data: Card) => string | undefined;
+  // FIXME: will be removed later
+  getUser: (data: Card) => User;
   loading?: boolean;
 }
 
-export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
+export const CardList = ({
+  cards,
+  getHref,
+  getUserHref,
+  getUser,
+  loading,
+}: Props) => {
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
@@ -27,6 +37,8 @@ export const CardList = ({ cards, getHref, getUserHref, loading }: Props) => {
         <CardPreview
           key={card.id}
           card={card}
+          // FIXME: temp hack, will be optimized later
+          author={getUser(card)}
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
           userHref={getUserHref?.(card)}

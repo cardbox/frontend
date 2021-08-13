@@ -9,41 +9,36 @@ import {
   guard,
   sample,
 } from 'effector';
-import {
-  SessionGetDone,
-  SessionGetFail,
-  sessionDelete,
-  sessionGet,
-} from '@box/api/internal';
+import type { SessionUser } from '@box/api';
 import { condition } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
-
-// TODO remove hardcoded type and return type from SessionGetDone['answer'];
-interface SessionUser {
-  firstName: string;
-  lastName: string;
-}
 
 export const readyToLoadSession = createEvent<void>();
 
-export const sessionLoaded = sessionGet.finally;
+export const sessionLoaded = internalApi.sessionGet.finally;
 
 export const $session = createStore<SessionUser | null>(null);
+
 export const $isAuthenticated = $session.map((user) => user !== null);
 
 // Show loading state if no session but first request is sent
 export const $sessionPending = combine(
-  [$session, sessionGet.pending],
+  [$session, internalApi.sessionGet.pending],
   ([session, pending]) => !session && pending,
 );
 
-const sessionWaitFx = createEffect<void, SessionGetDone, SessionGetFail>({
+const sessionWaitFx = createEffect<
+  void,
+  internalApi.SessionGetDone,
+  internalApi.SessionGetFail
+>({
   async handler() {
     // Here is pivot: sessionWaitFx was emitter before this point and events wait for it to resolve
     // but now sessionWaitFx effect became subscriber(watcher) itself
     return new Promise((resolve, reject) => {
-      const watcher = sessionGet.finally.watch((response) => {
+      const watcher = internalApi.sessionGet.finally.watch((response) => {
         if (response.status === 'done') {
           watcher();
           resolve(response.result);
@@ -56,19 +51,19 @@ const sessionWaitFx = createEffect<void, SessionGetDone, SessionGetFail>({
 });
 
 $session
-  .on(sessionGet.doneData, (_, { answer }) => answer.user)
-  .on(sessionGet.failData, (session, { status }) => {
+  .on(internalApi.sessionGet.doneData, (_, { answer }) => answer.user)
+  .on(internalApi.sessionGet.failData, (session, { status }) => {
     if (status === 'unauthorized') {
       return null;
     }
     return session;
   })
-  .on(sessionDelete.done, () => null);
+  .on(internalApi.sessionDelete.done, () => null);
 
 guard({
   source: readyToLoadSession,
   filter: $sessionPending.map((is) => !is),
-  target: sessionGet.prepend(() => ({})),
+  target: internalApi.sessionGet.prepend(() => ({})),
 });
 
 export function checkAuthenticated<T>(config: {

@@ -7,8 +7,8 @@ module.exports = {
       'effector-openapi-preset',
       {
         effectorImport: 'effector-root',
-        requestName: 'requestClient',
-        requestPath: './request/client',
+        requestName: 'requestFx',
+        requestPath: '@box/api/request',
       },
     ],
   ],

@@ -1,13 +1,22 @@
 import type { User } from '@box/api';
-import { createEffect, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector-root';
+import { internalApi } from '@box/api';
 
-export const getUserByNicknameFx = createEffect(async (username: string) => {
-  // const response = await internalApi.users.get(username);
-  // return response.body;
-  return null;
+export const $currentUser = createStore<User | null>(null);
+
+// FIXME: temp solution
+export const $usersMap = createStore<Record<string, User>>({});
+
+export const updateMap = createEvent<User[]>();
+
+$currentUser.on(internalApi.usersGet.doneData, (_, { answer }) => answer.user);
+
+$usersMap.on(updateMap, (state, nextUsers) => {
+  // FIXME: no deep
+  const prevState = { ...state };
+  const nextState = nextUsers.reduce(
+    (acc, user) => ({ ...acc, [user.id]: user }),
+    prevState,
+  );
+  return nextState;
 });
-
-export const $currentUser = createStore<User | null>(null).on(
-  getUserByNicknameFx.doneData,
-  (_, user) => user,
-);

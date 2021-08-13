@@ -1,4 +1,5 @@
 import type { EditorValue } from '@cardbox/editor';
+import { UserCard } from '@box/entities/user';
 
 // Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
 export type CardContent = EditorValue;
@@ -13,4 +14,30 @@ export interface UserSocial {
   readonly type: string;
   readonly link: string;
   readonly username: string;
+}
+
+export type SessionUser = import('./internal').SessionGetDone['answer']['user'];
+
+// FIXME: implement on real API
+
+export type CommentUser = Pick<User, 'id' | 'username'>;
+
+export interface Question {
+  readonly topic: string;
+  readonly author: CommentUser;
+  readonly when: string;
+  readonly text: React.ReactNode;
+  readonly resolved?: boolean;
+  readonly responses: {
+    authors: string[];
+    count: number;
+    lastReponseAt: string;
+  };
+}
+export interface Answer {
+  readonly author: CommentUser;
+  readonly title: string;
+  readonly when: string;
+  readonly why: 'liked' | false;
+  readonly text: React.ReactNode;
 }

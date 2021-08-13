@@ -8,12 +8,13 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
+import { imgLogo } from '@box/shared/assets';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 import { userLib, userModel } from '@box/entities/user';
 
 import * as model from './model';
-import { Skeleton } from './skeleton';
+import { SkeletonLayout } from './skeleton';
 import { paths } from '../paths';
 
 export const UserPage = () => {
@@ -22,7 +23,8 @@ export const UserPage = () => {
   const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
-  if (isLoading || !userInfo) return <Skeleton />;
+  // FIXME: simplify logic
+  if (isLoading || !userInfo) return <SkeletonLayout />;
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
@@ -42,27 +44,28 @@ export const UserPage = () => {
               </UserFaceContent>
             </UserFace>
             <UserSocial>
-              <SocialStaff>
-                <SocialStaffTitle>Social staff</SocialStaffTitle>
-                <SocialStaffList>
-                  {socials.map((social) => (
-                    <SocialStaffItem key={social.id}>
-                      <SocialLink href={social.link}>
-                        {avatar && <Avatar size="small" src={avatar} />}
-                        <SocialStaffItemText>
-                          @{social.username}
-                        </SocialStaffItemText>
-                      </SocialLink>
-                    </SocialStaffItem>
-                  ))}
-                </SocialStaffList>
-              </SocialStaff>
+              {Boolean(socials.length) && (
+                <SocialStaff>
+                  <SocialStaffTitle>Social staff</SocialStaffTitle>
+                  <SocialStaffList>
+                    {socials.map((social) => (
+                      <SocialStaffItem key={social.id}>
+                        <SocialLink href={social.link}>
+                          <Avatar size="small" src={avatar || imgLogo} />
+                          <SocialStaffItemText>
+                            @{social.username}
+                          </SocialStaffItemText>
+                        </SocialLink>
+                      </SocialStaffItem>
+                    ))}
+                  </SocialStaffList>
+                </SocialStaff>
+              )}
             </UserSocial>
-            {avatar && (
-              <UserLogo>
-                <StAvatar size="large" src={avatar} />
-              </UserLogo>
-            )}
+            {/* FIXME: move to entities/user logic */}
+            <UserLogo>
+              <StAvatar size="large" src={avatar || imgLogo} />
+            </UserLogo>
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
               Edit profile
@@ -72,10 +75,11 @@ export const UserPage = () => {
             <UserCards>
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
-                cards={cards as any}
+                cards={cards}
+                // FIXME: optimize rerenders
+                getUser={() => userInfo}
                 getHref={(card) => paths.card(card.id)}
-                // FIXME: resolve to author.username BOX-185
-                getUserHref={(card) => paths.user(card.authorId)}
+                getUserHref={() => paths.user(userInfo.username)}
                 loading={isLoading}
               />
             </UserCards>

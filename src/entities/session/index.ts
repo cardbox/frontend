@@ -1,3 +1,4 @@
+// FIXME: export * as sessionModel from './model';
 export {
   $isAuthenticated,
   $sessionPending,
