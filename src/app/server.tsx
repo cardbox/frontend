@@ -173,6 +173,7 @@ fastifyInstance.register(fastifyCookie);
 
 fastifyInstance.get('/*', async function (req, res) {
   this.log.info('[REQUEST] %s %s', req.method, req.url);
+  res.header('Content-Type', 'text/html');
   const timeStart = performance.now();
   const scope = fork(root);
 
