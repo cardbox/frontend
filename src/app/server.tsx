@@ -120,6 +120,7 @@ export const fastifyInstance = (() => {
         https: {
           cert: fs.readFileSync(CRT),
           key: fs.readFileSync(KEY),
+          allowHTTP1: true,
         },
       };
     } catch (error) {
@@ -145,6 +146,7 @@ export const fastifyInstance = (() => {
     https: {
       cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
       key: fs.readFileSync(path.resolve(process.env.TLS_KEY_FILE!)),
+      allowHTTP1: true,
     },
     http2: true,
     logger: true,
