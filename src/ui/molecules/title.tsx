@@ -20,7 +20,7 @@ const TabTitle: React.FC<TitleProps> = ({
   }, [setSelectedTab, index]);
   return (
     <ButtonStyled
-      theme="text"
+      variant="text"
       type="button"
       active={index === active}
       onClick={onClick}

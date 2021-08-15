@@ -34,7 +34,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({
           </SearchWrapper>
           <SessionPanel />
           <NewCardLink to={newCardHref}>
-            <Button>New card</Button>
+            <Button variant="outlined">New card</Button>
           </NewCardLink>
         </Nav>
       </ContentCenteredTemplate>

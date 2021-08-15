@@ -1,20 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type ButtonTheme =
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'text'
-  | 'icon'
-  | 'default';
+type ButtonTheme = 'primary' | 'secondary' | 'danger' | 'icon';
+type ButtonVariant = 'text' | 'outlined' | 'solid';
+
+// FIXME:
 interface Props {
   theme?: ButtonTheme;
+  variant?: ButtonVariant;
   icon?: React.ReactNode;
   className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: 'submit' | 'reset' | 'button';
   disabled?: boolean;
+  // FIXME:
   ref?: any;
 }
 
@@ -26,9 +25,11 @@ interface Compounds {
  * Button
  * @see https://ant.design/components/button
  * @see https://woly.sova.dev/woly/atoms/button
+ * @see https://material-ui.com/components/buttons
  */
 export const Button: React.FC<Props> & Compounds = ({
-  theme = 'default',
+  theme = 'primary',
+  variant = 'solid',
   icon,
   className,
   onClick,
@@ -39,6 +40,7 @@ export const Button: React.FC<Props> & Compounds = ({
   return (
     <ButtonStyled
       data-theme={theme}
+      data-variant={variant}
       type={type}
       className={className}
       onClick={onClick}
@@ -50,13 +52,21 @@ export const Button: React.FC<Props> & Compounds = ({
 
 // FIXME: move outline as boolean
 
-const ButtonStyled = styled.button<{ 'data-theme': ButtonTheme }>`
+const ButtonStyled = styled.button<{
+  'data-theme': ButtonTheme;
+  'data-variant': ButtonVariant;
+}>`
+  --base-color: var(--wizard500);
+  --text-color: var(--bnw0);
+
   align-items: center;
-  border: 1px solid var(--wizard500);
+  border: 1px solid var(--base-color);
+  background-color: var(--base-color);
+  color: var(--text-color);
   border-radius: 3px;
 
   display: flex;
-  font-size: 1.125rem;
+  font-size: 1rem;
   height: 42px;
   outline: 0;
   padding: 0 1.125rem;
@@ -71,35 +81,20 @@ const ButtonStyled = styled.button<{ 'data-theme': ButtonTheme }>`
     opacity: 0.5;
   }
 
-  /* Override hover/disabled carefully! */
-  &[data-theme='default'] {
-    background-color: transparent;
-    color: var(--wizard500);
+  &[data-theme='primary'] {
+    --base-color: var(--wizard500);
   }
 
-  &[data-theme='primary'] {
-    background-color: #4231ff;
-    color: #ffffff;
+  &[data-theme='danger'] {
+    --base-color: var(--notice500);
   }
 
   &[data-theme='secondary'] {
-    background-color: #f4f2f7;
-    border-color: #f4f2f7;
-    color: #000;
+    --base-color: var(--bnw250);
   }
 
-  &[data-theme='outline'] {
-    background-color: #ffffff;
-    border: 1px solid #eeeef1;
-    border-radius: 0.188rem;
-    color: #000000;
-  }
-
-  &[data-theme='text'] {
-    background-color: transparent;
-    border-color: transparent;
-    color: #1d1a23;
-    font-size: 0.9375rem;
+  &[data-theme='danger'] {
+    --base-color: var(--notice500);
   }
 
   // FIXME: implement as Prop
@@ -119,6 +114,17 @@ const ButtonStyled = styled.button<{ 'data-theme': ButtonTheme }>`
     &:focus {
       box-shadow: #969696 0 0 3px, #c3c3c3 0 0 15px;
     }
+  }
+
+  &[data-variant='outlined'] {
+    --text-color: var(--base-color);
+    background: transparent;
+  }
+
+  &[data-variant='text'] {
+    --text-color: var(--base-color);
+    background: transparent;
+    border-color: transparent;
   }
 `;
 

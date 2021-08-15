@@ -66,7 +66,7 @@ export const UserPage = () => {
             <UserLogo>
               <StAvatar size="large" src={avatar || imgLogo} />
             </UserLogo>
-            <EditProfile disabled theme="outline">
+            <EditProfile theme="secondary" variant="outlined" disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
               Edit profile
             </EditProfile>

@@ -56,7 +56,8 @@ export const CardViewPage = () => {
                 {/* FIXME: use from UIKit */}
                 <ButtonDelete
                   type="button"
-                  theme="text"
+                  theme="danger"
+                  variant="text"
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
                     if (!window.confirm(DELETE_WARN)) return;
@@ -114,7 +115,6 @@ const Links = styled.div`
 `;
 
 const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
-  font-size: 0.9375rem;
   line-height: 1.1875rem;
   &:not(:hover) {
     text-decoration: none;
@@ -131,7 +131,6 @@ const LinkEdit = styled(LinkBase)`
 `;
 
 const ButtonDelete = styled(Button)`
-  color: #ef3a5b;
   width: fit-content;
   height: auto;
   padding: 0;

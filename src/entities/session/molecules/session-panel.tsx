@@ -11,11 +11,11 @@ export const SessionPanel: React.FC = () => {
   const isAuthenticated = useStore($isAuthenticated);
 
   if (isAuthenticated) {
-    return <Button>Logout</Button>;
+    return <Button variant="outlined">Logout</Button>;
   }
 
   return (
-    <Button theme="primary" onClick={handleClick}>
+    <Button theme="primary" variant="outlined" onClick={handleClick}>
       Login
     </Button>
   );
