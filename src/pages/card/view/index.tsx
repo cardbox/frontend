@@ -53,7 +53,6 @@ export const CardViewPage = () => {
             {card && isAuthorViewing && (
               <Links>
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
-                {/* FIXME: use from UIKit */}
                 <ButtonDelete
                   type="button"
                   theme="danger"
