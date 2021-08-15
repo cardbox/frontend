@@ -135,21 +135,23 @@ export const fastifyInstance = (() => {
       }
       throw error;
     }
+  }
 
+  if (process.env.USE_SSL) {
     return fastify({
-      logger: true,
+      https: {
+        cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
+        key: fs.readFileSync(path.resolve(process.env.TLS_KEY_FILE!)),
+        allowHTTP1: true,
+      },
       http2: true,
-      ...options,
+      logger: true,
     });
   }
+
   return fastify({
-    https: {
-      cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
-      key: fs.readFileSync(path.resolve(process.env.TLS_KEY_FILE!)),
-      allowHTTP1: true,
-    },
-    http2: true,
     logger: true,
+    http2: true,
   });
 })();
 
