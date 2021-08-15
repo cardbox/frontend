@@ -1,2 +1,2 @@
-export { ContentCenteredTemplate } from './content-centered';
-export { PaperContainer } from './paper-container';
+export * from './content-centered';
+export * from './paper-container';

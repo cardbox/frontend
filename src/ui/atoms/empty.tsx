@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text } from '@box/ui';
+
+import { Text } from './text';
 
 interface EmptySearchProps {
   text: string;
