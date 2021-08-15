@@ -16,39 +16,7 @@ module.exports = {
       },
     },
   ],
-  modify(config, { dev }) {
-    if (dev) {
-      const CRT = path.resolve(__dirname, 'tls', 'cardbox.crt');
-      const KEY = path.resolve(__dirname, 'tls', 'cardbox.key');
-
-      let devServer;
-
-      try {
-        devServer = {
-          http2: true,
-          https: true,
-          cert: fs.readFileSync(CRT),
-          key: fs.readFileSync(KEY),
-        };
-      } catch (error) {
-        if (error.code === 'ENOENT') {
-          console.error(
-            `\n\n---------\n` +
-              `ERROR! No local certificates found in ./tls directory.\n` +
-              `Maybe you trying to start application without generating certificates first of all?\n` +
-              'You can fix this via running `$ ./scripts/create-certs.sh`, but before read Development section in README.md',
-          );
-          process.exit(-1);
-        }
-        throw error;
-      }
-
-      config.devServer = {
-        ...config.devServer,
-        ...devServer,
-      };
-    }
-
+  modify(config) {
     config.output.publicPath = config.output.publicPath.replace(
       'http://',
       '//',
