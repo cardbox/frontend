@@ -66,8 +66,11 @@ export const UserPage = () => {
             <UserLogo>
               <StAvatar size="large" src={avatar || imgLogo} />
             </UserLogo>
-            <EditProfile theme="secondary" variant="outlined" disabled>
-              <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
+            <EditProfile
+              theme="secondary"
+              variant="outlined"
+              icon={<Icon src={iconDeckArrow} />}
+            >
               Edit profile
             </EditProfile>
           </UserHeader>

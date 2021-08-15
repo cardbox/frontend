@@ -194,43 +194,35 @@ const ContentStyled = styled.div`
   overflow: hidden;
 `;
 
-const addButtonData = {
-  true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
-  false: { src: iconDeckArrow, alt: 'Add card to my deck' },
-};
 const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   ({ isCardToDeckAdded }, ref) => {
-    const click: React.MouseEventHandler = (e) => {
+    const handleClick: React.MouseEventHandler = (e) => {
       e.stopPropagation();
     };
-    return (
-      <AddButtonStyled
-        theme="icon"
-        data-is-card-to-deck-added={isCardToDeckAdded}
-        onClick={click}
-        ref={ref}
-      >
-        <img
-          src={addButtonData[isCardToDeckAdded.toString()].src}
-          alt={addButtonData[isCardToDeckAdded.toString()].alt}
-          title={addButtonData[isCardToDeckAdded.toString()].alt}
+
+    if (isCardToDeckAdded) {
+      return (
+        <Button
+          ref={ref}
+          onClick={handleClick}
+          variant="outlined"
+          theme="primary"
+          icon={<img src={iconDeckCheck} title="Remove card from my deck" />}
         />
-      </AddButtonStyled>
+      );
+    }
+
+    return (
+      <Button
+        ref={ref}
+        onClick={handleClick}
+        variant="outlined"
+        theme="secondary"
+        icon={<img src={iconDeckArrow} title="Add card to my deck" />}
+      />
     );
   },
 );
-
-const AddButtonStyled = styled(Button)<{
-  'data-is-card-to-deck-added': boolean;
-}>`
-  &[data-is-card-to-deck-added='true'] {
-    background-color: #f7f6ff;
-
-    &:hover {
-      background-color: inherit;
-    }
-  }
-`;
 
 const Header = styled.header`
   display: flex;

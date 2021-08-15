@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type ButtonTheme = 'primary' | 'secondary' | 'danger' | 'icon';
+type ButtonTheme = 'primary' | 'secondary' | 'danger';
 type ButtonVariant = 'text' | 'outlined' | 'solid';
 
 // FIXME:
@@ -41,33 +41,38 @@ export const Button: React.FC<Props> & Compounds = ({
     <ButtonStyled
       data-theme={theme}
       data-variant={variant}
+      data-squared={Boolean(icon && !children)}
       type={type}
       className={className}
       onClick={onClick}
       disabled={disabled}
-      children={children}
-    />
+    >
+      {icon && <span>{icon}</span>}
+      {children && <span>{children}</span>}
+    </ButtonStyled>
   );
 };
-
-// FIXME: move outline as boolean
 
 const ButtonStyled = styled.button<{
   'data-theme': ButtonTheme;
   'data-variant': ButtonVariant;
+  'data-squared': boolean;
 }>`
   --base-color: var(--wizard500);
   --text-color: var(--bnw0);
+  --size: 42px;
 
+  display: flex;
   align-items: center;
+  justify-content: center;
+
   border: 1px solid var(--base-color);
   background-color: var(--base-color);
   color: var(--text-color);
   border-radius: 3px;
 
-  display: flex;
   font-size: 1rem;
-  height: 42px;
+  height: var(--size);
   outline: 0;
   padding: 0 1.125rem;
   transition: 0.25s;
@@ -79,6 +84,10 @@ const ButtonStyled = styled.button<{
 
   &:disabled {
     opacity: 0.5;
+  }
+
+  span + span {
+    margin-left: 0.5rem;
   }
 
   &[data-theme='primary'] {
@@ -97,23 +106,8 @@ const ButtonStyled = styled.button<{
     --base-color: var(--notice500);
   }
 
-  // FIXME: implement as Prop
-  &[data-theme='icon'] {
-    background-color: #fff;
-    color: currentColor;
-    border-color: #eeeef1;
-    padding: 0;
-    min-width: 42px;
-    justify-content: center;
-
-    transition: background-color 0.5s, box-shadow 0.5s;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
-
-    &:focus {
-      box-shadow: #969696 0 0 3px, #c3c3c3 0 0 15px;
-    }
+  &[data-squared='true'] {
+    width: var(--size);
   }
 
   &[data-variant='outlined'] {
