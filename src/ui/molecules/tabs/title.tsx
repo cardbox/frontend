@@ -1,6 +1,7 @@
-import * as React from 'react';
 import styled from 'styled-components';
-import { Button } from '@box/ui';
+import React, { useCallback } from 'react';
+
+import { Button } from '../../atoms/button';
 
 interface TitleProps {
   title: string;
@@ -15,7 +16,7 @@ const TabTitle: React.FC<TitleProps> = ({
   index,
   setSelectedTab,
 }) => {
-  const onClick = React.useCallback(() => {
+  const onClick = useCallback(() => {
     setSelectedTab(index);
   }, [setSelectedTab, index]);
   return (

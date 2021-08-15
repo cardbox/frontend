@@ -14,6 +14,8 @@ const Tabs: React.FC<TabProps> = ({ children }) => {
       <Ul>
         {children.map((item, index) => (
           <TabTitle
+            // no need to handle index issue here
+            // eslint-disable-next-line react/jsx-key,react/no-array-index-key
             key={index}
             title={item.props.label}
             index={index}
