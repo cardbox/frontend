@@ -135,6 +135,12 @@ export const fastifyInstance = (() => {
       }
       throw error;
     }
+
+    return fastify({
+      logger: true,
+      http2: true,
+      ...options,
+    });
   }
 
   if (process.env.USE_SSL === 'true') {
