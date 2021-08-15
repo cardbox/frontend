@@ -137,7 +137,7 @@ export const fastifyInstance = (() => {
     }
   }
 
-  if (process.env.USE_SSL) {
+  if (process.env.USE_SSL === 'true') {
     return fastify({
       https: {
         cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
