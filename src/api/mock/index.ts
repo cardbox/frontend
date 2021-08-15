@@ -103,11 +103,14 @@ export function runMockServer() {
       this.post('/cards.create', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
 
-        return schema.db.cards.insert({
+        const nextCard = schema.db.cards.insert({
           ...payload,
+          author: viewer,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });
+
+        return { card: nextCard };
       });
 
       this.post('/cards.update', (schema, request) => {
@@ -121,6 +124,7 @@ export function runMockServer() {
         });
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore // FIXME: fix later
       this.post('/cards.delete', (schema, request) => {
         const payload = JSON.parse(request.requestBody);
@@ -130,17 +134,17 @@ export function runMockServer() {
         return schema.db.cards.remove(cardId);
       });
 
-      this.post('/cards.save', (schema, request) => {
-        const payload = JSON.parse(request.requestBody);
-        const { cardId } = payload;
-        if (!cardId) return null;
+      // this.post('/cards.save', (schema, request) => {
+      //   const payload = JSON.parse(request.requestBody);
+      //   const { cardId } = payload;
+      //   if (!cardId) return null;
 
-        // FIXME: refine
-        const viewerDb: User = schema.db.users.find(viewer.id);
-        viewerDb.favorites.push(cardId);
+      //   // FIXME: refine
+      //   const viewerDb: User = schema.db.users.find(viewer.id);
+      //   viewerDb.favorites.push(cardId);
 
-        return schema.db.users.update(viewer.id, viewerDb);
-      });
+      //   return schema.db.users.update(viewer.id, viewerDb);
+      // });
     },
   });
   return instance;

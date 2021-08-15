@@ -8,14 +8,15 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
-import { combine } from 'effector';
+import { combine } from 'effector-root';
 import { theme } from '@box/lib/theme';
+import { imgLogo } from '@box/shared/assets';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
-import { userModel } from '@box/entities/user';
+import { userLib, userModel } from '@box/entities/user';
 
 import * as model from './model';
-import { Skeleton } from './skeleton';
+import { SkeletonLayout } from './skeleton';
 import { paths } from '../paths';
 
 export const UserPage = () => {
@@ -24,7 +25,11 @@ export const UserPage = () => {
   const cards = useStore(cardModel.$cards);
   const isLoading = useStore(model.$pagePending);
 
-  if (isLoading || !userInfo) return <Skeleton />;
+  // FIXME: simplify logic
+  if (isLoading || !userInfo) return <SkeletonLayout />;
+
+  const { work, bio, socials, avatar } = userInfo;
+  const fullName = userLib.getFullName(userInfo);
 
   return (
     <>
@@ -34,32 +39,34 @@ export const UserPage = () => {
           <UserHeader>
             <UserFace>
               <UserFaceContent>
-                <UserFaceName>
-                  {userInfo.firstName}&nbsp;
-                  {userInfo.lastName}
-                </UserFaceName>
-                <UserFacePosition>{userInfo.work}</UserFacePosition>
+                <UserFaceName>{fullName}</UserFaceName>
+                {work && <UserFacePosition>{work}</UserFacePosition>}
                 <UserLocation>Saint-Petersburg, Russia</UserLocation>
-                <UserFaceDescription>{userInfo.bio}</UserFaceDescription>
+                {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
               </UserFaceContent>
             </UserFace>
             <UserSocial>
-              <SocialStaff>
-                <SocialStaffTitle>Social staff</SocialStaffTitle>
-                <SocialStaffList>
-                  {userInfo.socials?.map(({ link, nickname }) => (
-                    <SocialStaffItem key={`${nickname}`}>
-                      <SocialLink href={link}>
-                        <Avatar size="small" src={userInfo.avatar} />
-                        <SocialStaffItemText>@{nickname}</SocialStaffItemText>
-                      </SocialLink>
-                    </SocialStaffItem>
-                  ))}
-                </SocialStaffList>
-              </SocialStaff>
+              {Boolean(socials.length) && (
+                <SocialStaff>
+                  <SocialStaffTitle>Social staff</SocialStaffTitle>
+                  <SocialStaffList>
+                    {socials.map((social) => (
+                      <SocialStaffItem key={social.id}>
+                        <SocialLink href={social.link}>
+                          <Avatar size="small" src={avatar || imgLogo} />
+                          <SocialStaffItemText>
+                            @{social.username}
+                          </SocialStaffItemText>
+                        </SocialLink>
+                      </SocialStaffItem>
+                    ))}
+                  </SocialStaffList>
+                </SocialStaff>
+              )}
             </UserSocial>
+            {/* FIXME: move to entities/user logic */}
             <UserLogo>
-              <StAvatar size="large" src={userInfo.avatar} />
+              <StAvatar size="large" src={avatar || imgLogo} />
             </UserLogo>
             <EditProfile disabled>
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
@@ -71,8 +78,10 @@ export const UserPage = () => {
               <UserCardTitle>User cards</UserCardTitle>
               <CardList
                 cards={cards}
+                // FIXME: optimize rerenders
+                getUser={() => userInfo}
                 getHref={(card) => paths.card(card.id)}
-                getUserHref={(card) => paths.user(card.author.username)}
+                getUserHref={() => paths.user(userInfo.username)}
                 loading={isLoading}
               />
             </UserCards>

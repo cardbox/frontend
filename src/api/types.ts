@@ -1,35 +1,43 @@
 import type { EditorValue } from '@cardbox/editor';
+import { UserCard } from '@box/entities/user';
 
 // Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
 export type CardContent = EditorValue;
 
-export interface Card {
-  id: string;
-  title: string;
-  content: CardContent;
-  createdAt: string;
-  updatedAt: string;
-  author: User;
-  tags: string[];
+export type Card = import('./internal').CardsGetDone['answer']['card'];
+
+export type User = import('./internal').UsersGetDone['answer']['user'];
+
+// FIXME: Просчитывать позднее от User - пока что не получается из-за non-required поля
+export interface UserSocial {
+  readonly id: string;
+  readonly type: string;
+  readonly link: string;
+  readonly username: string;
 }
 
-export interface Social {
-  type: string;
-  link: string;
-  nickname: string;
-}
+export type SessionUser = import('./internal').SessionGetDone['answer']['user'];
 
-export interface User {
-  id: string;
-  username: string;
-  firstName?: string;
-  lastName?: string;
-  bio?: string;
-  avatar?: string;
-  // FIXME: resolve to Card[]
-  cards: string[];
-  // FIXME: resolve to Card[]
-  favorites: string[];
-  socials: Social[];
-  work?: string;
+// FIXME: implement on real API
+
+export type CommentUser = Pick<User, 'id' | 'username'>;
+
+export interface Question {
+  readonly topic: string;
+  readonly author: CommentUser;
+  readonly when: string;
+  readonly text: React.ReactNode;
+  readonly resolved?: boolean;
+  readonly responses: {
+    authors: string[];
+    count: number;
+    lastReponseAt: string;
+  };
+}
+export interface Answer {
+  readonly author: CommentUser;
+  readonly title: string;
+  readonly when: string;
+  readonly why: 'liked' | false;
+  readonly text: React.ReactNode;
 }

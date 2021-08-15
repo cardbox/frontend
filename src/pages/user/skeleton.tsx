@@ -1,13 +1,19 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { Avatar, ContentCenteredTemplate, button, iconUserBg } from '@box/ui';
+import {
+  Avatar,
+  ContentCenteredTemplate,
+  Skeleton,
+  button,
+  iconUserBg,
+} from '@box/ui';
 import { CardPreview } from '@box/entities/card';
 import { theme } from '@box/lib/theme';
 import { withStart } from '@box/lib/page-routing';
 
 import * as model from './model';
 
-export const Skeleton = () => {
+export const SkeletonLayout = () => {
   return (
     <>
       <UnderLay bg={iconUserBg} />
@@ -47,8 +53,8 @@ export const Skeleton = () => {
           <Main>
             <UserCards>
               <CardListContainer>
-                <CardPreview loading />
-                <CardPreview loading />
+                <Skeleton />
+                <Skeleton />
               </CardListContainer>
             </UserCards>
           </Main>
@@ -58,7 +64,7 @@ export const Skeleton = () => {
   );
 };
 
-withStart(model.pageLoaded, Skeleton);
+withStart(model.pageLoaded, SkeletonLayout);
 
 const Container = styled.div`
   display: flex;

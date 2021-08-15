@@ -1,7 +1,13 @@
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
+import * as fs from 'fs';
+import * as path from 'path';
 import cookieParser from 'cookie-parser';
-import express from 'express';
+import dotenv from 'dotenv';
+import fastify from 'fastify';
+import fastifyCookie from 'fastify-cookie';
+import fastifyHttpProxy from 'fastify-http-proxy';
+import fastifyStatic from 'fastify-static';
 import through from 'through';
 import {
   $cookiesForRequest,
@@ -10,26 +16,30 @@ import {
 } from '@box/api/request';
 import { $lastPushed } from '@box/entities/navigation';
 import { Event, forward, root, sample } from 'effector-root';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import type { Http2Server } from 'http2';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ROUTES } from '@box/pages/routes';
+import { RouteGenericInterface } from 'fastify/types/route';
 import { ServerStyleSheet } from 'styled-components';
 import { StartParams, getStart } from '@box/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
 
 import { Application } from './application';
 
+dotenv.config();
+
 const FIVE_MINUTES = 300;
 const ONE_HOUR = 3600;
 
 const serverStarted = root.createEvent<{
-  req: express.Request;
-  res: express.Response;
+  req: FastifyRequest<RouteGenericInterface, Http2Server>;
+  res: FastifyReply<Http2Server>;
 }>();
 
 const requestHandled = serverStarted.map(({ req }) => req);
@@ -37,7 +47,7 @@ const requestHandled = serverStarted.map(({ req }) => req);
 const cookiesReceived = requestHandled.filterMap((r) => r.headers.cookie);
 
 const routesMatched = requestHandled.map((request) => ({
-  routes: matchRoutes(ROUTES, request.path).filter(lookupStartEvent),
+  routes: matchRoutes(ROUTES, request.url).filter(lookupStartEvent),
   query: request.query as Record<string, string>,
 }));
 
@@ -77,7 +87,7 @@ sample({
   source: serverStarted,
   clock: $cookiesFromResponse,
   fn: ({ res }, cookies) => ({ res, cookies }),
-}).watch(({ res, cookies }) => res.setHeader('Set-Cookie', cookies));
+}).watch(({ res, cookies }) => res.header('Set-Cookie', cookies));
 
 sample({
   source: serverStarted,
@@ -94,114 +104,171 @@ function syncLoadAssets() {
 
 syncLoadAssets();
 
-export const server = express()
-  .disable('x-powered-by')
-  .use(
-    '/api',
-    createProxyMiddleware({
-      target: process.env.SERVER_BACKEND_URL ?? 'http://localhost:9008',
-      pathRewrite: {
-        '^/api': '',
-      },
-      secure: false,
-    }),
-  )
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .use(cookieParser())
-  .get('/*', async (request: express.Request, response: express.Response) => {
-    console.info('[REQUEST] %s %s', request.method, request.url);
-    const timeStart = performance.now();
-    const scope = fork(root);
+export const fastifyInstance = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
+    const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
+
+    console.info('Create local HTTPS server with certificate and key:');
+    console.info(`Cert: ${CRT}`);
+    console.info(`Key: ${KEY}`);
+
+    let options;
 
     try {
-      await allSettled(serverStarted, {
-        scope,
-        params: { req: request, res: response },
-      });
+      options = {
+        https: {
+          cert: fs.readFileSync(CRT),
+          key: fs.readFileSync(KEY),
+          allowHTTP1: true,
+        },
+      };
     } catch (error) {
-      console.error(error);
+      if (error.code === 'ENOENT') {
+        console.error(
+          `\n\n---------\n` +
+            `ERROR! No local certificates found in ./tls directory.\n` +
+            `Maybe you trying to start application without generating certificates first of all?\n` +
+            'You can fix this via running `$ ./scripts/create-certs.sh`, but before read Development section in README.md',
+        );
+        process.exit(-1);
+      }
+      throw error;
     }
+  }
 
-    const storesValues = serialize(scope, {
-      ignore: [$cookiesForRequest, $cookiesFromResponse],
-      onlyChanges: true,
+  if (process.env.USE_SSL === 'true') {
+    return fastify({
+      https: {
+        cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
+        key: fs.readFileSync(path.resolve(process.env.TLS_KEY_FILE!)),
+        allowHTTP1: true,
+      },
+      http2: true,
+      logger: true,
     });
+  }
 
-    const routerContext = {};
-    const sheet = new ServerStyleSheet();
-    const helmetContext: FilledContext = {} as FilledContext;
+  return fastify({
+    logger: true,
+    http2: true,
+  });
+})();
 
-    const jsx = sheet.collectStyles(
-      <HelmetProvider context={helmetContext}>
-        <StaticRouter context={routerContext} location={request.url}>
-          <Application root={scope} />
-        </StaticRouter>
-      </HelmetProvider>,
+fastifyInstance.register(fastifyHttpProxy, {
+  upstream: process.env.BACKEND_URL ?? 'http://localhost:9110',
+  http2: true,
+  prefix: '/api/internal',
+  rewritePrefix: '/',
+  logLevel: 'debug',
+  replyOptions: {
+    onError(reply, error) {
+      reply.log.error('[proxy error]', error);
+    },
+  },
+});
+
+fastifyInstance.register(fastifyStatic, {
+  root: process.env.RAZZLE_PUBLIC_DIR!,
+  wildcard: false,
+});
+
+fastifyInstance.register(fastifyCookie);
+
+fastifyInstance.get('/*', async function (req, res) {
+  this.log.info('[REQUEST] %s %s', req.method, req.url);
+  res.header('Content-Type', 'text/html');
+  const timeStart = performance.now();
+  const scope = fork(root);
+
+  try {
+    await allSettled(serverStarted, {
+      scope,
+      params: { req, res },
+    });
+  } catch (error) {
+    this.log.error(error);
+  }
+
+  const storesValues = serialize(scope, {
+    ignore: [$cookiesForRequest, $cookiesFromResponse],
+    onlyChanges: true,
+  });
+
+  const routerContext = {};
+  const sheet = new ServerStyleSheet();
+  const helmetContext: FilledContext = {} as FilledContext;
+
+  const jsx = sheet.collectStyles(
+    <HelmetProvider context={helmetContext}>
+      <StaticRouter context={routerContext} location={req.url}>
+        <Application root={scope} />
+      </StaticRouter>
+    </HelmetProvider>,
+  );
+
+  if (isRedirected(res)) {
+    cleanUp();
+    this.log.info(
+      '[REDIRECT] from %s to %s at %sms',
+      req.url,
+      res.getHeader('Location'),
+      (performance.now() - timeStart).toFixed(2),
+    );
+    res.send();
+    return;
+  }
+
+  let sent = false;
+
+  resetIdCounter();
+  const stream = sheet
+    .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
+    .pipe(
+      through(
+        function write(data) {
+          if (!sent) {
+            this.queue(
+              htmlStart({
+                helmet: helmetContext.helmet,
+                assetsCss: assets.client.css,
+                assetsJs: assets.client.js,
+              }),
+            );
+            sent = true;
+          }
+          this.queue(data);
+        },
+        function end() {
+          this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
+          this.queue(null);
+        },
+      ),
     );
 
-    if (isRedirected(response)) {
-      cleanUp();
-      console.info(
-        '[REDIRECT] from %s to %s at %sms',
-        request.url,
-        response.get('Location'),
-        (performance.now() - timeStart).toFixed(2),
-      );
-      response.end();
-      return;
-    }
+  // if (request.user) {
+  //   response.setHeader('Cache-Control', 's-maxage=0, private');
+  // } else {
+  //   response.setHeader(
+  //     'Cache-Control',
+  //     `s-maxage=${ONE_HOUR}, stale-while-revalidate=${FIVE_MINUTES}, must-revalidate`,
+  //   );
+  // }
 
-    let sent = false;
+  res.send(stream);
+  cleanUp();
 
-    resetIdCounter();
-    const stream = sheet
-      .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
-      .pipe(
-        through(
-          function write(data) {
-            if (!sent) {
-              this.queue(
-                htmlStart({
-                  helmet: helmetContext.helmet,
-                  assetsCss: assets.client.css,
-                  assetsJs: assets.client.js,
-                }),
-              );
-              sent = true;
-            }
-            this.queue(data);
-          },
-          function end() {
-            this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
-            this.queue(null);
-          },
-        ),
-      );
+  this.log.info(
+    '[PERF] sent page at %sms',
+    (performance.now() - timeStart).toFixed(2),
+  );
 
-    // if (request.user) {
-    //   response.setHeader('Cache-Control', 's-maxage=0, private');
-    // } else {
-    //   response.setHeader(
-    //     'Cache-Control',
-    //     `s-maxage=${ONE_HOUR}, stale-while-revalidate=${FIVE_MINUTES}, must-revalidate`,
-    //   );
-    // }
+  function cleanUp() {
+    sheet.seal();
+  }
+});
 
-    stream.pipe(response, { end: false });
-    stream.on('end', () => {
-      response.end();
-      cleanUp();
-      console.info(
-        '[PERF] sent page at %sms',
-        (performance.now() - timeStart).toFixed(2),
-      );
-    });
-
-    function cleanUp() {
-      sheet.seal();
-    }
-  });
+fastifyInstance.listen(process.env.PORT!);
 
 interface StartProps {
   assetsCss?: string;
@@ -237,7 +304,7 @@ function htmlStart(p: StartProps) {
 function htmlEnd(p: EndProps) {
   return `</div>
         <script>
-          window.INITIAL_STATE = ${JSON.stringify(p.storesValues)}
+          window['INITIAL_STATE'] = ${JSON.stringify(p.storesValues)}
         </script>
         ${p.helmet.script.toString()}
         ${p.helmet.noscript.toString()}
@@ -261,6 +328,6 @@ function routeWithEvent(event: Event<StartParams>) {
   };
 }
 
-function isRedirected(response: express.Response): boolean {
+function isRedirected(response: FastifyReply<Http2Server>): boolean {
   return response.statusCode >= 300 && response.statusCode < 400;
 }

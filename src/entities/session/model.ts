@@ -2,88 +2,177 @@ import {
   Event,
   Unit,
   combine,
+  createEffect,
   createEvent,
   createStore,
   forward,
   guard,
-} from 'effector-root';
-// import { SessionUser, sessionGet } from '@box/api/session';
-import { condition } from 'patronum/condition';
+  sample,
+} from 'effector';
+import type { SessionUser } from '@box/api';
+import { condition } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
+import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
 
 export const readyToLoadSession = createEvent<void>();
 
-export const sessionLoaded = createEvent();
+export const sessionLoaded = internalApi.sessionGet.finally;
 
-forward({ from: readyToLoadSession, to: sessionLoaded });
+export const $session = createStore<SessionUser | null>(null);
 
-// export const $session = createStore<SessionUser | null>(null);
-// export const $isAuthenticated = $session.map((user) => user !== null);
+export const $isAuthenticated = $session.map((user) => user !== null);
 
-// // Show loading state if no session but first request is sent
-// export const $sessionPending = combine(
-//   [$session, sessionGet.pending],
-//   ([session, pending]) => !session && pending,
-// );
+// Show loading state if no session but first request is sent
+export const $sessionPending = combine(
+  [$session, internalApi.sessionGet.pending],
+  ([session, pending]) => !session && pending,
+);
 
-// /**
-//  * If user not authenticated, redirect to login
-//  */
-// export function checkAuthenticated<T>(config: {
-//   when: Unit<T>;
-//   continue?: Unit<T>;
-// }): Event<T> {
-//   const continueLogic = config.continue ?? createEvent();
-//   condition({
-//     source: config.when,
-//     if: $isAuthenticated,
-//     then: continueLogic,
-//     else: historyPush.prepend(paths.login),
-//   });
+const sessionWaitFx = createEffect<
+  void,
+  internalApi.SessionGetDone,
+  internalApi.SessionGetFail
+>({
+  async handler() {
+    // Here is pivot: sessionWaitFx was emitter before this point and events wait for it to resolve
+    // but now sessionWaitFx effect became subscriber(watcher) itself
+    return new Promise((resolve, reject) => {
+      const watcher = internalApi.sessionGet.finally.watch((response) => {
+        if (response.status === 'done') {
+          watcher();
+          resolve(response.result);
+          return;
+        }
+        reject(response.error);
+      });
+    });
+  },
+});
 
-//   const result = createEvent<T>();
-//   forward({
-//     from: continueLogic,
-//     to: result,
-//   });
-//   return result;
-// }
+$session
+  .on(internalApi.sessionGet.doneData, (_, { answer }) => answer.user)
+  .on(internalApi.sessionGet.failData, (session, { status }) => {
+    if (status === 'unauthorized') {
+      return null;
+    }
+    return session;
+  })
+  .on(internalApi.sessionDelete.done, () => null);
 
-// /**
-//  * If user **anonymous**, continue, else redirect to home
-//  */
-// export function checkAnonymous<T>(config: {
-//   when: Unit<T>;
-//   continue?: Unit<T>;
-// }): Event<T> {
-//   const continueLogic = config.continue ?? createEvent();
-//   condition({
-//     source: config.when,
-//     if: $isAuthenticated,
-//     then: historyPush.prepend(paths.home),
-//     else: continueLogic,
-//   });
+guard({
+  source: readyToLoadSession,
+  filter: $sessionPending.map((is) => !is),
+  target: internalApi.sessionGet.prepend(() => ({})),
+});
 
-//   const result = createEvent<T>();
-//   forward({
-//     from: continueLogic,
-//     to: result,
-//   });
-//   return result;
-// }
+export function checkAuthenticated<T>(config: {
+  when: Unit<T>;
+  continue?: Unit<T>;
+  stop?: Event<unknown>;
+}): Event<T> {
+  const continueLogic = config.continue ?? createEvent();
+  const stopLogic = config.stop ?? createEvent();
 
-// $session
-//   .on(sessionGet.done, (_, { result }) => result.body.user)
-//   .on(sessionGet.failData, (session, { status }) => {
-//     if (status === 401) {
-//       return null;
-//     }
-//     return session;
-//   });
+  // Synthetic event just to get store value
+  const sessionPendingCheck = createEvent<boolean>();
+  const authenticatedCheck = createEvent<boolean>();
 
-// guard({
-//   source: readyToLoadSession,
-//   filter: $sessionPending.map((is) => !is),
-//   target: sessionGet,
-// });
+  sample({
+    source: $sessionPending,
+    clock: config.when,
+    target: sessionPendingCheck,
+  });
+
+  condition({
+    source: sessionPendingCheck,
+    if: (session) => session,
+    then: sessionWaitFx,
+    else: authenticatedCheck,
+  });
+
+  guard({
+    source: authenticatedCheck,
+    filter: $isAuthenticated.map((is) => !is),
+    target: stopLogic.prepend(noop),
+  });
+
+  // Used as guard event
+  const continueTrigger = createEvent();
+  condition({
+    source: sessionWaitFx.finally,
+    if: $isAuthenticated,
+    then: continueTrigger,
+    else: stopLogic.prepend(noop),
+  });
+
+  sample({
+    source: config.when,
+    target: continueLogic,
+    clock: continueTrigger,
+  });
+
+  const result = createEvent<T>();
+  forward({
+    from: continueLogic,
+    to: result,
+  });
+  return result;
+}
+
+/**
+ * If user **anonymous**, continue, else redirect to home
+ */
+export function checkAnonymous<T>(config: {
+  when: Unit<T>;
+  continue?: Unit<T>;
+}): Event<T> {
+  const continueLogic = config.continue ?? createEvent<T>();
+
+  // Synthetic event just to get store value
+  const sessionPendingCheck = createEvent<boolean>();
+  const authenticatedCheck = createEvent<boolean>();
+
+  sample({
+    source: $sessionPending,
+    clock: config.when,
+    target: sessionPendingCheck,
+  });
+
+  condition({
+    source: sessionPendingCheck,
+    if: (session) => session,
+    then: sessionWaitFx,
+    else: authenticatedCheck,
+  });
+
+  guard({
+    source: authenticatedCheck,
+    filter: $isAuthenticated,
+    target: historyPush.prepend(paths.home),
+  });
+
+  // Used as guard event
+  const continueTrigger = createEvent();
+  sample({
+    source: config.when,
+    target: continueLogic,
+    clock: continueTrigger,
+  });
+
+  condition({
+    source: sessionWaitFx.finally,
+    if: $isAuthenticated,
+    then: historyPush.prepend(paths.home),
+    else: continueTrigger,
+  });
+
+  const result = createEvent<T>();
+  forward({
+    from: continueLogic,
+    to: result,
+  });
+  return result;
+}
+
+function noop(): void {}

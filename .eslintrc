@@ -28,18 +28,4 @@
     "import/no-unresolved": "off",
     "linebreak-style": ["error", "unix"]
   }
-  // "rules": {
-  //   "import/order": [
-  //     "warn",
-  //     {
-  //       "groups": [
-  //         "builtin",
-  //         ["external", "internal"],
-  //         "parent",
-  //         "sibling",
-  //         "index"
-  //       ]
-  //     }
-  //   ]
-  // }
 }

@@ -13,9 +13,17 @@ export const Skeleton: React.FC<SkeletonProps> = ({ children, style }) => {
 
 interface SkeletonGroupProps {
   amount: number;
+  /**
+   * Number of columns
+   * @default 2
+   */
+  columns?: number;
 }
-export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({ amount }) => (
-  <Group>
+export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
+  amount,
+  columns = 2,
+}) => (
+  <Group columns={columns}>
     {Array.from({ length: amount }, (_, idx) => (
       <Skeleton key={idx} />
     ))}
@@ -51,9 +59,9 @@ const Root = styled.article`
   }
 `;
 
-const Group = styled.div`
+const Group = styled.div<{ columns: number }>`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${({ columns }) => `repeat(${columns}, 1fr)`};
   grid-gap: 1.5rem;
   flex-direction: column;
   width: 100%;

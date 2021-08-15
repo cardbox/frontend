@@ -49,11 +49,13 @@ if (process.env.BUILD_TARGET === 'server') {
   const respondedWithCookies = merge([
     sendRequestFx.doneData,
     sendRequestFx.failData,
-  ]).map(({ headers }) => headers['set-cookie'] ?? '');
+    // TODO headers['set-cookie'] drops with set-cookie of undefined
+  ]).map(({ headers }) => (headers ? headers['set-cookie'] : ''));
 
   guard({
     source: respondedWithCookies,
-    filter: (setCookie) => setCookie.trim() !== '',
+    // TODO headers['set-cookie'] drops with set-cookie of undefined
+    filter: (setCookie) => (setCookie ? setCookie.trim() !== '' : false),
     target: setCookiesFromResponse,
   });
 }

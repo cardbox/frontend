@@ -4,7 +4,7 @@ import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
 
-const API_PREFIX = process.env.SERVER_BACKEND_URL ?? 'http://localhost:9008';
+const API_PREFIX = process.env.BACKEND_URL ?? 'http://localhost:9008';
 
 async function requestServer({ path, method, ...options }: Request) {
   const headers = new Headers({

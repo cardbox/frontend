@@ -1,42 +1,51 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, PaperContainer, Text, TextType } from '@box/ui';
+import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { imgLogo } from '@box/shared/assets';
 import { plural } from '@box/lib/plural';
 import { theme } from '@box/lib/theme';
 import { useSearchQuery } from '@box/features/search-bar';
 
-import { getFoundData } from '../lib';
-
 interface UserPreviewProps {
   user: User;
   userHref?: string;
+  cardsCount?: number;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref }) => {
+export const UserPreview: React.FC<UserPreviewProps> = ({
+  user,
+  userHref,
+  cardsCount,
+}) => {
+  const { username, avatar, bio } = user;
   return (
     <PaperContainerStyled>
       <Header>
-        <Content username={user.username} userHref={userHref}>
-          {user.bio}
-        </Content>
-        <Avatar src={user.avatar} />
+        {bio && (
+          <Content username={username} userHref={userHref}>
+            {bio}
+          </Content>
+        )}
+        <Avatar src={avatar || imgLogo} />
       </Header>
 
-      <Meta cards={user.cards} />
+      {cardsCount && <Meta cardsCount={cardsCount} />}
     </PaperContainerStyled>
   );
 };
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
-  min-height: 120px;
-  max-height: 150px;
   overflow: hidden;
-
+  box-shadow: 0px 3px 9px #faf9fa;
   transition: 0.25s;
+  height: 190px;
 
-  &:hover {
-    box-shadow: ${theme.shadows[3]};
+  &:hover,
+  &:focus {
+    border-color: var(--wizard300);
+    background-color: var(--bnw0);
+    cursor: pointer;
   }
 `;
 
@@ -49,10 +58,7 @@ const Header = styled.header`
   }
 `;
 
-interface ContentProps extends Pick<User, 'username'> {
-  children: React.ReactNode | React.ReactNode[];
-  userHref?: string;
-}
+type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
 
 const Content: React.FC<ContentProps> = ({
   children,
@@ -60,19 +66,12 @@ const Content: React.FC<ContentProps> = ({
   userHref = '',
 }) => {
   const query = useSearchQuery();
-  const data = getFoundData({ search: username, query });
 
   return (
     <ContentStyled>
       <UserLink to={userHref}>
         <UserName type={TextType.header4} title={username}>
-          {data.map(({ isFound, text }, index) => (
-            // no need to handle index issue here
-            // eslint-disable-next-line react/no-array-index-key
-            <PartUserName key={index} data-is-selected={isFound}>
-              {text}
-            </PartUserName>
-          ))}
+          <HighlightText query={query} text={username} />
         </UserName>
       </UserLink>
       <ContentText type={TextType.small}>{children}</ContentText>
@@ -80,25 +79,26 @@ const Content: React.FC<ContentProps> = ({
   );
 };
 
-const PartUserName = styled.span<{ 'data-is-selected': boolean }>`
-  &[data-is-selected='true'] {
-    color: var(${theme.palette.wizard500});
-  }
-`;
+interface MetaProps {
+  cardsCount: number;
+}
+
 const UserName = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-const Meta = ({ cards }: Pick<User, 'cards'>) => {
+
+const Meta = ({ cardsCount }: MetaProps) => {
   return (
     <MetaStyled>
       <Text type={TextType.small}>
-        {cards.length} {plural(cards.length, 'card', 'cards')}
+        {cardsCount} {plural(cardsCount, 'card', 'cards')}
       </Text>
     </MetaStyled>
   );
 };
+
 const MetaStyled = styled.div`
   color: var(${theme.palette.bnw500});
   display: flex;

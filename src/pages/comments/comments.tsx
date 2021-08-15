@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Answer, CommentUser, Question } from '@box/api';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { paths } from '@box/pages/paths';
@@ -114,24 +115,6 @@ const List = styled.div`
   }
 `;
 
-interface Author {
-  id: string;
-  username: string;
-}
-
-interface Question {
-  topic: string;
-  author: Author;
-  when: string;
-  text: React.ReactNode;
-  resolved?: boolean;
-  responses: {
-    authors: string[];
-    count: number;
-    lastResponseAt: string;
-  };
-}
-
 const Question: React.FC<Question> = ({
   topic,
   author,
@@ -167,14 +150,6 @@ const Question: React.FC<Question> = ({
     </Content>
   </QuestionContainer>
 );
-
-interface Answer {
-  author: Author;
-  title: string;
-  when: string;
-  why: 'liked' | false;
-  text: React.ReactNode;
-}
 
 const Answer: React.FC<Answer> = ({ author, when, title, text, why }) => (
   <AnswerContainer>

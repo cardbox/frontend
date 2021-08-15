@@ -1,27 +1,41 @@
 import { StartParams } from '@box/lib/page-routing';
-import { attach, createEvent, forward, restore } from 'effector-root';
-import { cardModel } from '@box/entities/card';
-import { userModel } from '@box/entities/user';
+import { attach, combine, createEvent, restore, sample } from 'effector-root';
+import { internalApi } from '@box/api';
 
 export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(
-  userModel.getUserByNicknameFx.pending.updates,
-  true,
+export const usersGetFx = attach({
+  effect: internalApi.usersGet,
+});
+export const cardsListFx = attach({
+  effect: internalApi.cardsList,
+});
+
+export const $userPending = restore(usersGetFx.pending.updates, true);
+export const $cardsPending = restore(cardsListFx.pending.updates, true);
+
+// FIXME: Позже скорее всего разобъем SkeletonLayout
+// Но пока пусть вся страница будет дожидаться полного резолва эффектов
+export const $pagePending = combine(
+  $userPending,
+  $cardsPending,
+  (users, cards) => users || cards,
 );
 
-export const getUserByNicknameFx = attach({
-  effect: userModel.getUserByNicknameFx,
-  mapParams: (res: StartParams) => {
-    return res.params.username;
-  },
+sample({
+  source: pageLoaded,
+  fn: ({ params }) => ({
+    body: {
+      username: params.username,
+    },
+  }),
+  target: usersGetFx,
 });
 
-forward({
-  from: pageLoaded,
-  to: getUserByNicknameFx,
-});
-
-forward({
-  from: pageLoaded,
-  to: cardModel.getCardsListFx,
+// FIXME: simplify, resolve before first render?
+sample({
+  source: usersGetFx.doneData,
+  fn: ({ answer }) => ({
+    body: { authorId: answer.user.id },
+  }),
+  target: cardsListFx,
 });

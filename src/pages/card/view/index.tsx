@@ -1,23 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardPreview, cardModel } from '@box/entities/card';
-import { ContentCenteredTemplate, UserCard } from '@box/ui';
+import { ContentCenteredTemplate, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { UserCard } from '@box/entities/user';
+import { useEvent, useStore } from 'effector-react/ssr';
 import { theme } from '@box/lib/theme';
 import { useStart, withStart } from '@box/lib/page-routing';
-import { useStore } from 'effector-react/ssr';
-//FIXME
-import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from './model';
 import { paths } from '../../paths';
 
+// eslint-disable-next-line prettier/prettier
+const DELETE_WARN = 'Are you sure you want to delete this card?';
+
+/**
+ * Страница просмотра карточки
+ */
 export const CardViewPage = () => {
   useStart(model.pageLoaded);
   const card = useStore(cardModel.$currentCard);
   const isLoading = useStore(model.$pagePending);
   const pageTitle = useStore(model.$pageTitle);
+  const deleteCard = useEvent(model.deleteCard);
+  const author = useStore(model.$cardAuthor);
+  const isAuthorViewing = useStore(model.$isAuthorViewing);
 
   return (
     <>
@@ -25,29 +33,39 @@ export const CardViewPage = () => {
       <ContentCenteredTemplate>
         <Container>
           <Main>
-            <CardPreview
-              card={card}
-              loading={isLoading}
-              isCardInFavorite={false}
-              size="large"
-            />
+            {card && author && (
+              <CardPreview
+                card={card}
+                author={author}
+                loading={isLoading}
+                isCardInFavorite={false}
+                size="large"
+              />
+            )}
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            <UserCard
-              user={viewer}
-              getUserHref={(user) => paths.user(user.username)}
-            />
-            <Links>
-              {card && (
+            {author && (
+              <UserCard
+                user={author}
+                getUserHref={(user) => paths.user(user.username)}
+              />
+            )}
+            {card && isAuthorViewing && (
+              <Links>
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
-              )}
-              {card && (
-                <LinkDelete disabled to="#delete">
+                <ButtonDelete
+                  type="button"
+                  onClick={() => {
+                    // FIXME: replace to UIKit implementation later
+                    if (!window.confirm(DELETE_WARN)) return;
+                    deleteCard();
+                  }}
+                >
                   Delete card
-                </LinkDelete>
-              )}
-            </Links>
+                </ButtonDelete>
+              </Links>
+            )}
           </Sidebar>
         </Container>
       </ContentCenteredTemplate>
@@ -112,6 +130,9 @@ const LinkEdit = styled(LinkBase)`
   color: var(${theme.palette.unknown2});
 `;
 
-const LinkDelete = styled(LinkBase)`
+const ButtonDelete = styled(button.Text)`
   color: var(${theme.palette.notice500});
+  width: fit-content;
+  height: auto;
+  padding: 0;
 `;

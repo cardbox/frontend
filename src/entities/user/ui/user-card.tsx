@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Avatar } from '@box/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
+import { imgLogo } from '@box/shared/assets';
+
+import { getFullName } from '../lib';
 import { theme } from '@box/lib/theme';
 
 interface Props {
@@ -10,20 +13,23 @@ interface Props {
   getUserHref?: (data: User) => string | undefined;
 }
 
+// FIXME: move to entities/user (BOX-155)
 export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
   const href = getUserHref?.(user) || '';
+  const fullName = getFullName(user);
+  const { avatar, work } = user;
 
   const username = `${user.firstName} ${user.lastName}`;
   return (
     <Container>
       <Content>
         <Name>
-          {href && <TitleLink to={href}>{username}</TitleLink>}
-          {!href && username}
+          {href && <TitleLink to={href}>{fullName}</TitleLink>}
+          {!href && fullName}
         </Name>
-        <Role>{user.work}</Role>
+        {work && <Role>{work}</Role>}
       </Content>
-      <Avatar src={user.avatar} />
+      <Avatar src={avatar || imgLogo} />
     </Container>
   );
 };

@@ -1,43 +1,44 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Avatar, ContentCenteredTemplate, IconLogo, button } from '@box/ui';
+import { ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
+import { SessionPanel } from '@box/entities/session';
 import type { User } from '@box/api';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react/ssr';
-import { viewer } from '@box/api/mock/fixtures';
 
 import * as model from '../models';
 import { Search } from '../molecules';
 import { useSearchQuery } from '../lib';
 
 interface SearchbarProps {
-  getUserHref?: (data: User) => string | undefined;
+  logoHref: string;
+  viewerHref: string;
+  newCardHref: string;
 }
 
 // TODO: вынести из Searchbar логику с пользователем
-export const Searchbar: React.FC<SearchbarProps> = ({ getUserHref }) => {
+export const Searchbar: React.FC<SearchbarProps> = ({
+  logoHref,
+  newCardHref,
+}) => {
   useSearchQueryChanged();
-
-  const userLink = getUserHref?.(viewer) || '';
 
   return (
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Link to={paths.home()}>
+          <Link to={logoHref}>
             <img src={IconLogo} alt="Logo" />
           </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <UserLink to={userLink}>
-            <LoginBlock>
-              <Avatar src={viewer.avatar} />
-            </LoginBlock>
-          </UserLink>
-          <button.Base>New card</button.Base>
+          <SessionPanel />
+          <NewCardLink to={newCardHref}>
+            <button.Base>New card</button.Base>
+          </NewCardLink>
         </Nav>
       </ContentCenteredTemplate>
     </Container>
@@ -73,10 +74,11 @@ const SearchWrapper = styled.div`
   margin-left: 3.125rem;
 `;
 
-const LoginBlock = styled.div`
-  margin: 0 1.125rem;
-`;
+const NewCardLink = styled(Link)`
+  margin-left: 1.125rem;
+  text-decoration: none;
 
-const UserLink = styled(Link)`
-  margin: 0 1.125rem;
+  button {
+    color: var(--wizard500);
+  }
 `;
