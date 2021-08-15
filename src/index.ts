@@ -19,7 +19,7 @@ if (module.hot) {
 
 const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);
 
-server.listen(PORT).catch(console.error);
+server.listen(PORT, '0.0.0.0').catch(console.error);
 
 const httpServer = server;
 
