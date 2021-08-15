@@ -1,21 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type ButtonTheme = 'primary' | 'secondary' | 'danger';
 type ButtonVariant = 'text' | 'outlined' | 'solid';
 
-// FIXME:
-interface Props {
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   theme?: ButtonTheme;
   variant?: ButtonVariant;
   icon?: React.ReactNode;
-  className?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  type?: 'submit' | 'reset' | 'button';
-  disabled?: boolean;
-  // FIXME:
+  // FIXME: MutableRefObject not suit for forwardRef
   ref?: any;
-}
+};
 
 interface Compounds {
   Group: typeof Group;
@@ -31,11 +26,9 @@ export const Button: React.FC<Props> & Compounds = ({
   theme = 'primary',
   variant = 'solid',
   icon,
-  className,
-  onClick,
   type,
-  disabled,
   children,
+  ...buttonProps
 }) => {
   return (
     <ButtonStyled
@@ -43,15 +36,41 @@ export const Button: React.FC<Props> & Compounds = ({
       data-variant={variant}
       data-squared={Boolean(icon && !children)}
       type={type}
-      className={className}
-      onClick={onClick}
-      disabled={disabled}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...buttonProps}
     >
       {icon && <span>{icon}</span>}
       {children && <span>{children}</span>}
     </ButtonStyled>
   );
 };
+
+const Themes = css`
+  &[data-theme='primary'] {
+    --base-color: var(--wizard500);
+  }
+
+  &[data-theme='danger'] {
+    --base-color: var(--notice500);
+  }
+
+  &[data-theme='secondary'] {
+    --base-color: var(--bnw250);
+  }
+`;
+
+const Variants = css`
+  &[data-variant='outlined'] {
+    --text-color: var(--base-color);
+    background: transparent;
+  }
+
+  &[data-variant='text'] {
+    --text-color: var(--base-color);
+    background: transparent;
+    border-color: transparent;
+  }
+`;
 
 const ButtonStyled = styled.button<{
   'data-theme': ButtonTheme;
@@ -90,36 +109,12 @@ const ButtonStyled = styled.button<{
     margin-left: 0.5rem;
   }
 
-  &[data-theme='primary'] {
-    --base-color: var(--wizard500);
-  }
-
-  &[data-theme='danger'] {
-    --base-color: var(--notice500);
-  }
-
-  &[data-theme='secondary'] {
-    --base-color: var(--bnw250);
-  }
-
-  &[data-theme='danger'] {
-    --base-color: var(--notice500);
-  }
-
   &[data-squared='true'] {
     width: var(--size);
   }
 
-  &[data-variant='outlined'] {
-    --text-color: var(--base-color);
-    background: transparent;
-  }
-
-  &[data-variant='text'] {
-    --text-color: var(--base-color);
-    background: transparent;
-    border-color: transparent;
-  }
+  ${Themes}
+  ${Variants}
 `;
 
 const Group = styled.div`
