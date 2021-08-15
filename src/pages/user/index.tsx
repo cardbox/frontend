@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import {
   Avatar,
+  Button,
   ContentCenteredTemplate,
-  button,
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
@@ -66,7 +66,7 @@ export const UserPage = () => {
             <UserLogo>
               <StAvatar size="large" src={avatar || imgLogo} />
             </UserLogo>
-            <EditProfile disabled>
+            <EditProfile disabled theme="outline">
               <Icon src={iconDeckArrow} margin="0 1rem 0 0" />
               Edit profile
             </EditProfile>
@@ -133,7 +133,7 @@ const UserLogo = styled.div`
   flex-direction: column;
 `;
 
-const EditProfile = styled(button.Outline)`
+const EditProfile = styled(Button)`
   position: absolute;
   display: flex;
   align-items: center;

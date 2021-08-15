@@ -1,14 +1,60 @@
+import React from 'react';
 import styled from 'styled-components';
 
-const Base = styled.button`
+type ButtonTheme =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'text'
+  | 'icon'
+  | 'default';
+interface Props {
+  theme?: ButtonTheme;
+  icon?: React.ReactNode;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  type?: 'submit' | 'reset' | 'button';
+  disabled?: boolean;
+  ref?: any;
+}
+
+interface Compounds {
+  Group: typeof Group;
+}
+
+/**
+ * Button
+ * @see https://ant.design/components/button
+ * @see https://woly.sova.dev/woly/atoms/button
+ */
+export const Button: React.FC<Props> & Compounds = ({
+  theme = 'default',
+  icon,
+  className,
+  onClick,
+  type,
+  disabled,
+  children,
+}) => {
+  return (
+    <ButtonStyled
+      data-theme={theme}
+      type={type}
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+      children={children}
+    />
+  );
+};
+
+// FIXME: move outline as boolean
+
+const ButtonStyled = styled.button<{ 'data-theme': ButtonTheme }>`
   align-items: center;
-  background-color: transparent;
   border: 1px solid var(--wizard500);
-  // background-color: #000;
-  // border: 1px solid #000;
   border-radius: 3px;
-  color: var(--wizard500);
-  // color: #fff;
+
   display: flex;
   font-size: 1.125rem;
   height: 42px;
@@ -24,63 +70,63 @@ const Base = styled.button`
   &:disabled {
     opacity: 0.5;
   }
-`;
 
-const Secondary = styled(Base)`
-  background-color: #f4f2f7;
-  border-color: #f4f2f7;
-  color: #000;
-`;
-
-const Text = styled(Base)<{ type: 'submit' | 'reset' | 'button' }>`
-  background-color: transparent;
-  border-color: transparent;
-  color: #1d1a23;
-  font-size: 0.9375rem;
-`;
-
-const Icon = styled(Base)`
-  background-color: #fff;
-  color: currentColor;
-  border-color: #eeeef1;
-  padding: 0;
-  min-width: 42px;
-  justify-content: center;
-
-  transition: background-color 0.5s, box-shadow 0.5s;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+  /* Override hover/disabled carefully! */
+  &[data-theme='default'] {
+    background-color: transparent;
+    color: var(--wizard500);
   }
 
-  &:focus {
-    box-shadow: #969696 0 0 3px, #c3c3c3 0 0 15px;
+  &[data-theme='primary'] {
+    background-color: #4231ff;
+    color: #ffffff;
   }
-`;
 
-const Outline = styled(Base)`
-  background-color: #ffffff;
-  border: 1px solid #eeeef1;
-  border-radius: 0.188rem;
-  color: #000000;
-`;
+  &[data-theme='secondary'] {
+    background-color: #f4f2f7;
+    border-color: #f4f2f7;
+    color: #000;
+  }
 
-const Primary = styled(Base)`
-  background-color: #4231ff;
-  color: #ffffff;
+  &[data-theme='outline'] {
+    background-color: #ffffff;
+    border: 1px solid #eeeef1;
+    border-radius: 0.188rem;
+    color: #000000;
+  }
+
+  &[data-theme='text'] {
+    background-color: transparent;
+    border-color: transparent;
+    color: #1d1a23;
+    font-size: 0.9375rem;
+  }
+
+  // FIXME: implement as Prop
+  &[data-theme='icon'] {
+    background-color: #fff;
+    color: currentColor;
+    border-color: #eeeef1;
+    padding: 0;
+    min-width: 42px;
+    justify-content: center;
+
+    transition: background-color 0.5s, box-shadow 0.5s;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    &:focus {
+      box-shadow: #969696 0 0 3px, #c3c3c3 0 0 15px;
+    }
+  }
 `;
 
 const Group = styled.div`
+  display: flex;
   button + button {
     margin-left: 12px;
   }
 `;
 
-export const button = {
-  Base,
-  Primary,
-  Secondary,
-  Text,
-  Icon,
-  Outline,
-  Group,
-};
+Button.Group = Group;

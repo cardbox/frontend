@@ -2,9 +2,9 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import {
   Avatar,
+  Button,
   ContentCenteredTemplate,
   Skeleton,
-  button,
   iconUserBg,
 } from '@box/ui';
 import { withStart } from '@box/lib/page-routing';
@@ -44,7 +44,7 @@ export const SkeletonLayout = () => {
             <UserLogo>
               <StAvatar size="large" />
             </UserLogo>
-            <EditProfile>
+            <EditProfile theme="outline">
               <ButtonText />
             </EditProfile>
           </UserHeader>
@@ -253,7 +253,7 @@ const CardListContainer = styled.div`
   }
 `;
 
-const EditProfile = styled(button.Outline)`
+const EditProfile = styled(Button)`
   position: absolute;
   display: flex;
   align-items: center;

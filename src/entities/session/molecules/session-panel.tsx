@@ -1,30 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
-import { button } from '@box/ui';
+import { Button } from '@box/ui';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './session-panel.model';
 import { $isAuthenticated } from '../model';
 
+// FIXME: move to features
 export const SessionPanel: React.FC = () => {
   const handleClick = useEvent(model.loginClicked);
   const isAuthenticated = useStore($isAuthenticated);
 
+  if (isAuthenticated) {
+    return <Button>Logout</Button>;
+  }
+
   return (
-    <span>
-      {isAuthenticated ? (
-        <Logout> Logout </Logout>
-      ) : (
-        <Login onClick={handleClick}>Login</Login>
-      )}
-    </span>
+    <Button theme="primary" onClick={handleClick}>
+      Login
+    </Button>
   );
 };
-
-const Login = styled(button.Primary)`
-  margin-left: 1.125rem;
-`;
-
-const Logout = styled(button.Base)`
-  margin-left: 1.125rem;
-`;

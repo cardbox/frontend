@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
+import { Button, ContentCenteredTemplate, Text, Toast } from '@box/ui';
 import type { Card } from '@box/api';
 import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, Text, Toast, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { useStore } from 'effector-react/ssr';
 import { userModel } from '@box/entities/user';
@@ -54,7 +54,7 @@ export const HomePage = () => {
           </HeroCol>
           <HeroCol>
             <ToastContainer>
-              <Toast extra={<button.Secondary>More...</button.Secondary>}>
+              <Toast extra={<Button theme="secondary">More...</Button>}>
                 Help us make the best idea storage service!
               </Toast>
             </ToastContainer>

@@ -1,18 +1,18 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef } from 'react';
-import type { Card, User } from '@box/api';
-import { Editor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
 import {
+  Button,
   HighlightText,
   PaperContainer,
   Skeleton,
   Text,
-  button,
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import type { Card, User } from '@box/api';
+import { Editor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
 import { useEvent } from 'effector-react';
@@ -205,6 +205,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
     };
     return (
       <AddButtonStyled
+        theme="icon"
         data-is-card-to-deck-added={isCardToDeckAdded}
         onClick={click}
         ref={ref}
@@ -219,7 +220,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   },
 );
 
-const AddButtonStyled = styled(button.Icon)<{
+const AddButtonStyled = styled(Button)<{
   'data-is-card-to-deck-added': boolean;
 }>`
   &[data-is-card-to-deck-added='true'] {

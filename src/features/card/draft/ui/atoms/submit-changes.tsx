@@ -1,5 +1,5 @@
 import React from 'react';
-import { button } from '@box/ui';
+import { Button } from '@box/ui';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../../model';
@@ -18,8 +18,12 @@ export const SubmitChanges = ({ title = 'Submit', _name }: Props) => {
   const isValidDraft = useStore(model.$isValidDraft);
 
   return (
-    <button.Primary onClick={() => submitForm(_name)} disabled={!isValidDraft}>
+    <Button
+      theme="primary"
+      onClick={() => submitForm(_name)}
+      disabled={!isValidDraft}
+    >
       {title}
-    </button.Primary>
+    </Button>
   );
 };

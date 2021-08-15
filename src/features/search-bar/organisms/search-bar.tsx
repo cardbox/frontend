@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { ContentCenteredTemplate, IconLogo, button } from '@box/ui';
+import { Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
 import { useEvent } from 'effector-react/ssr';
@@ -34,7 +34,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({
           </SearchWrapper>
           <SessionPanel />
           <NewCardLink to={newCardHref}>
-            <button.Base>New card</button.Base>
+            <Button>New card</Button>
           </NewCardLink>
         </Nav>
       </ContentCenteredTemplate>
@@ -69,6 +69,7 @@ const Nav = styled.nav`
 const SearchWrapper = styled.div`
   flex-grow: 1;
   margin-left: 3.125rem;
+  margin-right: 1.125rem;
 `;
 
 const NewCardLink = styled(Link)`
