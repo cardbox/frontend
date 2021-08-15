@@ -268,8 +268,6 @@ fastifyInstance.get('/*', async function (req, res) {
   }
 });
 
-fastifyInstance.listen(process.env.PORT!);
-
 interface StartProps {
   assetsCss?: string;
   assetsJs: string;
