@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Answer, CommentUser, Question } from '@box/api';
+import { Answer, Question } from '@box/api';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { paths } from '@box/pages/paths';
@@ -100,7 +100,7 @@ const Title = styled.h3`
   line-height: 30px;
 
   & > span {
-    color: var(${theme.palette.unknown1});
+    color: var(${theme.palette.bnw600});
   }
 `;
 
@@ -191,7 +191,7 @@ const Topic = styled.h5`
   font-weight: 500;
   font-size: 18px;
   line-height: 36px;
-  color: var(${theme.palette.bnw1000});
+  color: var(${theme.palette.bnw0});
   margin: 0;
 `;
 
@@ -204,7 +204,7 @@ const AuthorImage = styled.img`
 const When = styled.div`
   font-size: 15px;
   line-height: 36px;
-  color: var(${theme.palette.unknown1});
+  color: var(${theme.palette.bnw600});
 `;
 
 const Content = styled.div`
@@ -216,7 +216,7 @@ const Content = styled.div`
 const Text = styled.div`
   font-size: 15px;
   line-height: 21px;
-  color: var(${theme.palette.unknown5});
+  color: var(${theme.palette.bnw200});
 `;
 
 const ResponsesButton = styled.div`
@@ -249,7 +249,7 @@ const ResponsesButton = styled.div`
     display: inline-block;
     font-size: 15px;
     line-height: 24px;
-    color: var(${theme.palette.unknown1});
+    color: var(${theme.palette.bnw600});
     margin-left: 9px;
 
     &[data-kind='primary'] {
@@ -266,10 +266,10 @@ const QuestionContainer = styled.div`
   border-radius: 6px;
 
   &:hover {
-    background-color: var(${theme.palette.unknown4});
+    background-color: var(${theme.palette.bnw900});
 
     & ${ResponsesButton} {
-      border-color: var(${theme.palette.unknown6});
+      border-color: var(${theme.palette.bnw850});
     }
   }
 `;
@@ -284,8 +284,8 @@ const ResolvedChip = styled.div`
   font-size: 12px;
   line-height: 22px;
   padding: 0 9px;
-  color: var(${theme.palette.unknown1});
-  background-color: var(${theme.palette.unknown4});
+  color: var(${theme.palette.bnw600});
+  background-color: var(${theme.palette.bnw900});
 
   &[data-kind='primary'] {
     color: white;

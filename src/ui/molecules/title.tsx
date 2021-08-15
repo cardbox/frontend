@@ -29,8 +29,7 @@ const TabTitle: React.FC<TitleProps> = ({
 const Button = styled(button.Text)<{ active?: boolean }>`
   font-size: 1.125rem;
   line-height: 1.375rem;
-  color: ${({ active }) =>
-    active ? `var(${theme.palette.bnw1000})` : '#A39BB2'};
+  color: ${({ active }) => (active ? `var(${theme.palette.bnw0})` : '#A39BB2')};
   padding: 0;
   margin-right: 1.875rem;
   & > *:last-child {

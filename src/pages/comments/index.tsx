@@ -33,8 +33,8 @@ export const CommentsPage = () => {
 
 const Globals = createGlobalStyle`
   body, html {
-    background-color: var(${theme.palette.bnw0});
-    color: var(${theme.palette.unknown5});
+    background-color: var(${theme.palette.bnw1000});
+    color: var(${theme.palette.bnw200});
   }
 `;
 
@@ -73,10 +73,10 @@ const Aside = styled.aside`
 `;
 
 const Surface = styled.div`
-  background-color: var(${theme.palette.bnw0});
-  border: 1px solid var(${theme.palette.unknown6});
+  background-color: var(${theme.palette.bnw1000});
+  border: 1px solid var(${theme.palette.bnw850});
   box-sizing: border-box;
-  box-shadow: 0 6px 9px var(${theme.palette.unknown7});
+  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -138,7 +138,7 @@ const Paragraph = styled.p`
   margin: 0;
   line-height: 21px;
   font-size: 15px;
-  color: var(${theme.palette.unknown5});
+  color: var(${theme.palette.bnw200});
   box-sizing: border-box;
 `;
 
@@ -165,7 +165,7 @@ const DescriberContainer = styled.div`
 const DescriberTitle = styled.div`
   font-size: 15px;
   line-height: 21px;
-  color: var(${theme.palette.unknown1});
+  color: var(${theme.palette.bnw600});
   padding-bottom: 6px;
   box-sizing: border-box;
   margin-top: -24px;
@@ -180,7 +180,7 @@ const DescriberContent = styled.div`
 `;
 
 const DescriberFooter = styled.div`
-  background-color: var(${theme.palette.unknown4});
+  background-color: var(${theme.palette.bnw900});
   display: flex;
   flex-direction: column;
   align-items: center;

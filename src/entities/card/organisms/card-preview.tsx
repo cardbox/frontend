@@ -91,7 +91,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0px 3px 9px #faf9fa;
+  box-shadow: 0 3px 9px #faf9fa;
 
   &[data-size='small'] {
     height: 190px;
@@ -99,14 +99,14 @@ const PaperContainerStyled = styled(PaperContainer)<{
 
     &:hover,
     &:focus {
-      border-color: var(${theme.palette.wizard300});
-      background-color: var(${theme.palette.bnw0});
+      border-color: var(${theme.palette.wizard750});
+      background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
   }
 
   &[data-size='large'] {
-    background: var(${theme.palette.bnw0});
+    background: var(${theme.palette.bnw1000});
     min-height: 190px;
   }
 `;
@@ -165,7 +165,7 @@ const TitleLink = styled(Link)`
 `;
 
 const ItemEditorContainer = styled.div`
-  --editor-color: var(${theme.palette.bnw700});
+  --editor-color: var(${theme.palette.bnw400});
   --editor-font-size: 15px;
   --editor-line-height: 21px;
   -webkit-line-clamp: 3;
@@ -225,7 +225,7 @@ const AddButtonStyled = styled(button.Icon)<{
   'data-is-card-to-deck-added': boolean;
 }>`
   &[data-is-card-to-deck-added='true'] {
-    background-color: var(${theme.palette.wizard100});
+    background-color: var(${theme.palette.wizard950});
 
     &:hover {
       background-color: inherit;
@@ -243,7 +243,7 @@ const Header = styled.header`
 `;
 
 const MetaStyled = styled.div`
-  color: var(${theme.palette.bnw500});
+  color: var(${theme.palette.bnw600});
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -251,5 +251,5 @@ const MetaStyled = styled.div`
 
 const UserLink = styled(Link)`
   text-decoration: none;
-  color: var(${theme.palette.bnw500});
+  color: var(${theme.palette.bnw600});
 `;

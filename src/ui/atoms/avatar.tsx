@@ -11,7 +11,7 @@ const attrs = (props: Props) => ({
 });
 
 export const Avatar = styled.div.attrs(attrs)<Props>`
-  background-color: var(${theme.palette.unknown8});
+  background-color: var(${theme.palette.bnw900});
   border-radius: 3px;
 
   ${({ src }) =>

@@ -5,8 +5,8 @@ import { ContentCenteredTemplate, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
-import { useEvent, useStore } from 'effector-react/ssr';
 import { theme } from '@box/lib/theme';
+import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
 
 import * as model from './model';

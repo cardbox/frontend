@@ -23,14 +23,14 @@ const Container = styled.div`
 const Input = styled.input`
   border: none;
   border-radius: 6px;
-  background: var(${theme.palette.bnw100});
+  background: var(${theme.palette.bnw900});
   flex-grow: 1;
   font-size: 0.9375rem;
   outline: 0;
   padding: 0 1.125rem;
 
   &::placeholder {
-    color: var(${theme.palette.bnw500});
+    color: var(${theme.palette.bnw600});
   }
 `;
 const SearchInput = reflect({

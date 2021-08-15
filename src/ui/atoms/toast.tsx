@@ -18,8 +18,8 @@ export const Toast: React.FC<Props> = ({ extra, children }) => {
 const Root = styled.article`
   display: flex;
 
-  background: var(${theme.palette.wizard100});
-  border: 1px solid var(${theme.palette.wizard300});
+  background: var(${theme.palette.wizard950});
+  border: 1px solid var(${theme.palette.wizard750});
   box-sizing: border-box;
   box-shadow: ${theme.shadows[1]};
   border-radius: 6px;

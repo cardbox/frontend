@@ -37,7 +37,7 @@ export const UserPreview: React.FC<UserPreviewProps> = ({
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0px 3px 9px #faf9fa;
+  box-shadow: 0 3px 9px #faf9fa;
   transition: 0.25s;
   height: 190px;
 
@@ -100,7 +100,7 @@ const Meta = ({ cardsCount }: MetaProps) => {
 };
 
 const MetaStyled = styled.div`
-  color: var(${theme.palette.bnw500});
+  color: var(${theme.palette.bnw600});
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -115,7 +115,7 @@ const ContentStyled = styled.div`
   }
 `;
 const ContentText = styled(Text)`
-  color: var(${theme.palette.bnw700});
+  color: var(${theme.palette.bnw400});
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
@@ -125,7 +125,7 @@ const ContentText = styled(Text)`
 
 const UserLink = styled(Link)`
   text-decoration: none;
-  color: var(${theme.palette.bnw1000});
+  color: var(${theme.palette.bnw0});
 
   &:hover {
     color: blue;

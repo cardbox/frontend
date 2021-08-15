@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { theme } from '@box/lib/theme';
 
 export const PaperContainer = styled.article`
-  background-color: var(${theme.palette.bnw100});
-  border: 1px solid var(${theme.palette.bnw200});
+  background-color: var(${theme.palette.bnw900});
+  border: 1px solid var(${theme.palette.bnw850});
   border-radius: 6px;
   padding: 1.125rem 1.5rem 0.625rem;
   display: flex;

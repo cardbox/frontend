@@ -8,9 +8,8 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { CardList, cardModel } from '@box/entities/card';
-import { combine } from 'effector-root';
-import { theme } from '@box/lib/theme';
 import { imgLogo } from '@box/shared/assets';
+import { theme } from '@box/lib/theme';
 import { useStart, withStart } from '@box/lib/page-routing';
 import { useStore } from 'effector-react/ssr';
 import { userLib, userModel } from '@box/entities/user';
@@ -104,9 +103,9 @@ const Container = styled.div`
 const UserHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: var(${theme.palette.bnw0});
+  background: var(${theme.palette.bnw1000});
 
-  border: 1px solid var(${theme.palette.bnw200});
+  border: 1px solid var(${theme.palette.bnw850});
   box-shadow: ${theme.shadows[2]};
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
@@ -144,9 +143,9 @@ const EditProfile = styled(button.Outline)`
 `;
 
 const StAvatar = styled(Avatar)`
-  background-color: var(${theme.palette.bnw0});
+  background-color: var(${theme.palette.bnw1000});
 
-  border: 1px solid var(${theme.palette.bnw200});
+  border: 1px solid var(${theme.palette.bnw850});
   border-radius: 3px;
 `;
 
@@ -196,11 +195,11 @@ const UserFaceDescription = styled.div`
 `;
 
 const UserFacePosition = styled(UserFaceDescription)`
-  color: var(${theme.palette.bnw500});
+  color: var(${theme.palette.bnw600});
   margin-top: 0;
 `;
 const UserLocation = styled(UserFaceDescription)`
-  color: var(${theme.palette.bnw500});
+  color: var(${theme.palette.bnw600});
   margin-top: 0;
 `;
 
@@ -219,7 +218,7 @@ const SocialStaff = styled.div`
 `;
 
 const SocialStaffTitle = styled.div`
-  color: var(${theme.palette.unknown1});
+  color: var(${theme.palette.bnw600});
   font-size: 0.9375rem;
 `;
 
@@ -242,13 +241,13 @@ const SocialStaffItem = styled.div`
 `;
 
 const SocialStaffItemText = styled.span`
-  color: var(${theme.palette.bnw1000});
+  color: var(${theme.palette.bnw0});
 `;
 
 const UserCardTitle = styled.div`
   font-size: 1.125rem;
   line-height: 1.375rem;
-  color: var(${theme.palette.bnw1000});
+  color: var(${theme.palette.bnw0});
   padding: 0;
   margin-right: 1.875rem;
   margin-bottom: 20px;
@@ -258,7 +257,7 @@ const UserCardTitle = styled.div`
 `;
 
 const SocialLink = styled.a`
-  ${FontDescription}
+  ${FontDescription};
   display: flex;
   align-items: center;
   text-decoration: none;

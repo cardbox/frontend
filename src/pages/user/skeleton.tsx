@@ -7,7 +7,6 @@ import {
   button,
   iconUserBg,
 } from '@box/ui';
-import { CardPreview } from '@box/entities/card';
 import { theme } from '@box/lib/theme';
 import { withStart } from '@box/lib/page-routing';
 
@@ -76,9 +75,9 @@ const Container = styled.div`
 const UserHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background: var(${theme.palette.bnw0});
+  background: var(${theme.palette.bnw1000});
 
-  border: 1px solid var(${theme.palette.bnw200});
+  border: 1px solid var(${theme.palette.bnw850});
   box-shadow: ${theme.shadows[2]};
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
@@ -124,7 +123,7 @@ const shine = keyframes`
 const bgColorSkeleton = css`
   background: var(${theme.palette.gray100});
   box-sizing: border-box;
-  border: 1px solid var(${theme.palette.bnw200});
+  border: 1px solid var(${theme.palette.bnw850});
   box-shadow: ${theme.shadows[1]};
   opacity: 0.9;
   animation: blink 4s infinite ease;
@@ -213,7 +212,7 @@ const SocialStaffItemText = styled.div`
 `;
 
 const StAvatar = styled(Avatar)`
-  border: 1px solid var(${theme.palette.bnw200});
+  border: 1px solid var(${theme.palette.bnw850});
   border-radius: 3px;
   ${bgColorSkeleton}
 `;
