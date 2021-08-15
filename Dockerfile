@@ -1,6 +1,6 @@
 #
 # ---- Build ----
-FROM node:12.16.1-alpine3.9 as build
+FROM node:14.17.5-alpine3.14 as build
 
 ARG RAZZLE_SESSION_TOKEN
 
@@ -24,7 +24,7 @@ RUN yarn build
 
 #
 # ---- Release ----
-FROM node:12.16.1-alpine3.9
+FROM node:14.17.5-alpine3.14
 
 WORKDIR /app
 
