@@ -121,7 +121,7 @@ const shine = keyframes`
 `;
 
 const bgColorSkeleton = css`
-  background: var(${theme.palette.gray100});
+  background: var(${theme.palette.bnw950});
   box-sizing: border-box;
   border: 1px solid var(${theme.palette.bnw850});
   box-shadow: ${theme.shadows[1]};

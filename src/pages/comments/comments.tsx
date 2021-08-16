@@ -253,7 +253,7 @@ const ResponsesButton = styled.div`
     margin-left: 9px;
 
     &[data-kind='primary'] {
-      color: var(${theme.palette.unknown3});
+      color: var(${theme.palette.wizard});
     }
   }
 `;
@@ -275,7 +275,7 @@ const QuestionContainer = styled.div`
 `;
 
 const Mention = styled.span`
-  color: var(${theme.palette.unknown3});
+  color: var(${theme.palette.wizard});
 `;
 
 const ResolvedChip = styled.div`
@@ -289,7 +289,7 @@ const ResolvedChip = styled.div`
 
   &[data-kind='primary'] {
     color: white;
-    background-color: var(${theme.palette.unknown2});
+    background-color: var(${theme.palette.wizard550});
   }
 `;
 

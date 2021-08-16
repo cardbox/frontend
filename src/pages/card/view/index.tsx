@@ -127,7 +127,7 @@ const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
 
 // todo: change view for links (according to design from figma)
 const LinkEdit = styled(LinkBase)`
-  color: var(${theme.palette.unknown2});
+  color: var(${theme.palette.wizard550});
 `;
 
 const ButtonDelete = styled(button.Text)`

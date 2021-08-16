@@ -51,8 +51,6 @@ const Globals = createGlobalStyle`
     --wizard50: #01000A;
     --wizard0: #000;
 
-    --gray100: #fbfafb;
-
     --notice1000: #FFF;
     --notice950: #FEF6F7;
     --notice900: #FBE9EB;
@@ -119,10 +117,6 @@ const Globals = createGlobalStyle`
     --bnw100: #0C0C0E;
     --bnw50: #050506;
     --bnw0: #000;
-
-    /* todo: in figma it presents as it is, without name of variable */
-    --unknown-2: #683aef;
-    --unknown-3: #007bff;
   }
 `;
 

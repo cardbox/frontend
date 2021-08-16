@@ -32,7 +32,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
 
 const Root = styled.article`
   height: 220px;
-  background: var(${theme.palette.gray100});
+  background: var(${theme.palette.bnw950});
   border: 1px solid var(${theme.palette.bnw850});
   box-sizing: border-box;
   box-shadow: ${theme.shadows[1]};
