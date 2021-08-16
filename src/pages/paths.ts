@@ -5,7 +5,7 @@ export const paths = {
   card: (cardId: string) => `/card/${cardId}`,
   cardEdit: (cardId: string) => `/card/${cardId}/edit`,
   cardCreate: () => `/card/new`,
-  oauthDone: () => '/oauth-done',
+  oauthDone: () => '/accesso/done',
   user: (username: string) => `/u/${username}`,
   search: (query = '') => {
     if (query) return `/search?query=${query}`;
