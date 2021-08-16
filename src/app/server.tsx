@@ -165,7 +165,6 @@ fastifyInstance.register(fastifyHttpProxy, {
   upstream: process.env.BACKEND_URL ?? 'http://localhost:9110',
   http2: true,
   prefix: '/api/internal',
-  rewritePrefix: '/',
   logLevel: 'debug',
   replyOptions: {
     onError(reply, error) {
