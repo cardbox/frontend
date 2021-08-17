@@ -1,3 +1,4 @@
+import createPino from 'pino';
 import queryString from 'query-string';
 import {
   Effect,
@@ -60,20 +61,22 @@ if (process.env.BUILD_TARGET === 'server') {
   });
 }
 
+const logger = createPino();
+
 if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
   sendRequestFx.watch(({ path, method }) => {
-    console.info(`[requestInternal] ${method} ${path}`);
+    logger.info({ method, path }, `[requestInternal]`);
   });
 
   sendRequestFx.done.watch(
     ({ params: { path, method }, result: { status } }) => {
-      console.info(`[requestInternal.done] ${method} ${path} : ${status}`);
+      logger.info({ method, path, status }, `[requestInternal.done]`);
     },
   );
 
   sendRequestFx.fail.watch(
     ({ params: { path, method }, error: { status } }) => {
-      console.info(`[requestInternal.fail] ${method} ${path} : ${status}`);
+      logger.info({ method, path, status }, `[requestInternal.fail]`);
     },
   );
 }

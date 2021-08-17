@@ -3,6 +3,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
 import cookieParser from 'cookie-parser';
+import createPino from 'pino';
 import dotenv from 'dotenv';
 import fastify from 'fastify';
 import fastifyCookie from 'fastify-cookie';
@@ -33,6 +34,8 @@ import { resetIdCounter } from 'react-tabs';
 import { Application } from './application';
 
 dotenv.config();
+
+const logger = createPino();
 
 const FIVE_MINUTES = 300;
 const ONE_HOUR = 3600;
@@ -109,9 +112,13 @@ export const fastifyInstance = (() => {
     const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
     const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
 
-    console.info('Create local HTTPS server with certificate and key:');
-    console.info(`Cert: ${CRT}`);
-    console.info(`Key: ${KEY}`);
+    logger.info(
+      {
+        Cert: CRT,
+        Key: KEY,
+      },
+      'Creating local HTTPS server with certificate and key',
+    );
 
     let options;
 
@@ -125,7 +132,7 @@ export const fastifyInstance = (() => {
       };
     } catch (error) {
       if (error.code === 'ENOENT') {
-        console.error(
+        logger.error(
           `\n\n---------\n` +
             `ERROR! No local certificates found in ./tls directory.\n` +
             `Maybe you trying to start application without generating certificates first of all?\n` +

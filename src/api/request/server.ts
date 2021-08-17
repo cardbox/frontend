@@ -1,8 +1,11 @@
+import createPino from 'pino';
 import fetch, { Headers } from 'node-fetch';
 
 import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
+
+const logger = createPino();
 
 const API_PREFIX = process.env.BACKEND_URL ?? 'http://localhost:9008';
 
@@ -43,7 +46,7 @@ async function requestServer({ path, method, ...options }: Request) {
     throw responder;
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
+      logger.error(error);
       throw {
         ok: false,
         body: error,
