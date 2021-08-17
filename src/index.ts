@@ -1,8 +1,6 @@
-import createPino from 'pino';
 import type { FastifyInstance } from 'fastify';
 import type { Http2Server } from 'http2';
-
-const logger = createPino();
+import { logger } from '@box/lib/logger';
 
 // this require is necessary for server HMR to recover from error
 let server: FastifyInstance<Http2Server> =

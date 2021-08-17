@@ -1,4 +1,3 @@
-import createPino from 'pino';
 import queryString from 'query-string';
 import {
   Effect,
@@ -9,6 +8,7 @@ import {
   merge,
   restore,
 } from 'effector-root';
+import { logger } from '@box/lib/logger';
 
 export interface Request {
   path: string;
@@ -60,8 +60,6 @@ if (process.env.BUILD_TARGET === 'server') {
     target: setCookiesFromResponse,
   });
 }
-
-const logger = createPino();
 
 if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
   sendRequestFx.watch(({ path, method }) => {

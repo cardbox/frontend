@@ -1,11 +1,9 @@
-import createPino from 'pino';
 import fetch, { Headers } from 'node-fetch';
+import { logger } from '@box/lib/logger';
 
 import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
-
-const logger = createPino();
 
 const API_PREFIX = process.env.BACKEND_URL ?? 'http://localhost:9008';
 
