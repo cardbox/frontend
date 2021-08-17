@@ -2,8 +2,6 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
-import cookieParser from 'cookie-parser';
-import createPino from 'pino';
 import dotenv from 'dotenv';
 import fastify from 'fastify';
 import fastifyCookie from 'fastify-cookie';
@@ -27,6 +25,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { StartParams, getStart } from '@box/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
+import { logger } from '@box/lib/logger';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
@@ -34,8 +33,6 @@ import { resetIdCounter } from 'react-tabs';
 import { Application } from './application';
 
 dotenv.config();
-
-const logger = createPino();
 
 const FIVE_MINUTES = 300;
 const ONE_HOUR = 3600;
@@ -144,7 +141,7 @@ export const fastifyInstance = (() => {
     }
 
     return fastify({
-      logger: true,
+      logger,
       http2: true,
       ...options,
     });
@@ -158,12 +155,12 @@ export const fastifyInstance = (() => {
         allowHTTP1: true,
       },
       http2: true,
-      logger: true,
+      logger,
     });
   }
 
   return fastify({
-    logger: true,
+    logger,
     http2: true,
   });
 })();
