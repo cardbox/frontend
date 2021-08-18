@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { createEvent, createStore, merge } from 'effector-root';
+import { createEvent, createStore, merge, sample } from 'effector-root';
 
 export interface HistoryChange {
   pathname: string;
@@ -13,11 +13,25 @@ export const history =
 
 export const $redirectTo = createStore('');
 
+export const historyEmitCurrent = createEvent();
+
 export const historyPush = createEvent<string>();
 export const historyPushParams = createEvent<{ search: string }>();
 export const historyReplace = createEvent<string>();
 
 export const historyChanged = createEvent<HistoryChange>();
+
+sample({
+  clock: historyEmitCurrent,
+  fn: () =>
+    ({
+      action: 'REPLACE',
+      hash: history!.location.hash,
+      pathname: history!.location.pathname,
+      search: history!.location.search,
+    } as HistoryChange),
+  target: historyChanged,
+});
 
 if (process.env.BUILD_TARGET === 'client') {
   historyPush.watch((url) => history?.push(url));
