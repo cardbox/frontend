@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useStore } from 'effector-react/ssr';
+
+import { $highlightQuery } from '../model';
 
 interface HighlightTextProps {
   text: string;
@@ -7,10 +10,16 @@ interface HighlightTextProps {
 
 // возможно стоит мемоизировать этот компонент в будущем
 export const HighlightText: React.FC<HighlightTextProps> = ({ text }) => {
+  const query = useStore($highlightQuery);
+  const data = React.useMemo(
+    () => getFoundData({ search: text, query }),
+    [text, query],
+  );
+
   if (query === '') {
     return <>{text}</>;
   }
-  const data = getFoundData({ search: text, query });
+
   return (
     <>
       {data.map(({ isFound, segment }, index) => (
@@ -34,6 +43,7 @@ interface SelectedText {
   isFound: boolean;
   segment: string;
 }
+
 type Ret = SelectedText[];
 
 /* eslint-disable unicorn/prefer-string-slice */

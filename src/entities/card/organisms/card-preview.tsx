@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import React, { forwardRef } from 'react';
 import {
   Button,
-  HighlightText,
   PaperContainer,
   Skeleton,
   Text,
@@ -13,12 +12,12 @@ import {
 import type { Card, User } from '@box/api';
 import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
+import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
-import { useSearchQuery } from '@box/features/search-bar';
 
 type CardSize = 'small' | 'large';
 
@@ -114,15 +113,13 @@ type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
   Pick<CardPreviewProps, 'href' | 'size'>;
 
 const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
-  const query = useSearchQuery();
-
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
       <TextStyled type="h4">
         {href && (
           <TitleLink to={href}>
-            <HighlightText query={query} text={title} />
+            <HighlightText text={title} />
           </TitleLink>
         )}
         {!href && title}

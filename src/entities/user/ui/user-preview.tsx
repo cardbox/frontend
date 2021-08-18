@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, HighlightText, PaperContainer, Text } from '@box/ui';
+import { Avatar, PaperContainer, Text } from '@box/ui';
+import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { imgLogo } from '@box/shared/assets';
 import { plural } from '@box/lib/plural';
 import { theme } from '@box/lib/theme';
-import { useSearchQuery } from '@box/features/search-bar';
 
 interface UserPreviewProps {
   user: User;
@@ -34,6 +34,40 @@ export const UserPreview: React.FC<UserPreviewProps> = ({
     </PaperContainerStyled>
   );
 };
+
+type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
+
+const Content: React.FC<ContentProps> = ({
+  children,
+  username,
+  userHref = '',
+}) => {
+  return (
+    <ContentStyled>
+      <UserLink to={userHref}>
+        <UserName type="h4" title={username}>
+          <HighlightText text={username} />
+        </UserName>
+      </UserLink>
+      <ContentText type="span">{children}</ContentText>
+    </ContentStyled>
+  );
+};
+
+interface MetaProps {
+  cardsCount: number;
+}
+
+const Meta: React.FC<MetaProps> = ({ cardsCount }) => {
+  return (
+    <MetaStyled>
+      <Text type="span">
+        {cardsCount} {plural(cardsCount, 'card', 'cards')}
+      </Text>
+    </MetaStyled>
+  );
+};
+
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   overflow: hidden;
@@ -58,46 +92,11 @@ const Header = styled.header`
   }
 `;
 
-type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
-
-const Content: React.FC<ContentProps> = ({
-  children,
-  username,
-  userHref = '',
-}) => {
-  const query = useSearchQuery();
-
-  return (
-    <ContentStyled>
-      <UserLink to={userHref}>
-        <UserName type="h4" title={username}>
-          <HighlightText query={query} text={username} />
-        </UserName>
-      </UserLink>
-      <ContentText type="span">{children}</ContentText>
-    </ContentStyled>
-  );
-};
-
-interface MetaProps {
-  cardsCount: number;
-}
-
 const UserName = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-
-const Meta = ({ cardsCount }: MetaProps) => {
-  return (
-    <MetaStyled>
-      <Text type="span">
-        {cardsCount} {plural(cardsCount, 'card', 'cards')}
-      </Text>
-    </MetaStyled>
-  );
-};
 
 const MetaStyled = styled.div`
   color: var(${theme.palette.bnw600});

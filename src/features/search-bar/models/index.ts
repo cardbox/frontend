@@ -19,6 +19,23 @@ export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 export const searchValueChanged = createEvent<string>();
 export const $searchValue = restore(searchValueChanged, '');
 
+export const cardsSearchFx = attach({ effect: internalApi.cardsSearch });
+export const $cardList = createStore<Card[]>([]);
+export const $cardsCount = createStore<number>(0);
+
+export const usersSearchFx = attach({ effect: internalApi.usersSearch });
+export const $userList = createStore<User[]>([]);
+export const $usersCount = createStore<number>(0);
+
+export const searchFx = createEffect(async (query: string) => {
+  const cards = await cardsSearchFx({ body: { query } });
+  const users = await usersSearchFx({ body: { query } });
+  return {
+    cards: cards.answer.cards as Card[],
+    users: users.answer.users as User[],
+  };
+});
+
 sample({
   source: searchFieldChanged.map((event) => event.target.value),
   target: searchValueChanged,
@@ -32,27 +49,10 @@ const searchDebounced = debounce({
 const searchSubmitted = guard({
   clock: searchDebounced,
   source: $searchValue,
-  filter: (query) => Boolean(query.trim()),
+  filter: (query) => query.trim().length > 0,
 });
 
 const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
-
-export const cardsSearchFx = attach({ effect: internalApi.cardsSearch });
-export const usersSearchFx = attach({ effect: internalApi.usersSearch });
-
-export const $cardList = createStore<Card[]>([]);
-export const $userList = createStore<User[]>([]);
-export const $cardsCount = createStore<number>(0);
-export const $usersCount = createStore<number>(0);
-
-export const searchFx = createEffect(async (query: string) => {
-  const cards = await cardsSearchFx({ body: { query } });
-  const users = await usersSearchFx({ body: { query } });
-  return {
-    cards: cards.answer.cards as Card[],
-    users: users.answer.users as User[],
-  };
-});
 
 sample({
   source: trimmedSearchSubmitted.map(paths.search),
