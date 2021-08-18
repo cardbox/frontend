@@ -23,28 +23,36 @@ interface Compounds {
  * @see https://woly.sova.dev/woly/atoms/button
  * @see https://material-ui.com/components/buttons
  */
-export const Button: React.FC<Props> & Compounds = ({
-  theme = 'primary',
-  variant = 'solid',
-  icon,
-  type,
-  children,
-  ...buttonProps
-}) => {
-  return (
-    <ButtonStyled
-      data-theme={theme}
-      data-variant={variant}
-      data-squared={Boolean(icon && !children)}
-      type={type}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...buttonProps}
-    >
-      {icon && <span>{icon}</span>}
-      {children && <span>{children}</span>}
-    </ButtonStyled>
-  );
-};
+export const Button: React.FC<Props> & Compounds = React.forwardRef<
+  HTMLButtonElement,
+  Props
+>(
+  (
+    {
+      theme = 'primary',
+      variant = 'solid',
+      icon,
+      type,
+      children,
+      ...buttonProps
+    },
+    ref,
+  ) => {
+    return (
+      <ButtonStyled
+        data-theme={theme}
+        data-variant={variant}
+        data-squared={Boolean(icon && !children)}
+        type={type}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...buttonProps}
+      >
+        {icon && <span>{icon}</span>}
+        {children && <span>{children}</span>}
+      </ButtonStyled>
+    );
+  },
+);
 
 const Themes = css`
   &[data-theme='primary'] {
