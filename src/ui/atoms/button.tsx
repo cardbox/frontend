@@ -13,20 +13,13 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   ref?: any;
 };
 
-interface Compounds {
-  Group: typeof Group;
-}
-
 /**
  * Button
  * @see https://ant.design/components/button
  * @see https://woly.sova.dev/woly/atoms/button
  * @see https://material-ui.com/components/buttons
  */
-export const Button: React.FC<Props> & Compounds = React.forwardRef<
-  HTMLButtonElement,
-  Props
->(
+export const Button = React.forwardRef<HTMLButtonElement, Props>(
   (
     {
       theme = 'primary',
@@ -128,11 +121,9 @@ const ButtonStyled = styled.button<{
   ${Variants}
 `;
 
-const Group = styled.div`
+export const ButtonGroup = styled.div`
   display: flex;
   button + button {
     margin-left: 12px;
   }
 `;
-
-Button.Group = Group;

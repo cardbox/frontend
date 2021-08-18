@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from '@box/ui';
+import { ButtonGroup } from '@box/ui';
 
 import * as Controls from '../atoms';
 
@@ -18,11 +18,11 @@ export const Form = ({ okText, _name }: Props) => (
       <Controls.EditContent />
     </Content>
     <Footer>
-      <Button.Group>
+      <ButtonGroup>
         {/* FIXME: поправить _name в тикете BOX-167 */}
         <Controls.SubmitChanges title={okText} _name={_name} />
         <Controls.ResetChanges _name={_name} />
-      </Button.Group>
+      </ButtonGroup>
     </Footer>
   </div>
 );
