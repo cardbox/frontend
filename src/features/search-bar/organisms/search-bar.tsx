@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { ContentCenteredTemplate, IconLogo, button } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
+import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';
@@ -52,8 +53,8 @@ function useSearchQueryChanged() {
 }
 
 const Container = styled.header`
-  background-color: #fff;
-  box-shadow: 0 6px 9px #f6f5f8;
+  background-color: var(${theme.palette.bnw1000});
+  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
   display: flex;
   flex-shrink: 0;
   justify-content: center;
@@ -76,6 +77,6 @@ const NewCardLink = styled(Link)`
   text-decoration: none;
 
   button {
-    color: var(--wizard500);
+    color: var(${theme.palette.wizard});
   }
 `;

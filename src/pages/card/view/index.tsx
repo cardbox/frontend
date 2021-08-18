@@ -5,6 +5,7 @@ import { ContentCenteredTemplate, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
+import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 import { useStart, withStart } from '@box/lib/page-routing';
 
@@ -124,12 +125,13 @@ const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
   }
 `;
 
+// todo: change view for links (according to design from figma)
 const LinkEdit = styled(LinkBase)`
-  color: #683aef;
+  color: var(${theme.palette.wizard550});
 `;
 
 const ButtonDelete = styled(button.Text)`
-  color: #ef3a5b;
+  color: var(${theme.palette.notice500});
   width: fit-content;
   height: auto;
   padding: 0;

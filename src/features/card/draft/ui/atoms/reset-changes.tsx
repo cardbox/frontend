@@ -4,8 +4,8 @@ import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../../model';
 
-// eslint-disable-next-line prettier/prettier
-const CANCEL_WARN = 'Are you sure you want to undo the changes? The action is not reversible!';
+const CANCEL_WARN =
+  'Are you sure you want to undo the changes? The action is not reversible!';
 
 interface Props {
   _name: string;

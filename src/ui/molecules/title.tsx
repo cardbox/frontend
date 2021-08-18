@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { button } from '@box/ui';
+import { theme } from '@box/lib/theme';
 
 interface TitleProps {
   title: string;
@@ -19,18 +20,23 @@ const TabTitle: React.FC<TitleProps> = ({
     setSelectedTab(index);
   }, [setSelectedTab, index]);
   return (
-    <Button type="button" active={index === active} onClick={onClick}>
+    <Button type="button" data-is-active={index === active} onClick={onClick}>
       {title}
     </Button>
   );
 };
 
-const Button = styled(button.Text)<{ active?: boolean }>`
+const Button = styled(button.Text)<{ 'data-is-active'?: boolean }>`
   font-size: 1.125rem;
   line-height: 1.375rem;
-  color: ${({ active }) => (active ? '#000000' : '#A39BB2')};
   padding: 0;
   margin-right: 1.875rem;
+
+  color: var(${theme.palette.bnw600});
+  &[data-is-active='true'] {
+    color: var(${theme.palette.bnw0});
+  }
+
   & > *:last-child {
     margin-right: 0;
   }

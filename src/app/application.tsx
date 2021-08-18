@@ -1,5 +1,3 @@
-import './custom-props.css';
-
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Helmet } from 'react-helmet-async';
@@ -8,6 +6,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
+import { customProps } from '@box/lib/theme';
 import { paths } from '@box/pages/paths';
 // FIXME: replace later to usage of entities/viewer
 import { viewer } from '@box/api/mock/fixtures';
@@ -29,6 +28,8 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: sans-serif;
   }
+
+  ${customProps}
 `;
 
 export const Application = ({ root }: Props) => (
@@ -45,8 +46,8 @@ export const Application = ({ root }: Props) => (
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <Globals />
-        {/* FIXME: 
-          - научиться получать авторизированного пользователя и сюда прокидывать в поле user 
+        {/* FIXME:
+          - научиться получать авторизированного пользователя и сюда прокидывать в поле user
           - или прокидывать в виджет напрямую фичи/сущности (Logo, SearchBar, UserAvatar, NewCard)
         */}
         <Searchbar

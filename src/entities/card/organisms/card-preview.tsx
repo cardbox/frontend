@@ -16,6 +16,7 @@ import {
 } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
+import { theme } from '@box/lib/theme';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/lib/use-mouse-selection';
 import { useSearchQuery } from '@box/features/search-bar';
@@ -90,7 +91,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0px 3px 9px #faf9fa;
+  box-shadow: 0 3px 9px #faf9fa;
 
   &[data-size='small'] {
     height: 190px;
@@ -98,14 +99,14 @@ const PaperContainerStyled = styled(PaperContainer)<{
 
     &:hover,
     &:focus {
-      border-color: var(--wizard300);
-      background-color: var(--bnw0);
+      border-color: var(${theme.palette.wizard750});
+      background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
   }
 
   &[data-size='large'] {
-    background: #fff;
+    background: var(${theme.palette.bnw1000});
     min-height: 190px;
   }
 `;
@@ -159,12 +160,12 @@ const TitleLink = styled(Link)`
   transition: 0.25s;
 
   &:hover {
-    color: var(--wizard500);
+    color: var(${theme.palette.wizard500});
   }
 `;
 
 const ItemEditorContainer = styled.div`
-  --editor-color: #62616d;
+  --editor-color: var(${theme.palette.bnw400});
   --editor-font-size: 15px;
   --editor-line-height: 21px;
   -webkit-line-clamp: 3;
@@ -224,7 +225,7 @@ const AddButtonStyled = styled(button.Icon)<{
   'data-is-card-to-deck-added': boolean;
 }>`
   &[data-is-card-to-deck-added='true'] {
-    background-color: #f7f6ff;
+    background-color: var(${theme.palette.wizard950});
 
     &:hover {
       background-color: inherit;
@@ -242,7 +243,7 @@ const Header = styled.header`
 `;
 
 const MetaStyled = styled.div`
-  color: #9b99ac;
+  color: var(${theme.palette.bnw600});
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -250,5 +251,5 @@ const MetaStyled = styled.div`
 
 const UserLink = styled(Link)`
   text-decoration: none;
-  color: #9b99ac;
+  color: var(${theme.palette.bnw600});
 `;
