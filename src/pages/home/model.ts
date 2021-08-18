@@ -1,11 +1,11 @@
 import type { Card } from '@box/api';
-import { attach, createStore, restore, sample } from 'effector-root';
-import { createStart } from '@box/lib/page-routing';
+import { attach, createStore, restore, root, sample } from 'effector-root';
+import { createHatch } from 'framework';
 import { internalApi } from '@box/api';
 import { userModel } from '@box/entities/user';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
-export const pageStart = createStart();
+export const hatch = createHatch(root.createDomain('HomePage'));
 
 export const $pagePending = restore(cardsFeedFx.pending.updates, true);
 
@@ -14,7 +14,7 @@ export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
 
 sample({
-  source: pageStart,
+  source: hatch.enter,
   target: cardsFeedFx,
 });
 

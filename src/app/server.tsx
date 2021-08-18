@@ -14,9 +14,20 @@ import {
   setCookiesForRequest,
 } from '@box/api/request';
 import { $lastPushed } from '@box/entities/navigation';
-import { Event, forward, root, sample } from 'effector-root';
+import {
+  Event,
+  allSettled,
+  createEvent,
+  fork,
+  forward,
+  guard,
+  root,
+  sample,
+  serialize,
+} from 'effector-root';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { Hatch, HatchParams, getHatch } from 'framework';
 import type { Http2Server } from 'http2';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ROUTES } from '@box/pages/routes';
@@ -24,18 +35,15 @@ import { RouteGenericInterface } from 'fastify/types/route';
 import { ServerStyleSheet } from 'styled-components';
 import { StartParams, getStart } from '@box/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
-import { allSettled, fork, serialize } from 'effector/fork';
 import { logger } from '@box/lib/logger';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
+import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
 
 dotenv.config();
-
-const FIVE_MINUTES = 300;
-const ONE_HOUR = 3600;
 
 const serverStarted = root.createEvent<{
   req: FastifyRequest<RouteGenericInterface, Http2Server>;
@@ -46,10 +54,35 @@ const requestHandled = serverStarted.map(({ req }) => req);
 
 const cookiesReceived = requestHandled.filterMap((r) => r.headers.cookie);
 
-const routesMatched = requestHandled.map((request) => ({
-  routes: matchRoutes(ROUTES, request.url).filter(lookupStartEvent),
-  query: request.query as Record<string, string>,
-}));
+const { routeResolved, __: routeNotResolved } = splitMap({
+  source: requestHandled,
+  cases: {
+    routeResolved({ url, query }) {
+      const routes = matchRoutes(ROUTES, url.split('?')[0]);
+
+      if (routes.length > 0)
+        return {
+          route: routes[0].route,
+          match: routes[0].match,
+          url,
+          query,
+        };
+
+      return undefined;
+    },
+  },
+});
+
+routeResolved.watch((match) => {
+  logger.trace(match, `Route resolved`);
+});
+
+routeNotResolved.watch((req) => {
+  logger.fatal(
+    { url: req.url, query: req.query },
+    `Not found route for this path`,
+  );
+});
 
 forward({
   from: cookiesReceived,
@@ -61,26 +94,51 @@ forward({
   to: readyToLoadSession,
 });
 
-for (const { component } of ROUTES) {
-  const startPageEvent = getStart(component);
+for (const { component, path, exact } of ROUTES) {
+  if (!component) {
+    logger.trace({ component, path, exact }, `No component for path "${path}"`);
+    continue;
+  }
 
-  if (startPageEvent) {
-    const matchedRoute = sample(routesMatched, sessionLoaded).filterMap(
-      ({ routes, query }) => {
-        const route = routes.find(routeWithEvent(startPageEvent));
-        if (route) return { route, query };
+  const hatch = getHatch(component);
+  if (!hatch) {
+    logger.trace({ component, path, exact }, `No hatch for path "${path}"`);
+    continue;
+  }
+
+  const { routeMatched, __: notMatched } = splitMap({
+    source: sample(routeResolved, sessionLoaded),
+    cases: {
+      routeMatched({ route, match, query }) {
+        if (route.path === path)
+          return {
+            // route.path is a string with path params, like "/user/:userId"
+            // :userId is a path param
+            // match.params is an object contains parsed params values
+            // "/user/123" will be transformed to { userId: 123 } in match.params
+            params: match.params,
+            query,
+          } as HatchParams;
+
         return undefined;
       },
-    );
+    },
+  });
 
-    forward({
-      from: matchedRoute.map(({ route, query }) => ({
-        params: route.match.params,
-        query,
-      })),
-      to: startPageEvent,
-    });
-  }
+  routeMatched.watch((match) => {
+    logger.trace(match, `Route matched for "${path}"`);
+  });
+
+  forward({
+    from: routeMatched,
+    to: hatch.enter,
+  });
+
+  guard({
+    source: notMatched,
+    filter: hatch.$opened,
+    target: hatch.exit,
+  });
 }
 
 sample({
@@ -297,15 +355,15 @@ function htmlStart(p: StartProps) {
         ${p.helmet.title.toString()}
         ${p.helmet.link.toString()}
         ${p.helmet.style.toString()}
-        ${p.assetsCss ? `<link rel="stylesheet" href="${p.assetsCss}">` : ''}
+        ${p.assetsCss ? `<link rel='stylesheet' href='${p.assetsCss}'>` : ''}
           ${
             process.env.NODE_ENV === 'production'
-              ? `<script src="${p.assetsJs}" defer></script>`
-              : `<script src="${p.assetsJs}" defer crossorigin></script>`
+              ? `<script src='${p.assetsJs}' defer></script>`
+              : `<script src='${p.assetsJs}' defer crossorigin></script>`
           }
     </head>
     <body ${p.helmet.bodyAttributes.toString()}>
-        <div id="root">`;
+        <div id='root'>`;
 }
 
 function htmlEnd(p: EndProps) {

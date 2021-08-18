@@ -7,12 +7,16 @@ import { Helmet } from 'react-helmet-async';
 import { theme } from '@box/lib/theme';
 import { useStore } from 'effector-react/ssr';
 import { userModel } from '@box/entities/user';
-import { withStart } from '@box/lib/page-routing';
+import { withHatch } from 'framework';
 
 import * as model from './model';
 import { paths } from '../paths';
 
-export const HomePage = () => {
+// TODO: move component to a page.tsx
+// TODO: use contract fn to connect page and model
+// TODO: use `export const HomePage = withHatch(model.hatch, page.HomePage)`
+
+export const HomePage: React.FC = withHatch(model.hatch, () => {
   const isLoading = useStore(model.$pagePending);
   const topCards = useStore(model.$topCards);
   const latestCards = useStore(model.$latestCards);
@@ -91,9 +95,7 @@ export const HomePage = () => {
       </ContentCenteredTemplate>
     </>
   );
-};
-
-withStart(model.pageStart, HomePage);
+});
 
 const Hero = styled.div`
   display: grid;

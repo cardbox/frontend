@@ -26,7 +26,10 @@ function createOrInitLogger() {
       ),
     });
 
-    serverLogger = pino(transport);
+    serverLogger = pino({
+      level: process.env.LOG_LEVEL ?? 'info',
+      write: transport.write,
+    });
   }
 
   return serverLogger;
