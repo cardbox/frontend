@@ -19,7 +19,6 @@ export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
   const fullName = getFullName(user);
   const { avatar, work } = user;
 
-  const username = `${user.firstName} ${user.lastName}`;
   return (
     <Container>
       <Content>

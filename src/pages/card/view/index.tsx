@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button, ContentCenteredTemplate } from '@box/ui';
 import { CardPreview, cardModel } from '@box/entities/card';
-import { ContentCenteredTemplate, button } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
@@ -56,6 +56,8 @@ export const CardViewPage = () => {
                 <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
                 <ButtonDelete
                   type="button"
+                  theme="danger"
+                  variant="text"
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
                     if (!window.confirm(DELETE_WARN)) return;
@@ -113,7 +115,6 @@ const Links = styled.div`
 `;
 
 const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
-  font-size: 0.9375rem;
   line-height: 1.1875rem;
   &:not(:hover) {
     text-decoration: none;
@@ -130,8 +131,7 @@ const LinkEdit = styled(LinkBase)`
   color: var(${theme.palette.wizard550});
 `;
 
-const ButtonDelete = styled(button.Text)`
-  color: var(${theme.palette.notice500});
+const ButtonDelete = styled(Button)`
   width: fit-content;
   height: auto;
   padding: 0;

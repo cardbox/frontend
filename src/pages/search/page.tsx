@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, Text, TextType } from '@box/ui';
+import { ContentCenteredTemplate, Text } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList, userModel } from '@box/entities/user';
@@ -39,11 +39,7 @@ export const SearchPage = () => {
 
 const SearchTitle = () => {
   const query = useSearchQuery();
-  return (
-    <SearchTitleStyled type={TextType.header3}>
-      Search for "{query}"
-    </SearchTitleStyled>
-  );
+  return <SearchTitleStyled type="h3">Search for "{query}"</SearchTitleStyled>;
 };
 
 const SearchTitleStyled = styled(Text)`
@@ -55,10 +51,10 @@ const SearchTabs = () => {
     <Tabs>
       <TabListStyled>
         <TabStyled>
-          <Text type={TextType.header6}>Cards</Text>
+          <Text type="h6">Cards</Text>
         </TabStyled>
         <TabStyled>
-          <Text type={TextType.header6}>Users</Text>
+          <Text type="h6">Users</Text>
         </TabStyled>
       </TabListStyled>
 

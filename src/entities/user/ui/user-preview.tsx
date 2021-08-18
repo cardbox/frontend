@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, HighlightText, PaperContainer, Text, TextType } from '@box/ui';
+import { Avatar, HighlightText, PaperContainer, Text } from '@box/ui';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/api';
 import { imgLogo } from '@box/shared/assets';
@@ -43,8 +43,8 @@ const PaperContainerStyled = styled(PaperContainer)`
 
   &:hover,
   &:focus {
-    border-color: var(--wizard300);
-    background-color: var(--bnw0);
+    border-color: var(${theme.palette.wizard800});
+    background-color: var(${theme.palette.bnw1000});
     cursor: pointer;
   }
 `;
@@ -70,11 +70,11 @@ const Content: React.FC<ContentProps> = ({
   return (
     <ContentStyled>
       <UserLink to={userHref}>
-        <UserName type={TextType.header4} title={username}>
+        <UserName type="h4" title={username}>
           <HighlightText query={query} text={username} />
         </UserName>
       </UserLink>
-      <ContentText type={TextType.small}>{children}</ContentText>
+      <ContentText type="span">{children}</ContentText>
     </ContentStyled>
   );
 };
@@ -92,7 +92,7 @@ const UserName = styled(Text)`
 const Meta = ({ cardsCount }: MetaProps) => {
   return (
     <MetaStyled>
-      <Text type={TextType.small}>
+      <Text type="span">
         {cardsCount} {plural(cardsCount, 'card', 'cards')}
       </Text>
     </MetaStyled>
@@ -128,6 +128,6 @@ const UserLink = styled(Link)`
   color: var(${theme.palette.bnw0});
 
   &:hover {
-    color: blue;
+    color: var(${theme.palette.wizard500});
   }
 `;

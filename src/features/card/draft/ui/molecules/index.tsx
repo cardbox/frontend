@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { button } from '@box/ui';
+import { Button } from '@box/ui';
 
 import * as Controls from '../atoms';
 
@@ -18,11 +18,11 @@ export const Form = ({ okText, _name }: Props) => (
       <Controls.EditContent />
     </Content>
     <Footer>
-      <BtnGroup>
+      <Button.Group>
         {/* FIXME: поправить _name в тикете BOX-167 */}
         <Controls.SubmitChanges title={okText} _name={_name} />
         <Controls.ResetChanges _name={_name} />
-      </BtnGroup>
+      </Button.Group>
     </Footer>
   </div>
 );
@@ -38,8 +38,4 @@ const Content = styled.div`
 
 const Footer = styled.div`
   margin-top: 100px;
-`;
-
-const BtnGroup = styled(button.Group)`
-  display: flex;
 `;

@@ -1,7 +1,8 @@
-import * as React from 'react';
 import styled from 'styled-components';
-import { button } from '@box/ui';
+import React, { useCallback } from 'react';
 import { theme } from '@box/lib/theme';
+
+import { Button } from '../../atoms/button';
 
 interface TitleProps {
   title: string;
@@ -16,17 +17,22 @@ const TabTitle: React.FC<TitleProps> = ({
   index,
   setSelectedTab,
 }) => {
-  const onClick = React.useCallback(() => {
+  const onClick = useCallback(() => {
     setSelectedTab(index);
   }, [setSelectedTab, index]);
   return (
-    <Button type="button" data-is-active={index === active} onClick={onClick}>
+    <ButtonStyled
+      variant="text"
+      type="button"
+      data-is-active={index === active}
+      onClick={onClick}
+    >
       {title}
-    </Button>
+    </ButtonStyled>
   );
 };
 
-const Button = styled(button.Text)<{ 'data-is-active'?: boolean }>`
+const ButtonStyled = styled(Button)<{ 'data-is-active': boolean }>`
   font-size: 1.125rem;
   line-height: 1.375rem;
   padding: 0;

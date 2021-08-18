@@ -1,19 +1,18 @@
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef } from 'react';
-import type { Card, User } from '@box/api';
-import { Editor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
 import {
+  Button,
   HighlightText,
   PaperContainer,
   Skeleton,
   Text,
-  TextType,
-  button,
   iconDeckArrow,
   iconDeckCheck,
 } from '@box/ui';
+import type { Card, User } from '@box/api';
+import { Editor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/lib/theme';
@@ -120,7 +119,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <TextStyled type={TextType.header4}>
+      <TextStyled type="h4">
         {href && (
           <TitleLink to={href}>
             <HighlightText query={query} text={title} />
@@ -131,7 +130,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       {size === 'large' && (
         <>
           <MetaStyled>
-            <Text type={TextType.mini}>
+            <Text type="p">
               Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
             </Text>
           </MetaStyled>
@@ -183,9 +182,9 @@ const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
   <MetaStyled>
     {/* FIXME: Add click processing */}
     <UserLink to={userHref}>
-      <Text type={TextType.small}>{author.username}</Text>
+      <Text type="span">{author.username}</Text>
     </UserLink>
-    <Text type={TextType.mini}>
+    <Text type="p">
       Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
     </Text>
   </MetaStyled>
@@ -196,42 +195,35 @@ const ContentStyled = styled.div`
   overflow: hidden;
 `;
 
-const addButtonData = {
-  true: { src: iconDeckCheck, alt: 'Remove card from my deck' },
-  false: { src: iconDeckArrow, alt: 'Add card to my deck' },
-};
 const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   ({ isCardToDeckAdded }, ref) => {
-    const click: React.MouseEventHandler = (e) => {
+    const handleClick: React.MouseEventHandler = (e) => {
       e.stopPropagation();
     };
-    return (
-      <AddButtonStyled
-        data-is-card-to-deck-added={isCardToDeckAdded}
-        onClick={click}
-        ref={ref}
-      >
-        <img
-          src={addButtonData[isCardToDeckAdded.toString()].src}
-          alt={addButtonData[isCardToDeckAdded.toString()].alt}
-          title={addButtonData[isCardToDeckAdded.toString()].alt}
+
+    if (isCardToDeckAdded) {
+      return (
+        <Button
+          ref={ref}
+          onClick={handleClick}
+          variant="outlined"
+          theme="primary"
+          icon={<img src={iconDeckCheck} title="Remove card from my deck" />}
         />
-      </AddButtonStyled>
+      );
+    }
+
+    return (
+      <Button
+        ref={ref}
+        onClick={handleClick}
+        variant="outlined"
+        theme="secondary"
+        icon={<img src={iconDeckArrow} title="Add card to my deck" />}
+      />
     );
   },
 );
-
-const AddButtonStyled = styled(button.Icon)<{
-  'data-is-card-to-deck-added': boolean;
-}>`
-  &[data-is-card-to-deck-added='true'] {
-    background-color: var(${theme.palette.wizard950});
-
-    &:hover {
-      background-color: inherit;
-    }
-  }
-`;
 
 const Header = styled.header`
   display: flex;

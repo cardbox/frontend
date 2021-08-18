@@ -1,5 +1,5 @@
 import React from 'react';
-import { button } from '@box/ui';
+import { Button } from '@box/ui';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../../model';
@@ -19,7 +19,7 @@ export const ResetChanges = ({ _name }: Props) => {
   const formReset = useEvent(model.formReset);
 
   return (
-    <button.Base
+    <Button
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
@@ -27,6 +27,6 @@ export const ResetChanges = ({ _name }: Props) => {
       }}
     >
       Cancel
-    </button.Base>
+    </Button>
   );
 };

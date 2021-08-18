@@ -1,17 +1,99 @@
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 import { theme } from '@box/lib/theme';
 
-const Base = styled.button`
-  align-items: center;
-  background-color: transparent;
-  border: 1px solid var(${theme.palette.wizard500});
-  // background-color: #000;
-  // border: 1px solid #000;
-  border-radius: 3px;
-  color: var(${theme.palette.wizard500});
-  // color: #fff;
+type ButtonTheme = 'primary' | 'secondary' | 'danger';
+type ButtonVariant = 'text' | 'outlined' | 'solid';
+
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  theme?: ButtonTheme;
+  variant?: ButtonVariant;
+  icon?: React.ReactNode;
+  // FIXME: MutableRefObject not suit for forwardRef
+  ref?: any;
+};
+
+interface Compounds {
+  Group: typeof Group;
+}
+
+/**
+ * Button
+ * @see https://ant.design/components/button
+ * @see https://woly.sova.dev/woly/atoms/button
+ * @see https://material-ui.com/components/buttons
+ */
+export const Button: React.FC<Props> & Compounds = ({
+  theme = 'primary',
+  variant = 'solid',
+  icon,
+  type,
+  children,
+  ...buttonProps
+}) => {
+  return (
+    <ButtonStyled
+      data-theme={theme}
+      data-variant={variant}
+      data-squared={Boolean(icon && !children)}
+      type={type}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...buttonProps}
+    >
+      {icon && <span>{icon}</span>}
+      {children && <span>{children}</span>}
+    </ButtonStyled>
+  );
+};
+
+const Themes = css`
+  &[data-theme='primary'] {
+    --base-color: var(${theme.palette.wizard500});
+  }
+
+  &[data-theme='danger'] {
+    --base-color: var(${theme.palette.notice550});
+  }
+
+  &[data-theme='secondary'] {
+    --base-color: var(${theme.palette.bnw750});
+  }
+`;
+
+const Variants = css`
+  &[data-variant='outlined'] {
+    --text-color: var(--base-color);
+    background: transparent;
+  }
+
+  &[data-variant='text'] {
+    --text-color: var(--base-color);
+    background: transparent;
+    border-color: transparent;
+  }
+`;
+
+const ButtonStyled = styled.button<{
+  'data-theme': ButtonTheme;
+  'data-variant': ButtonVariant;
+  'data-squared': boolean;
+}>`
+  --base-color: var(${theme.palette.wizard500});
+  --text-color: var(${theme.palette.bnw1000});
+  --size: 42px;
+
   display: flex;
-  font-size: 1.125rem;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--base-color);
+  background-color: var(--base-color);
+  color: var(--text-color);
+  height: var(--size);
+  border-radius: 3px;
+
+  display: flex;
+  font-size: 1rem;
   height: 42px;
   outline: 0;
   padding: 0 1.125rem;
@@ -25,63 +107,24 @@ const Base = styled.button`
   &:disabled {
     opacity: 0.5;
   }
-`;
 
-const Secondary = styled(Base)`
-  background-color: var(${theme.palette.bnw900});
-  border-color: var(${theme.palette.bnw900});
-  color: var(${theme.palette.bnw0});
-`;
-
-const Text = styled(Base)<{ type: 'submit' | 'reset' | 'button' }>`
-  background-color: transparent;
-  border-color: transparent;
-  color: #1d1a23;
-  font-size: 0.9375rem;
-`;
-
-const Icon = styled(Base)`
-  background-color: var(${theme.palette.bnw1000});
-  color: currentColor;
-  border-color: var(${theme.palette.bnw850});
-  padding: 0;
-  min-width: 42px;
-  justify-content: center;
-
-  transition: background-color 0.5s, box-shadow 0.5s;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+  span + span {
+    margin-left: 0.5rem;
   }
 
-  &:focus {
-    box-shadow: #969696 0 0 3px, #c3c3c3 0 0 15px;
+  &[data-squared='true'] {
+    width: var(--size);
   }
-`;
 
-const Outline = styled(Base)`
-  background-color: var(${theme.palette.bnw1000});
-  border: 1px solid var(${theme.palette.bnw850});
-  border-radius: 0.188rem;
-  color: var(${theme.palette.bnw0});
-`;
-
-const Primary = styled(Base)`
-  background-color: var(${theme.palette.wizard500});
-  color: var(${theme.palette.bnw1000});
+  ${Themes}
+  ${Variants}
 `;
 
 const Group = styled.div`
+  display: flex;
   button + button {
     margin-left: 12px;
   }
 `;
 
-export const button = {
-  Base,
-  Primary,
-  Secondary,
-  Text,
-  Icon,
-  Outline,
-  Group,
-};
+Button.Group = Group;
