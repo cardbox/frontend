@@ -43,8 +43,8 @@ const PaperContainerStyled = styled(PaperContainer)`
 
   &:hover,
   &:focus {
-    border-color: var(--wizard300);
-    background-color: var(--bnw0);
+    border-color: var(${theme.palette.wizard800});
+    background-color: var(${theme.palette.bnw1000});
     cursor: pointer;
   }
 `;
@@ -128,6 +128,6 @@ const UserLink = styled(Link)`
   color: var(${theme.palette.bnw0});
 
   &:hover {
-    color: blue;
+    color: var(${theme.palette.wizard500});
   }
 `;

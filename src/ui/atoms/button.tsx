@@ -48,15 +48,15 @@ export const Button: React.FC<Props> & Compounds = ({
 
 const Themes = css`
   &[data-theme='primary'] {
-    --base-color: var(--wizard500);
+    --base-color: var(${theme.palette.wizard500});
   }
 
   &[data-theme='danger'] {
-    --base-color: var(--notice500);
+    --base-color: var(${theme.palette.notice550});
   }
 
   &[data-theme='secondary'] {
-    --base-color: var(--bnw250);
+    --base-color: var(${theme.palette.bnw750});
   }
 `;
 
@@ -78,8 +78,8 @@ const ButtonStyled = styled.button<{
   'data-variant': ButtonVariant;
   'data-squared': boolean;
 }>`
-  --base-color: var(--wizard500);
-  --text-color: var(--bnw0);
+  --base-color: var(${theme.palette.wizard500});
+  --text-color: var(${theme.palette.bnw1000});
   --size: 42px;
 
   display: flex;
@@ -89,15 +89,10 @@ const ButtonStyled = styled.button<{
   border: 1px solid var(--base-color);
   background-color: var(--base-color);
   color: var(--text-color);
+  height: var(--size);
   border-radius: 3px;
 
   font-size: 1rem;
-  height: var(--size);
-  background-color: transparent;
-  border: 1px solid var(${theme.palette.wizard500});
-  border-radius: 3px;
-  color: var(${theme.palette.wizard500});
-  // color: #fff;
   display: flex;
   font-size: 1.125rem;
   height: 42px;
