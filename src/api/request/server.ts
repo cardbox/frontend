@@ -1,4 +1,5 @@
 import fetch, { Headers } from 'node-fetch';
+import { logger } from '@box/lib/logger';
 
 import { Request, queryToString, sendRequestFx } from './base';
 
@@ -43,7 +44,7 @@ async function requestServer({ path, method, ...options }: Request) {
     throw responder;
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
+      logger.error(error);
       throw {
         ok: false,
         body: error,
