@@ -8,6 +8,7 @@ import {
   merge,
   restore,
 } from 'effector-root';
+import { logger } from '@box/lib/logger';
 
 export interface Request {
   path: string;
@@ -62,18 +63,18 @@ if (process.env.BUILD_TARGET === 'server') {
 
 if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
   sendRequestFx.watch(({ path, method }) => {
-    console.info(`[requestInternal] ${method} ${path}`);
+    logger.info({ method, path }, `[requestInternal]`);
   });
 
   sendRequestFx.done.watch(
     ({ params: { path, method }, result: { status } }) => {
-      console.info(`[requestInternal.done] ${method} ${path} : ${status}`);
+      logger.info({ method, path, status }, `[requestInternal.done]`);
     },
   );
 
   sendRequestFx.fail.watch(
     ({ params: { path, method }, error: { status } }) => {
-      console.info(`[requestInternal.fail] ${method} ${path} : ${status}`);
+      logger.info({ method, path, status }, `[requestInternal.fail]`);
     },
   );
 }

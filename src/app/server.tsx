@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
-import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import fastify from 'fastify';
 import fastifyCookie from 'fastify-cookie';
@@ -26,6 +25,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { StartParams, getStart } from '@box/lib/page-routing';
 import { StaticRouter } from 'react-router-dom';
 import { allSettled, fork, serialize } from 'effector/fork';
+import { logger } from '@box/lib/logger';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
@@ -109,9 +109,13 @@ export const fastifyInstance = (() => {
     const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
     const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
 
-    console.info('Create local HTTPS server with certificate and key:');
-    console.info(`Cert: ${CRT}`);
-    console.info(`Key: ${KEY}`);
+    logger.info(
+      {
+        Cert: CRT,
+        Key: KEY,
+      },
+      'Creating local HTTPS server with certificate and key',
+    );
 
     let options;
 
@@ -125,7 +129,7 @@ export const fastifyInstance = (() => {
       };
     } catch (error) {
       if (error.code === 'ENOENT') {
-        console.error(
+        logger.error(
           `\n\n---------\n` +
             `ERROR! No local certificates found in ./tls directory.\n` +
             `Maybe you trying to start application without generating certificates first of all?\n` +
@@ -137,7 +141,7 @@ export const fastifyInstance = (() => {
     }
 
     return fastify({
-      logger: true,
+      logger,
       http2: true,
       ...options,
     });
@@ -151,12 +155,12 @@ export const fastifyInstance = (() => {
         allowHTTP1: true,
       },
       http2: true,
-      logger: true,
+      logger,
     });
   }
 
   return fastify({
-    logger: true,
+    logger,
     http2: true,
   });
 })();
