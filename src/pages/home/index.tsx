@@ -4,6 +4,7 @@ import { Button, ContentCenteredTemplate, Text, Toast } from '@box/ui';
 import type { Card } from '@box/api';
 import { CardList } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
+import { theme } from '@box/lib/theme';
 import { useStore } from 'effector-react/ssr';
 import { userModel } from '@box/entities/user';
 import { withStart } from '@box/lib/page-routing';
@@ -110,7 +111,7 @@ const ToastContainer = styled.div`
 `;
 
 const PrimaryText = styled(Text)`
-  color: var(--wizard500);
+  color: var(${theme.palette.wizard500});
 `;
 
 const Content = styled.div`

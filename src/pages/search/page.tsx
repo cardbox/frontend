@@ -8,6 +8,7 @@ import { UserPreviewList, userModel } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
 import { reflect } from '@effector/reflect/ssr';
 import { searchModel, useSearchQuery } from '@box/features/search-bar';
+import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './model';
@@ -79,13 +80,14 @@ const TabStyled = styled(Tab)`
     margin-right: 1rem;
   }
 
-  color: #9b99ac;
+  color: var(${theme.palette.bnw600});
   transition: color 0.5s;
   &:hover {
+    // todo: define colors for hover and others effects
     color: #4e4d56;
   }
   &.react-tabs__tab--selected {
-    color: #000;
+    color: var(${theme.palette.bnw0});
   }
 `;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { theme } from '@box/lib/theme';
 
 type ButtonTheme = 'primary' | 'secondary' | 'danger';
 type ButtonVariant = 'text' | 'outlined' | 'solid';
@@ -92,6 +93,14 @@ const ButtonStyled = styled.button<{
 
   font-size: 1rem;
   height: var(--size);
+  background-color: transparent;
+  border: 1px solid var(${theme.palette.wizard500});
+  border-radius: 3px;
+  color: var(${theme.palette.wizard500});
+  // color: #fff;
+  display: flex;
+  font-size: 1.125rem;
+  height: 42px;
   outline: 0;
   padding: 0 1.125rem;
   transition: 0.25s;

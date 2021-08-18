@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
+import { theme } from '@box/lib/theme';
 
 import { Button } from '../../atoms/button';
 
@@ -23,7 +24,7 @@ const TabTitle: React.FC<TitleProps> = ({
     <ButtonStyled
       variant="text"
       type="button"
-      active={index === active}
+      data-is-active={index === active}
       onClick={onClick}
     >
       {title}
@@ -31,12 +32,17 @@ const TabTitle: React.FC<TitleProps> = ({
   );
 };
 
-const ButtonStyled = styled(Button)<{ active?: boolean }>`
+const ButtonStyled = styled(Button)<{ 'data-is-active': boolean }>`
   font-size: 1.125rem;
   line-height: 1.375rem;
-  color: ${({ active }) => (active ? '#000000' : '#A39BB2')};
   padding: 0;
   margin-right: 1.875rem;
+
+  color: var(${theme.palette.bnw600});
+  &[data-is-active='true'] {
+    color: var(${theme.palette.bnw0});
+  }
+
   & > *:last-child {
     margin-right: 0;
   }

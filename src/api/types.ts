@@ -1,5 +1,4 @@
 import type { EditorValue } from '@cardbox/editor';
-import { UserCard } from '@box/entities/user';
 
 // Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
 export type CardContent = EditorValue;
@@ -31,7 +30,7 @@ export interface Question {
   readonly responses: {
     authors: string[];
     count: number;
-    lastReponseAt: string;
+    lastResponseAt: string;
   };
 }
 export interface Answer {

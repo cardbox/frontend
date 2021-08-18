@@ -1,5 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   plugins: [
@@ -31,9 +34,9 @@ module.exports = {
         if (error.code === 'ENOENT') {
           console.error(
             `\n\n---------\n` +
-              `ERROR! No local certificates found in ./tls directory.\n` +
-              `Maybe you trying to start application without generating certificates first of all?\n` +
-              'You can fix this via running `$ ./scripts/create-certs.sh`, but before read Development section in README.md',
+            `ERROR! No local certificates found in ./tls directory.\n` +
+            `Maybe you trying to start application without generating certificates first of all?\n` +
+            'You can fix this via running `$ ./scripts/create-certs.sh`, but before read Development section in README.md',
           );
           process.exit(-1);
         }

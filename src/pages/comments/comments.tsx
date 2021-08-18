@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Answer, CommentUser, Question } from '@box/api';
+import { Answer, Question } from '@box/api';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { paths } from '@box/pages/paths';
+import { theme } from '@box/lib/theme';
 
 export const Comments = () => (
   <>
@@ -28,7 +29,7 @@ export const Comments = () => (
           }
           responses={{
             count: 3,
-            lastReponseAt: 'Last response 8 hours ago',
+            lastResponseAt: 'Last response 8 hours ago',
             authors: ['5', '1', '4'],
           }}
         >
@@ -62,7 +63,7 @@ export const Comments = () => (
           }
           responses={{
             count: 6,
-            lastReponseAt: 'Last response 2 days ago',
+            lastResponseAt: 'Last response 2 days ago',
             authors: ['9', '2'],
           }}
         />
@@ -79,7 +80,7 @@ export const Comments = () => (
           }
           responses={{
             count: 0,
-            lastReponseAt: '',
+            lastResponseAt: '',
             authors: [],
           }}
         />
@@ -99,7 +100,7 @@ const Title = styled.h3`
   line-height: 30px;
 
   & > span {
-    color: #a39bb2;
+    color: var(${theme.palette.bnw600});
   }
 `;
 
@@ -130,9 +131,9 @@ const Question: React.FC<Question> = ({
       </UserLink>
       <Topic>{topic}</Topic>
       <When>{when}</When>
-      {resolved ? (
+      {resolved && (
         <ResolvedChip data-kind="primary">Question is resolved</ResolvedChip>
-      ) : null}
+      )}
     </Heading>
     <Content>
       <Text>{text}</Text>
@@ -142,7 +143,7 @@ const Question: React.FC<Question> = ({
         ))}
         <span data-kind="primary">{responses.count} responses</span>
         <span>
-          {responses.count ? responses.lastReponseAt : 'Write response'}
+          {responses.count ? responses.lastResponseAt : 'Write response'}
         </span>
       </ResponsesButton>
       {children}
@@ -190,7 +191,7 @@ const Topic = styled.h5`
   font-weight: 500;
   font-size: 18px;
   line-height: 36px;
-  color: #000000;
+  color: var(${theme.palette.bnw0});
   margin: 0;
 `;
 
@@ -203,7 +204,7 @@ const AuthorImage = styled.img`
 const When = styled.div`
   font-size: 15px;
   line-height: 36px;
-  color: #a39bb2;
+  color: var(${theme.palette.bnw600});
 `;
 
 const Content = styled.div`
@@ -215,7 +216,7 @@ const Content = styled.div`
 const Text = styled.div`
   font-size: 15px;
   line-height: 21px;
-  color: #1a1e23;
+  color: var(${theme.palette.bnw200});
 `;
 
 const ResponsesButton = styled.div`
@@ -248,11 +249,11 @@ const ResponsesButton = styled.div`
     display: inline-block;
     font-size: 15px;
     line-height: 24px;
-    color: #a39bb2;
+    color: var(${theme.palette.bnw600});
     margin-left: 9px;
 
     &[data-kind='primary'] {
-      color: #007bff;
+      color: var(${theme.palette.wizard});
     }
   }
 `;
@@ -265,16 +266,16 @@ const QuestionContainer = styled.div`
   border-radius: 6px;
 
   &:hover {
-    background-color: #f7f6f9;
+    background-color: var(${theme.palette.bnw900});
 
     & ${ResponsesButton} {
-      border-color: #e7e5ee;
+      border-color: var(${theme.palette.bnw850});
     }
   }
 `;
 
 const Mention = styled.span`
-  color: #007bff;
+  color: var(${theme.palette.wizard});
 `;
 
 const ResolvedChip = styled.div`
@@ -283,12 +284,12 @@ const ResolvedChip = styled.div`
   font-size: 12px;
   line-height: 22px;
   padding: 0 9px;
-  color: #a39bb2;
-  background-color: #f7f6f9;
+  color: var(${theme.palette.bnw600});
+  background-color: var(${theme.palette.bnw900});
 
   &[data-kind='primary'] {
     color: white;
-    background-color: #683aef;
+    background-color: var(${theme.palette.wizard550});
   }
 `;
 
