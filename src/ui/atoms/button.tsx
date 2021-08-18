@@ -92,9 +92,8 @@ const ButtonStyled = styled.button<{
   height: var(--size);
   border-radius: 3px;
 
-  font-size: 1rem;
   display: flex;
-  font-size: 1.125rem;
+  font-size: 1rem;
   height: 42px;
   outline: 0;
   padding: 0 1.125rem;
