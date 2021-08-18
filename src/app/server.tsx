@@ -13,11 +13,10 @@ import {
   $cookiesFromResponse,
   setCookiesForRequest,
 } from '@box/api/request';
-import { $lastPushed } from '@box/entities/navigation';
+import { $redirectTo } from '@box/entities/navigation';
 import {
   Event,
   allSettled,
-  createEvent,
   fork,
   forward,
   guard,
@@ -27,7 +26,7 @@ import {
 } from 'effector-root';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { Hatch, HatchParams, getHatch } from 'framework';
+import { HatchParams, getHatch } from 'framework';
 import type { Http2Server } from 'http2';
 import { MatchedRoute, matchRoutes } from 'react-router-config';
 import { ROUTES } from '@box/pages/routes';
@@ -149,7 +148,7 @@ sample({
 
 sample({
   source: serverStarted,
-  clock: $lastPushed,
+  clock: $redirectTo,
   fn: ({ res }, redirectUri) => ({ res, redirectUri }),
 }).watch(({ res, redirectUri }) => res.redirect(redirectUri));
 
