@@ -8,9 +8,6 @@ import {
   iconUserBg,
 } from '@box/ui';
 import { theme } from '@box/lib/theme';
-import { withStart } from '@box/lib/page-routing';
-
-import * as model from './model';
 
 export const SkeletonLayout = () => {
   return (
@@ -63,8 +60,6 @@ export const SkeletonLayout = () => {
   );
 };
 
-withStart(model.pageLoaded, SkeletonLayout);
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,6 +77,7 @@ const UserHeader = styled.div`
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
   position: relative;
+
   & > *:not(:first-child) {
     align-self: start;
     justify-self: flex-end;
