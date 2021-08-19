@@ -2,11 +2,11 @@ export const paths = {
   home: () => '/',
   /** @test */
   comments: () => '/comments',
-  card: (cardId: string) => `/card/${cardId}`,
-  cardEdit: (cardId: string) => `/card/${cardId}/edit`,
+  cardView: (cardId = ':cardId') => `/card/${cardId}`,
+  cardEdit: (cardId = ':cardId') => `/card/${cardId}/edit`,
   cardCreate: () => `/card/new`,
   oauthDone: () => '/accesso/done',
-  user: (username: string) => `/u/${username}`,
+  user: (username = ':username') => `/u/${username}`,
   search: (query = '') => {
     if (query) return `/search?query=${query}`;
     return '/search';

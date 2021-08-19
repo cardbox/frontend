@@ -40,7 +40,7 @@ export const HomePage: React.FC = withHatch(model.hatch, () => {
   );
 
   const handleCardHref = useCallback((card: Card) => {
-    return paths.card(card.id);
+    return paths.cardView(card.id);
   }, []);
 
   return (

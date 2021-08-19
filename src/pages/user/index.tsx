@@ -82,7 +82,7 @@ export const UserPage = () => {
                 cards={cards}
                 // FIXME: optimize rerenders
                 getUser={() => userInfo}
-                getHref={(card) => paths.card(card.id)}
+                getHref={(card) => paths.cardView(card.id)}
                 getUserHref={() => paths.user(userInfo.username)}
                 loading={isLoading}
               />

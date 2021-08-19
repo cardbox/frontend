@@ -99,7 +99,7 @@ const CardResults = () => {
   return (
     <CardList
       cards={cards}
-      getHref={(card) => paths.card(card.id)}
+      getHref={(card) => paths.cardView(card.id)}
       loading={isLoading}
       getUser={(card) => usersMap[card.authorId]}
     />

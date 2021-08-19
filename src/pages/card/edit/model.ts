@@ -59,7 +59,7 @@ guard({
 sample({
   clock: merge([cardUpdateFx.done, formEditReset]),
   source: cardModel.$currentCardId,
-  fn: (cardId) => (cardId ? paths.card(cardId) : paths.home()),
+  fn: (cardId) => (cardId ? paths.cardView(cardId) : paths.home()),
   target: historyPush,
 });
 

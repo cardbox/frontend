@@ -32,7 +32,7 @@ guard({
 // Редиректим на страницу созданной карточки после сохранения изменений
 sample({
   clock: cardCreateFx.done,
-  fn: ({ result }) => paths.card(result.answer.card.id),
+  fn: ({ result }) => paths.cardView(result.answer.card.id),
   target: historyPush,
 });
 

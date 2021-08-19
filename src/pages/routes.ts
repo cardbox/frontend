@@ -13,10 +13,10 @@ export const ROUTES = [
   { exact: true, path: paths.home(), component: HomePage },
   { exact: true, path: paths.comments(), component: CommentsPage },
   { exact: true, path: paths.cardCreate(), component: CardCreatePage },
-  { exact: true, path: paths.card(':cardId'), component: CardViewPage },
-  { exact: true, path: paths.cardEdit(':cardId'), component: CardEditPage },
+  { exact: true, path: paths.cardView(), component: CardViewPage },
+  { exact: true, path: paths.cardEdit(), component: CardEditPage },
   { exact: true, path: paths.oauthDone(), component: OAuthDonePage },
-  { exact: true, path: paths.user(':username'), component: UserPage },
+  { exact: true, path: paths.user(), component: UserPage },
   { exact: true, path: paths.search(), component: SearchPage },
   { path: '*', component: Error404Page },
 ];
