@@ -1,5 +1,4 @@
 import * as sessionModel from '@box/entities/session';
-import { StartParams } from '@box/lib/page-routing';
 import type { User } from '@box/api';
 import {
   attach,
@@ -8,9 +7,11 @@ import {
   createStore,
   guard,
   restore,
+  root,
   sample,
 } from 'effector-root';
 import { cardModel } from '@box/entities/card';
+import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
@@ -18,15 +19,13 @@ import { paths } from '@box/pages/paths';
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
 export const usersGetFx = attach({ effect: internalApi.usersGet });
-export const pageLoaded = createEvent<StartParams>();
-export const $pagePending = restore(cardsGetFx.pending.updates, true);
+
+export const hatch = createHatch(root.createDomain('CardViewPage'));
 export const deleteCard = createEvent();
 
-sample({
-  source: pageLoaded,
-  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
-  target: cardsGetFx,
-});
+export const $currentCard = cardModel.$currentCard;
+export const $cardAuthor = createStore<User | null>(null);
+export const $pagePending = restore(cardsGetFx.pending.updates, true);
 
 export const $pageTitle = combine(
   {
@@ -41,14 +40,18 @@ export const $pageTitle = combine(
 );
 
 export const $isAuthorViewing = combine(
-  {
-    card: cardModel.$currentCard,
-    viewer: sessionModel.$session,
-  },
-  ({ card, viewer }) => {
-    return card?.authorId === viewer?.id;
+  cardModel.$currentCard,
+  sessionModel.$session,
+  (card, viewer) => {
+    return viewer && viewer.id === card?.authorId;
   },
 );
+
+sample({
+  clock: [hatch.enter, hatch.update],
+  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
+  target: cardsGetFx,
+});
 
 // Обработка события удаления карточки
 guard({
@@ -67,5 +70,4 @@ sample({
 });
 
 // FIXME: move to entities/user?
-export const $cardAuthor = createStore<User | null>(null);
 $cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);
