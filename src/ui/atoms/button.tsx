@@ -39,6 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
         type={type}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...buttonProps}
+        ref={ref}
       >
         {icon && <span>{icon}</span>}
         {children && <span>{children}</span>}
@@ -93,9 +94,7 @@ const ButtonStyled = styled.button<{
   height: var(--size);
   border-radius: 3px;
 
-  display: flex;
   font-size: 1rem;
-  height: 42px;
   outline: 0;
   padding: 0 1.125rem;
   transition: 0.25s;

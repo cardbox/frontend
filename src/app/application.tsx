@@ -80,5 +80,5 @@ const PagesContainer = styled.div`
 
 //Чтобы скролл страницы не сдвигал ее по горизонтали влево, иначе страница будет отцентрована левее чем хедер.
 const PagesContent = styled.div`
-  width: 100vw;
+  width: 100%;
 `;

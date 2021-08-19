@@ -20,11 +20,17 @@ guard({
   target: formCreateSubmitted,
 });
 
+formCreateSubmitted.watch(() => {
+  console.log('!!');
+});
 // Обрабатываем отправку формы
 guard({
   clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
-  source: cardDraftModel.$draft.map(({ id, ...data }) => ({ body: data })),
+  source: cardDraftModel.$draft.map(({ id, ...data }) => {
+    // console.log(data);
+    return { body: data };
+  }),
   filter: cardDraftModel.$isValidDraft,
   target: cardCreateFx,
 });
@@ -37,13 +43,13 @@ sample({
 });
 
 // Ивент, который ресетит форму при эмите его со страницы создания карточки
-const formCreaetReset = createEvent<string>();
+const formCreateReset = createEvent<string>();
 
 // Реагируем на ресетит формы только если ресет происходит на странице создания
 guard({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'create',
-  target: formCreaetReset,
+  target: formCreateReset,
 });
 
 // Редиректим на home-страницу после отмены изменений

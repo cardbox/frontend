@@ -14,6 +14,8 @@ export const Form = ({ okText, _name }: Props) => (
     <Header>
       <Controls.EditTitle />
     </Header>
+    <Controls.Tags />
+    <Controls.TagInput />
     <Content>
       <Controls.EditContent />
     </Content>

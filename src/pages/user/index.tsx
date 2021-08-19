@@ -206,8 +206,8 @@ const UserLocation = styled(UserFaceDescription)`
   margin-top: 0;
 `;
 
-const Icon = styled.img<{ margin?: string }>`
-  margin: ${({ margin }) => margin || 0};
+const Icon = styled.img`
+  margin: 0;
 `;
 
 const UserCards = styled.div`

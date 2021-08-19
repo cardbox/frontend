@@ -1,6 +1,14 @@
 import * as editorLib from '@box/lib/editor';
 import type { CardContent } from '@box/api';
-import { combine, createDomain, createEvent } from 'effector-root';
+import {
+  StoreValue,
+  combine,
+  createDomain,
+  createEvent,
+  guard,
+  sample,
+} from 'effector-root';
+import { condition } from 'patronum/condition';
 import { every } from 'patronum/every';
 import { internalApi } from '@box/api';
 import { isNonEmpty } from '@box/lib/fp';
@@ -9,6 +17,10 @@ import { spread } from 'patronum/spread';
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
 export const formSubmitted = createEvent<string>();
+export const newTagChanged = createEvent<string>();
+export const newTagSubmitted = createEvent();
+export const existingTagRemoved = createEvent<string>();
+export const lastTagRemoved = createEvent();
 
 // Need only for cross-draft reset
 // FIXME: remove after converting to page-unique fabric
@@ -18,10 +30,11 @@ export const formReset = createEvent<string>();
 
 const draft = createDomain();
 
-export const $id = draft.createStore<string>('');
-export const $title = draft.createStore<string>('');
+export const $id = draft.createStore('');
+export const $title = draft.createStore('');
 export const $content = draft.createStore<CardContent>(editorLib.INITIAL_VALUE);
 export const $tags = draft.createStore<string[]>([]);
+export const $newTagInput = draft.createStore('');
 
 export const $isValidId = $id.map(isNonEmpty);
 export const $isValidTitle = $title.map(isNonEmpty);
@@ -43,7 +56,13 @@ export const $draft = combine({
   content: $content,
   tags: $tags,
 });
-export type Draft = import('effector').StoreValue<typeof $draft>;
+$title.watch((title) => {
+  console.log('title', title);
+});
+$draft.watch((data) => {
+  console.log(data);
+});
+export type Draft = StoreValue<typeof $draft>;
 
 // Init
 spread({
@@ -59,6 +78,19 @@ spread({
 // Update
 $title.on(titleChanged, (_, payload) => payload);
 $content.on(contentChanged, (_, payload) => payload);
+$newTagInput.on(newTagChanged, (_, payload) => payload);
+const saveNewTag = guard({
+  clock: newTagSubmitted,
+  source: $newTagInput,
+  filter: Boolean,
+});
+$tags
+  .on(saveNewTag, (tags, newTag) => [...tags, newTag])
+  .on(existingTagRemoved, (tags, tagToRemove) =>
+    tags.filter((tag) => tag !== tagToRemove),
+  )
+  .on(lastTagRemoved, (tags) => tags.slice(0, -1));
+$newTagInput.reset(saveNewTag);
 
 // Reset
 draft.onCreateStore((store) => {
