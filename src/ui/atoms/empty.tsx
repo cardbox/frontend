@@ -24,7 +24,3 @@ const EmptyBlock = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-// const EmptyIcon = styled.img<{ margin?: string }>`
-//   margin: ${({ margin }) => margin || 0};
-// `;

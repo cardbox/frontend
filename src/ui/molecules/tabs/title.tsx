@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useCallback } from 'react';
 import { theme } from '@box/lib/theme';
 
-import { Button } from '../../atoms/button';
+import { Button } from '../../atoms';
 
 interface TitleProps {
   title: string;

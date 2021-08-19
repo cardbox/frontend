@@ -159,7 +159,14 @@ const palette: Record<AllKeys, string> = {
   ...noticeApi,
   ...successApi,
 };
+type SpacingParams =
+  | []
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number];
 
+const getPx = (space = 1) => `${space * 6}px`;
 export const theme = {
   palette,
   shadows: [
@@ -168,5 +175,19 @@ export const theme = {
     `0px 6px 9px var(${palette.bnw900})`,
     '0 3px 9px #ebebeb',
   ],
-  spacing: (space = 1) => space * 6,
+  spacing: (...spaces: SpacingParams) => {
+    const [top, right, bottom, left] = spaces;
+    switch (spaces.length) {
+      case 0:
+        return getPx();
+      case 1:
+        return getPx(top);
+      case 2:
+        return `${getPx(top)} ${getPx(right)}`;
+      case 3:
+        return `${getPx(top)} ${getPx(right)} ${getPx(bottom)}`;
+      default:
+        return `${getPx(top)} ${getPx(right)} ${getPx(bottom)} ${getPx(left)}`;
+    }
+  },
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '@box/lib/theme';
 
@@ -10,7 +10,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   icon?: React.ReactNode;
   // FIXME: MutableRefObject not suit for forwardRef
-  ref?: any;
+  ref?: MutableRefObject<HTMLButtonElement>;
 };
 
 /**
@@ -39,6 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
         type={type}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...buttonProps}
+        ref={ref}
       >
         {icon && <span>{icon}</span>}
         {children && <span>{children}</span>}
@@ -93,9 +94,7 @@ const ButtonStyled = styled.button<{
   height: var(--size);
   border-radius: 3px;
 
-  display: flex;
   font-size: 1rem;
-  height: 42px;
   outline: 0;
   padding: 0 1.125rem;
   transition: 0.25s;
