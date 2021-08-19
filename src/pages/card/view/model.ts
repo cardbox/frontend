@@ -1,5 +1,5 @@
 import * as sessionModel from '@box/entities/session';
-import type { User } from '@box/api';
+import type { Card, User } from '@box/api';
 import {
   attach,
   combine,
@@ -12,27 +12,36 @@ import {
 } from 'effector-root';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
+import { debug } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
+
+export const hatch = createHatch(root.createDomain('CardViewPage'));
+export const hatch2 = createHatch(root.createDomain('CardViewPage2'));
+
+console.log('++++++++', hatch.enter.sid);
+console.log('++++++++', hatch2.enter.sid);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
 export const usersGetFx = attach({ effect: internalApi.usersGet });
 
-export const hatch = createHatch(root.createDomain('CardViewPage'));
 export const deleteCard = createEvent();
 
-export const $currentCard = cardModel.$currentCard;
+export const $currentCard = combine(
+  cardModel.$cardsCache,
+  hatch.$params,
+  ({ cache }, params) => cache[params.cardId] ?? null,
+);
 export const $cardAuthor = createStore<User | null>(null);
 export const $pagePending = restore(cardsGetFx.pending.updates, true);
 
 export const $pageTitle = combine(
-  {
-    card: cardModel.$currentCard,
-    isLoading: $pagePending,
-  },
-  ({ card, isLoading }) => {
+  $currentCard,
+  $pagePending,
+
+  (card, isLoading) => {
     if (isLoading) return 'Loading...';
     if (!card) return 'Card not found';
     return card.title;
@@ -40,11 +49,16 @@ export const $pageTitle = combine(
 );
 
 export const $isAuthorViewing = combine(
-  cardModel.$currentCard,
+  $currentCard,
   sessionModel.$session,
   (card, viewer) => {
     return viewer && viewer.id === card?.authorId;
   },
+);
+
+debug(hatch.enter, hatch.update, cardsGetFx);
+$currentCard.watch((value) =>
+  console.info(`[store] ${$currentCard.shortName} ${$currentCard.sid}`, value),
 );
 
 sample({
@@ -56,9 +70,12 @@ sample({
 // Обработка события удаления карточки
 guard({
   clock: deleteCard,
-  source: cardModel.$currentCardId,
-  filter: (id): id is string => id !== null,
-  target: cardsDeleteFx.prepend((cardId: string) => ({ body: { cardId } })),
+  source: $currentCard,
+  filter: (card): card is Card => card !== null,
+  // TODO: prevent calling FX if current user is not an author of card
+  target: cardsDeleteFx.prepend((card: Card) => ({
+    body: { cardId: card.id },
+  })),
 });
 
 // Возвращаем на домашнюю страницу после события удаления карточки

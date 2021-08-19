@@ -36,10 +36,10 @@ export const $cookiesFromResponse = restore(setCookiesFromResponse, '');
 
 export const sendRequestFx = createEffect<Request, Answer, Answer>();
 
-export const requestFx: Effect<Request, Answer, Answer> = attach({
+export const requestFx = attach({
   effect: sendRequestFx,
   source: $cookiesForRequest,
-  mapParams: (parameters, cookies) => ({ ...parameters, cookies }),
+  mapParams: (parameters: Request, cookies) => ({ ...parameters, cookies }),
 });
 
 if (process.env.BUILD_TARGET === 'server') {

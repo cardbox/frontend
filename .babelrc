@@ -1,13 +1,20 @@
 {
   "plugins": [
-    ["effector/babel-plugin", { "addLoc": true }],
-    [
-      "styled-components",
-      {
-        "displayName": true,
-        "ssr": true
-      }
-    ],
-    ["@babel/plugin-proposal-export-namespace-from"]
-  ]
+    ["effector/babel-plugin", {
+      "addLoc": true,
+      "addNames": true,
+      "factories": []
+    }],
+    ["styled-components",
+    {
+      "displayName": true,
+      "ssr": true
+    }],
+    ["@babel/plugin-proposal-export-namespace-from"],
+    ["effector/babel-plugin", {
+      "noDefaults": true,
+      "factories": ["framework"]
+    }, "framework"]
+  ],
+  "presets": []
 }
