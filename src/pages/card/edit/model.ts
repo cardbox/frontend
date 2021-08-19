@@ -1,13 +1,13 @@
-import { StartParams } from '@box/lib/page-routing';
-import { attach, createEvent, guard, merge, sample } from 'effector-root';
+import { attach, createEvent, guard, merge, root, sample } from 'effector-root';
 import { cardDraftModel } from '@box/features/card/draft';
 import { cardModel } from '@box/entities/card';
+import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
-export const pageLoaded = createEvent<StartParams>();
+export const hatch = createHatch(root.createDomain('CardEditPage'));
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
@@ -17,7 +17,7 @@ export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
 
 // Подгружаем данные после монтирования страницы
 sample({
-  source: pageLoaded,
+  clock: [hatch.enter, hatch.update],
   fn: ({ params: { cardId } }) => ({ body: { cardId } }),
   target: cardsGetFx,
 });
