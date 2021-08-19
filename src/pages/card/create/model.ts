@@ -1,12 +1,12 @@
-import { StartParams } from '@box/lib/page-routing';
-import { attach, createEvent, guard, sample } from 'effector-root';
+import { attach, createEvent, guard, root, sample } from 'effector-root';
 import { cardDraftModel } from '@box/features/card/draft';
+import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
-export const pageLoaded = createEvent<StartParams>();
+export const hatch = createHatch(root.createDomain('CardCreatePage'));
 
 export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 
@@ -58,6 +58,6 @@ sample({
 // - успешной отправке
 // FIXME: Позднее будет обеспечиваться фабриками модели для страницы
 sample({
-  clock: [cardCreateFx.done, pageLoaded],
+  clock: [cardCreateFx.done, hatch.enter],
   target: cardDraftModel._formInit,
 });
