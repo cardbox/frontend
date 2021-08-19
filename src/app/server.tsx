@@ -14,8 +14,15 @@ import {
   setCookiesForRequest,
 } from '@box/api/request';
 import { $redirectTo } from '@box/entities/navigation';
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { HatchParams, getHatch } from 'framework';
+import type { Http2Server } from 'http2';
+import { ROUTES } from '@box/pages/routes';
+import { RouteGenericInterface } from 'fastify/types/route';
+import { ServerStyleSheet } from 'styled-components';
+import { StaticRouter } from 'react-router-dom';
 import {
-  Event,
   allSettled,
   fork,
   forward,
@@ -24,17 +31,8 @@ import {
   sample,
   serialize,
 } from 'effector-root';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { HatchParams, getHatch } from 'framework';
-import type { Http2Server } from 'http2';
-import { MatchedRoute, matchRoutes } from 'react-router-config';
-import { ROUTES } from '@box/pages/routes';
-import { RouteGenericInterface } from 'fastify/types/route';
-import { ServerStyleSheet } from 'styled-components';
-import { StartParams, getStart } from '@box/lib/page-routing';
-import { StaticRouter } from 'react-router-dom';
 import { logger } from '@box/lib/logger';
+import { matchRoutes } from 'react-router-config';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
@@ -312,15 +310,6 @@ fastifyInstance.get('/*', async function (req, res) {
       ),
     );
 
-  // if (request.user) {
-  //   response.setHeader('Cache-Control', 's-maxage=0, private');
-  // } else {
-  //   response.setHeader(
-  //     'Cache-Control',
-  //     `s-maxage=${ONE_HOUR}, stale-while-revalidate=${FIVE_MINUTES}, must-revalidate`,
-  //   );
-  // }
-
   res.send(stream);
   cleanUp();
 
@@ -345,51 +334,40 @@ interface EndProps {
   helmet: FilledContext['helmet'];
 }
 
-function htmlStart(p: StartProps) {
+function htmlStart(props: StartProps) {
   return `<!doctype html>
-    <html ${p.helmet.htmlAttributes.toString()} lang='en'>
+  <html ${props.helmet.htmlAttributes.toString()} lang='en'>
     <head>
-        ${p.helmet.base.toString()}
-        ${p.helmet.meta.toString()}
-        ${p.helmet.title.toString()}
-        ${p.helmet.link.toString()}
-        ${p.helmet.style.toString()}
-        ${p.assetsCss ? `<link rel='stylesheet' href='${p.assetsCss}'>` : ''}
-          ${
-            process.env.NODE_ENV === 'production'
-              ? `<script src='${p.assetsJs}' defer></script>`
-              : `<script src='${p.assetsJs}' defer crossorigin></script>`
-          }
+      ${props.helmet.base.toString()}
+      ${props.helmet.meta.toString()}
+      ${props.helmet.title.toString()}
+      ${props.helmet.link.toString()}
+      ${props.helmet.style.toString()}
+      ${
+        props.assetsCss
+          ? `<link rel='stylesheet' href='${props.assetsCss}'>`
+          : ''
+      }
+      ${
+        process.env.NODE_ENV === 'production'
+          ? `<script src='${props.assetsJs}' defer></script>`
+          : `<script src='${props.assetsJs}' defer crossorigin></script>`
+      }
     </head>
-    <body ${p.helmet.bodyAttributes.toString()}>
-        <div id='root'>`;
+    <body ${props.helmet.bodyAttributes.toString()}>
+      <div id='root'>`;
 }
 
-function htmlEnd(p: EndProps) {
+function htmlEnd(props: EndProps) {
   return `</div>
-        <script>
-          window['INITIAL_STATE'] = ${JSON.stringify(p.storesValues)}
-        </script>
-        ${p.helmet.script.toString()}
-        ${p.helmet.noscript.toString()}
-    </body>
+    <script>
+      window['INITIAL_STATE'] = ${JSON.stringify(props.storesValues)}
+    </script>
+    ${props.helmet.script.toString()}
+    ${props.helmet.noscript.toString()}
+  </body>
 </html>
   `;
-}
-
-function lookupStartEvent<P>(
-  match: MatchedRoute<P>,
-): Event<StartParams> | undefined {
-  if (match.route.component) {
-    return getStart(match.route.component);
-  }
-  return undefined;
-}
-
-function routeWithEvent(event: Event<StartParams>) {
-  return function <P>(route: MatchedRoute<P>) {
-    return lookupStartEvent(route) === event;
-  };
 }
 
 function isRedirected(response: FastifyReply<Http2Server>): boolean {
