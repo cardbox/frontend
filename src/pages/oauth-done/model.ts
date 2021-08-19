@@ -1,38 +1,32 @@
 import { $session } from '@box/entities/session';
+import { attach, root, sample } from 'effector-root';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
-import { root, sample } from 'effector-root';
 
 import { paths } from '../paths';
 
 export const hatch = createHatch(root.createDomain('OAuthDonePage'));
 
+const authDoneFx = attach({ effect: internalApi.authDone });
+
 sample({
-  source: hatch.enter,
-  target: internalApi.authDone,
-  fn: (source) => {
-    return {
-      body: {
-        authorizationCode: source.query.code,
-      },
-    };
-  },
+  clock: hatch.enter,
+  fn: ({ query }) => ({ body: { authorizationCode: query.code } }),
+  target: authDoneFx,
 });
 
 sample({
-  source: internalApi.authDone.doneData,
+  clock: authDoneFx.doneData,
+  fn: ({ answer: { user } }) => ({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  }),
   target: $session,
-  fn: (source) => {
-    return {
-      id: source.answer.user.id,
-      firstName: source.answer.user.firstName,
-      lastName: source.answer.user.lastName,
-    };
-  },
 });
 
 sample({
-  source: internalApi.authDone.doneData,
+  source: authDoneFx.doneData,
   target: historyPush.prepend(paths.home),
 });
