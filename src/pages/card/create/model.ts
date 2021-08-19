@@ -24,10 +24,7 @@ guard({
 guard({
   clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
-  source: cardDraftModel.$draft.map(({ id, ...data }) => {
-    // console.log(data);
-    return { body: data };
-  }),
+  source: cardDraftModel.$draft.map(({ id, ...data }) => ({ body: data })),
   filter: cardDraftModel.$isValidDraft,
   target: cardCreateFx,
 });
