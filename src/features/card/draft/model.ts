@@ -6,9 +6,7 @@ import {
   createDomain,
   createEvent,
   guard,
-  sample,
 } from 'effector-root';
-import { condition } from 'patronum/condition';
 import { every } from 'patronum/every';
 import { internalApi } from '@box/api';
 import { isNonEmpty } from '@box/lib/fp';
@@ -55,12 +53,6 @@ export const $draft = combine({
   title: $title,
   content: $content,
   tags: $tags,
-});
-$title.watch((title) => {
-  console.log('title', title);
-});
-$draft.watch((data) => {
-  console.log(data);
 });
 export type Draft = StoreValue<typeof $draft>;
 

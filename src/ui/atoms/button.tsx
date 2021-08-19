@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '@box/lib/theme';
 
@@ -10,7 +10,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   icon?: React.ReactNode;
   // FIXME: MutableRefObject not suit for forwardRef
-  ref?: any;
+  ref?: MutableRefObject<HTMLButtonElement>;
 };
 
 /**

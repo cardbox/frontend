@@ -20,9 +20,6 @@ guard({
   target: formCreateSubmitted,
 });
 
-formCreateSubmitted.watch(() => {
-  console.log('!!');
-});
 // Обрабатываем отправку формы
 guard({
   clock: formCreateSubmitted,
