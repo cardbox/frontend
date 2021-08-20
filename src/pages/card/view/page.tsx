@@ -16,15 +16,15 @@ import { paths } from '../../paths';
 // eslint-disable-next-line prettier/prettier
 const DELETE_WARN = 'Are you sure you want to delete this card?';
 
-const $currentCard = createStore<Card | null>(null);
-const $pagePending = createStore(false);
-const $pageTitle = createStore('');
-const $cardAuthor = createStore<User | null>(null);
-const $isAuthorViewing = createStore(false);
+export const $currentCard = createStore<Card | null>(null);
+export const $pagePending = createStore(false);
+export const $pageTitle = createStore('');
+export const $cardAuthor = createStore<User | null>(null);
+export const $isAuthorViewing = createStore(false);
 
 debug($currentCard, $pagePending, $pageTitle, $cardAuthor, $isAuthorViewing);
 
-const deleteCard = createEvent();
+export const deleteCard = createEvent();
 
 export const CardViewPage = () => {
   const card = useStore($currentCard);
