@@ -32,7 +32,7 @@ export const deleteCard = createEvent();
 export const $currentCard = combine(
   cardModel.$cardsCache,
   hatch.$params,
-  ({ cache }, params) => cache[params.cardId] ?? null,
+  ({ cache }, params) => (cache[params.cardId] ?? null) as Card | null,
 );
 export const $cardAuthor = createStore<User | null>(null);
 export const $pagePending = restore(cardsGetFx.pending.updates, true);
@@ -52,7 +52,7 @@ export const $isAuthorViewing = combine(
   $currentCard,
   sessionModel.$session,
   (card, viewer) => {
-    return viewer && viewer.id === card?.authorId;
+    return !!viewer && viewer.id === card?.authorId;
   },
 );
 
