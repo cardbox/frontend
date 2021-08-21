@@ -12,6 +12,7 @@ export const $pagePending = restore(cardsFeedFx.pending.updates, true);
 // FIXME: move to entities/card level later? (as cache store?)
 export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
+export const $usersMap = userModel.$usersMap;
 
 sample({
   source: hatch.enter,

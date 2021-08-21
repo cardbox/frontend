@@ -12,16 +12,11 @@ import {
 } from 'effector-root';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
-import { debug } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
 
 export const hatch = createHatch(root.createDomain('CardViewPage'));
-export const hatch2 = createHatch(root.createDomain('CardViewPage2'));
-
-console.log('++++++++', hatch.enter.sid);
-console.log('++++++++', hatch2.enter.sid);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
@@ -54,11 +49,6 @@ export const $isAuthorViewing = combine(
   (card, viewer) => {
     return !!viewer && viewer.id === card?.authorId;
   },
-);
-
-debug(hatch.enter, hatch.update, cardsGetFx);
-$currentCard.watch((value) =>
-  console.info(`[store] ${$currentCard.shortName} ${$currentCard.sid}`, value),
 );
 
 sample({

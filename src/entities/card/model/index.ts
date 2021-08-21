@@ -9,7 +9,7 @@ export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
 });
 
-debug($cardsCache);
+// debug($cardsCache);
 
 export const $cards = createStore<Card[]>([]);
 export const $currentCard = createStore<Card | null>(null);

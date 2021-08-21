@@ -7,7 +7,6 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector-root';
-import { debug } from 'patronum';
 import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -22,8 +21,6 @@ export const $pageTitle = createStore('');
 export const $cardAuthor = createStore<User | null>(null);
 export const $isAuthorViewing = createStore(false);
 
-debug($currentCard, $pagePending, $pageTitle, $cardAuthor, $isAuthorViewing);
-
 export const deleteCard = createEvent();
 
 export const CardViewPage = () => {
@@ -32,14 +29,6 @@ export const CardViewPage = () => {
   const pageTitle = useStore($pageTitle);
   const author = useStore($cardAuthor);
   const isAuthorViewing = useStore($isAuthorViewing);
-
-  console.log({
-    card,
-    isLoading,
-    pageTitle,
-    author,
-    isAuthorViewing,
-  });
 
   const handleDeleteCard = useEvent(deleteCard);
 
