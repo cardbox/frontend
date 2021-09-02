@@ -159,7 +159,7 @@ function syncLoadAssets() {
 
 syncLoadAssets();
 
-export const fastifyInstance = (() => {
+function createFastify() {
   if (process.env.NODE_ENV === 'development') {
     const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
     const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
@@ -183,7 +183,7 @@ export const fastifyInstance = (() => {
         },
       };
     } catch (error) {
-      if (error.code === 'ENOENT') {
+      if ((error as any).code === 'ENOENT') {
         logger.error(
           `\n\n---------\n` +
             `ERROR! No local certificates found in ./tls directory.\n` +
@@ -218,7 +218,9 @@ export const fastifyInstance = (() => {
     logger,
     http2: true,
   });
-})();
+}
+
+export const fastifyInstance = createFastify();
 
 const BACKEND_URL = process.env.BACKEND_URL ?? 'http://localhost:9110';
 

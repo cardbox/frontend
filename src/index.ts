@@ -2,9 +2,10 @@ import type { FastifyInstance } from 'fastify';
 import type { Http2Server } from 'http2';
 import { logger } from '@box/lib/logger';
 
+import * as app from './app/server';
+
 // this require is necessary for server HMR to recover from error
-let server: FastifyInstance<Http2Server> =
-  require('./app/server').fastifyInstance;
+let server: FastifyInstance<Http2Server> = app.fastifyInstance;
 
 process.on('unhandledRejection', (error) => {
   // Will print "unhandledRejection err is not defined"
@@ -20,7 +21,7 @@ process.on('unhandledRejection', (error) => {
 
 const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);
 
-server.listen(PORT, '0.0.0.0').catch(logger.error);
+server.listen(PORT, 'localhost').catch(logger.error);
 
 if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
@@ -31,10 +32,10 @@ if (module.hot) {
       server.close(() => {
         server = require('./app/server').fastifyInstance;
 
-        server.listen(PORT, '0.0.0.0').catch(logger.error);
+        server.listen(PORT, 'localhost').catch(logger.error);
       });
     } catch (error) {
-      logger.error(error);
+      logger.error(error as any);
     }
   });
 }
