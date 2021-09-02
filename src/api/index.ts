@@ -1,2 +1,7 @@
-export * as internalApi from './internal';
-export * from './types';
+export interface Card {
+  title: string,
+}
+
+export interface SessionUser {
+  user: string,
+}

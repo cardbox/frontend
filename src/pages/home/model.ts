@@ -1,36 +1,23 @@
-import type { Card } from '@box/api';
-import { attach, createStore, restore, root, sample } from 'effector-root';
-import { createHatch } from 'framework';
-import { internalApi } from '@box/api';
-import { userModel } from '@box/entities/user';
+import { createEffect, createStore, root, sample } from 'effector-root';
+import { createHatch } from '@box/framework/src';
+import { Card } from '@box/api';
 
-export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
-export const hatch = createHatch(root.createDomain('HomePage'));
+export const hatch = createHatch();
 
-export const $pagePending = restore(cardsFeedFx.pending.updates, true);
+export const cardsFeedFx = createEffect<void, Card[] | null, any>({
+  handler: () => {
+    return [{
+      title: 'from cardsFeedFx',
+    }];
+  },
+});
 
-// FIXME: move to entities/card level later? (as cache store?)
 export const $topCards = createStore<Card[]>([]);
-export const $latestCards = createStore<Card[]>([]);
-export const $usersMap = userModel.$usersMap;
+
+$topCards.on(cardsFeedFx.doneData, (_, cards) => cards ? [...cards] : []);
 
 sample({
   source: hatch.enter,
   target: cardsFeedFx,
 });
 
-$topCards.on(
-  cardsFeedFx.doneData,
-  (_, { answer }) => answer.top.cards as Card[],
-);
-$latestCards.on(
-  cardsFeedFx.doneData,
-  (_, { answer }) => answer.latest.cards as Card[],
-);
-
-// FIXME: move logic to entities level?
-sample({
-  source: cardsFeedFx.doneData,
-  fn: ({ answer }) => [...answer.latest.users, ...answer.top.users],
-  target: userModel.updateMap,
-});

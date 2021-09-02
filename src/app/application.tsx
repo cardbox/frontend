@@ -1,15 +1,10 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Helmet } from 'react-helmet-async';
 import { Provider } from 'effector-react/ssr';
 import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
-import { Searchbar } from '@box/features/search-bar';
-import { customProps } from '@box/lib/theme';
-import { paths } from '@box/pages/paths';
-// FIXME: replace later to usage of entities/viewer
-import { viewer } from '@box/api/mock/fixtures';
+import { Link } from 'react-router-dom';
 
 import { Pages } from '../pages';
 
@@ -28,34 +23,15 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: sans-serif;
   }
-
-  ${customProps}
 `;
 
 export const Application = ({ root }: Props) => (
   <QueryParamProvider ReactRouterRoute={Route}>
     <Provider value={root}>
       <Container>
-        <Helmet
-          htmlAttributes={{ lang: 'en' }}
-          titleTemplate="%s | Cardbox"
-          defaultTitle="Welcome to Cardbox"
-        >
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Helmet>
         <Globals />
-        {/* FIXME:
-          - научиться получать авторизированного пользователя и сюда прокидывать в поле user
-          - или прокидывать в виджет напрямую фичи/сущности (Logo, SearchBar, UserAvatar, NewCard)
-        */}
-        <Searchbar
-          logoHref={paths.home()}
-          viewerHref={paths.user(viewer.username)}
-          newCardHref={paths.cardCreate()}
-        />
         <PagesContainer>
+          <Link to={"card/18bc22a5-bf9b-409a-9913-fb42ef0fcfbe"}> </Link>
           <PagesContent>
             <Pages />
           </PagesContent>

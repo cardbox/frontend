@@ -16,7 +16,7 @@ import {
 import { $redirectTo } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { HatchParams, getHatch } from 'framework';
+import { HatchParams, getHatch } from '@box/framework/src';
 import type { Http2Server } from 'http2';
 import { ROUTES } from '@box/pages/routes';
 import { RouteGenericInterface } from 'fastify/types/route';
@@ -182,7 +182,7 @@ export const fastifyInstance = (() => {
           allowHTTP1: true,
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'ENOENT') {
         logger.error(
           `\n\n---------\n` +

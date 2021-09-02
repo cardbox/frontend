@@ -1,80 +1,27 @@
-import * as sessionModel from '@box/entities/session';
-import type { Card, User } from '@box/api';
-import {
-  attach,
-  combine,
-  createEvent,
-  createStore,
-  guard,
-  restore,
-  root,
-  sample,
-} from 'effector-root';
-import { cardModel } from '@box/entities/card';
-import { createHatch } from 'framework';
-import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
-import { paths } from '@box/pages/paths';
+import { createEffect, createStore, forward, root } from 'effector-root';
+import { Card } from '@box/api';
+import { createHatch } from '@box/framework/src';
 
-export const hatch = createHatch(root.createDomain('CardViewPage'));
-
-export const cardsGetFx = attach({ effect: internalApi.cardsGet });
-export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
-export const usersGetFx = attach({ effect: internalApi.usersGet });
-
-export const deleteCard = createEvent();
-
-export const $currentCard = combine(
-  cardModel.$cardsCache,
-  hatch.$params,
-  ({ cache }, params) => (cache[params.cardId] ?? null) as Card | null,
-);
-export const $cardAuthor = createStore<User | null>(null);
-export const $pagePending = restore(cardsGetFx.pending.updates, true);
-
-export const $pageTitle = combine(
-  $currentCard,
-  $pagePending,
-
-  (card, isLoading) => {
-    if (isLoading) return 'Loading...';
-    if (!card) return 'Card not found';
-    return card.title;
+export const loadCardFx = createEffect<void, Card | null, any>({
+  handler() {
+    return {
+      title: 'Card from loadCardFx',
+    };
   },
-);
-
-export const $isAuthorViewing = combine(
-  $currentCard,
-  sessionModel.$session,
-  (card, viewer) => {
-    return !!viewer && viewer.id === card?.authorId;
-  },
-);
-
-sample({
-  clock: [hatch.enter, hatch.update],
-  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
-  target: cardsGetFx,
 });
 
-// Обработка события удаления карточки
-guard({
-  clock: deleteCard,
-  source: $currentCard,
-  filter: (card): card is Card => card !== null,
-  // TODO: prevent calling FX if current user is not an author of card
-  target: cardsDeleteFx.prepend((card: Card) => ({
-    body: { cardId: card.id },
-  })),
+export const $currentCard = createStore<Card | null>(null);
+
+export const hatch = createHatch();
+
+forward({
+  from: hatch.enter,
+  to: loadCardFx,
 });
 
-// Возвращаем на домашнюю страницу после события удаления карточки
-sample({
-  clock: cardsDeleteFx.done,
-  // FIXME: push later to card.author page
-  fn: () => paths.home(),
-  target: historyPush,
+$currentCard.on(loadCardFx.doneData, (store, card) => {
+  if (card) {
+    return card;
+  }
+  return store;
 });
-
-// FIXME: move to entities/user?
-$cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);

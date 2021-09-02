@@ -2,7 +2,7 @@
 // import { createInspector } from 'effector-inspector';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HatchParams, getHatch } from 'framework';
+import { HatchParams, getHatch } from '@box/framework/src';
 import { HelmetProvider } from 'react-helmet-async';
 import { ROUTES } from '@box/pages/routes';
 import { Router } from 'react-router';
@@ -87,6 +87,10 @@ for (const { component, path } of ROUTES) {
   const hatchEnter = createEvent<HatchParams>({ name: `hatchEnter:${path}` });
   const hatchUpdate = createEvent<HatchParams>({ name: `hatchUpdate:${path}` });
   const hatchExit = createEvent<void>({ name: `hatchExit:${path}` });
+
+  hatchEnter.watch((payload => {
+    console.log('hatchEnter payload', payload);
+  }))
 
   if (hatch) {
     forward({ from: hatchEnter, to: hatch.enter });

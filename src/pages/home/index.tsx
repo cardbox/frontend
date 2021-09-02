@@ -1,5 +1,4 @@
-import { contract, withHatch } from 'framework';
-
+import { contract, withHatch } from '@box/framework/src';
 import * as model from './model';
 import * as page from './page';
 
