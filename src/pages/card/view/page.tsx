@@ -32,6 +32,8 @@ export const CardViewPage = () => {
 
   const handleDeleteCard = useEvent(deleteCard);
 
+  console.log('CARD VIEW PAGE RENDER', { card, isLoading });
+
   return (
     <>
       <Helmet title={pageTitle} />

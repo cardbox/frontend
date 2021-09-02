@@ -16,6 +16,7 @@ import {
   guard,
   root,
 } from 'effector-root';
+import { debug } from 'patronum';
 import {
   history,
   historyChanged,
@@ -59,6 +60,8 @@ const { routeResolved, __: routeNotResolved } = splitMap({
     },
   },
 });
+
+debug(routeResolved);
 
 for (const { component, path } of ROUTES) {
   const hatch = getHatch(component);
@@ -104,6 +107,8 @@ for (const { component, path } of ROUTES) {
   const $onPage = createStore(false, { name: `$onPage:${path}` })
     .on(hatchEnter, () => true)
     .on(hatchExit, () => false);
+
+  debug(routeMatched, hatchEnter, hatchExit, hatchUpdate, $onRoute, $onPage);
 
   guard({
     source: routeMatched,

@@ -8,7 +8,14 @@ let server: FastifyInstance<Http2Server> =
 
 process.on('unhandledRejection', (error) => {
   // Will print "unhandledRejection err is not defined"
-  logger.fatal({ error }, 'unhandledRejection');
+  logger.fatal(
+    {
+      error: String(error),
+      message: error?.['message'],
+      stack: error?.['stack'],
+    },
+    'unhandledRejection',
+  );
 });
 
 const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);

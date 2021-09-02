@@ -220,9 +220,11 @@ export const fastifyInstance = (() => {
   });
 })();
 
+const BACKEND_URL = process.env.BACKEND_URL ?? 'http://localhost:9110';
+
 fastifyInstance.register(fastifyHttpProxy, {
-  upstream: process.env.BACKEND_URL ?? 'http://localhost:9110',
-  http2: true,
+  upstream: BACKEND_URL,
+  http2: BACKEND_URL.includes('https'),
   prefix: '/api/internal',
   logLevel: 'debug',
   replyOptions: {
@@ -256,7 +258,7 @@ fastifyInstance.get('/*', async function (req, res) {
 
   const storesValues = serialize(scope, {
     ignore: [$cookiesForRequest, $cookiesFromResponse],
-    onlyChanges: true,
+    onlyChanges: false,
   });
 
   const routerContext = {};
@@ -343,6 +345,7 @@ function htmlStart(props: StartProps) {
       ${props.helmet.title.toString()}
       ${props.helmet.link.toString()}
       ${props.helmet.style.toString()}
+      <script src='https://unpkg.com/react-render-tracker'></script>
       ${
         props.assetsCss
           ? `<link rel='stylesheet' href='${props.assetsCss}'>`
