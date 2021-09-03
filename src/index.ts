@@ -26,7 +26,7 @@ if (module.hot) {
 
         server.listen(PORT, '0.0.0.0').catch(logger.error);
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.error(error);
     }
   });

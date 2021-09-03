@@ -1,7 +1,7 @@
 export interface Card {
-  title: string,
+  title: string;
 }
 
 export interface SessionUser {
-  user: string,
+  user: string;
 }

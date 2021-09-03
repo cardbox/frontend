@@ -8,14 +8,8 @@ import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyStatic from 'fastify-static';
 import through from 'through';
-import {
-  $cookiesForRequest,
-  $cookiesFromResponse,
-  setCookiesForRequest,
-} from '@box/api/request';
 import { $redirectTo } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { HatchParams, getHatch } from '@box/framework/src';
 import type { Http2Server } from 'http2';
 import { ROUTES } from '@box/pages/routes';
@@ -34,11 +28,11 @@ import {
 import { logger } from '@box/lib/logger';
 import { matchRoutes } from 'react-router-config';
 import { performance } from 'perf_hooks';
-import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
 import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
+import { $currentCard } from '@box/pages/card/view/page';
 
 dotenv.config();
 
@@ -48,8 +42,6 @@ const serverStarted = root.createEvent<{
 }>();
 
 const requestHandled = serverStarted.map(({ req }) => req);
-
-const cookiesReceived = requestHandled.filterMap((r) => r.headers.cookie);
 
 const { routeResolved, __: routeNotResolved } = splitMap({
   source: requestHandled,
@@ -81,16 +73,6 @@ routeNotResolved.watch((req) => {
   );
 });
 
-forward({
-  from: cookiesReceived,
-  to: setCookiesForRequest,
-});
-
-forward({
-  from: serverStarted,
-  to: readyToLoadSession,
-});
-
 for (const { component, path, exact } of ROUTES) {
   if (!component) {
     logger.trace({ component, path, exact }, `No component for path "${path}"`);
@@ -104,7 +86,7 @@ for (const { component, path, exact } of ROUTES) {
   }
 
   const { routeMatched, __: notMatched } = splitMap({
-    source: sample(routeResolved, sessionLoaded),
+    source: routeResolved,
     cases: {
       routeMatched({ route, match, query }) {
         if (route.path === path)
@@ -137,12 +119,6 @@ for (const { component, path, exact } of ROUTES) {
     target: hatch.exit,
   });
 }
-
-sample({
-  source: serverStarted,
-  clock: $cookiesFromResponse,
-  fn: ({ res }, cookies) => ({ res, cookies }),
-}).watch(({ res, cookies }) => res.header('Set-Cookie', cookies));
 
 sample({
   source: serverStarted,
@@ -255,20 +231,21 @@ fastifyInstance.get('/*', async function (req, res) {
   }
 
   const storesValues = serialize(scope, {
-    ignore: [$cookiesForRequest, $cookiesFromResponse],
     onlyChanges: true,
+    ignore: [$currentCard],
   });
+
+  console.log(storesValues);
+
+  delete storesValues.g0v7by;
 
   const routerContext = {};
   const sheet = new ServerStyleSheet();
-  const helmetContext: FilledContext = {} as FilledContext;
 
   const jsx = sheet.collectStyles(
-    <HelmetProvider context={helmetContext}>
       <StaticRouter context={routerContext} location={req.url}>
         <Application root={scope} />
       </StaticRouter>
-    </HelmetProvider>,
   );
 
   if (isRedirected(res)) {
@@ -294,7 +271,6 @@ fastifyInstance.get('/*', async function (req, res) {
           if (!sent) {
             this.queue(
               htmlStart({
-                helmet: helmetContext.helmet,
                 assetsCss: assets.client.css,
                 assetsJs: assets.client.js,
               }),
@@ -304,7 +280,7 @@ fastifyInstance.get('/*', async function (req, res) {
           this.queue(data);
         },
         function end() {
-          this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
+          this.queue(htmlEnd({ storesValues }));
           this.queue(null);
         },
       ),
@@ -326,23 +302,16 @@ fastifyInstance.get('/*', async function (req, res) {
 interface StartProps {
   assetsCss?: string;
   assetsJs: string;
-  helmet: FilledContext['helmet'];
 }
 
 interface EndProps {
   storesValues: Record<string, unknown>;
-  helmet: FilledContext['helmet'];
 }
 
 function htmlStart(props: StartProps) {
   return `<!doctype html>
-  <html ${props.helmet.htmlAttributes.toString()} lang='en'>
+  <html lang='en'>
     <head>
-      ${props.helmet.base.toString()}
-      ${props.helmet.meta.toString()}
-      ${props.helmet.title.toString()}
-      ${props.helmet.link.toString()}
-      ${props.helmet.style.toString()}
       ${
         props.assetsCss
           ? `<link rel='stylesheet' href='${props.assetsCss}'>`
@@ -354,17 +323,15 @@ function htmlStart(props: StartProps) {
           : `<script src='${props.assetsJs}' defer crossorigin></script>`
       }
     </head>
-    <body ${props.helmet.bodyAttributes.toString()}>
+    <body>
       <div id='root'>`;
 }
 
 function htmlEnd(props: EndProps) {
   return `</div>
     <script>
-      window['INITIAL_STATE'] = ${JSON.stringify(props.storesValues)}
+      window['INITIAL_STATE'] = ${JSON.stringify({})}
     </script>
-    ${props.helmet.script.toString()}
-    ${props.helmet.noscript.toString()}
   </body>
 </html>
   `;

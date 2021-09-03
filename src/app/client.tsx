@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HatchParams, getHatch } from '@box/framework/src';
-import { HelmetProvider } from 'react-helmet-async';
 import { ROUTES } from '@box/pages/routes';
 import { Router } from 'react-router';
 import {
@@ -88,9 +87,9 @@ for (const { component, path } of ROUTES) {
   const hatchUpdate = createEvent<HatchParams>({ name: `hatchUpdate:${path}` });
   const hatchExit = createEvent<void>({ name: `hatchExit:${path}` });
 
-  hatchEnter.watch((payload => {
+  hatchEnter.watch((payload) => {
     console.log('hatchEnter payload', payload);
-  }))
+  });
 
   if (hatch) {
     forward({ from: hatchEnter, to: hatch.enter });
@@ -132,12 +131,10 @@ const scope = fork(root, { values: INITIAL_STATE });
 
 allSettled(ready, { scope }).then(() => {
   ReactDOM.hydrate(
-    <HelmetProvider>
-      <Router history={history!}>
-        <Application root={scope} />
-      </Router>
-    </HelmetProvider>,
-    document.querySelector('#root'),
+    <Router history={history!}>
+      <Application root={scope} />
+    </Router>,
+    document.querySelector('#root')
   );
 });
 

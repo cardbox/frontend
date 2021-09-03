@@ -4,7 +4,6 @@ import { Provider } from 'effector-react/ssr';
 import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
-import { Link } from 'react-router-dom';
 
 import { Pages } from '../pages';
 
@@ -31,7 +30,6 @@ export const Application = ({ root }: Props) => (
       <Container>
         <Globals />
         <PagesContainer>
-          <Link to={"card/18bc22a5-bf9b-409a-9913-fb42ef0fcfbe"}> </Link>
           <PagesContent>
             <Pages />
           </PagesContent>
