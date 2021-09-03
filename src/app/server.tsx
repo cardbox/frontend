@@ -235,10 +235,6 @@ fastifyInstance.get('/*', async function (req, res) {
     ignore: [$currentCard],
   });
 
-  console.log(storesValues);
-
-  delete storesValues.g0v7by;
-
   const routerContext = {};
   const sheet = new ServerStyleSheet();
 

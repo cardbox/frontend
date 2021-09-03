@@ -13,7 +13,6 @@ export const loadCardFx = createEffect<void, Card | null, any>({
 export const $currentCard = createStore<Card | null>(null);
 
 export const hatch = createHatch(root.createDomain('CardViewPage'));
-console.log('1');
 
 forward({
   from: hatch.enter,
