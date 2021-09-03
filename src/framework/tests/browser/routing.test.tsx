@@ -8,7 +8,9 @@ test('check triggering hatch without binding to domain', () => {
   const HomePage = withHatch(homePageHatch, () => <div>Home page</div>);
 
   const notFoundPageHatch = createHatch();
-  const NotFoundPage = withHatch(notFoundPageHatch, () => <span>Not found</span>);
+  const NotFoundPage = withHatch(notFoundPageHatch, () => (
+    <span>Not found</span>
+  ));
   const routes = [
     {
       path: '/',
@@ -44,7 +46,10 @@ test('check triggering hatch without binding to domain', () => {
   app!.navigation.historyPush('/random/address');
 
   expect(homePageEnter).not.toBeCalled();
-  expect(notFoundPageEnter).toBeCalledWith({ params: { '0': '/random/address' }, query: {} }); // TODO: change structure of * matcher
+  expect(notFoundPageEnter).toBeCalledWith({
+    params: { '0': '/random/address' },
+    query: {},
+  }); // TODO: change structure of * matcher
 });
 
 /** Triggers fn on effect start */

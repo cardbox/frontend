@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Unit, is, forward } from 'effector';
+import { Unit, forward, is } from 'effector';
 
 type KeysOfEffectorApi<API> = {
   [KEY in keyof API]: API[KEY] extends Unit<any> ? KEY : never;
@@ -7,7 +7,7 @@ type KeysOfEffectorApi<API> = {
 
 export function contract<
   Properties extends string,
-  Page extends Record<Properties, unknown>
+  Page extends Record<Properties, unknown>,
 >(config: { page: Page; model: Pick<Page, KeysOfEffectorApi<Page>> }) {
   for (const name in config.page) {
     const pageUnit = config.page[name];
@@ -32,7 +32,9 @@ export function contract<
         pageUnit.defaultState = modelUnit.defaultState;
 
         // Change current state
-        (pageUnit as any).stateRef.current = (modelUnit as any).stateRef.current;
+        (pageUnit as any).stateRef.current = (
+          modelUnit as any
+        ).stateRef.current;
 
         // Change initial state inside scope
         // https://t.me/c/1489066599/4652

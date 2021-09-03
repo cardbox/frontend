@@ -8,6 +8,7 @@ import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyStatic from 'fastify-static';
 import through from 'through';
+import { $currentCard } from '@box/pages/card/view/page';
 import { $redirectTo } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { HatchParams, getHatch } from '@box/framework/src';
@@ -32,7 +33,6 @@ import { resetIdCounter } from 'react-tabs';
 import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
-import { $currentCard } from '@box/pages/card/view/page';
 
 dotenv.config();
 
@@ -243,9 +243,9 @@ fastifyInstance.get('/*', async function (req, res) {
   const sheet = new ServerStyleSheet();
 
   const jsx = sheet.collectStyles(
-      <StaticRouter context={routerContext} location={req.url}>
-        <Application root={scope} />
-      </StaticRouter>
+    <StaticRouter context={routerContext} location={req.url}>
+      <Application root={scope} />
+    </StaticRouter>,
   );
 
   if (isRedirected(res)) {

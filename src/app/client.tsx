@@ -134,7 +134,7 @@ allSettled(ready, { scope }).then(() => {
     <Router history={history!}>
       <Application root={scope} />
     </Router>,
-    document.querySelector('#root')
+    document.querySelector('#root'),
   );
 });
 

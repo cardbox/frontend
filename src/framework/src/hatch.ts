@@ -57,7 +57,10 @@ export function createHatch(domain: Domain = defaultDomain): Hatch {
   return hatch;
 }
 
-export function withHatch<C extends React.ComponentType>(hatch: Hatch, component: C): C {
+export function withHatch<C extends React.ComponentType>(
+  hatch: Hatch,
+  component: C,
+): C {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (typeof window !== 'undefined') {
     if (!(window as any).hatches) {
@@ -70,7 +73,9 @@ export function withHatch<C extends React.ComponentType>(hatch: Hatch, component
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getHatch<T extends React.ComponentType<any>>(component: T): Hatch | undefined {
+export function getHatch<T extends React.ComponentType<any>>(
+  component: T,
+): Hatch | undefined {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (component as any)[HATCH];
 }
@@ -80,5 +85,5 @@ export function lookupHatch<P>(match: MatchedRoute<P>): Hatch | undefined {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return getHatch(match.route.component as any);
   }
-  return undefined
+  return undefined;
 }

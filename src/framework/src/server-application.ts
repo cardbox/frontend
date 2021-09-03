@@ -7,10 +7,16 @@ import { HatchParams, getHatch } from './hatch';
 import { createNavigation } from './navigation';
 import { defaultDomain } from './default-domain';
 
-export function createServerApplication(config: { routes: RouteConfig[]; domain?: Domain }) {
+export function createServerApplication(config: {
+  routes: RouteConfig[];
+  domain?: Domain;
+}) {
   const debug = createDebug('framework-server');
   const domain = config.domain || defaultDomain;
-  const navigation = createNavigation(domain, { emitHistory: false, trackRedirects: true });
+  const navigation = createNavigation(domain, {
+    emitHistory: false,
+    trackRedirects: true,
+  });
 
   const api = {
     failedToHandle: domain.createEvent<string>(),
@@ -27,7 +33,8 @@ export function createServerApplication(config: { routes: RouteConfig[]; domain?
     cases: {
       routeResolved: ({ url }) => {
         const routes = matchRoutes(config.routes, url.pathname);
-        if (routes.length > 0) return { route: routes[0].route, match: routes[0].match, url };
+        if (routes.length > 0)
+          return { route: routes[0].route, match: routes[0].match, url };
         return undefined;
       },
     },

@@ -25,7 +25,7 @@ export function createBrowserApplication(config: {
         change,
       };
     }
-    return undefined
+    return undefined;
   });
 
   for (const { component, path } of config.routes) {
@@ -55,14 +55,22 @@ export function createBrowserApplication(config: {
       },
     });
 
-    const hatchEnter = domain.createEvent<HatchParams>({ name: `hatchEnter:${path}` });
-    const hatchUpdate = domain.createEvent<HatchParams>({ name: `hatchUpdate:${path}` });
+    const hatchEnter = domain.createEvent<HatchParams>({
+      name: `hatchEnter:${path}`,
+    });
+    const hatchUpdate = domain.createEvent<HatchParams>({
+      name: `hatchUpdate:${path}`,
+    });
     const hatchExit = domain.createEvent<void>({ name: `hatchExit:${path}` });
 
     // Triggered when hatch is used from the main bundle
-    const dontNeedLoadChunk = domain.createEvent({ name: `dontNeedLoadChunk:${path}` });
+    const dontNeedLoadChunk = domain.createEvent({
+      name: `dontNeedLoadChunk:${path}`,
+    });
 
-    const $chunkLoaded = domain.createStore(false, { name: `$chunkLoaded:${path}` });
+    const $chunkLoaded = domain.createStore(false, {
+      name: `$chunkLoaded:${path}`,
+    });
     const $hasHatch = domain.createStore(getHatch(component) !== undefined, {
       name: `$hasHatch:${path}`,
     });
@@ -117,7 +125,9 @@ export function createBrowserApplication(config: {
       .on(hatchEnter, () => true)
       .on(hatchExit, () => false);
 
-    $chunkLoaded.on(loadPageFx.done, () => true).on(dontNeedLoadChunk, () => true);
+    $chunkLoaded
+      .on(loadPageFx.done, () => true)
+      .on(dontNeedLoadChunk, () => true);
     $hasHatch.on(setupHatchLinksFx.doneData, (_, has) => has);
 
     // When hatch not found on component from route and chunk don't load before
@@ -150,7 +160,11 @@ export function createBrowserApplication(config: {
     // We need to setup connections between hatch from component and local triggers
     guard({
       source: routeMatched,
-      filter: combine($hasHatch, $chunkLoaded, (hasHatch, chunkLoaded) => hasHatch && !chunkLoaded),
+      filter: combine(
+        $hasHatch,
+        $chunkLoaded,
+        (hasHatch, chunkLoaded) => hasHatch && !chunkLoaded,
+      ),
       target: [setupHatchLinksFx.prepend(() => component), dontNeedLoadChunk],
     });
 

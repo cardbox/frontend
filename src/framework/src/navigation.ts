@@ -12,7 +12,10 @@ export function createNavigation(
   domain: Domain,
   { emitHistory = false, trackRedirects = false } = {},
 ) {
-  const history = typeof document !== 'undefined' ? createBrowserHistory() : createMemoryHistory();
+  const history =
+    typeof document !== 'undefined'
+      ? createBrowserHistory()
+      : createMemoryHistory();
 
   const historyPush = domain.createEffect<string, void>(() => {});
   const historyPushSearch = domain.createEffect<string, void>(() => {});
@@ -50,7 +53,10 @@ export function createNavigation(
   if (trackRedirects) {
     $redirectTo.on([historyPush, historyReplace], (_, url) => url);
     if (emitHistory) {
-      $redirectTo.on(historyChanged, (_, { pathname, search }) => `${pathname}?${search}`);
+      $redirectTo.on(
+        historyChanged,
+        (_, { pathname, search }) => `${pathname}?${search}`,
+      );
     }
   }
 
