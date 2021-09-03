@@ -5115,11 +5115,13 @@ effector-inspector@^0.4.1, effector-inspector@^0.4.2:
     foliage "^0.106.0"
     forest "^0.19.6"
 
-effector-logger@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/effector-logger/-/effector-logger-0.9.0.tgz#9b4c2038200eaaa4f1a0219ff0beba4aeada311b"
-  integrity sha512-m+KG+846Fb9k5M4pCemJx4PJqKGLfTlIwhbQNDdhtdBVS/K8C/jPq9+0ID129pv9uO/m8+hg5kq7D+wHMNLpIw==
+effector-logger@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/effector-logger/-/effector-logger-0.10.0.tgz#b730aebb6f3d04ea1cb3471da2ce4d8554f76b98"
+  integrity sha512-TgWt8k22VlWmHjMCSq3BDWsQJ4lXOU/2y7O7/JOeoj1g4ponyR0jgxPwNPzr98A5MBMHtg3otzSaSpYWDE6wfw==
   dependencies:
+    "@babel/helper-module-imports" "^7.12.13"
+    "@babel/traverse" "^7.13.0"
     detect-node "2.0.4"
     effector-inspector "^0.4.1"
     just-debounce-it "^1.1.0"

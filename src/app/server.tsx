@@ -133,7 +133,7 @@ for (const { component, path, exact } of ROUTES) {
 
   guard({
     source: notMatched,
-    filter: hatch.$opened,
+    filter: hatch.$opened.map(Boolean),
     target: hatch.exit,
   });
 }
@@ -260,7 +260,7 @@ fastifyInstance.get('/*', async function (req, res) {
 
   const storesValues = serialize(scope, {
     ignore: [$cookiesForRequest, $cookiesFromResponse],
-    onlyChanges: false,
+    onlyChanges: true,
   });
 
   const routerContext = {};

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-// import { createInspector } from 'effector-inspector';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HatchParams, getHatch } from 'framework';
@@ -14,8 +12,8 @@ import {
   fork,
   forward,
   guard,
-  root,
-} from 'effector-root';
+  sample,
+} from 'effector';
 import { debug } from 'patronum';
 import {
   history,
@@ -28,9 +26,6 @@ import { splitMap } from 'patronum/split-map';
 import { Application } from './application';
 
 // import { runMockServer } from '../api/mock';
-
-// import { LOGGER_DOMAIN_NAME } from 'effector-logger/attach';
-// createInspector({ trimDomain: LOGGER_DOMAIN_NAME });
 
 /**
  * Run mock-api server for frontend
@@ -61,7 +56,21 @@ const { routeResolved, __: routeNotResolved } = splitMap({
   },
 });
 
-debug(routeResolved);
+routeResolved.compositeName.fullName = `routeResolved`;
+routeNotResolved.compositeName.fullName = `routeNotResolved`;
+
+debug(
+  routeResolved,
+  routeNotResolved,
+  ready,
+  historyEmitCurrent,
+  historyChanged,
+);
+
+const $currentRoute = createStore('');
+const $currentPage = createStore('');
+
+debug($currentPage, $currentRoute);
 
 for (const { component, path } of ROUTES) {
   const hatch = getHatch(component);
@@ -85,11 +94,21 @@ for (const { component, path } of ROUTES) {
     },
   });
 
+  notMatched.compositeName.fullName = `(${path})notMatched`;
+  routeMatched.compositeName.fullName = `(${path})routeMatched`;
+
+  debug(routeMatched, notMatched);
+
   // TODO: rewrite after effector v22 to support chunk loading
 
-  const hatchEnter = createEvent<HatchParams>({ name: `hatchEnter:${path}` });
-  const hatchUpdate = createEvent<HatchParams>({ name: `hatchUpdate:${path}` });
-  const hatchExit = createEvent<void>({ name: `hatchExit:${path}` });
+  const set = (name: string) => ({
+    name: `(${path})${name}`,
+    sid: `(${path})${name}`,
+  });
+
+  const hatchEnter = createEvent<HatchParams>(set('hatchEnter'));
+  const hatchUpdate = createEvent<HatchParams>(set('hatchUpdate'));
+  const hatchExit = createEvent<void>(set('hatchExit'));
 
   if (hatch) {
     forward({ from: hatchEnter, to: hatch.enter });
@@ -97,39 +116,105 @@ for (const { component, path } of ROUTES) {
     forward({ from: hatchExit, to: hatch.exit });
   }
 
-  // Shows that user is on the route
-  const $onRoute = createStore(false, { name: `$onRoute:${path}` })
-    .on(routeMatched, () => true)
-    .on(notMatched, () => false);
+  const $onCurrentPage = createStore(false, set('$onCurrentPage'));
 
-  // Shows that user visited route and wait for page
-  // If true, page.hatch.enter is triggered and logic is ran
-  const $onPage = createStore(false, { name: `$onPage:${path}` })
-    .on(hatchEnter, () => true)
-    .on(hatchExit, () => false);
+  debug($onCurrentPage);
 
-  debug(routeMatched, hatchEnter, hatchExit, hatchUpdate, $onRoute, $onPage);
+  const shouldExit = guard({
+    source: sample({
+      source: [$currentRoute, $onCurrentPage],
+      clock: notMatched,
+      fn: ([route, onPage], hatch) => (
+        console.log({ route, hatch, onPage }), { route, hatch, onPage }
+      ),
+    }),
+    filter: ({ route, onPage }) => onPage && route !== path,
+  });
 
-  guard({
-    source: routeMatched,
-    filter: $onPage,
+  shouldExit.compositeName.fullName = set('shouldExit').name;
+
+  debug(shouldExit);
+
+  sample({
+    clock: shouldExit,
+    fn: () => {},
+    target: hatchExit,
+  });
+
+  const shouldUpdate = guard({
+    source: sample({
+      source: [$currentRoute, $onCurrentPage],
+      clock: routeMatched,
+      fn: ([route, onPage], hatch) => ({ route, hatch, onPage }),
+    }),
+    filter: ({ onPage, route }) => !onPage && route === path,
+  });
+
+  sample({
+    clock: shouldUpdate,
+    fn: ({ hatch }) => hatch,
     target: hatchUpdate,
   });
 
-  guard({
-    source: routeMatched,
-    filter: combine($onRoute, $onPage, (route, page) => route && !page),
+  const shouldEnter = guard({
+    source: sample({
+      source: [$currentRoute, $onCurrentPage],
+      clock: routeMatched,
+      fn: ([route, onPage], hatch) => ({ route, hatch, onPage }),
+    }),
+    filter: ({ onPage, route }) => !onPage && route !== path,
+  });
+
+  $onCurrentPage.on(shouldEnter, () => true).on(shouldExit, () => false);
+
+  sample({
+    clock: shouldEnter,
+    fn: () => path,
+    target: $currentRoute,
+  });
+
+  sample({
+    clock: shouldEnter,
+    fn: ({ hatch }) => hatch,
     target: hatchEnter,
   });
 
-  guard({
-    source: notMatched,
-    filter: $onPage,
-    target: hatchExit,
-  });
+  shouldExit.watch(() => console.log(`[event] (${path})shouldExit`));
+  shouldEnter.watch(() => console.log(`[event] (${path})shouldEnter`));
+  shouldUpdate.watch(() => console.log(`[event] (${path})shouldUpdate`));
+
+  // Shows that user visited route and wait for page
+  // If true, page.hatch.enter is triggered and logic is ran
+  // const $onPage = createStore(false, set('$onPage'))
+  //   .on(hatchEnter, () => true)
+  //   .on(hatchExit, () => false);
+  //
+  // debug(routeMatched, notMatched, hatchEnter, hatchExit, hatchUpdate, $onPage);
+  //
+  // guard({
+  //   source: routeMatched,
+  //   filter: $onPage,
+  //   target: hatchUpdate,
+  // });
+  //
+  // guard({
+  //   source: sample({
+  //     source: [$currentRoute, $onPage],
+  //     clock: routeMatched,
+  //     fn: ([route, onPage], hatch) => ({ route, onPage, hatch }),
+  //   }),
+  //   filter: ({ route, onPage }) => route === path && !onPage,
+  //   target: hatchEnter.prepend(({ hatch }: { hatch: HatchParams }) => hatch),
+  // });
+  //
+  // guard({
+  //   source: notMatched,
+  //   filter: $onPage,
+  //   target: hatchExit,
+  // });
 }
 
-const scope = fork(root, { values: INITIAL_STATE });
+const scope = fork({ values: INITIAL_STATE });
 
 allSettled(ready, { scope }).then(() => {
   ReactDOM.hydrate(

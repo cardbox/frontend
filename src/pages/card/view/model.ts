@@ -18,7 +18,7 @@ import { paths } from '@box/pages/paths';
 
 export const hatch = createHatch(root.createDomain('CardViewPage'));
 
-debug(hatch.enter, hatch.update, hatch.exit);
+debug(hatch.enter, hatch.update, hatch.exit, hatch.$opened);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });

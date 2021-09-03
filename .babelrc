@@ -13,6 +13,8 @@
     ["@babel/plugin-proposal-export-namespace-from"],
     ["effector/babel-plugin", {
       "noDefaults": true,
+      "addLoc": true,
+      "addNames": true,
       "factories": ["framework"]
     }, "framework"]
   ],
