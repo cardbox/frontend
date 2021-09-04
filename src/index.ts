@@ -21,7 +21,7 @@ process.on('unhandledRejection', (error) => {
 
 const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);
 
-server.listen(PORT, 'localhost').catch(logger.error);
+server.listen(PORT, '0.0.0.0').catch(logger.error);
 
 if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
@@ -32,7 +32,7 @@ if (module.hot) {
       server.close(() => {
         server = require('./app/server').fastifyInstance;
 
-        server.listen(PORT, 'localhost').catch(logger.error);
+        server.listen(PORT, '0.0.0.0').catch(logger.error);
       });
     } catch (error) {
       logger.error(error as any);
