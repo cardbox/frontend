@@ -30,6 +30,7 @@ WORKDIR /app
 
 COPY --from=build /app/package.json /app/yarn.lock ./
 RUN yarn install --production
+COPY ./src/lib/logger/transport.mjs ./src/lib/logger/transport.mjs
 COPY --from=build /app/build ./build
 
 EXPOSE 3000
