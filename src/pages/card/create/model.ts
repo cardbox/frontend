@@ -1,4 +1,4 @@
-import { attach, createEvent, guard, root, sample } from 'effector-root';
+import { attach, createDomain, createEvent, guard, sample } from 'effector';
 import { cardDraftModel } from '@box/features/card/draft';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
@@ -6,7 +6,7 @@ import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
-export const hatch = createHatch(root.createDomain('CardCreatePage'));
+export const hatch = createHatch(createDomain('CardCreatePage'));
 
 export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 

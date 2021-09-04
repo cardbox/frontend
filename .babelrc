@@ -1,8 +1,9 @@
 {
   "plugins": [
     ["effector/babel-plugin", {
-      "addLoc": true,
-      "addNames": true,
+      "addLoc": false,
+      "addNames": false,
+      "debugSids": false,
       "factories": []
     }],
     ["styled-components",
@@ -13,8 +14,9 @@
     ["@babel/plugin-proposal-export-namespace-from"],
     ["effector/babel-plugin", {
       "noDefaults": true,
-      "addLoc": true,
-      "addNames": true,
+      "addLoc": false,
+      "debugSids": false,
+      "addNames": false,
       "factories": ["framework"]
     }, "framework"]
   ],

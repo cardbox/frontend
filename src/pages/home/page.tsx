@@ -4,7 +4,7 @@ import { Button, ContentCenteredTemplate, Text, Toast } from '@box/ui';
 import type { Card, User } from '@box/api';
 import { CardList } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
-import { createStore } from 'effector-root';
+import { createStore } from 'effector';
 import { theme } from '@box/lib/theme';
 import { useStore } from 'effector-react/ssr';
 

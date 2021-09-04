@@ -6,7 +6,6 @@ import { ROUTES } from '@box/pages/routes';
 import { Router } from 'react-router';
 import {
   allSettled,
-  combine,
   createEvent,
   createStore,
   fork,
@@ -14,11 +13,10 @@ import {
   guard,
   sample,
 } from 'effector';
-import { debug } from 'patronum';
 import {
   history,
   historyChanged,
-  historyEmitCurrent,
+  initializeClientHistory,
 } from '@box/entities/navigation';
 import { matchRoutes } from 'react-router-config';
 import { splitMap } from 'patronum/split-map';
@@ -35,8 +33,6 @@ import { Application } from './application';
 // runMockServer();
 
 const ready = createEvent();
-
-forward({ from: ready, to: historyEmitCurrent });
 
 const { routeResolved, __: routeNotResolved } = splitMap({
   source: historyChanged,
@@ -56,26 +52,21 @@ const { routeResolved, __: routeNotResolved } = splitMap({
   },
 });
 
-routeResolved.compositeName.fullName = `routeResolved`;
-routeNotResolved.compositeName.fullName = `routeNotResolved`;
+function extractCurrentRoutePath() {
+  const routes = matchRoutes(ROUTES, history?.location.pathname ?? '/');
 
-debug(
-  routeResolved,
-  routeNotResolved,
-  ready,
-  historyEmitCurrent,
-  historyChanged,
-);
+  if (routes.length > 0) {
+    return routes[0].route.path;
+  }
+  return '/';
+}
 
-const $currentRoute = createStore('');
-const $currentPage = createStore('');
-
-debug($currentPage, $currentRoute);
+const $currentRoute = createStore(extractCurrentRoutePath());
 
 for (const { component, path } of ROUTES) {
   const hatch = getHatch(component);
 
-  const { routeMatched, __: notMatched } = splitMap({
+  const { routeMatched, __: routeNotMatched } = splitMap({
     source: routeResolved,
     cases: {
       routeMatched({ route, match, change }) {
@@ -94,12 +85,7 @@ for (const { component, path } of ROUTES) {
     },
   });
 
-  notMatched.compositeName.fullName = `(${path})notMatched`;
-  routeMatched.compositeName.fullName = `(${path})routeMatched`;
-
-  debug(routeMatched, notMatched);
-
-  // TODO: rewrite after effector v22 to support chunk loading
+  // TODO: add support for chunk loading
 
   const set = (name: string) => ({
     name: `(${path})${name}`,
@@ -116,105 +102,45 @@ for (const { component, path } of ROUTES) {
     forward({ from: hatchExit, to: hatch.exit });
   }
 
-  const $onCurrentPage = createStore(false, set('$onCurrentPage'));
+  const $onCurrentPage = $currentRoute.map((route) => route === path);
 
-  debug($onCurrentPage);
+  guard({
+    source: $currentRoute,
+    clock: routeNotMatched,
+    filter: (currentRoute, { route: { path: newRoute } }) => {
+      const pageRoute = path;
 
-  const shouldExit = guard({
-    source: sample({
-      source: [$currentRoute, $onCurrentPage],
-      clock: notMatched,
-      fn: ([route, onPage], hatch) => (
-        console.log({ route, hatch, onPage }), { route, hatch, onPage }
-      ),
-    }),
-    filter: ({ route, onPage }) => onPage && route !== path,
-  });
+      const isANewRouteDifferent = currentRoute !== newRoute;
+      const isCurrentRouteOfCurrentPage = currentRoute === pageRoute;
 
-  shouldExit.compositeName.fullName = set('shouldExit').name;
-
-  debug(shouldExit);
-
-  sample({
-    clock: shouldExit,
-    fn: () => {},
+      return isCurrentRouteOfCurrentPage && isANewRouteDifferent;
+    },
     target: hatchExit,
   });
 
-  const shouldUpdate = guard({
-    source: sample({
-      source: [$currentRoute, $onCurrentPage],
-      clock: routeMatched,
-      fn: ([route, onPage], hatch) => ({ route, hatch, onPage }),
-    }),
-    filter: ({ onPage, route }) => !onPage && route === path,
-  });
-
-  sample({
-    clock: shouldUpdate,
-    fn: ({ hatch }) => hatch,
+  guard({
+    clock: routeMatched,
+    filter: $onCurrentPage,
     target: hatchUpdate,
   });
 
   const shouldEnter = guard({
-    source: sample({
-      source: [$currentRoute, $onCurrentPage],
-      clock: routeMatched,
-      fn: ([route, onPage], hatch) => ({ route, hatch, onPage }),
-    }),
-    filter: ({ onPage, route }) => !onPage && route !== path,
+    clock: routeMatched,
+    filter: $onCurrentPage.map((on) => !on),
   });
 
-  $onCurrentPage.on(shouldEnter, () => true).on(shouldExit, () => false);
+  sample({ clock: shouldEnter, target: hatchEnter });
 
   sample({
     clock: shouldEnter,
     fn: () => path,
     target: $currentRoute,
   });
-
-  sample({
-    clock: shouldEnter,
-    fn: ({ hatch }) => hatch,
-    target: hatchEnter,
-  });
-
-  shouldExit.watch(() => console.log(`[event] (${path})shouldExit`));
-  shouldEnter.watch(() => console.log(`[event] (${path})shouldEnter`));
-  shouldUpdate.watch(() => console.log(`[event] (${path})shouldUpdate`));
-
-  // Shows that user visited route and wait for page
-  // If true, page.hatch.enter is triggered and logic is ran
-  // const $onPage = createStore(false, set('$onPage'))
-  //   .on(hatchEnter, () => true)
-  //   .on(hatchExit, () => false);
-  //
-  // debug(routeMatched, notMatched, hatchEnter, hatchExit, hatchUpdate, $onPage);
-  //
-  // guard({
-  //   source: routeMatched,
-  //   filter: $onPage,
-  //   target: hatchUpdate,
-  // });
-  //
-  // guard({
-  //   source: sample({
-  //     source: [$currentRoute, $onPage],
-  //     clock: routeMatched,
-  //     fn: ([route, onPage], hatch) => ({ route, onPage, hatch }),
-  //   }),
-  //   filter: ({ route, onPage }) => route === path && !onPage,
-  //   target: hatchEnter.prepend(({ hatch }: { hatch: HatchParams }) => hatch),
-  // });
-  //
-  // guard({
-  //   source: notMatched,
-  //   filter: $onPage,
-  //   target: hatchExit,
-  // });
 }
 
 const scope = fork({ values: INITIAL_STATE });
+
+initializeClientHistory(scope);
 
 allSettled(ready, { scope }).then(() => {
   ReactDOM.hydrate(

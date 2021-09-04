@@ -1,4 +1,11 @@
-import { attach, createEvent, guard, merge, root, sample } from 'effector-root';
+import {
+  attach,
+  createDomain,
+  createEvent,
+  guard,
+  merge,
+  sample,
+} from 'effector';
 import { cardDraftModel } from '@box/features/card/draft';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
@@ -7,7 +14,7 @@ import { internalApi } from '@box/api';
 
 import { paths } from '../../paths';
 
-export const hatch = createHatch(root.createDomain('CardEditPage'));
+export const hatch = createHatch(createDomain('CardEditPage'));
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });

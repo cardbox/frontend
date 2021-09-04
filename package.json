@@ -22,7 +22,7 @@
     "cross-fetch": "^3.0.4",
     "dayjs": "^1.10.5",
     "dotenv": "^8.2.0",
-    "effector": "^22.0.6",
+    "effector": "^22.1.0",
     "effector-inspector": "^0.4.2",
     "effector-logger": "^0.10.0",
     "effector-react": "^22.0.4",

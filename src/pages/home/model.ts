@@ -1,14 +1,11 @@
 import type { Card } from '@box/api';
-import { attach, createStore, restore, root, sample } from 'effector-root';
+import { attach, createDomain, createStore, restore, sample } from 'effector';
 import { createHatch } from 'framework';
-import { debug } from 'patronum';
 import { internalApi } from '@box/api';
 import { userModel } from '@box/entities/user';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
-export const hatch = createHatch(root.createDomain('HomePage'));
-
-debug(hatch.enter, hatch.update, hatch.exit, hatch.$opened);
+export const hatch = createHatch(createDomain('HomePage'));
 
 export const $pagePending = restore(cardsFeedFx.pending.updates, true);
 

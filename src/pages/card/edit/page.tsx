@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CardDraft } from '@box/features/card/draft';
 import { ContentCenteredTemplate, Text } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
-import { createStore } from 'effector-root';
+import { createStore } from 'effector';
 import { variant } from '@effector/reflect/ssr';
 
 export const $isCardFound = createStore(false);

@@ -13,7 +13,7 @@ import {
   $cookiesFromResponse,
   setCookiesForRequest,
 } from '@box/api/request';
-import { $redirectTo } from '@box/entities/navigation';
+import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { HatchParams, getHatch } from 'framework';
@@ -26,7 +26,6 @@ import {
   allSettled,
   fork,
   forward,
-  guard,
   root,
   sample,
   serialize,
@@ -41,6 +40,8 @@ import { splitMap } from 'patronum/split-map';
 import { Application } from './application';
 
 dotenv.config();
+
+initializeServerHistory();
 
 const serverStarted = root.createEvent<{
   req: FastifyRequest<RouteGenericInterface, Http2Server>;
@@ -131,11 +132,11 @@ for (const { component, path, exact } of ROUTES) {
     to: hatch.enter,
   });
 
-  guard({
-    source: notMatched,
-    filter: hatch.$opened.map(Boolean),
-    target: hatch.exit,
-  });
+  // guard({
+  //   source: notMatched,
+  //   filter: hatch.$opened.map(Boolean),
+  //   target: hatch.exit,
+  // });
 }
 
 sample({

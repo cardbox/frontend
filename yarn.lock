@@ -5148,10 +5148,10 @@ effector-root@^1.1.0:
   resolved "https://registry.yarnpkg.com/effector-root/-/effector-root-1.3.0.tgz#05dd07d406e91913b08e3bd908a25f9c83011f97"
   integrity sha512-kIcH/rkwKPS/1n1ZEcIvC/A+ZG9AlM2k/FxlyxjW3E6p7adxdvw10LQkTtR8VihEGi1fAkE7hPji+m/on20Gjw==
 
-effector@^22.0.6:
-  version "22.0.6"
-  resolved "https://registry.yarnpkg.com/effector/-/effector-22.0.6.tgz#5f43a6b7b92e44eb4cc507e6d0ab3fe1f5dec676"
-  integrity sha512-3HQ5RdGX6QOdASmaVhp3BizMj4Ca0ehhYWhTr8Bb1q7Pr2zvgfyWhy7jiIkItYz8MYiCBj4p8e3uKGXAiVcAAQ==
+effector@^22.1.0:
+  version "22.1.0"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-22.1.0.tgz#67fb4c1d07467bb4bb47104d6dfe41ec76f45685"
+  integrity sha512-WvWfgp4S6f8vM08m1V1jtZ8ZVBsX72hhdc3AVVCOwINC9GT+zydq7qGLAfpqy5DkgJ1o/a5WS5ZsTuiE7JuGpg==
 
 electron-to-chromium@^1.3.341, electron-to-chromium@^1.3.811:
   version "1.3.812"

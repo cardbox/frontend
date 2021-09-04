@@ -1,10 +1,10 @@
-import { attach, combine, restore, root, sample } from 'effector-root';
+import { attach, combine, createDomain, restore, sample } from 'effector';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { internalApi } from '@box/api';
 import { userModel } from '@box/entities/user';
 
-export const hatch = createHatch(root.createDomain('UserViewPage'));
+export const hatch = createHatch(createDomain('UserViewPage'));
 
 export const usersGetFx = attach({ effect: internalApi.usersGet });
 export const cardsListFx = attach({ effect: internalApi.cardsList });

@@ -1,13 +1,12 @@
 import queryString from 'query-string';
 import {
-  Effect,
   attach,
   createEffect,
   createEvent,
   guard,
   merge,
   restore,
-} from 'effector-root';
+} from 'effector';
 import { logger } from '@box/lib/logger';
 
 export interface Request {

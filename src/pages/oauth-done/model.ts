@@ -1,12 +1,12 @@
 import { $session } from '@box/entities/session';
-import { attach, root, sample } from 'effector-root';
+import { attach, createDomain, sample } from 'effector';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 
 import { paths } from '../paths';
 
-export const hatch = createHatch(root.createDomain('OAuthDonePage'));
+export const hatch = createHatch(createDomain('OAuthDonePage'));
 
 const authDoneFx = attach({ effect: internalApi.authDone });
 

@@ -3,22 +3,19 @@ import type { Card, User } from '@box/api';
 import {
   attach,
   combine,
+  createDomain,
   createEvent,
   createStore,
   guard,
-  root,
   sample,
-} from 'effector-root';
+} from 'effector';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
-import { debug } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/api';
 import { paths } from '@box/pages/paths';
 
-export const hatch = createHatch(root.createDomain('CardViewPage'));
-
-debug(hatch.enter, hatch.update, hatch.exit, hatch.$opened);
+export const hatch = createHatch(createDomain('CardViewPage'));
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
@@ -33,8 +30,6 @@ export const $currentCard = combine(
 );
 export const $cardAuthor = createStore<User | null>(null);
 export const $pagePending = cardsGetFx.pending;
-
-debug($currentCard, $pagePending, cardsGetFx);
 
 export const $pageTitle = combine(
   $currentCard,

@@ -9,7 +9,7 @@ import {
 } from '@box/ui';
 import { Card, User } from '@box/api';
 import { CardList } from '@box/entities/card';
-import { createStore } from 'effector-root';
+import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
 import { theme } from '@box/lib/theme';
 import { useStore } from 'effector-react/ssr';

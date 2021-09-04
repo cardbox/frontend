@@ -76,16 +76,19 @@ const TabListStyled = styled(TabList)`
 `;
 const TabStyled = styled(Tab)`
   cursor: default;
+
   &:not(:last-child) {
     margin-right: 1rem;
   }
 
   color: var(${theme.palette.bnw600});
   transition: color 0.5s;
+
   &:hover {
     // todo: define colors for hover and others effects
     color: #4e4d56;
   }
+
   &.react-tabs__tab--selected {
     color: var(${theme.palette.bnw0});
   }
