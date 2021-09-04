@@ -5,7 +5,7 @@
 Create a model in a `model.ts` file and export all effector units:
 
 ```ts
-import { createEvent, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector';
 
 export const buttonClicked = createEvent();
 export const $counter = createStore(0);
@@ -31,7 +31,7 @@ Now create effector units to correctly connects with:
 
 ```tsx
 import React from 'react';
-import { createEvent, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector';
 import { useStore, useEvent } from 'effector-react/ssr';
 import { Text, Button } from 'my-ui';
 
@@ -60,7 +60,7 @@ Also, you can use [`effector-reflect`](https://npmjs.com/effector-reflect):
 
 ```tsx
 import React from 'react';
-import { createEvent, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector';
 import { reflect } from 'effector-reflect/ssr';
 import { Text, Button } from 'my-ui';
 

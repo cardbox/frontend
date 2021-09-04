@@ -1,5 +1,5 @@
 import type { User } from '@box/api';
-import { createEvent, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector';
 import { internalApi } from '@box/api';
 
 export const $currentUser = createStore<User | null>(null);

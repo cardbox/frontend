@@ -1,4 +1,4 @@
-import { createEvent, createStore } from 'effector-root';
+import { createEvent, createStore } from 'effector';
 
 export const highlightSet = createEvent<string>();
 export const highlightHide = createEvent();

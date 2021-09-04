@@ -1,1 +1,1 @@
-import {} from 'effector-root';
+import {} from 'effector';

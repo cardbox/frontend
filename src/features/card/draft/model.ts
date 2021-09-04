@@ -6,7 +6,7 @@ import {
   createDomain,
   createEvent,
   guard,
-} from 'effector-root';
+} from 'effector';
 import { every } from 'patronum/every';
 import { internalApi } from '@box/api';
 import { isNonEmpty } from '@box/lib/fp';

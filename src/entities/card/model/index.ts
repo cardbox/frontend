@@ -1,6 +1,5 @@
 import type { Card } from '@box/api';
-import { createEvent, createStore } from 'effector-root';
-import { debug } from 'patronum';
+import { createEvent, createStore } from 'effector';
 import { internalApi } from '@box/api';
 
 export const setCards = createEvent<Card[]>();
@@ -8,8 +7,6 @@ export const setCards = createEvent<Card[]>();
 export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
 });
-
-// debug($cardsCache);
 
 export const $cards = createStore<Card[]>([]);
 export const $currentCard = createStore<Card | null>(null);

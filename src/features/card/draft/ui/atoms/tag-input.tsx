@@ -6,7 +6,7 @@ import React, {
   KeyboardEventHandler,
 } from 'react';
 import { Button, Input, iconAdd } from '@box/ui';
-import { combine } from 'effector-root';
+import { combine } from 'effector';
 import { reflect } from '@effector/reflect';
 import { theme } from '@box/lib/theme';
 import { todo } from '@box/lib/todo';

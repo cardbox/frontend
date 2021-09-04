@@ -24,12 +24,12 @@ import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router-dom';
 import {
   allSettled,
+  createEvent,
   fork,
   forward,
-  root,
   sample,
   serialize,
-} from 'effector-root';
+} from 'effector';
 import { logger } from '@box/lib/logger';
 import { matchRoutes } from 'react-router-config';
 import { performance } from 'perf_hooks';
@@ -43,7 +43,7 @@ dotenv.config();
 
 initializeServerHistory();
 
-const serverStarted = root.createEvent<{
+const serverStarted = createEvent<{
   req: FastifyRequest<RouteGenericInterface, Http2Server>;
   res: FastifyReply<Http2Server>;
 }>();
@@ -248,7 +248,7 @@ fastifyInstance.get('/*', async function (req, res) {
   this.log.info('[REQUEST] %s %s', req.method, req.url);
   res.header('Content-Type', 'text/html');
   const timeStart = performance.now();
-  const scope = fork(root);
+  const scope = fork();
 
   try {
     await allSettled(serverStarted, {

@@ -16,14 +16,7 @@ function createOrInitLogger() {
   }
   if (typeof serverLogger === 'undefined') {
     const transport = pino.transport({
-      target: path.resolve(
-        __dirname,
-        '..',
-        'src',
-        'lib',
-        'logger',
-        'transport.mjs',
-      ),
+      target: path.resolve(__dirname, '..', 'worker', 'transport.mjs'),
     });
 
     serverLogger = pino({

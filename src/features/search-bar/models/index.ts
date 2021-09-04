@@ -8,7 +8,7 @@ import {
   guard,
   restore,
   sample,
-} from 'effector-root';
+} from 'effector';
 import { debounce } from 'patronum/debounce';
 import { historyPush } from '@box/entities/navigation';
 import { paths } from '@box/pages/paths';
