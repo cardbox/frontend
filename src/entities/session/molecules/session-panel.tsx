@@ -11,7 +11,7 @@ export const SessionPanel: React.FC = () => {
   const isAuthenticated = useStore($isAuthenticated);
 
   if (isAuthenticated) {
-    return <Button variant="outlined">Logout</Button>;
+    return <Button variant="text">Logout</Button>;
   }
 
   return (

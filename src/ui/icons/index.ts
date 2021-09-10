@@ -6,3 +6,4 @@ export { default as iconDeckCheck } from './deck-check.svg';
 export { default as iconDeckArrow } from './deck-arrow.svg';
 export { default as iconClose } from './close.svg';
 export { default as iconAdd } from './add.svg';
+export { default as iconArrowRight } from './arrow-right.svg';

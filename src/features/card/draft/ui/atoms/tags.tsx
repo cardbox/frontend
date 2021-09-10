@@ -43,7 +43,7 @@ const ChipsView = ({
   const handleRemove = (tag: string) => () => onRemove(tag);
   return (
     <>
-      {tags.map((tag) => (
+      {tags?.map((tag) => (
         <Chip key={tag} label={tag} onRemove={handleRemove(tag)} />
       ))}
     </>

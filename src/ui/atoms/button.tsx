@@ -69,7 +69,7 @@ const Variants = css`
   }
 
   &[data-variant='text'] {
-    --text-color: var(--base-color);
+    --text-color: var(${theme.palette.bnw0});
     background: transparent;
     border-color: transparent;
   }
