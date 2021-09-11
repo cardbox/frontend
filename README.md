@@ -26,6 +26,7 @@
 
     ```properties
     # Change some if you need
+    RAZZLE_SESSION_TOKEN=XXXXXX
     CLIENT_PUBLIC_PATH=https://localhost:9101/
     PORT=9100
     BACKEND_URL=https://cardbox.sova.dev/api/internal
