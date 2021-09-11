@@ -43,19 +43,47 @@
 yarn api     # update api by codegen
 yarn lint    # lint project with fix
 ```
+
+## Development
+
+### HotReload
+
+Sometime you should manually restart server for new changes
+
+```bash
+# Just type and press ENTER:
+rs
+```
+
+### Effector
+
 - Use `import {} from "effector-root"` instead of `"effector"`. All units should be created in the root domain.
+- Use `import { debug } from "patronum"` for debug effector units
 
-## Structure
+### Structure
 
-https://sova.dev/application-structure
+Project designed by [FeatureSliced](https://feature-sliced.design/)
 
-- `src/app/server.tsx` — Express server, that renders React to stream
-- `src/index.tsx` — Node.js entry point, that have hot module replacement and imports server
-- `src/app/client.tsx` — Browser side entry point, that hydrates stores and react app
+> **WIP:** Project is migrating from FSv1 to FSv2
+
+#### app
+
 - `src/app/application.tsx` — Application component, that have global styles and effector provider
+- `src/app/server.tsx` — Express server, that renders React to stream
+- `src/app/client.tsx` — Browser side entry point, that hydrates stores and react app
+- `src/index.tsx` — Node.js entry point, that have hot module replacement and imports server
+
+#### pages
+
 - `src/pages/index.tsx` — Pages component
 - `src/pages/routes.ts` — Static routes config
 - `src/pages/:page-name/index.tsx` — View for single specific page
 - `src/pages/:page-name/model.ts` — Business-logic for specific page, that contains single level logic layer
+
+#### shared
+
+> **WIP:** soon will be placed at `src/shared`
+
 - `src/lib` — Internal libraries
+- `src/ui` — Internal UIKit
 - `src/lib/effector` — START event name to use as page property
