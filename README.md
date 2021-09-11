@@ -2,29 +2,47 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](http://prettier.io) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![](https://img.shields.io/badge/feature/slices-1.0-blue)](https://featureslices.dev/v1.0)
 
-## Development
+## Get Started
 
-1. Press `Clone` button.
+1. **Clone** repository
 
-2. Setup local certifikate authorithy via [mkcert](https://github.com/FiloSottile/mkcert):
+1. Prepare **local certificate authorithy**
 
-```shell
-mkcert -install
-```
+    Setup via [mkcert](https://github.com/FiloSottile/mkcert):
 
-Then generate your personal local certificates for cardbox:
+    ```bash
+    mkcert -install
+    ```
 
-```shell
-./scripts/create-certs.sh
-```
+    Then generate your personal local certificates for cardbox:
 
-3. Install and run:
+    ```bash
+    yarn prepare:certs
+    ```
+
+1. Setup local **env** for development
+
+    Copy from `.env.sample` file and make sure the settings are correct
+
+    ```properties
+    CLIENT_PUBLIC_PATH=https://localhost:9101/
+    PORT=9100
+    BACKEND_URL=https://cardbox.sova.dev/api/internal
+    ```
+
+1. Install and run:
+
+    ```bash
+    yarn install
+    yarn start
+    ```
+
+### Other commands
 
 ```bash
-yarn install
-yarn start
+yarn api     # update api by codegen
+yarn lint    # lint project with fix
 ```
-
 - Use `import {} from "effector-root"` instead of `"effector"`. All units should be created in the root domain.
 
 ## Structure
