@@ -22,9 +22,10 @@
 
 1. Setup local **env** for development
 
-    Copy from `.env.sample` file and make sure the settings are correct
+    Copy from `.env.sample` file and make sure the default settings are correct
 
     ```properties
+    # Change some if you need
     CLIENT_PUBLIC_PATH=https://localhost:9101/
     PORT=9100
     BACKEND_URL=https://cardbox.sova.dev/api/internal
