@@ -89,15 +89,18 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0 3px 9px #faf9fa;
+  border-color: var(${theme.palette.bnw900});
+  box-shadow: 0 3px 9px #f6f5f8;
 
   &[data-size='small'] {
+    background-color: var(${theme.palette.bnw950});
+    box-shadow: 0 3px 9px #fbfafb;
     height: 190px;
     transition: 0.25s;
 
     &:hover,
     &:focus {
-      border-color: var(${theme.palette.wizard750});
+      border-color: var(${theme.palette.wizard800});
       background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
@@ -204,7 +207,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
           ref={ref}
           onClick={handleClick}
           variant="outlined"
-          theme="primary"
+          theme="secondary"
           icon={<img src={iconDeckCheck} title="Remove card from my deck" />}
         />
       );

@@ -15,8 +15,8 @@ export const SessionPanel: React.FC = () => {
   }
 
   return (
-    <Button theme="primary" variant="outlined" onClick={handleClick}>
-      Login
+    <Button variant="text" onClick={handleClick}>
+      Sign in
     </Button>
   );
 };

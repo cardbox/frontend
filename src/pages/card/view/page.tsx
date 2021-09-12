@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, ContentCenteredTemplate } from '@box/ui';
+import {
+  Button,
+  ContentCenteredTemplate,
+  iconDeckCheck,
+  iconEdit,
+} from '@box/ui';
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector';
+import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -30,7 +35,9 @@ export const CardViewPage = () => {
   const author = useStore($cardAuthor);
   const isAuthorViewing = useStore($isAuthorViewing);
 
+  const historyPush = useEvent(navigationModel.historyPush);
   const handleDeleteCard = useEvent(deleteCard);
+  const handleEditCard = (id: string) => historyPush(paths.cardEdit(id));
 
   return (
     <>
@@ -57,12 +64,21 @@ export const CardViewPage = () => {
               />
             )}
             {card && isAuthorViewing && (
-              <Links>
-                <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
+              <Buttons>
+                <ButtonEdit
+                  type="button"
+                  theme="secondary"
+                  variant="outlined"
+                  icon={<img src={iconEdit} title="Edit card" />}
+                  onClick={() => handleEditCard(card.id)}
+                >
+                  Edit card
+                </ButtonEdit>
                 <ButtonDelete
                   type="button"
-                  theme="danger"
-                  variant="text"
+                  theme="secondary"
+                  variant="outlined"
+                  icon={<img src={iconDeckCheck} title="Delete card" />}
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
                     if (!window.confirm(DELETE_WARN)) return;
@@ -71,7 +87,7 @@ export const CardViewPage = () => {
                 >
                   Delete card
                 </ButtonDelete>
-              </Links>
+              </Buttons>
             )}
           </Sidebar>
         </Container>
@@ -108,7 +124,7 @@ const Sidebar = styled.div`
   }
 `;
 
-const Links = styled.div`
+const Buttons = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -117,27 +133,11 @@ const Links = styled.div`
   }
 `;
 
-const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
-  line-height: 1.1875rem;
-
-  &:not(:hover) {
-    text-decoration: none;
-  }
-
-  &[data-disabled='true'] {
-    cursor: not-allowed;
-    opacity: 0.5;
-    text-decoration: none;
-  }
-`;
-
-// todo: change view for links (according to design from figma)
-const LinkEdit = styled(LinkBase)`
-  color: var(${theme.palette.wizard550});
+const ButtonEdit = styled(Button)`
+  justify-content: flex-start;
 `;
 
 const ButtonDelete = styled(Button)`
-  width: fit-content;
-  height: auto;
-  padding: 0;
+  color: var(${theme.palette.notice550});
+  justify-content: flex-start;
 `;

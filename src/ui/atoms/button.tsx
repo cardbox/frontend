@@ -58,14 +58,15 @@ const Themes = css`
   }
 
   &[data-theme='secondary'] {
-    --base-color: var(${theme.palette.bnw750});
+    --base-color: var(${theme.palette.bnw900});
   }
 `;
 
 const Variants = css`
   &[data-variant='outlined'] {
-    --text-color: var(--base-color);
-    background: transparent;
+    --text-color: var(${theme.palette.bnw0});
+    background: var(${theme.palette.bnw1000});
+    border-color: var(--base-color);
   }
 
   &[data-variant='text'] {
@@ -113,7 +114,8 @@ const ButtonStyled = styled.button<{
   }
 
   &[data-squared='true'] {
-    width: var(--size);
+    width: 48px;
+    height: var(--size);
   }
 
   ${Themes}

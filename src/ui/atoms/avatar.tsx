@@ -13,14 +13,15 @@ const attrs = (props: Props) => ({
 export const Avatar = styled.div.attrs(attrs)<Props>`
   background-color: var(${theme.palette.bnw900});
   border-radius: 3px;
+  box-shadow: 0 0 0 2px var(${theme.palette.bnw1000}),
+    0 0 0 3px var(${theme.palette.bnw800});
 
   ${({ src }) =>
     src &&
     css`
       background: url(${src}) no-repeat center / cover;
     `}
-
-  &[data-size='small'] {
+  &[data-size= 'small' ] {
     height: 24px;
     width: 24px;
   }

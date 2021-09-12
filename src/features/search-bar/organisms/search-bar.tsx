@@ -54,7 +54,7 @@ function useSearchQueryChanged() {
 
 const Container = styled.header`
   background-color: var(${theme.palette.bnw1000});
-  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
+  border-bottom: 1px solid var(${theme.palette.bnw800});
   display: flex;
   flex-shrink: 0;
   justify-content: center;

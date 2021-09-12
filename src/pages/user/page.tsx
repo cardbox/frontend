@@ -109,8 +109,8 @@ const UserHeader = styled.div`
   grid-template-columns: repeat(3, 1fr);
   background: var(${theme.palette.bnw1000});
 
-  border: 1px solid var(${theme.palette.bnw850});
-  box-shadow: ${theme.shadows[2]};
+  border: 1px solid var(${theme.palette.bnw900});
+  box-shadow: 0 6px 9px #f6f5f8;
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
   position: relative;
@@ -200,7 +200,7 @@ const UserFaceDescription = styled.div`
 `;
 
 const UserFacePosition = styled(UserFaceDescription)`
-  color: var(${theme.palette.bnw600});
+  color: var(${theme.palette.bnw500});
   margin-top: 0;
 `;
 const UserLocation = styled(UserFaceDescription)`

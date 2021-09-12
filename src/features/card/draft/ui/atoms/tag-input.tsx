@@ -75,6 +75,7 @@ const Submit = () => {
   return (
     <Button
       type="submit"
+      variant="text"
       icon={<img src={iconAdd} alt="Submit entered tag" />}
     />
   );

@@ -42,7 +42,7 @@ export const SkeletonLayout = () => {
             <UserLogo>
               <StAvatar size="large" />
             </UserLogo>
-            <EditProfile variant="outlined">
+            <EditProfile theme="secondary" variant="outlined">
               <ButtonText />
             </EditProfile>
           </UserHeader>

@@ -7,3 +7,4 @@ export { default as iconDeckArrow } from './deck-arrow.svg';
 export { default as iconClose } from './close.svg';
 export { default as iconAdd } from './add.svg';
 export { default as iconArrowRight } from './arrow-right.svg';
+export { default as iconEdit } from './edit.svg';

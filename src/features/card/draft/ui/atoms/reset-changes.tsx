@@ -20,6 +20,8 @@ export const ResetChanges = ({ _name }: Props) => {
 
   return (
     <Button
+      theme="secondary"
+      variant="outlined"
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;
