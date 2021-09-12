@@ -11,6 +11,7 @@
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
     "api": "openapi && prettier --write ./src/api/internal/index.ts",
     "prepare:certs": "bash ./scripts/create-certs.sh",
+    "clean": "git clean -fxd",
     "commit": "git-cz",
     "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
