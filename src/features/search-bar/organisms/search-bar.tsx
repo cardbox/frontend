@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { $currentUser } from '@box/entities/user/model';
-import { Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
+import { Avatar, Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
+import { imgLogo } from '@box/shared/assets';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
@@ -23,7 +24,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({
   newCardHref,
 }) => {
   useSearchQueryChanged();
-  const userInfo = useStore($currentUser);
+  const viewer = useStore($currentUser);
 
   return (
     <Container>
@@ -35,15 +36,10 @@ export const Searchbar: React.FC<SearchbarProps> = ({
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          {userInfo && (
-            <User to={paths.user(userInfo.username)}>
-              <Avatar>
-                <AvatarImg
-                  src={userInfo.avatar as string}
-                  alt={userInfo.username}
-                />
-              </Avatar>
-              <UserName>{userInfo.username}</UserName>
+          {viewer && (
+            <User to={paths.user(viewer.username)}>
+              <Avatar src={viewer.avatar || imgLogo} />
+              <UserName>{viewer.username}</UserName>
             </User>
           )}
           <NewCardLink to={newCardHref}>
@@ -93,24 +89,9 @@ const User = styled(Link)`
   color: inherit;
 `;
 
-const Avatar = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid var(${theme.palette.bnw800});
-  width: 48px;
-  height: 48px;
-  border-radius: 3px;
-  margin-right: 4px;
-`;
-
-const AvatarImg = styled.img`
-  width: 42px;
-  border-radius: 3px;
-`;
-
 const UserName = styled.span`
   margin-right: 12px;
+  margin-left: 8px;
 `;
 
 const NewCardLink = styled(Link)`
