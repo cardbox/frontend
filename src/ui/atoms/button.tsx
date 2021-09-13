@@ -9,6 +9,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   theme?: ButtonTheme;
   variant?: ButtonVariant;
   icon?: React.ReactNode;
+  accented?: boolean;
   // FIXME: MutableRefObject not suit for forwardRef
   ref?: MutableRefObject<HTMLButtonElement>;
 };
@@ -26,6 +27,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
       variant = 'solid',
       icon,
       type,
+      accented = false,
       children,
       ...buttonProps
     },
@@ -36,6 +38,7 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(
         data-theme={theme}
         data-variant={variant}
         data-squared={Boolean(icon && !children)}
+        data-accented={accented}
         type={type}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...buttonProps}
@@ -58,15 +61,15 @@ const Themes = css`
   }
 
   &[data-theme='secondary'] {
-    --base-color: var(${theme.palette.bnw900});
+    --base-color: var(${theme.palette.bnw0});
   }
 `;
 
 const Variants = css`
   &[data-variant='outlined'] {
-    --text-color: var(${theme.palette.bnw0});
+    --text-color: var(--base-color);
     background: var(${theme.palette.bnw1000});
-    border-color: var(--base-color);
+    border-color: var(${theme.palette.bnw900});
   }
 
   &[data-variant='text'] {
@@ -113,13 +116,23 @@ const ButtonStyled = styled.button<{
     margin-left: 0.5rem;
   }
 
+  svg {
+    fill: var(--base-color);
+  }
+
+  ${Themes}
+  ${Variants}
+
   &[data-squared='true'] {
     width: 48px;
     height: var(--size);
   }
 
-  ${Themes}
-  ${Variants}
+  &[data-accented='true'] {
+    --text-color: var(--base-color);
+    background: transparent;
+    border-color: var(--base-color);
+  }
 `;
 
 export const ButtonGroup = styled.div`

@@ -4,7 +4,7 @@ import {
   Avatar,
   Button,
   ContentCenteredTemplate,
-  iconDeckArrow,
+  IconEdit,
   iconUserBg,
 } from '@box/ui';
 import { Card, User } from '@box/api';
@@ -73,7 +73,7 @@ export const UserPage = () => {
             <EditProfile
               theme="secondary"
               variant="outlined"
-              icon={<Icon src={iconDeckArrow} />}
+              icon={<IconEdit />}
             >
               Edit profile
             </EditProfile>
@@ -206,10 +206,6 @@ const UserFacePosition = styled(UserFaceDescription)`
 const UserLocation = styled(UserFaceDescription)`
   color: var(${theme.palette.bnw600});
   margin-top: 0;
-`;
-
-const Icon = styled.img`
-  margin: 0;
 `;
 
 const UserCards = styled.div`

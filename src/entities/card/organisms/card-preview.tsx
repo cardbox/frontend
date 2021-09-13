@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import React, { forwardRef } from 'react';
 import {
   Button,
+  IconDeckArrow,
+  IconDeckCheck,
   PaperContainer,
   Skeleton,
   Text,
-  iconDeckArrow,
-  iconDeckCheck,
 } from '@box/ui';
 import type { Card, User } from '@box/api';
 import { Editor } from '@cardbox/editor';
@@ -207,8 +207,8 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
           ref={ref}
           onClick={handleClick}
           variant="outlined"
-          theme="secondary"
-          icon={<img src={iconDeckCheck} title="Remove card from my deck" />}
+          theme="primary"
+          icon={<IconDeckCheck />}
         />
       );
     }
@@ -219,7 +219,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
         onClick={handleClick}
         variant="outlined"
         theme="secondary"
-        icon={<img src={iconDeckArrow} title="Add card to my deck" />}
+        icon={<IconDeckArrow />}
       />
     );
   },

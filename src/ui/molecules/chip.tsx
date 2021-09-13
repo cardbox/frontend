@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '@box/lib/theme';
 
+import { IconClose } from '../icons';
 import { Text } from '../atoms';
-import { iconClose } from '../icons';
 
 interface ChipProps {
   label: string;
@@ -14,7 +14,7 @@ export const Chip: React.FC<ChipProps> = ({ onRemove, label }) => {
     <ChipStyled>
       <Text>{label}</Text>
       <CloseButton onClick={onRemove}>
-        <img src={iconClose} alt="remove tag" />
+        <IconClose />
       </CloseButton>
     </ChipStyled>
   );

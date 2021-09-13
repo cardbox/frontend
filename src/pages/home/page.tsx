@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useCallback } from 'react';
 import type { Card, User } from '@box/api';
 import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, Text, Toast, iconArrowRight } from '@box/ui';
+import { ContentCenteredTemplate, IconArrowRight, Text, Toast } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { createStore } from 'effector';
@@ -49,7 +49,7 @@ export const HomePage: React.FC = () => {
       <Toast
         extra={
           <MoreLink to={paths.home()}>
-            More <img src={iconArrowRight} alt="Read more" />
+            More <IconArrowRight />
           </MoreLink>
         }
       >

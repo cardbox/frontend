@@ -5,7 +5,7 @@ import React, {
   FormEventHandler,
   KeyboardEventHandler,
 } from 'react';
-import { Button, Input, iconAdd } from '@box/ui';
+import { Button, IconAdd, Input } from '@box/ui';
 import { combine } from 'effector';
 import { reflect } from '@effector/reflect';
 import { theme } from '@box/lib/theme';
@@ -73,10 +73,12 @@ const TagReflect = reflect({
 
 const Submit = () => {
   return (
+    // FIXME: Цвет не совпадает с темой, инлайн не работает из-за каскада
     <Button
       type="submit"
       variant="text"
-      icon={<img src={iconAdd} alt="Submit entered tag" />}
+      theme="secondary"
+      icon={<IconAdd fill={`var(${theme.palette.bnw600})`} />}
     />
   );
 };

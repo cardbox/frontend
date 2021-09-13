@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import {
   Button,
   ContentCenteredTemplate,
-  iconDeckCheck,
-  iconEdit,
+  IconDeckCheck,
+  IconEdit,
 } from '@box/ui';
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
@@ -12,7 +12,6 @@ import { Helmet } from 'react-helmet-async';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector';
 import { navigationModel } from '@box/entities/navigation';
-import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import { paths } from '../../paths';
@@ -65,20 +64,20 @@ export const CardViewPage = () => {
             )}
             {card && isAuthorViewing && (
               <Buttons>
-                <ButtonEdit
+                <ButtonCard
                   type="button"
                   theme="secondary"
                   variant="outlined"
-                  icon={<img src={iconEdit} title="Edit card" />}
+                  icon={<IconEdit />}
                   onClick={() => handleEditCard(card.id)}
                 >
                   Edit card
-                </ButtonEdit>
-                <ButtonDelete
+                </ButtonCard>
+                <ButtonCard
                   type="button"
-                  theme="secondary"
+                  theme="danger"
                   variant="outlined"
-                  icon={<img src={iconDeckCheck} title="Delete card" />}
+                  icon={<IconDeckCheck />}
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
                     if (!window.confirm(DELETE_WARN)) return;
@@ -86,7 +85,7 @@ export const CardViewPage = () => {
                   }}
                 >
                   Delete card
-                </ButtonDelete>
+                </ButtonCard>
               </Buttons>
             )}
           </Sidebar>
@@ -133,11 +132,6 @@ const Buttons = styled.div`
   }
 `;
 
-const ButtonEdit = styled(Button)`
-  justify-content: flex-start;
-`;
-
-const ButtonDelete = styled(Button)`
-  color: var(${theme.palette.notice550});
+const ButtonCard = styled(Button)`
   justify-content: flex-start;
 `;

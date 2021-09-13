@@ -28,14 +28,16 @@ export const Searchbar: React.FC<SearchbarProps> = ({
       <ContentCenteredTemplate>
         <Nav>
           <Link to={logoHref}>
-            <img src={IconLogo} alt="Logo" />
+            <IconLogo />
           </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
           <SessionPanel />
           <NewCardLink to={newCardHref}>
-            <Button variant="outlined">New card</Button>
+            <Button theme="primary" variant="outlined" accented>
+              New card
+            </Button>
           </NewCardLink>
         </Nav>
       </ContentCenteredTemplate>
