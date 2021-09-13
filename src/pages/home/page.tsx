@@ -145,7 +145,7 @@ const MoreLink = styled(Link)`
     opacity: 0.7;
   }
 
-  img {
+  svg {
     margin-left: 20px;
     vertical-align: middle;
   }
