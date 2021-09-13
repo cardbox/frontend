@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
+import { $currentUser } from '@box/entities/user/model';
+import { Avatar, Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
+import { imgLogo } from '@box/shared/assets';
+import { paths } from '@box/pages/paths';
 import { theme } from '@box/lib/theme';
-import { useEvent } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../models';
 import { Search } from '../molecules';
@@ -16,12 +19,12 @@ interface SearchbarProps {
   newCardHref: string;
 }
 
-// TODO: вынести из Searchbar логику с пользователем
 export const Searchbar: React.FC<SearchbarProps> = ({
   logoHref,
   newCardHref,
 }) => {
   useSearchQueryChanged();
+  const viewer = useStore($currentUser);
 
   return (
     <Container>
@@ -33,12 +36,18 @@ export const Searchbar: React.FC<SearchbarProps> = ({
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <SessionPanel />
+          {viewer && (
+            <User to={paths.user(viewer.username)}>
+              <Avatar src={viewer.avatar || imgLogo} />
+              <UserName>{viewer.username}</UserName>
+            </User>
+          )}
           <NewCardLink to={newCardHref}>
             <Button theme="primary" variant="outlined" accented>
               New card
             </Button>
           </NewCardLink>
+          <SessionPanel />
         </Nav>
       </ContentCenteredTemplate>
     </Container>
@@ -73,6 +82,18 @@ const SearchWrapper = styled.div`
   flex-grow: 1;
   margin-left: 3.125rem;
   margin-right: 1.125rem;
+`;
+
+const User = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+`;
+
+const UserName = styled.span`
+  margin-right: 12px;
+  margin-left: 8px;
 `;
 
 const NewCardLink = styled(Link)`
