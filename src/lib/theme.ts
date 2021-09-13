@@ -171,9 +171,9 @@ export const theme = {
   palette,
   shadows: [
     'none',
-    `0px 3px 9px var(${palette.bnw950})`,
-    `0px 6px 9px var(${palette.bnw900})`,
-    '0 3px 9px #ebebeb',
+    `0 3px 9px var(${palette.bnw900})`,
+    `0 3px 9px var(${palette.bnw950})`,
+    `0 6px 9px var(${palette.bnw900})`,
   ],
   spacing: (...spaces: SpacingParams) => {
     const [top, right, bottom, left] = spaces;

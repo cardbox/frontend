@@ -38,7 +38,7 @@ const Container = styled.div`
   background-color: var(${theme.palette.bnw1000});
   border: 1px solid var(${theme.palette.bnw900});
   border-radius: 6px;
-  box-shadow: 0 3px 9px #f6f5f8;
+  box-shadow: ${theme.shadows[1]};
   display: flex;
   justify-content: space-between;
   padding: 1.0625rem 1.3125rem;

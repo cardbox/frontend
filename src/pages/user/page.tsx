@@ -110,7 +110,7 @@ const UserHeader = styled.div`
   background: var(${theme.palette.bnw1000});
 
   border: 1px solid var(${theme.palette.bnw900});
-  box-shadow: 0 6px 9px #f6f5f8;
+  box-shadow: ${theme.shadows[3]};
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
   position: relative;

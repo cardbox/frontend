@@ -90,11 +90,11 @@ const PaperContainerStyled = styled(PaperContainer)<{
   justify-content: space-between;
   overflow: hidden;
   border-color: var(${theme.palette.bnw900});
-  box-shadow: 0 3px 9px #f6f5f8;
+  box-shadow: ${theme.shadows[1]};
 
   &[data-size='small'] {
     background-color: var(${theme.palette.bnw950});
-    box-shadow: 0 3px 9px #fbfafb;
+    box-shadow: ${theme.shadows[2]};
     height: 190px;
     transition: 0.25s;
 

@@ -20,7 +20,7 @@ const Root = styled.article`
   background: var(${theme.palette.wizard950});
   border-bottom: 1px solid var(${theme.palette.wizard750});
   box-sizing: border-box;
-  box-shadow: ${theme.shadows[1]};
+  box-shadow: ${theme.shadows[2]};
   justify-content: space-between;
   margin-top: -1.875rem; // Компенсируем отступ PagesContainer
   padding: 0 36px;
