@@ -116,10 +116,6 @@ const ButtonStyled = styled.button<{
     margin-left: 0.5rem;
   }
 
-  svg {
-    fill: var(--base-color);
-  }
-
   ${Themes}
   ${Variants}
 

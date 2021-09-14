@@ -73,12 +73,11 @@ const TagReflect = reflect({
 
 const Submit = () => {
   return (
-    // FIXME: Цвет не совпадает с темой, инлайн не работает из-за каскада
-    <Button
+    <SubmitButton
       type="submit"
       variant="text"
       theme="secondary"
-      icon={<IconAdd fill={`var(${theme.palette.bnw600})`} />}
+      icon={<IconAdd title="Submit entered tag" />}
     />
   );
 };
@@ -108,3 +107,9 @@ const NewTagForm = reflect({
     ),
   },
 });
+
+const SubmitButton = styled(Button)`
+  svg {
+    fill: var(${theme.palette.bnw600});
+  }
+`;

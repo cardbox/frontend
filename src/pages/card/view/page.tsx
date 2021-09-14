@@ -9,9 +9,9 @@ import {
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector';
-import { navigationModel } from '@box/entities/navigation';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import { paths } from '../../paths';
@@ -34,9 +34,7 @@ export const CardViewPage = () => {
   const author = useStore($cardAuthor);
   const isAuthorViewing = useStore($isAuthorViewing);
 
-  const historyPush = useEvent(navigationModel.historyPush);
   const handleDeleteCard = useEvent(deleteCard);
-  const handleEditCard = (id: string) => historyPush(paths.cardEdit(id));
 
   return (
     <>
@@ -64,15 +62,16 @@ export const CardViewPage = () => {
             )}
             {card && isAuthorViewing && (
               <Buttons>
-                <ButtonCard
-                  type="button"
-                  theme="secondary"
-                  variant="outlined"
-                  icon={<IconEdit />}
-                  onClick={() => handleEditCard(card.id)}
-                >
-                  Edit card
-                </ButtonCard>
+                <Link to={paths.cardEdit(card.id)}>
+                  <ButtonCard
+                    type="button"
+                    theme="secondary"
+                    variant="outlined"
+                    icon={<IconEdit />}
+                  >
+                    Edit card
+                  </ButtonCard>
+                </Link>
                 <ButtonCard
                   type="button"
                   theme="danger"
@@ -130,8 +129,13 @@ const Buttons = styled.div`
   & > *:not(:last-child) {
     margin-bottom: 0.5625rem;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const ButtonCard = styled(Button)`
   justify-content: flex-start;
+  width: 100%;
 `;

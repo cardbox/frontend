@@ -208,7 +208,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
           onClick={handleClick}
           variant="outlined"
           theme="primary"
-          icon={<IconDeckCheck />}
+          icon={<IconDeckCheck title="Remove card from my deck" />}
         />
       );
     }
@@ -219,7 +219,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
         onClick={handleClick}
         variant="outlined"
         theme="secondary"
-        icon={<IconDeckArrow />}
+        icon={<IconDeckArrow title="Add card to my deck" />}
       />
     );
   },
