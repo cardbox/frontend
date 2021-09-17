@@ -3624,9 +3624,9 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001023, can
   integrity sha512-HOe1r+9VkU4TFmnU70z+r7OLmtR+/chB1rdcJUeQlAinjEeb0cKL20tlAtOagNZhbrtLnCvV19B4FmF1rgzl6A==
 
 caniuse-lite@^1.0.30001252, caniuse-lite@^1.0.30001254:
-  version "1.0.30001255"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001255.tgz#f3b09b59ab52e39e751a569523618f47c4298ca0"
-  integrity sha512-F+A3N9jTZL882f/fg/WWVnKSu6IOo3ueLz4zwaOPbPYHNmM/ZaDUyzyJwS1mZhX7Ex5jqTyW599Gdelh5PDYLQ==
+  version "1.0.30001258"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001258.tgz#b604eed80cc54a578e4bf5a02ae3ed49f869d252"
+  integrity sha512-RBByOG6xWXUp0CR2/WU2amXz3stjKpSl5J1xU49F1n2OxD//uBZO4wCKUiG+QMGf7CHGfDDcqoKriomoGVxTeA==
 
 capital-case@^1.0.4:
   version "1.0.4"
@@ -3945,12 +3945,12 @@ color@^3.0.0:
     color-convert "^1.9.3"
     color-string "^1.6.0"
 
-colorette@^1.2.1, colorette@^1.3.0:
+colorette@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.3.0.tgz#ff45d2f0edb244069d3b772adeb04fed38d0a0af"
   integrity sha512-ecORCqbSFP7Wm8Y6lyqMJjexBQqXSF7SSeaTyGGphogUjBlFP9m9o08wy86HL2uB7fMTxtOUzLMk7ogKcxMg1w==
 
-colorette@^1.2.2:
+colorette@^1.2.2, colorette@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
@@ -5152,17 +5152,17 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 effector-inspector@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.7.1.tgz#0833aa0470e30fb41895818c95a51b8467b6ea70"
-  integrity sha512-d2AswePyraf0qeWwbODXY73LoGUxFzDiK01xRs+dqPp/dcKCxYe0LjqHVh9RhV2rrLkPoz3ebY5sKLwtU4/CEg==
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.7.2.tgz#d93a553174d9130674546b17aeec6e709c1dba33"
+  integrity sha512-B9bQq6W1+iYcioig5huqzXP3vSGd++TksoeVRcFqxOBke+xPWC6cPq8M6AM+UHp1yzVaF3i52FnLvEF5n1ZS2w==
   dependencies:
     foliage "^0.200.0"
     forest "^0.20.2"
 
 effector-logger@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/effector-logger/-/effector-logger-0.12.0.tgz#17593d81a9b1435db193af3b687613ed50b31381"
-  integrity sha512-rt5aSubKsPr/lv7F24zYXdPatAYWIZ3/+XGByOugDcZ837W57pG6NmwmpEklcDVmoVqvZWv7L3hZaMi4iHwWog==
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/effector-logger/-/effector-logger-0.12.1.tgz#0a9fc5de31df3b60d6dee29a12a8c2148ef56460"
+  integrity sha512-nd4aDx33kpLLijsF2wA0m3bWQ/AJskIzrvzAQiLnK5d8BzEzLgOXXLlSDd4cqlUMEliSn3MgMjfLUkZ0d9Qlqw==
   dependencies:
     detect-node "2.0.4"
     effector-inspector "^0.7.1"
@@ -5186,9 +5186,9 @@ effector-react@^22.0.4:
   integrity sha512-4bWdcUXZlET5uKF/+9HNeB+s7tAPrD6V7RWbTJXeDCVSwF6gXgDQMjmla7DtHsbpZxB6hSsH98JfqFq7yXbXdw==
 
 effector@^22.1.0:
-  version "22.1.0"
-  resolved "https://registry.yarnpkg.com/effector/-/effector-22.1.0.tgz#67fb4c1d07467bb4bb47104d6dfe41ec76f45685"
-  integrity sha512-WvWfgp4S6f8vM08m1V1jtZ8ZVBsX72hhdc3AVVCOwINC9GT+zydq7qGLAfpqy5DkgJ1o/a5WS5ZsTuiE7JuGpg==
+  version "22.1.1"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-22.1.1.tgz#588283015e2c15283be76ae48f4396e8c6ea2ed6"
+  integrity sha512-qQBsVslsh1tgZ0KJQ4VamkhW7xV/AqS3PwsRFYgsGwmuEnaWZ7XI2hH5BmGBsiE3/56lSVHNKQwY1SUcnaIW5A==
 
 electron-to-chromium@^1.3.341, electron-to-chromium@^1.3.811:
   version "1.3.812"
@@ -5196,9 +5196,9 @@ electron-to-chromium@^1.3.341, electron-to-chromium@^1.3.811:
   integrity sha512-7KiUHsKAWtSrjVoTSzxQ0nPLr/a+qoxNZwkwd9LkylTOgOXSVXkQbpIVT0WAUQcI5gXq3SwOTCrK+WfINHOXQg==
 
 electron-to-chromium@^1.3.830:
-  version "1.3.835"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.835.tgz#98fa4402ab7bc6afbe4953a8ca9b63cb3a6bf08b"
-  integrity sha512-rHQszGg2KLMqOWPNTpwCnlp7Kb85haJa8j089DJCreZueykoSN/in+EMlay3SSDMNKR4VGPvfskxofHV18xVJg==
+  version "1.3.843"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.843.tgz#671489bd2f59fd49b76adddc1aa02c88cd38a5c0"
+  integrity sha512-OWEwAbzaVd1Lk9MohVw8LxMXFlnYd9oYTYxfX8KS++kLLjDfbovLOcEEXwRhG612dqGQ6+44SZvim0GXuBRiKg==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -6311,9 +6311,9 @@ flush-write-stream@^1.0.0:
     readable-stream "^2.3.6"
 
 foliage@^0.200.0:
-  version "0.200.0"
-  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.200.0.tgz#a5da6c869d0eb841492052c7f1a21fdb316fd34a"
-  integrity sha512-pJz0sV3RmlQFEqR8jWLTHVDwK7XOvx0JFRLXaj8yWxeyMF9JrV9Y5V/pQX0Iqq/ISUJMXDi7vmnTIH68szk23w==
+  version "0.200.1"
+  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.200.1.tgz#86fd9035d3b55145081ab4ff22d0f4f1aaa6ab98"
+  integrity sha512-b8lTdKQBzO85VEi027n9QpmB47bWQXIE784NtdcPFJw9O8rTMJF6dPKR6VK7w+lTuZ0/e/6fJOW/8ZUoScsjcQ==
   dependencies:
     autoprefixer "^10.2.4"
     csso "^4.2.0"
