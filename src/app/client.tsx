@@ -1,3 +1,5 @@
+import 'effector-logger/inspector';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HatchParams, getHatch } from 'framework';
@@ -13,6 +15,7 @@ import {
   guard,
   sample,
 } from 'effector';
+import { attachLogger } from 'effector-logger/attach';
 import {
   history,
   historyChanged,

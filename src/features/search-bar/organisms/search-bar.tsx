@@ -1,48 +1,30 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { $currentUser } from '@box/entities/user/model';
-import { Avatar, Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
+import { Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
-import { imgLogo } from '@box/shared/assets';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/lib/theme';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';
 import { Search } from '../molecules';
 import { useSearchQuery } from '../lib';
 
-interface SearchbarProps {
-  logoHref: string;
-  viewerHref: string;
-  newCardHref: string;
-}
-
-export const Searchbar: React.FC<SearchbarProps> = ({
-  logoHref,
-  newCardHref,
-}) => {
+export const Searchbar: React.FC = () => {
   useSearchQueryChanged();
-  const viewer = useStore($currentUser);
 
   return (
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Link to={logoHref}>
+          <Link to={paths.home()}>
             <img src={IconLogo} alt="Logo" />
           </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          {viewer && (
-            <User to={paths.user(viewer.username)}>
-              <Avatar src={viewer.avatar || imgLogo} />
-              <UserName>{viewer.username}</UserName>
-            </User>
-          )}
-          <NewCardLink to={newCardHref}>
+          <NewCardLink to={paths.cardCreate()}>
             <Button variant="outlined">New card</Button>
           </NewCardLink>
           <SessionPanel />
@@ -80,18 +62,6 @@ const SearchWrapper = styled.div`
   flex-grow: 1;
   margin-left: 3.125rem;
   margin-right: 1.125rem;
-`;
-
-const User = styled(Link)`
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const UserName = styled.span`
-  margin-right: 12px;
-  margin-left: 8px;
 `;
 
 const NewCardLink = styled(Link)`

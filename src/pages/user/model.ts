@@ -1,26 +1,26 @@
-import { attach, combine, createDomain, restore, sample } from 'effector';
-import { cardModel } from '@box/entities/card';
+import { $cardsCache } from '@box/entities/card/model';
+import { User, internalApi } from '@box/api';
+import { attach, combine, createDomain, createStore, sample } from 'effector';
 import { createHatch } from 'framework';
-import { internalApi } from '@box/api';
-import { userModel } from '@box/entities/user';
+import { some } from 'patronum';
 
 export const hatch = createHatch(createDomain('UserViewPage'));
 
 export const usersGetFx = attach({ effect: internalApi.usersGet });
 export const cardsListFx = attach({ effect: internalApi.cardsList });
 
-export const $userPending = restore(usersGetFx.pending.updates, true);
-export const $cardsPending = restore(cardsListFx.pending.updates, true);
-export const $currentUser = userModel.$currentUser;
-export const $cards = cardModel.$cards;
-
-// FIXME: Позже скорее всего разобъем SkeletonLayout
-// Но пока пусть вся страница будет дожидаться полного резолва эффектов
-export const $pagePending = combine(
-  $userPending,
-  $cardsPending,
-  (users, cards) => users || cards,
+export const $userPending = usersGetFx.pending;
+export const $cardsPending = cardsListFx.pending;
+export const $currentUser = createStore<User | null>(null);
+const $cardsIds = createStore<string[]>([]);
+export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
+  ids.map((id) => cache[id]),
 );
+
+export const $pagePending = some({
+  predicate: true,
+  stores: [$userPending, $cardsPending],
+});
 
 sample({
   clock: [hatch.enter, hatch.update],
@@ -28,9 +28,14 @@ sample({
   target: usersGetFx,
 });
 
-// FIXME: simplify, resolve before first render?
+$currentUser.on(usersGetFx.doneData, (_, { answer }) => answer.user);
+
 sample({
   source: usersGetFx.doneData,
   fn: ({ answer }) => ({ body: { authorId: answer.user.id } }),
   target: cardsListFx,
 });
+
+$cardsIds.on(cardsListFx.doneData, (_, { answer }) =>
+  answer.cards.map(({ id }) => id),
+);
