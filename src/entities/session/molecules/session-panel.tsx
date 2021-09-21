@@ -1,9 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Button } from '@box/ui';
+import { getFullName } from '@box/entities/user/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './session-panel.model';
-import { $isAuthenticated } from '../model';
+import { $isAuthenticated, $session } from '../model';
 
 // FIXME: move to features
 export const SessionPanel: React.FC = () => {
@@ -11,7 +13,12 @@ export const SessionPanel: React.FC = () => {
   const isAuthenticated = useStore($isAuthenticated);
 
   if (isAuthenticated) {
-    return <Button variant="text">Logout</Button>;
+    return (
+      <>
+        <Viewer />
+        <Button variant="text">Logout</Button>
+      </>
+    );
   }
 
   return (
@@ -20,3 +27,26 @@ export const SessionPanel: React.FC = () => {
     </Button>
   );
 };
+
+const Viewer = () => {
+  const viewer = useStore($session);
+  if (!viewer) return null;
+
+  return (
+    <User>
+      <span data-user="name">{getFullName(viewer)}</span>
+    </User>
+  );
+};
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+
+  [data-user='name'] {
+    margin-right: 12px;
+    margin-left: 8px;
+  }
+`;

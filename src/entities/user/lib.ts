@@ -1,4 +1,8 @@
-type User = import('@box/api').User;
+interface Named {
+  firstName: string;
+  lastName: string;
+}
 
-export const getFullName = ({ firstName, lastName }: User) =>
-  `${firstName}\u00A0${lastName}`;
+export function getFullName({ firstName, lastName }: Named) {
+  return `${firstName}\u00A0${lastName}`;
+}
