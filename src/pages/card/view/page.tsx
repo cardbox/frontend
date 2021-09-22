@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import {
   Button,
   ContentCenteredTemplate,
+  Empty,
   IconDeckCheck,
   IconEdit,
-  Empty
 } from '@box/ui';
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
