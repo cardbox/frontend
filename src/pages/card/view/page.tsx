@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, ContentCenteredTemplate, Empty } from '@box/ui';
+import {
+  Button,
+  ContentCenteredTemplate,
+  IconDeckCheck,
+  IconEdit,
+  Empty
+} from '@box/ui';
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
@@ -65,12 +71,22 @@ export const CardViewPage = () => {
               />
             )}
             {card && isAuthorViewing && (
-              <Links>
-                <LinkEdit to={paths.cardEdit(card.id)}>Edit card</LinkEdit>
-                <ButtonDelete
+              <Buttons>
+                <Link to={paths.cardEdit(card.id)}>
+                  <ButtonCard
+                    type="button"
+                    theme="secondary"
+                    variant="outlined"
+                    icon={<IconEdit />}
+                  >
+                    Edit card
+                  </ButtonCard>
+                </Link>
+                <ButtonCard
                   type="button"
                   theme="danger"
-                  variant="text"
+                  variant="outlined"
+                  icon={<IconDeckCheck />}
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
                     // eslint-disable-next-line no-alert
@@ -79,8 +95,8 @@ export const CardViewPage = () => {
                   }}
                 >
                   Delete card
-                </ButtonDelete>
-              </Links>
+                </ButtonCard>
+              </Buttons>
             )}
           </Sidebar>
         </Container>
@@ -117,38 +133,22 @@ const Sidebar = styled.div`
   }
 `;
 
-const Links = styled.div`
+const Buttons = styled.div`
   display: flex;
   flex-direction: column;
 
   & > *:not(:last-child) {
     margin-bottom: 0.5625rem;
   }
-`;
 
-const LinkBase = styled(Link).attrs(map)<{ disabled?: boolean }>`
-  line-height: 1.1875rem;
-
-  &:not(:hover) {
-    text-decoration: none;
-  }
-
-  &[data-disabled='true'] {
-    cursor: not-allowed;
-    opacity: 0.5;
+  a {
     text-decoration: none;
   }
 `;
 
-// todo: change view for links (according to design from figma)
-const LinkEdit = styled(LinkBase)`
-  color: var(${theme.palette.wizard550});
-`;
-
-const ButtonDelete = styled(Button)`
-  width: fit-content;
-  height: auto;
-  padding: 0;
+const ButtonCard = styled(Button)`
+  justify-content: flex-start;
+  width: 100%;
 `;
 
 const LinkHome = styled(Link)`

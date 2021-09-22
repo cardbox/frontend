@@ -4,7 +4,7 @@ import { theme } from '@box/lib/theme';
 export const Input = styled.input`
   border: none;
   border-radius: ${theme.spacing()};
-  background: var(${theme.palette.bnw900});
+  background: var(${theme.palette.bnw950});
   flex-grow: 1;
   font-size: 0.9375rem;
   outline: 0;

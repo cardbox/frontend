@@ -19,6 +19,7 @@
   "dependencies": {
     "@cardbox/editor": "^0.1.4",
     "@effector/reflect": "^0.6.0",
+    "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
     "cross-fetch": "^3.0.4",
     "dayjs": "^1.10.5",
@@ -36,6 +37,7 @@
     "patronum": "^1.1.0",
     "pino": "^7.0.0-rc.2",
     "query-string": "^6.13.1",
+    "razzle-plugin-svg-react-component": "^2.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet-async": "^1.0.6",

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
-import { Button, ContentCenteredTemplate, Text, Toast } from '@box/ui';
 import type { Card, User } from '@box/api';
 import { CardList } from '@box/entities/card';
+import { ContentCenteredTemplate, IconArrowRight, Text, Toast } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { createStore } from 'effector';
 import { theme } from '@box/lib/theme';
 import { useStore } from 'effector-react/ssr';
@@ -45,24 +46,24 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <Helmet title="Welcome to Cardbox" />
+      <Toast
+        extra={
+          <MoreLink to={paths.home()}>
+            More <IconArrowRight />
+          </MoreLink>
+        }
+      >
+        Help us make the best idea storage service!
+      </Toast>
       <ContentCenteredTemplate>
         <Hero>
-          <HeroCol>
-            <PrimaryText type="h1">Cardbox</PrimaryText>
-            <Text type="h1">Storage of all your ideas</Text>
-            <p>
-              The purpose of this product is to create a convenient repository
-              of your ideas with the ability to share them with others and keep
-              all the accumulated knowledge up to date.
-            </p>
-          </HeroCol>
-          <HeroCol>
-            <ToastContainer>
-              <Toast extra={<Button theme="secondary">More...</Button>}>
-                Help us make the best idea storage service!
-              </Toast>
-            </ToastContainer>
-          </HeroCol>
+          <PrimaryText type="h1">Cardbox</PrimaryText>
+          <Text type="h1">Storage of all your ideas</Text>
+          <HeroText>
+            The purpose of this product is to create a convenient repository of
+            your ideas with the ability to share them with others and keep all
+            the accumulated knowledge up to date.
+          </HeroText>
         </Hero>
         <Content>
           <Main>
@@ -97,22 +98,24 @@ export const HomePage: React.FC = () => {
 };
 
 const Hero = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
-  margin-bottom: 60px;
-`;
-
-const HeroCol = styled.div``;
-
-const ToastContainer = styled.div`
-  display: inline-flex;
-  justify-content: flex-end;
-  width: 100%;
+  margin-top: 36px;
+  margin-bottom: 66px;
 `;
 
 const PrimaryText = styled(Text)`
   color: var(${theme.palette.wizard500});
+`;
+
+const HeroText = styled.p`
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  max-width: 800px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Content = styled.div`
@@ -132,4 +135,18 @@ const Section = styled.section`
 
 const SectionTitle = styled(Text)`
   margin-bottom: 1rem;
+`;
+
+const MoreLink = styled(Link)`
+  text-decoration: none;
+  color: var(${theme.palette.bnw0});
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    margin-left: 20px;
+    vertical-align: middle;
+  }
 `;
