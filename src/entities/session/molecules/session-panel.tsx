@@ -16,14 +16,14 @@ export const SessionPanel: React.FC = () => {
     return (
       <>
         <Viewer />
-        <Button variant="outlined">Logout</Button>
+        <Button variant="text">Logout</Button>
       </>
     );
   }
 
   return (
-    <Button theme="primary" variant="outlined" onClick={handleClick}>
-      Login
+    <Button variant="text" onClick={handleClick}>
+      Sign in
     </Button>
   );
 };

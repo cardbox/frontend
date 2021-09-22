@@ -71,7 +71,7 @@ const Meta: React.FC<MetaProps> = ({ cardsCount }) => {
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0 3px 9px #faf9fa;
+  box-shadow: ${theme.shadows[1]};
   transition: 0.25s;
   height: 190px;
 

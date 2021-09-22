@@ -21,8 +21,7 @@ export const Avatar = styled.div.attrs(attrs)<Props>`
     css`
       background: url(${src}) no-repeat center / cover;
     `}
-
-  &[data-size='small'] {
+  &[data-size= 'small' ] {
     height: 24px;
     width: 24px;
   }

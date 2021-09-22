@@ -19,13 +19,15 @@ export const Searchbar: React.FC = () => {
       <ContentCenteredTemplate>
         <Nav>
           <Link to={paths.home()}>
-            <img src={IconLogo} alt="Logo" />
+            <IconLogo />
           </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
           <NewCardLink to={paths.cardCreate()}>
-            <Button variant="outlined">New card</Button>
+            <Button theme="primary" variant="outlined">
+              New card
+            </Button>
           </NewCardLink>
           <SessionPanel />
         </Nav>
@@ -45,7 +47,7 @@ function useSearchQueryChanged() {
 
 const Container = styled.header`
   background-color: var(${theme.palette.bnw1000});
-  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
+  border-bottom: 1px solid var(${theme.palette.bnw800});
   display: flex;
   flex-shrink: 0;
   justify-content: center;

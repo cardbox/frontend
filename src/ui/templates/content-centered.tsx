@@ -14,9 +14,9 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  max-width: calc(100% - 36px);
+  max-width: 100%;
   /* NOTE: Return later, after "large-pages" adaptation */
   /* width: 1404px; */
   width: 100%;
-  padding: 0 66px;
+  padding: 0 36px;
 `;
