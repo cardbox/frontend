@@ -1,5 +1,5 @@
 import fetch, { Headers } from 'node-fetch';
-import { logger } from '@box/lib/logger';
+import { logger } from '@box/shared/lib/logger';
 
 import { Request, queryToString, sendRequestFx } from './base';
 

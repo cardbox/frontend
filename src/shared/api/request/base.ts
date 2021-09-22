@@ -7,7 +7,7 @@ import {
   merge,
   restore,
 } from 'effector';
-import { logger } from '@box/lib/logger';
+import { logger } from '@box/shared/lib/logger';
 
 export interface Request {
   path: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { IconClose } from '../icons';
 import { Text } from '../atoms';

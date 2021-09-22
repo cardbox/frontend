@@ -1,4 +1,4 @@
-import { getValueNode } from '@box/lib/editor';
+import { getValueNode } from '@box/shared/lib/editor';
 
 import type { Card, User } from '../types';
 
