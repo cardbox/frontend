@@ -1,41 +1,29 @@
-import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { paths } from '@box/pages/paths';
-import { theme } from '@box/lib/theme';
+import React, { ReactNode, ReactNodeArray } from 'react';
 
 import { Text } from './text';
 
 interface EmptySearchProps {
   text: string;
-  enableButton?: boolean;
+  children?: ReactNode | ReactNodeArray;
 }
 
 /**
  * Заглушка для пустых блоков с данными
  */
-export const Empty: React.FC<EmptySearchProps> = ({ text, enableButton }) => {
+export const Empty: React.FC<EmptySearchProps> = ({ text, children }) => {
   return (
     <EmptyBlock>
       <Text>{text}</Text>
-      {enableButton && <LinkHome to={paths.home()}>Back Home</LinkHome>}
+      {children}
     </EmptyBlock>
   );
 };
 
 const EmptyBlock = styled.div`
   display: flex;
+  margin-top: 15%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const LinkHome = styled(Link)`
-  --base-color: var(${theme.palette.wizard500});
-
-  color: var(--base-color);
-  margin-top: 2rem;
-  &:hover {
-    opacity: 0.7;
-  }
 `;

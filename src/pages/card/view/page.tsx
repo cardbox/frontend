@@ -34,7 +34,9 @@ export const CardViewPage = () => {
 
   if (!card && !isLoading) {
     return (
-      <Empty enableButton text="Sorry, the page you visited does not exist." />
+      <Empty text="Sorry, the page you visited does not exist.">
+        <LinkHome to={paths.home()}>Back Home</LinkHome>
+      </Empty>
     );
   }
 
@@ -147,4 +149,14 @@ const ButtonDelete = styled(Button)`
   width: fit-content;
   height: auto;
   padding: 0;
+`;
+
+const LinkHome = styled(Link)`
+  --base-color: var(${theme.palette.wizard500});
+
+  color: var(--base-color);
+  margin-top: 2rem;
+  &:hover {
+    opacity: 0.7;
+  }
 `;

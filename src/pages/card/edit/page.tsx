@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardDraft } from '@box/features/card/draft';
-import { ContentCenteredTemplate, Text } from '@box/ui';
+import { ContentCenteredTemplate, Empty } from '@box/ui';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { createStore } from 'effector';
+import { paths } from '@box/pages/paths';
+import { theme } from '@box/lib/theme';
 import { variant } from '@effector/reflect/ssr';
 
 export const $isCardFound = createStore(false);
@@ -32,11 +35,25 @@ const PageContent = variant({
   cases: {
     // FIXME: replace to Error widget later
     // @see https://ant.design/components/result/#components-result-demo-404
-    notFound: () => <Text type="h2">Card not found</Text>,
+    notFound: () => (
+      <Empty text="Sorry, the page you visited does not exist.">
+        <LinkHome to={paths.home()}>Back Home</LinkHome>
+      </Empty>
+    ),
     ready: () => <CardDraft.Form okText="Save" _name="edit" />,
   },
 });
 
 const Container = styled.div`
   margin: 30px 120px 120px 120px;
+`;
+
+const LinkHome = styled(Link)`
+  --base-color: var(${theme.palette.wizard500});
+
+  color: var(--base-color);
+  margin-top: 2rem;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
