@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, ContentCenteredTemplate } from '@box/ui';
+import { Button, ContentCenteredTemplate, Empty } from '@box/ui';
 import { Card, User } from '@box/api/index';
 import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
@@ -31,6 +31,12 @@ export const CardViewPage = () => {
   const isAuthorViewing = useStore($isAuthorViewing);
 
   const handleDeleteCard = useEvent(deleteCard);
+
+  if (!card && !isLoading) {
+    return (
+      <Empty enableButton text="Sorry, the page you visited does not exist." />
+    );
+  }
 
   return (
     <>
@@ -65,6 +71,7 @@ export const CardViewPage = () => {
                   variant="text"
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
+                    // eslint-disable-next-line no-alert
                     if (!window.confirm(DELETE_WARN)) return;
                     handleDeleteCard();
                   }}
