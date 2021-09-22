@@ -9,7 +9,7 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
-    "api": "openapi && prettier --write ./src/api/internal/index.ts",
+    "api": "openapi && prettier --write ./src/shared/api/internal/index.ts",
     "prepare:certs": "bash ./scripts/create-certs.sh",
     "clean": "git clean -fxd",
     "commit": "git-cz",

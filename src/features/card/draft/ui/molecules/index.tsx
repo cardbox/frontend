@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ButtonGroup } from '@box/ui';
+import { ButtonGroup } from '@box/shared/ui';
 
 import * as Controls from '../atoms';
 

@@ -1,4 +1,4 @@
-import { contract } from '@box/lib/contract';
+import { contract } from '@box/shared/lib/contract';
 import { withHatch } from 'framework';
 
 import * as model from './model';

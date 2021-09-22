@@ -2,7 +2,7 @@ import { attach, createDomain, createEvent, guard, sample } from 'effector';
 import { cardDraftModel } from '@box/features/card/draft';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 
 import { paths } from '../../paths';
 

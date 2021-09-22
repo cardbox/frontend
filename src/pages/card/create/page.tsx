@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CardDraft } from '@box/features/card/draft';
-import { ContentCenteredTemplate } from '@box/ui';
+import { ContentCenteredTemplate } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 
 /**

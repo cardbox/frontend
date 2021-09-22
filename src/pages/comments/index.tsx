@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { Comments } from './comments';
 

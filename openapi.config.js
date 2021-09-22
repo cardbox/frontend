@@ -8,7 +8,7 @@ module.exports = {
       {
         effectorImport: 'effector-root',
         requestName: 'requestFx',
-        requestPath: '@box/api/request',
+        requestPath: '@box/shared/api/request',
       },
     ],
   ],

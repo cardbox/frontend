@@ -12,7 +12,7 @@ import {
   $cookiesForRequest,
   $cookiesFromResponse,
   setCookiesForRequest,
-} from '@box/api/request';
+} from '@box/shared/api/request';
 import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
@@ -30,7 +30,7 @@ import {
   sample,
   serialize,
 } from 'effector';
-import { logger } from '@box/lib/logger';
+import { logger } from '@box/shared/lib/logger';
 import { matchRoutes } from 'react-router-config';
 import { performance } from 'perf_hooks';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';

@@ -8,16 +8,16 @@ import {
   PaperContainer,
   Skeleton,
   Text,
-} from '@box/ui';
-import type { Card, User } from '@box/api';
+} from '@box/shared/ui';
+import type { Card, User } from '@box/shared/api';
 import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
-import { useMouseSelection } from '@box/lib/use-mouse-selection';
+import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
 
 type CardSize = 'small' | 'large';
 

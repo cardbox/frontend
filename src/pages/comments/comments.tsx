@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Answer, Question } from '@box/api';
+import { Answer, Question } from '@box/shared/api';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { paths } from '@box/pages/paths';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 export const Comments = () => (
   <>

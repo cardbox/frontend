@@ -5,8 +5,8 @@ import {
   ContentCenteredTemplate,
   IconDeckCheck,
   IconEdit,
-} from '@box/ui';
-import { Card, User } from '@box/api/index';
+} from '@box/shared/ui';
+import { Card, User } from '@box/shared/api/index';
 import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';

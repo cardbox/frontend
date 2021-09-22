@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@box/ui/atoms';
+import { Avatar } from '@box/shared/ui/atoms';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/api';
+import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { getFullName } from '../lib';
 
