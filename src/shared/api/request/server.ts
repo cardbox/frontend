@@ -1,11 +1,10 @@
 import fetch, { Headers } from 'node-fetch';
+import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 
 import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
-
-const API_PREFIX = process.env.BACKEND_URL ?? 'http://localhost:9008';
 
 async function requestServer({ path, method, ...options }: Request) {
   const headers = new Headers({
@@ -21,7 +20,7 @@ async function requestServer({ path, method, ...options }: Request) {
       : undefined;
 
   try {
-    const response = await fetch(`${API_PREFIX}${path}${query}`, {
+    const response = await fetch(`${env.BACKEND_URL}${path}${query}`, {
       method,
       headers,
       body,

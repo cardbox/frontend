@@ -30,6 +30,7 @@ import {
   sample,
   serialize,
 } from 'effector';
+import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 import { matchRoutes } from 'react-router-config';
 import { performance } from 'perf_hooks';
@@ -155,13 +156,13 @@ let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 function syncLoadAssets() {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
+  assets = require(env.RAZZLE_ASSETS_MANIFEST);
 }
 
 syncLoadAssets();
 
 function createFastify() {
-  if (process.env.NODE_ENV === 'development') {
+  if (env.IS_DEV_ENV) {
     const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
     const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
 
@@ -203,11 +204,11 @@ function createFastify() {
     });
   }
 
-  if (process.env.USE_SSL === 'true') {
+  if (env.USE_SSL) {
     return fastify({
       https: {
-        cert: fs.readFileSync(path.resolve(process.env.TLS_CERT_FILE!)),
-        key: fs.readFileSync(path.resolve(process.env.TLS_KEY_FILE!)),
+        cert: fs.readFileSync(path.resolve(env.TLS_CERT_FILE)),
+        key: fs.readFileSync(path.resolve(env.TLS_KEY_FILE)),
         allowHTTP1: true,
       },
       http2: true,
@@ -223,11 +224,9 @@ function createFastify() {
 
 export const fastifyInstance = createFastify();
 
-const BACKEND_URL = process.env.BACKEND_URL ?? 'http://localhost:9110';
-
 fastifyInstance.register(fastifyHttpProxy, {
-  upstream: BACKEND_URL,
-  http2: BACKEND_URL.includes('https'),
+  upstream: env.BACKEND_URL,
+  http2: env.BACKEND_URL.includes('https'),
   prefix: '/api/internal',
   logLevel: 'debug',
   replyOptions: {
@@ -238,7 +237,7 @@ fastifyInstance.register(fastifyHttpProxy, {
 });
 
 fastifyInstance.register(fastifyStatic, {
-  root: process.env.RAZZLE_PUBLIC_DIR!,
+  root: env.RAZZLE_PUBLIC_DIR,
   wildcard: false,
 });
 
@@ -355,7 +354,7 @@ function htmlStart(props: StartProps) {
           : ''
       }
       ${
-        process.env.NODE_ENV === 'production'
+        env.IS_PROD_ENV
           ? `<script src='${props.assetsJs}' defer></script>`
           : `<script src='${props.assetsJs}' defer crossorigin></script>`
       }

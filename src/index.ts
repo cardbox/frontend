@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { Http2Server } from 'http2';
 import { logger } from '@box/shared/lib/logger';
+import { env } from '@box/shared/config';
 
 import * as app from './app/server';
 
@@ -19,9 +20,7 @@ process.on('unhandledRejection', (error) => {
   );
 });
 
-const PORT = Number.parseInt(process.env.PORT ?? '3005', 10);
-
-server.listen(PORT, '0.0.0.0').catch(logger.error);
+server.listen(env.PORT, '0.0.0.0').catch(logger.error);
 
 if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
@@ -32,7 +31,7 @@ if (module.hot) {
       server.close(() => {
         server = require('./app/server').fastifyInstance;
 
-        server.listen(PORT, '0.0.0.0').catch(logger.error);
+        server.listen(env.PORT, '0.0.0.0').catch(logger.error);
       });
     } catch (error) {
       logger.error(error as any);

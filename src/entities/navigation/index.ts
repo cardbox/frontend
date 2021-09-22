@@ -1,5 +1,6 @@
 import { Scope, createEvent, createStore, merge, scopeBind } from 'effector';
 import { createBrowserHistory } from 'history';
+import { env } from '@box/shared/config';
 
 export interface HistoryChange {
   pathname: string;
@@ -8,8 +9,7 @@ export interface HistoryChange {
   action: 'PUSH' | 'POP' | 'REPLACE';
 }
 
-export const history =
-  process.env.BUILD_TARGET === 'client' ? createBrowserHistory() : null;
+export const history = env.BUILD_ON_CLIENT ? createBrowserHistory() : null;
 
 export const $redirectTo = createStore('');
 
