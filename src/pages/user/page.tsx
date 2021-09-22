@@ -4,6 +4,7 @@ import {
   Avatar,
   Button,
   ContentCenteredTemplate,
+  Empty,
   iconDeckArrow,
   iconUserBg,
 } from '@box/ui';
@@ -28,10 +29,15 @@ export const UserPage = () => {
   const isLoading = useStore($pagePending);
 
   // FIXME: simplify logic
-  if (isLoading || !userInfo) return <SkeletonLayout />;
+  if (isLoading) return <SkeletonLayout />;
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!userInfo && !isLoading) {
+    return <Empty text="Sorry, the page you visited does not exist." />;
+  }
 
   return (
     <>

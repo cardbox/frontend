@@ -24,7 +24,8 @@ export const UserPreviewList = ({
     return <SkeletonGroup amount={3} columns={3} />;
   }
 
-  if (users.length === 0) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!users || users.length === 0) {
     return <Empty text="No users found" />;
   }
 
