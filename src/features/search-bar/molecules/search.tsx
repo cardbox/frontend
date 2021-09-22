@@ -23,7 +23,7 @@ const Container = styled.div`
 const SearchInput = reflect({
   view: Input,
   bind: {
-    placeholder: 'Search placeholder',
+    placeholder: 'Search...',
     value: model.$searchValue,
     onChange: model.searchFieldChanged,
   },
