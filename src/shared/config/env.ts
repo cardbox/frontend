@@ -33,6 +33,5 @@ export const CLIENT_BACKEND_URL =
   process.env.CLIENT_BACKEND_URL ?? '/api/internal';
 export const TLS_CERT_FILE = process.env.TLS_CERT_FILE!;
 export const TLS_KEY_FILE = process.env.TLS_KEY_FILE!;
-export const RAZZLE_ASSETS_MANIFEST = process.env.RAZZLE_ASSETS_MANIFEST!;
 export const RAZZLE_PUBLIC_DIR = process.env.RAZZLE_PUBLIC_DIR!;
 export const USE_SSL = Boolean(process.env.USE_SSL);

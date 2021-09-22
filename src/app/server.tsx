@@ -155,8 +155,9 @@ sample({
 let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 function syncLoadAssets() {
+  // NOTE: couldn't be import from shared/config
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  assets = require(env.RAZZLE_ASSETS_MANIFEST);
+  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 }
 
 syncLoadAssets();
