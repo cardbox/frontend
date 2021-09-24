@@ -18,7 +18,7 @@
   "author": "github.com/cardbox",
   "dependencies": {
     "@cardbox/editor": "^0.1.4",
-    "@effector/reflect": "^0.6.0",
+    "@effector/reflect": "^7.0.0",
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
     "cross-fetch": "^3.0.4",
