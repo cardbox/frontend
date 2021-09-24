@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Chip } from '@box/shared/ui';
 import { reflect } from '@effector/reflect/ssr';
 import { theme } from '@box/shared/lib/theme';
-import { useStore } from 'effector-react/ssr';
 
 import * as model from '../../model';
 
@@ -34,12 +33,11 @@ const TagsContainer = reflect<{ isEmpty: boolean }>({
 });
 
 interface Props {
-  // tags: string[];
+  tags: string[];
   onRemove: (tag: string) => void;
 }
 
-const ChipsView = ({ onRemove }: Props) => {
-  const tags = useStore(model.$tags);
+const ChipsView = ({ tags, onRemove }: Props) => {
   const handleRemove = (tag: string) => () => onRemove(tag);
   return (
     <>
