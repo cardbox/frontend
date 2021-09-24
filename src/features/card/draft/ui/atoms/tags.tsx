@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Chip } from '@box/shared/ui';
-import { reflect } from '@effector/reflect';
+import { reflect } from '@effector/reflect/ssr';
 import { theme } from '@box/shared/lib/theme';
+import { useStore } from 'effector-react/ssr';
 
 import * as model from '../../model';
-import { $tags } from '../../model';
 
 /**
  * Теги для карточки
@@ -29,26 +29,27 @@ const TagsContainer = reflect<{ isEmpty: boolean }>({
     return <TagsWrapperStyled>{children}</TagsWrapperStyled>;
   },
   bind: {
-    isEmpty: $tags.map((tags) => !tags.length),
+    isEmpty: model.$tags.map((tags) => !tags.length),
   },
 });
 
-const ChipsView = ({
-  tags,
-  onRemove,
-}: {
-  tags: string[];
+interface Props {
+  // tags: string[];
   onRemove: (tag: string) => void;
-}) => {
+}
+
+const ChipsView = ({ onRemove }: Props) => {
+  const tags = useStore(model.$tags);
   const handleRemove = (tag: string) => () => onRemove(tag);
   return (
     <>
-      {tags?.map((tag) => (
+      {tags.map((tag) => (
         <Chip key={tag} label={tag} onRemove={handleRemove(tag)} />
       ))}
     </>
   );
 };
+
 const Chips = reflect({
   view: ChipsView,
   bind: {

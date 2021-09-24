@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { Button, IconAdd, Input } from '@box/shared/ui';
 import { combine } from 'effector';
-import { reflect } from '@effector/reflect';
+import { reflect } from '@effector/reflect/ssr';
 import { theme } from '@box/shared/lib/theme';
 import { todo } from '@box/shared/lib/todo';
 
