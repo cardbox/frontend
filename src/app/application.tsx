@@ -6,7 +6,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
-import { customProps } from '@box/lib/theme';
+import { customProps } from '@box/shared/lib/theme';
 
 import { Pages } from '../pages';
 

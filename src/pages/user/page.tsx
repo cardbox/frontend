@@ -6,12 +6,12 @@ import {
   ContentCenteredTemplate,
   IconEdit,
   iconUserBg,
-} from '@box/ui';
-import { Card, User } from '@box/api';
+} from '@box/shared/ui';
+import { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useStore } from 'effector-react/ssr';
 import { userLib } from '@box/entities/user';
 

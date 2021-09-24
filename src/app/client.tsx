@@ -23,7 +23,7 @@ import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
 
-// import { runMockServer } from '../api/mock';
+// import { runMockServer } from '../shared/api/mock';
 
 /**
  * Run mock-api server for frontend

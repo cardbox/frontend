@@ -1,3 +1,5 @@
+import { env } from '@box/shared/config';
+
 export {
   $cookiesForRequest,
   $cookiesFromResponse,
@@ -7,7 +9,7 @@ export {
 
 export type { Answer } from './base';
 
-if (process.env.BUILD_TARGET === 'server') {
+if (env.BUILD_ON_SERVER) {
   require('./server');
 } else {
   require('./client');

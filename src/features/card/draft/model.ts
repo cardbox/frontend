@@ -1,5 +1,5 @@
-import * as editorLib from '@box/lib/editor';
-import type { CardContent } from '@box/api';
+import * as editorLib from '@box/shared/lib/editor';
+import type { CardContent } from '@box/shared/api';
 import {
   StoreValue,
   combine,
@@ -8,8 +8,8 @@ import {
   guard,
 } from 'effector';
 import { every } from 'patronum/every';
-import { internalApi } from '@box/api';
-import { isNonEmpty } from '@box/lib/fp';
+import { internalApi } from '@box/shared/api';
+import { isNonEmpty } from '@box/shared/lib/fp';
 import { spread } from 'patronum/spread';
 
 export const titleChanged = createEvent<string>();

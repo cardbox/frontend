@@ -1,6 +1,6 @@
-import type { Card } from '@box/api';
+import type { Card } from '@box/shared/api';
 import { createEvent, createStore } from 'effector';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 
 export const setCards = createEvent<Card[]>();
 

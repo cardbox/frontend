@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@box/ui';
+import { Button } from '@box/shared/ui';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../../model';

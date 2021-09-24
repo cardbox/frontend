@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { Button } from '../../atoms';
 

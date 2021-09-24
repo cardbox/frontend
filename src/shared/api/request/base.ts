@@ -7,7 +7,8 @@ import {
   merge,
   restore,
 } from 'effector';
-import { logger } from '@box/lib/logger';
+import { env } from '@box/shared/config';
+import { logger } from '@box/shared/lib/logger';
 
 export interface Request {
   path: string;
@@ -41,7 +42,7 @@ export const requestFx = attach({
   mapParams: (parameters: Request, cookies) => ({ ...parameters, cookies }),
 });
 
-if (process.env.BUILD_TARGET === 'server') {
+if (env.BUILD_ON_SERVER) {
   // Pass cookies from the client to each request
   $cookiesForRequest.on(setCookiesForRequest, (_, cookies) => cookies);
 
@@ -60,7 +61,7 @@ if (process.env.BUILD_TARGET === 'server') {
   });
 }
 
-if (process.env.DEBUG || process.env.NODE_ENV === 'development') {
+if (env.IS_DEBUG || env.IS_DEV_ENV) {
   sendRequestFx.watch(({ path, method }) => {
     logger.info({ method, path }, `[requestInternal]`);
   });

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Chip } from '@box/ui';
+import { Chip } from '@box/shared/ui';
 import { reflect } from '@effector/reflect';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import * as model from '../../model';
 import { $tags } from '../../model';
