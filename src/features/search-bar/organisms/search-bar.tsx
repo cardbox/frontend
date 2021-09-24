@@ -25,7 +25,7 @@ export const Searchbar: React.FC = () => {
             <Search />
           </SearchWrapper>
           <NewCardLink to={paths.cardCreate()}>
-            <Button theme="primary" variant="outlined">
+            <Button theme="primary" variant="outlined" accented>
               New card
             </Button>
           </NewCardLink>
