@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import React, { useCallback } from 'react';
 import type { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, IconArrowRight, Text, Toast } from '@box/shared/ui';
+import {
+  ContentCenteredTemplate,
+  IconArrowRight,
+  Text,
+  Toast,
+} from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { createStore } from 'effector';
