@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from '@box/ui';
+import { Button } from '@box/shared/ui';
 import { getFullName } from '@box/entities/user/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 

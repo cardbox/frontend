@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, Text } from '@box/ui';
+import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { UserPreviewList, userModel } from '@box/entities/user';
 import { historyReplace } from '@box/entities/navigation';
 import { reflect } from '@effector/reflect/ssr';
 import { searchModel, useSearchQuery } from '@box/features/search-bar';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './model';

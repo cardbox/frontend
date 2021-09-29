@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 export const PaperContainer = styled.article`
   background-color: var(${theme.palette.bnw900});

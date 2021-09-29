@@ -1,4 +1,4 @@
-import { Card, User, internalApi } from '@box/api';
+import { Card, User, internalApi } from '@box/shared/api';
 import { ChangeEvent } from 'react';
 import {
   attach,

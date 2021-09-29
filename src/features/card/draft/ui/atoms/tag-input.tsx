@@ -5,11 +5,11 @@ import React, {
   FormEventHandler,
   KeyboardEventHandler,
 } from 'react';
-import { Button, IconAdd, Input } from '@box/ui';
+import { Button, IconAdd, Input } from '@box/shared/ui';
 import { combine } from 'effector';
 import { reflect } from '@effector/reflect';
-import { theme } from '@box/lib/theme';
-import { todo } from '@box/lib/todo';
+import { theme } from '@box/shared/lib/theme';
+import { todo } from '@box/shared/lib/todo';
 
 import * as model from '../../model';
 

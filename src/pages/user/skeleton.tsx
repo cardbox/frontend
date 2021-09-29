@@ -6,8 +6,8 @@ import {
   ContentCenteredTemplate,
   Skeleton,
   iconUserBg,
-} from '@box/ui';
-import { theme } from '@box/lib/theme';
+} from '@box/shared/ui';
+import { theme } from '@box/shared/lib/theme';
 
 export const SkeletonLayout = () => {
   return (

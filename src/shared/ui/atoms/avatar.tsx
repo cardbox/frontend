@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 interface Props {
   src?: string;

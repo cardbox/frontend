@@ -1,8 +1,8 @@
+import { env } from '@box/shared/config';
+
 import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestClient);
-
-export const API_PREFIX = process.env.CLIENT_BACKEND_URL ?? `/api/internal`;
 
 export async function requestClient<Response = unknown>({
   path,
@@ -18,7 +18,7 @@ export async function requestClient<Response = unknown>({
       ? JSON.stringify(options.body)
       : undefined;
 
-  const response = await fetch(`${API_PREFIX}${path}${query}`, {
+  const response = await fetch(`${env.CLIENT_BACKEND_URL}${path}${query}`, {
     method,
     headers,
     body,

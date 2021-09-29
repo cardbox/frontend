@@ -9,10 +9,10 @@ import {
   guard,
   sample,
 } from 'effector';
-import type { SessionUser } from '@box/api';
+import type { SessionUser } from '@box/shared/api';
 import { condition } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 import { paths } from '@box/pages/paths';
 
 export const readyToLoadSession = createEvent<void>();

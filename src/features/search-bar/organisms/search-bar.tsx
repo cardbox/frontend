@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Button, ContentCenteredTemplate, IconLogo } from '@box/ui';
+import { Button, ContentCenteredTemplate, IconLogo } from '@box/shared/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel } from '@box/entities/session';
 import { paths } from '@box/pages/paths';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../models';

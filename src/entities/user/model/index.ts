@@ -1,4 +1,4 @@
-import type { User } from '@box/api';
+import type { User } from '@box/shared/api';
 import { createEvent, createStore } from 'effector';
 
 // FIXME: temp solution

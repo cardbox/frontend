@@ -1,7 +1,7 @@
-import type { Card } from '@box/api';
+import type { Card } from '@box/shared/api';
 import { attach, createDomain, createStore, restore, sample } from 'effector';
 import { createHatch } from 'framework';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 import { userModel } from '@box/entities/user';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });

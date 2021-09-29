@@ -2,7 +2,7 @@ import { $session } from '@box/entities/session';
 import { attach, createDomain, sample } from 'effector';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 
 import { paths } from '../paths';
 

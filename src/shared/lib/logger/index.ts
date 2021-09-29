@@ -1,5 +1,7 @@
 import * as path from 'path';
 import P, { pino } from 'pino';
+import { env } from '@box/shared/config';
+
 import Logger = P.Logger;
 
 let serverLogger: Logger;
@@ -20,7 +22,7 @@ function createOrInitLogger() {
     });
 
     serverLogger = pino({
-      level: process.env.LOG_LEVEL ?? 'info',
+      level: env.LOG_LEVEL,
       write: transport.write,
     });
   }

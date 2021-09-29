@@ -1,5 +1,5 @@
 import { $cardsCache } from '@box/entities/card/model';
-import { User, internalApi } from '@box/api';
+import { User, internalApi } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
 import { createHatch } from 'framework';
 import { some } from 'patronum';
