@@ -5,7 +5,6 @@ import {
   Button,
   ContentCenteredTemplate,
   Empty,
-  iconDeckArrow,
   IconEdit,
   iconUserBg,
 } from '@box/shared/ui';
