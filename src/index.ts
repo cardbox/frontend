@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { Http2Server } from 'http2';
-import { logger } from '@box/shared/lib/logger';
 import { env } from '@box/shared/config';
+import { logger } from '@box/shared/lib/logger';
 
 import * as app from './app/server';
 

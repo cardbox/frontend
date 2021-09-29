@@ -28,6 +28,9 @@ export const UserPage = () => {
   const cards = useStore($cards);
   const isLoading = useStore($pagePending);
 
+  // FIXME: simplify logic
+  if (isLoading || !userInfo) return <SkeletonLayout />;
+
   if (!userInfo) {
     return (
       <ContentCenteredTemplate>
@@ -35,9 +38,6 @@ export const UserPage = () => {
       </ContentCenteredTemplate>
     );
   }
-
-  // FIXME: simplify logic
-  if (isLoading) return <SkeletonLayout />;
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
