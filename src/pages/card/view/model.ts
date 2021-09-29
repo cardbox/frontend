@@ -46,7 +46,7 @@ export const $isAuthorViewing = combine(
   $currentCard,
   sessionModel.$session,
   (card, viewer) => {
-    return Boolean(viewer) && viewer.id === card?.authorId;
+    return Boolean(viewer) && viewer?.id === card?.authorId;
   },
 );
 
