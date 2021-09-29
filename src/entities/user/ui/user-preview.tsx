@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, PaperContainer, Text } from '@box/ui';
+import { Avatar, PaperContainer, Text } from '@box/shared/ui';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/api';
+import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
-import { plural } from '@box/lib/plural';
-import { theme } from '@box/lib/theme';
+import { plural } from '@box/shared/lib/plural';
+import { theme } from '@box/shared/lib/theme';
 
 interface UserPreviewProps {
   user: User;
@@ -71,7 +71,7 @@ const Meta: React.FC<MetaProps> = ({ cardsCount }) => {
 const PaperContainerStyled = styled(PaperContainer)`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0 3px 9px #faf9fa;
+  box-shadow: ${theme.shadows[1]};
   transition: 0.25s;
   height: 190px;
 

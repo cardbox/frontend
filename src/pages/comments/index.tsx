@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { Comments } from './comments';
 
@@ -76,7 +76,7 @@ const Surface = styled.div`
   background-color: var(${theme.palette.bnw1000});
   border: 1px solid var(${theme.palette.bnw850});
   box-sizing: border-box;
-  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
+  box-shadow: ${theme.shadows[3]};
   border-radius: 6px;
   display: flex;
   flex-direction: column;

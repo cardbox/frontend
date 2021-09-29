@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import React, { forwardRef } from 'react';
 import {
   Button,
+  IconDeckArrow,
+  IconDeckCheck,
   PaperContainer,
   Skeleton,
   Text,
-  iconDeckArrow,
-  iconDeckCheck,
-} from '@box/ui';
-import type { Card, User } from '@box/api';
+} from '@box/shared/ui';
+import type { Card, User } from '@box/shared/api';
 import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { navigationModel } from '@box/entities/navigation';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
-import { useMouseSelection } from '@box/lib/use-mouse-selection';
+import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
 
 type CardSize = 'small' | 'large';
 
@@ -89,15 +89,18 @@ const PaperContainerStyled = styled(PaperContainer)<{
 }>`
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0 3px 9px #faf9fa;
+  border-color: var(${theme.palette.bnw900});
+  box-shadow: ${theme.shadows[1]};
 
   &[data-size='small'] {
+    background-color: var(${theme.palette.bnw950});
+    box-shadow: ${theme.shadows[2]};
     height: 190px;
     transition: 0.25s;
 
     &:hover,
     &:focus {
-      border-color: var(${theme.palette.wizard750});
+      border-color: var(${theme.palette.wizard800});
       background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
@@ -205,7 +208,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
           onClick={handleClick}
           variant="outlined"
           theme="primary"
-          icon={<img src={iconDeckCheck} title="Remove card from my deck" />}
+          icon={<IconDeckCheck title="Remove card from my deck" />}
         />
       );
     }
@@ -216,7 +219,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
         onClick={handleClick}
         variant="outlined"
         theme="secondary"
-        icon={<img src={iconDeckArrow} title="Add card to my deck" />}
+        icon={<IconDeckArrow title="Add card to my deck" />}
       />
     );
   },

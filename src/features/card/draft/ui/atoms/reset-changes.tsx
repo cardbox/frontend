@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@box/ui';
+import { Button } from '@box/shared/ui';
 import { useEvent } from 'effector-react/ssr';
 
 import * as model from '../../model';
@@ -20,6 +20,8 @@ export const ResetChanges = ({ _name }: Props) => {
 
   return (
     <Button
+      theme="secondary"
+      variant="outlined"
       onClick={() => {
         // FIXME: replace to UIKit implementation later
         if (!window.confirm(CANCEL_WARN)) return;

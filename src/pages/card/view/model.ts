@@ -1,5 +1,5 @@
 import * as sessionModel from '@box/entities/session';
-import type { Card, User } from '@box/api';
+import type { Card, User } from '@box/shared/api';
 import {
   attach,
   combine,
@@ -12,7 +12,7 @@ import {
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 import { paths } from '@box/pages/paths';
 
 export const hatch = createHatch(createDomain('CardViewPage'));
@@ -46,7 +46,7 @@ export const $isAuthorViewing = combine(
   $currentCard,
   sessionModel.$session,
   (card, viewer) => {
-    return !!viewer && viewer.id === card?.authorId;
+    return Boolean(viewer) && viewer.id === card?.authorId;
   },
 );
 

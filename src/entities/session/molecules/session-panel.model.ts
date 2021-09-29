@@ -1,5 +1,5 @@
 import { attach, createEffect, createEvent, sample } from 'effector';
-import { internalApi } from '@box/api';
+import { internalApi } from '@box/shared/api';
 
 const authParamsFx = attach({ effect: internalApi.authParams });
 

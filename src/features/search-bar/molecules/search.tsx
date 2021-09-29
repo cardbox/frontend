@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Input } from '@box/ui';
+import { Input } from '@box/shared/ui';
 import { reflect } from '@effector/reflect/ssr';
 
 import * as model from '../models';
@@ -23,7 +23,7 @@ const Container = styled.div`
 const SearchInput = reflect({
   view: Input,
   bind: {
-    placeholder: 'Search placeholder',
+    placeholder: 'Search...',
     value: model.$searchValue,
     onChange: model.searchFieldChanged,
   },

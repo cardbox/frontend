@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import type { Card, User } from '@box/api';
-import { Empty, SkeletonGroup } from '@box/ui';
+import type { Card, User } from '@box/shared/api';
+import { Empty, SkeletonGroup } from '@box/shared/ui';
 
 import { CardPreview } from './card-preview';
 

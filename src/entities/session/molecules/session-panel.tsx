@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from '@box/ui';
+import { Button } from '@box/shared/ui';
 import { getFullName } from '@box/entities/user/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -16,14 +16,14 @@ export const SessionPanel: React.FC = () => {
     return (
       <>
         <Viewer />
-        <Button variant="outlined">Logout</Button>
+        <Button variant="text">Logout</Button>
       </>
     );
   }
 
   return (
-    <Button theme="primary" variant="outlined" onClick={handleClick}>
-      Login
+    <Button variant="text" onClick={handleClick}>
+      Sign in
     </Button>
   );
 };

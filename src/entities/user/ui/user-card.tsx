@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from '@box/ui/atoms';
+import { Avatar } from '@box/shared/ui/atoms';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/api';
+import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 
 import { getFullName } from '../lib';
 
@@ -36,9 +36,9 @@ export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
 const Container = styled.div`
   align-items: center;
   background-color: var(${theme.palette.bnw1000});
-  border: 1px solid var(${theme.palette.bnw850});
+  border: 1px solid var(${theme.palette.bnw900});
   border-radius: 6px;
-  box-shadow: 0 6px 9px var(${theme.palette.bnw950});
+  box-shadow: ${theme.shadows[1]};
   display: flex;
   justify-content: space-between;
   padding: 1.0625rem 1.3125rem;

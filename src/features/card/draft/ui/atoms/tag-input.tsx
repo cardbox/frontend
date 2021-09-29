@@ -5,11 +5,11 @@ import React, {
   FormEventHandler,
   KeyboardEventHandler,
 } from 'react';
-import { Button, Input, iconAdd } from '@box/ui';
+import { Button, IconAdd, Input } from '@box/shared/ui';
 import { combine } from 'effector';
 import { reflect } from '@effector/reflect';
-import { theme } from '@box/lib/theme';
-import { todo } from '@box/lib/todo';
+import { theme } from '@box/shared/lib/theme';
+import { todo } from '@box/shared/lib/todo';
 
 import * as model from '../../model';
 
@@ -73,9 +73,11 @@ const TagReflect = reflect({
 
 const Submit = () => {
   return (
-    <Button
+    <SubmitButton
       type="submit"
-      icon={<img src={iconAdd} alt="Submit entered tag" />}
+      variant="text"
+      theme="secondary"
+      icon={<IconAdd title="Submit entered tag" />}
     />
   );
 };
@@ -105,3 +107,9 @@ const NewTagForm = reflect({
     ),
   },
 });
+
+const SubmitButton = styled(Button)`
+  svg {
+    fill: var(${theme.palette.bnw600});
+  }
+`;

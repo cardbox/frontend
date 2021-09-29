@@ -6,8 +6,8 @@ import {
   ContentCenteredTemplate,
   Skeleton,
   iconUserBg,
-} from '@box/ui';
-import { theme } from '@box/lib/theme';
+} from '@box/shared/ui';
+import { theme } from '@box/shared/lib/theme';
 
 export const SkeletonLayout = () => {
   return (
@@ -42,7 +42,7 @@ export const SkeletonLayout = () => {
             <UserLogo>
               <StAvatar size="large" />
             </UserLogo>
-            <EditProfile variant="outlined">
+            <EditProfile theme="secondary" variant="outlined">
               <ButtonText />
             </EditProfile>
           </UserHeader>
@@ -72,8 +72,8 @@ const UserHeader = styled.div`
   grid-template-columns: repeat(3, 1fr);
   background: var(${theme.palette.bnw1000});
 
-  border: 1px solid var(${theme.palette.bnw850});
-  box-shadow: ${theme.shadows[2]};
+  border: 1px solid var(${theme.palette.bnw900});
+  box-shadow: ${theme.shadows[3]};
   border-radius: 6px;
   padding: 1.5rem 1.875rem;
   position: relative;
@@ -119,7 +119,7 @@ const shine = keyframes`
 const bgColorSkeleton = css`
   background: var(${theme.palette.bnw950});
   box-sizing: border-box;
-  border: 1px solid var(${theme.palette.bnw850});
+  border: 1px solid var(${theme.palette.bnw900});
   box-shadow: ${theme.shadows[1]};
   opacity: 0.9;
   animation: blink 4s infinite ease;

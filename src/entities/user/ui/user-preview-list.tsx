@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Empty, SkeletonGroup } from '@box/ui';
-import type { User } from '@box/api';
+import { Empty, SkeletonGroup } from '@box/shared/ui';
+import type { User } from '@box/shared/api';
 
 import { UserPreview } from './user-preview';
 
