@@ -1627,10 +1627,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@effector/reflect@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-7.0.0.tgz#6c451c569133ed00d3cad05d13049663a5712681"
-  integrity sha512-qK8aLtp5fWJK5LhfA4Z6xSruhWgR1DT6mDG2rlQ3CvxS6YzXF2Shujcq7D3w91yW3R3eiOFurwJVBcBV6SbfXg==
+"@effector/reflect@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-7.0.1.tgz#0bc04672ca1581f6e2dc9df2a6effd8e89435a4a"
+  integrity sha512-tBxtNJnkuArwjaT8HML8ldIumt2NzhO/sR+vPo/jJ6NhEj2wnTfa9xL0qgrIlO5hNxFvmd2d6zqCp4XBT3K+fQ==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
