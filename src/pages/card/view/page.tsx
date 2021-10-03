@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {
   Button,
   ContentCenteredTemplate,
+  Empty,
   IconDeckCheck,
   IconEdit,
 } from '@box/shared/ui';
@@ -12,6 +13,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector';
+import { theme } from '@box/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import { paths } from '../../paths';
@@ -35,6 +37,14 @@ export const CardViewPage = () => {
   const isAuthorViewing = useStore($isAuthorViewing);
 
   const handleDeleteCard = useEvent(deleteCard);
+
+  if (!card && !isLoading) {
+    return (
+      <Empty text="Sorry, the page you visited does not exist.">
+        <LinkHome to={paths.home()}>Back Home</LinkHome>
+      </Empty>
+    );
+  }
 
   return (
     <>
@@ -79,6 +89,7 @@ export const CardViewPage = () => {
                   icon={<IconDeckCheck />}
                   onClick={() => {
                     // FIXME: replace to UIKit implementation later
+                    // eslint-disable-next-line no-alert
                     if (!window.confirm(DELETE_WARN)) return;
                     handleDeleteCard();
                   }}
@@ -138,4 +149,14 @@ const Buttons = styled.div`
 const ButtonCard = styled(Button)`
   justify-content: flex-start;
   width: 100%;
+`;
+
+const LinkHome = styled(Link)`
+  --base-color: var(${theme.palette.wizard500});
+
+  color: var(--base-color);
+  margin-top: 2rem;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
