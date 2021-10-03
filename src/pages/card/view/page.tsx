@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
 import { createEvent, createStore } from 'effector';
-import { theme } from '@box/lib/theme';
+import { theme } from '@box/shared/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import { paths } from '../../paths';
