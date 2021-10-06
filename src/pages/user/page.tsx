@@ -41,13 +41,11 @@ export const UserPage = () => {
 
 const UserPageContentComponent = () => {
   const isLoading = useStore($pagePending);
-  const userInfo = useStore($currentUser);
+  const userInfo = useStore($currentUser)!;
   const cards = useStore($cards);
 
-  // @FIXME
-  const { work, bio, socials, avatar } = userInfo as User;
-  // @FIXME
-  const fullName = userLib.getFullName(userInfo as User);
+  const { work, bio, socials, avatar } = userInfo;
+  const fullName = userLib.getFullName(userInfo);
 
   return (
     <Container>
@@ -92,8 +90,7 @@ const UserPageContentComponent = () => {
           <UserCardTitle>User cards</UserCardTitle>
           <CardList
             cards={cards}
-            // FIXME: optimize rerenders
-            getUser={() => userInfo as User}
+            getUser={() => userInfo}
             getHref={(card) => paths.cardView(card.id)}
             getUserHref={() => paths.user(userInfo?.username)}
             loading={isLoading}
