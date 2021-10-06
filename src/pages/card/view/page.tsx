@@ -105,10 +105,6 @@ export const CardViewPage = () => {
   );
 };
 
-const map = (props: { disabled?: boolean }) => ({
-  'data-disabled': props.disabled,
-});
-
 const Container = styled.div`
   display: flex;
   padding: 0 126px 126px 126px;

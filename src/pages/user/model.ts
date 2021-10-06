@@ -12,6 +12,7 @@ export const cardsListFx = attach({ effect: internalApi.cardsList });
 export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
+export const $isUserFound = $currentUser.map((user) => Boolean(user));
 const $cardsIds = createStore<string[]>([]);
 export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
   ids.map((id) => cache[id]),
