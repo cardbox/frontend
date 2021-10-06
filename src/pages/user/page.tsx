@@ -4,6 +4,7 @@ import {
   Avatar,
   Button,
   ContentCenteredTemplate,
+  Empty,
   IconEdit,
   iconUserBg,
 } from '@box/shared/ui';
@@ -14,88 +15,106 @@ import { imgLogo } from '@box/shared/assets';
 import { theme } from '@box/shared/lib/theme';
 import { useStore } from 'effector-react/ssr';
 import { userLib } from '@box/entities/user';
+import { variant } from '@effector/reflect/ssr';
 
 import { SkeletonLayout } from './skeleton';
 import { paths } from '../paths';
 
 export const $currentUser = createStore<User | null>(null);
+export const $isUserFound = $currentUser.map((user) => Boolean(user));
 export const $cards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
 
 export const UserPage = () => {
-  const userInfo = useStore($currentUser);
-  const cards = useStore($cards);
   const isLoading = useStore($pagePending);
-
-  // FIXME: simplify logic
-  if (isLoading || !userInfo) return <SkeletonLayout />;
-
-  const { work, bio, socials, avatar } = userInfo;
-  const fullName = userLib.getFullName(userInfo);
+  if (isLoading) return <SkeletonLayout />;
 
   return (
     <>
       <UnderLay bg={iconUserBg} />
       <ContentCenteredTemplate>
-        <Container>
-          <UserHeader>
-            <UserFace>
-              <UserFaceContent>
-                <UserFaceName>{fullName}</UserFaceName>
-                {work && <UserFacePosition>{work}</UserFacePosition>}
-                <UserLocation>Saint-Petersburg, Russia</UserLocation>
-                {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
-              </UserFaceContent>
-            </UserFace>
-            <UserSocial>
-              {Boolean(socials.length) && (
-                <SocialStaff>
-                  <SocialStaffTitle>Social staff</SocialStaffTitle>
-                  <SocialStaffList>
-                    {socials.map((social) => (
-                      <SocialStaffItem key={social.id}>
-                        <SocialLink href={social.link}>
-                          <Avatar size="small" src={avatar || imgLogo} />
-                          <SocialStaffItemText>
-                            @{social.username}
-                          </SocialStaffItemText>
-                        </SocialLink>
-                      </SocialStaffItem>
-                    ))}
-                  </SocialStaffList>
-                </SocialStaff>
-              )}
-            </UserSocial>
-            {/* FIXME: move to entities/user logic */}
-            <UserLogo>
-              <StAvatar size="large" src={avatar || imgLogo} />
-            </UserLogo>
-            <EditProfile
-              theme="secondary"
-              variant="outlined"
-              icon={<IconEdit />}
-            >
-              Edit profile
-            </EditProfile>
-          </UserHeader>
-          <Main>
-            <UserCards>
-              <UserCardTitle>User cards</UserCardTitle>
-              <CardList
-                cards={cards}
-                // FIXME: optimize rerenders
-                getUser={() => userInfo}
-                getHref={(card) => paths.cardView(card.id)}
-                getUserHref={() => paths.user(userInfo.username)}
-                loading={isLoading}
-              />
-            </UserCards>
-          </Main>
-        </Container>
+        <UserPageContent />
       </ContentCenteredTemplate>
     </>
   );
 };
+
+const UserPageContentComponent = () => {
+  const isLoading = useStore($pagePending);
+  const userInfo = useStore($currentUser)!;
+  const cards = useStore($cards);
+
+  const { work, bio, socials, avatar } = userInfo;
+  const fullName = userLib.getFullName(userInfo);
+
+  return (
+    <Container>
+      <UserHeader>
+        <UserFace>
+          <UserFaceContent>
+            <UserFaceName>{fullName}</UserFaceName>
+            {work && <UserFacePosition>{work}</UserFacePosition>}
+            <UserLocation>Saint-Petersburg, Russia</UserLocation>
+            {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
+          </UserFaceContent>
+        </UserFace>
+        <UserSocial>
+          {Boolean(socials.length) && (
+            <SocialStaff>
+              <SocialStaffTitle>Social staff</SocialStaffTitle>
+              <SocialStaffList>
+                {socials.map((social) => (
+                  <SocialStaffItem key={social.id}>
+                    <SocialLink href={social.link}>
+                      <Avatar size="small" src={avatar || imgLogo} />
+                      <SocialStaffItemText>
+                        @{social.username}
+                      </SocialStaffItemText>
+                    </SocialLink>
+                  </SocialStaffItem>
+                ))}
+              </SocialStaffList>
+            </SocialStaff>
+          )}
+        </UserSocial>
+        {/* FIXME: move to entities/user logic */}
+        <UserLogo>
+          <StAvatar size="large" src={avatar || imgLogo} />
+        </UserLogo>
+        <EditProfile theme="secondary" variant="outlined" icon={<IconEdit />}>
+          Edit profile
+        </EditProfile>
+      </UserHeader>
+      <Main>
+        <UserCards>
+          <UserCardTitle>User cards</UserCardTitle>
+          <CardList
+            cards={cards}
+            getUser={() => userInfo}
+            getHref={(card) => paths.cardView(card.id)}
+            getUserHref={() => paths.user(userInfo?.username)}
+            loading={isLoading}
+          />
+        </UserCards>
+      </Main>
+    </Container>
+  );
+};
+
+const UserPageContent = variant({
+  source: $isUserFound.map((isFound) => {
+    if (!isFound) return 'notFound';
+    return 'ready';
+  }),
+  cases: {
+    notFound: () => (
+      <ContentCenteredTemplate>
+        <Empty text="Sorry, the page you visited does not exist." />
+      </ContentCenteredTemplate>
+    ),
+    ready: () => <UserPageContentComponent />,
+  },
+});
 
 const Container = styled.div`
   display: flex;
