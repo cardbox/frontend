@@ -19,4 +19,12 @@ const Content = styled.div`
   /* width: 1404px; */
   width: 100%;
   padding: 0 36px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 30px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 0 18px;
+  }
 `;

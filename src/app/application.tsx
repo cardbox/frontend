@@ -61,12 +61,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+
+  @media screen and (max-width: 480px) {
+    overflow-y: auto;
+  }
 `;
 
 const PagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
   padding-top: 1.875rem;
+
+  @media screen and (max-width: 480px) {
+    overflow-y: unset;
+  }
 `;
 
 //Чтобы скролл страницы не сдвигал ее по горизонтали влево, иначе страница будет отцентрована левее чем хедер.

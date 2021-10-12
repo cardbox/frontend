@@ -143,6 +143,7 @@ const SectionTitle = styled(Text)`
 `;
 
 const MoreLink = styled(Link)`
+  display: flex;
   text-decoration: none;
   color: var(${theme.palette.bnw0});
 

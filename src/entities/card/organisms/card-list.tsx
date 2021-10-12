@@ -57,4 +57,8 @@ const Container = styled.div`
   & > *:not(:last-child) {
     margin-bottom: 1.125rem;
   }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 100%;
+  }
 `;

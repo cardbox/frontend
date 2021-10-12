@@ -24,12 +24,14 @@ export const Searchbar: React.FC = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <NewCardLink to={paths.cardCreate()}>
-            <Button theme="primary" variant="outlined" accented>
-              New card
-            </Button>
-          </NewCardLink>
-          <SessionPanel />
+          <ButtonsWrapper>
+            <NewCardLink to={paths.cardCreate()}>
+              <Button theme="primary" variant="outlined" accented>
+                New card
+              </Button>
+            </NewCardLink>
+            <SessionPanel />
+          </ButtonsWrapper>
         </Nav>
       </ContentCenteredTemplate>
     </Container>
@@ -58,12 +60,35 @@ const Nav = styled.nav`
   align-items: center;
   display: flex;
   height: 72px;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 12px 0;
+  }
 `;
 
 const SearchWrapper = styled.div`
   flex-grow: 1;
+  order: 1;
   margin-left: 3.125rem;
   margin-right: 1.125rem;
+
+  @media screen and (max-width: 768px) {
+    order: 2;
+    width: 100%;
+    margin: 12px 0 0;
+  }
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  order: 2;
+
+  @media screen and (max-width: 768px) {
+    order: 1;
+    margin-left: auto;
+  }
 `;
 
 const NewCardLink = styled(Link)`
