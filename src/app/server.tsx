@@ -348,7 +348,6 @@ function htmlStart(props: StartProps) {
       ${props.helmet.title.toString()}
       ${props.helmet.link.toString()}
       ${props.helmet.style.toString()}
-      <script src='https://unpkg.com/react-render-tracker'></script>
       ${
         props.assetsCss
           ? `<link rel='stylesheet' href='${props.assetsCss}'>`
