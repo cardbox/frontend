@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 
 interface TextProps {
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
@@ -28,21 +29,25 @@ const TextStyled = styled.p<{ 'data-type': TextProps['type'] }>`
     line-height: 21px;
   }
   &[data-type='p'] {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 15px;
   }
   &[data-type='h1'] {
     font-weight: 700;
-    font-size: 72px;
-    line-height: 81px;
+    font-size: 4.5rem;
+    line-height: 1.125em;
+
+    ${breakpoints.devices.mobile} {
+      font-size: 2.8125rem;
+    }
   }
   &[data-type='h3'] {
-    font-size: 36px;
+    font-size: 2.25rem;
     line-height: 54px;
   }
   &[data-type='h4'] {
     font-weight: 500;
-    font-size: 30px;
+    font-size: 1.875rem;
     line-height: 42px;
   }
   &[data-type='h6'] {

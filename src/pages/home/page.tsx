@@ -10,6 +10,7 @@ import {
 } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
 import { useStore } from 'effector-react/ssr';
@@ -103,8 +104,8 @@ export const HomePage: React.FC = () => {
 };
 
 const Hero = styled.div`
-  margin-top: 36px;
-  margin-bottom: 66px;
+  margin-top: 2.25rem;
+  margin-bottom: 4.125rem;
 `;
 
 const PrimaryText = styled(Text)`
@@ -112,13 +113,13 @@ const PrimaryText = styled(Text)`
 `;
 
 const HeroText = styled.p`
-  font-size: 18px;
-  line-height: 24px;
-  margin-bottom: 16px;
-  margin-top: 16px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   max-width: 800px;
 
-  @media (max-width: 768px) {
+  ${breakpoints.devices.tablet} {
     width: 100%;
   }
 `;

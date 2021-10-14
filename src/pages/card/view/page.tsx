@@ -70,34 +70,34 @@ export const CardViewPage = () => {
                 getUserHref={(user) => paths.user(user.username)}
               />
             )}
-            {card && isAuthorViewing && (
-              <Buttons>
-                <Link to={paths.cardEdit(card.id)}>
-                  <ButtonCard
-                    type="button"
-                    theme="secondary"
-                    variant="outlined"
-                    icon={<IconEdit />}
-                  >
-                    Edit card
-                  </ButtonCard>
-                </Link>
+            {/* {card && isAuthorViewing && ( */}
+            <Buttons>
+              <Link to={paths.cardEdit(card.id)}>
                 <ButtonCard
                   type="button"
-                  theme="danger"
+                  theme="secondary"
                   variant="outlined"
-                  icon={<IconDeckCheck />}
-                  onClick={() => {
-                    // FIXME: replace to UIKit implementation later
-                    // eslint-disable-next-line no-alert
-                    if (!window.confirm(DELETE_WARN)) return;
-                    handleDeleteCard();
-                  }}
+                  icon={<IconEdit />}
                 >
-                  Delete card
+                  Edit card
                 </ButtonCard>
-              </Buttons>
-            )}
+              </Link>
+              <ButtonCard
+                type="button"
+                theme="danger"
+                variant="outlined"
+                icon={<IconDeckCheck />}
+                onClick={() => {
+                  // FIXME: replace to UIKit implementation later
+                  // eslint-disable-next-line no-alert
+                  if (!window.confirm(DELETE_WARN)) return;
+                  handleDeleteCard();
+                }}
+              >
+                Delete card
+              </ButtonCard>
+            </Buttons>
+            {/* )} */}
           </Sidebar>
         </Container>
       </ContentCenteredTemplate>
@@ -112,6 +112,7 @@ const map = (props: { disabled?: boolean }) => ({
 const Container = styled.div`
   display: flex;
   padding: 0 126px 126px 126px;
+  flex-direction: column-reverse;
 
   & > *:first-child {
     margin-right: 2.25rem;

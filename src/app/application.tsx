@@ -6,6 +6,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 
 import { Pages } from '../pages';
@@ -19,6 +20,10 @@ interface Props {
 const Globals = createGlobalStyle`
   html {
     font-size: 16px;
+
+    ${breakpoints.devices.tablet} {
+      font-size: 80%;
+    }
   }
 
   body {
@@ -62,7 +67,7 @@ const Container = styled.div`
   flex-direction: column;
   height: 100vh;
 
-  @media screen and (max-width: 480px) {
+  ${breakpoints.devices.mobile} {
     overflow-y: auto;
   }
 `;
@@ -72,7 +77,7 @@ const PagesContainer = styled.div`
   overflow-y: auto;
   padding-top: 1.875rem;
 
-  @media screen and (max-width: 480px) {
+  ${breakpoints.devices.mobile} {
     overflow-y: unset;
   }
 `;

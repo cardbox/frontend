@@ -14,6 +14,7 @@ import { Editor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
@@ -235,7 +236,7 @@ const Header = styled.header`
     margin-left: 1rem;
   }
 
-  @media screen and (min-width: 480px) {
+  ${breakpoints.devices.mobile} {
     max-width: calc(100% - 60px);
   }
 `;
@@ -246,7 +247,7 @@ const MetaStyled = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media screen and (max-width: 480px) {
+  ${breakpoints.devices.mobile} {
     display: block;
     max-width: calc(100% - 60px);
   }
@@ -263,7 +264,7 @@ const CardButton = styled(Button)`
   top: 1.125rem;
   margin-top: 0;
 
-  @media screen and (max-width: 480px) {
+  ${breakpoints.devices.mobile} {
     top: unset;
     bottom: 0.625rem;
   }

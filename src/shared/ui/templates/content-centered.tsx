@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 
 export const ContentCenteredTemplate: React.FC = ({ children }) => (
   <Container>
@@ -20,11 +21,11 @@ const Content = styled.div`
   width: 100%;
   padding: 0 36px;
 
-  @media screen and (max-width: 768px) {
+  ${breakpoints.devices.tablet} {
     padding: 0 30px;
   }
 
-  @media screen and (max-width: 480px) {
+  ${breakpoints.devices.mobile} {
     padding: 0 18px;
   }
 `;
