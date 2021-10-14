@@ -2,7 +2,7 @@ name: Linear.app Linker
 
 on:
   pull_request:
-    types: [opened, closed, reopened, synchronize, ready_for_review]
+    types: [opened, closed, edited, reopened, synchronize, converted_to_draft, ready_for_review]
 
 jobs:
   linear_linker:
