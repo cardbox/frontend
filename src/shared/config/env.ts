@@ -34,4 +34,4 @@ export const CLIENT_BACKEND_URL =
 export const TLS_CERT_FILE = process.env.TLS_CERT_FILE!;
 export const TLS_KEY_FILE = process.env.TLS_KEY_FILE!;
 export const RAZZLE_PUBLIC_DIR = process.env.RAZZLE_PUBLIC_DIR!;
-export const USE_SSL = Boolean(process.env.USE_SSL);
+export const USE_SSL = process.env.USE_SSL === 'true';

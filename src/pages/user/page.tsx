@@ -21,9 +21,10 @@ import { SkeletonLayout } from './skeleton';
 import { paths } from '../paths';
 
 export const $currentUser = createStore<User | null>(null);
-export const $isUserFound = $currentUser.map((user) => Boolean(user));
 export const $cards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
+
+const $isUserFound = $currentUser.map((user) => Boolean(user));
 
 export const UserPage = () => {
   const isLoading = useStore($pagePending);

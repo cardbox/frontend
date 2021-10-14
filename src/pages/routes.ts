@@ -1,7 +1,7 @@
 import { CardCreatePage } from './card/create';
 import { CardEditPage } from './card/edit';
 import { CardViewPage } from './card/view';
-import { CommentsPage } from './comments';
+// import { CommentsPage } from './comments';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
 import { OAuthDonePage } from './oauth-done';
@@ -11,7 +11,7 @@ import { paths } from './paths';
 
 export const ROUTES = [
   { exact: true, path: paths.home(), component: HomePage },
-  { exact: true, path: paths.comments(), component: CommentsPage },
+//  { exact: true, path: paths.comments(), component: CommentsPage },
   { exact: true, path: paths.cardCreate(), component: CardCreatePage },
   { exact: true, path: paths.cardView(), component: CardViewPage },
   { exact: true, path: paths.cardEdit(), component: CardEditPage },
