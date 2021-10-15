@@ -9,6 +9,8 @@ declare module '*.svg' {
   export default src;
 }
 
+declare module '*.woff2';
+
 declare module '*.png' {
   const content: any;
   export default content;

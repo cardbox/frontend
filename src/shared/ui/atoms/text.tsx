@@ -19,7 +19,7 @@ export const Text: React.FC<TextProps> = ({
 
 const TextStyled = styled.p<{ 'data-type': TextProps['type'] }>`
   margin: 0;
-  font-family: TT Hoves, sans-serif;
+  font-family: 'TT Hover', sans-serif;
   font-style: normal;
   font-weight: normal;
 
@@ -32,7 +32,7 @@ const TextStyled = styled.p<{ 'data-type': TextProps['type'] }>`
     line-height: 15px;
   }
   &[data-type='h1'] {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 72px;
     line-height: 81px;
   }
