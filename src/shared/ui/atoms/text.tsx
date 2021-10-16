@@ -19,7 +19,7 @@ export const Text: React.FC<TextProps> = ({
 
 const TextStyled = styled.p<{ 'data-type': TextProps['type'] }>`
   margin: 0;
-  font-family: 'TT Hover', sans-serif;
+  font-family: 'TT Hoves', sans-serif;
   font-style: normal;
   font-weight: normal;
 

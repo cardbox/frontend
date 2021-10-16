@@ -26,7 +26,7 @@ const Globals = createGlobalStyle`
     margin: 0;
     overflow: hidden;
     padding: 0;
-    font-family: 'TT Hover', sans-serif;
+    font-family: 'TT Hoves', sans-serif;
   }
 
   ${globalFonts}
