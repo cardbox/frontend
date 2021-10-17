@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Helmet } from 'react-helmet-async';
 import { Provider } from 'effector-react/ssr';
@@ -10,6 +12,8 @@ import { customProps } from '@box/shared/lib/theme';
 import { globalFonts } from '@box/app/styles/global-fonts';
 
 import { Pages } from '../pages';
+
+dayjs.extend(relativeTime);
 
 // FIXME: replace later to usage of entities/viewer
 

@@ -1,3 +1,5 @@
+import 'dayjs/plugin/relativeTime';
+
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef } from 'react';
@@ -77,9 +79,7 @@ export const CardPreview = ({
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
       </Header>
 
-      {size === 'small' && (
-        <Meta author={author} userHref={userHref} updatedAt={card.updatedAt} />
-      )}
+      {size === 'small' && <Meta updatedAt={card.updatedAt} />}
     </PaperContainerStyled>
   );
 };
@@ -129,19 +129,15 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
       </TextStyled>
       {size === 'large' && (
         <>
-          <MetaStyled>
-            <Text type="p">
-              Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
-            </Text>
-          </MetaStyled>
+          <Meta updatedAt={updatedAt} />
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly={true} />
+          <Editor value={content as EditorValue} readOnly />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly={true} />
+          <Editor value={content as EditorValue} readOnly />
         </ItemEditorContainer>
       )}
     </ContentStyled>
@@ -173,22 +169,18 @@ const ItemEditorContainer = styled.div`
   max-height: 90px;
 `;
 
-type MetaProps = Pick<Card, 'updatedAt'> & {
-  userHref?: string;
-  author: User;
-};
+type MetaProps = Pick<Card, 'updatedAt'>;
 
-const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
-  <MetaStyled>
-    {/* FIXME: Add click processing */}
-    <UserLink to={userHref}>
-      <Text type="span">{author.username}</Text>
-    </UserLink>
-    <Text type="p">
-      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
-    </Text>
-  </MetaStyled>
-);
+const Meta = ({ updatedAt }: MetaProps) => {
+  const date = dayjs(updatedAt);
+  return (
+    <MetaStyled>
+      <Text type="p" title={date.format('HH:mm DD.MM.YYYY')}>
+        Updated {date.fromNow()}
+      </Text>
+    </MetaStyled>
+  );
+};
 
 const ContentStyled = styled.div`
   width: 100%;
