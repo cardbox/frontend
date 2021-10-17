@@ -5,8 +5,8 @@ import { useEvent } from 'effector-react/ssr';
 import * as model from '../model';
 
 interface SignInButtonProps {
-  variant: ButtonProps['variant'];
-  label: string;
+  variant?: ButtonProps['variant'];
+  label?: string;
 }
 export const SignInButton = ({
   variant = 'text',
