@@ -104,7 +104,6 @@ const CardResults = () => {
       cards={cards}
       getHref={(card) => paths.cardView(card.id)}
       loading={isLoading}
-      getUser={(card) => usersMap[card.authorId]}
     />
   );
 };
