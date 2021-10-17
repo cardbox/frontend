@@ -1,4 +1,5 @@
 import { $cardsCache } from '@box/entities/card/model';
+import { $session } from '@box/entities/session';
 import { User, internalApi } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
 import { createHatch } from 'framework';
@@ -15,6 +16,14 @@ export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
 export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
   ids.map((id) => cache[id]),
+);
+export const $isOnOwnedPage = combine(
+  $session,
+  $currentUser,
+  (session, current) => {
+    if (!session || !current) return false;
+    return session.id === current.id;
+  },
 );
 
 export const $pagePending = some({
