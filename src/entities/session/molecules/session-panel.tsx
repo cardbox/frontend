@@ -1,30 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@box/shared/ui';
+import { ShowOnly } from '@box/entities/session';
 import { getFullName } from '@box/entities/user/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './session-panel.model';
-import { $isAuthenticated, $session } from '../model';
+import { $session } from '../model';
 
 // FIXME: move to features
 export const SessionPanel: React.FC = () => {
   const handleClick = useEvent(model.loginClicked);
-  const isAuthenticated = useStore($isAuthenticated);
-
-  if (isAuthenticated) {
-    return (
-      <>
-        <Viewer />
-        <Button variant="text">Logout</Button>
-      </>
-    );
-  }
 
   return (
-    <Button variant="text" onClick={handleClick}>
-      Sign in
-    </Button>
+    <>
+      <ShowOnly when="authorized">
+        <Viewer />
+        <Button variant="text">Logout</Button>
+      </ShowOnly>
+      <ShowOnly when="anonymous">
+        <Button variant="text" onClick={handleClick}>
+          Sign in
+        </Button>
+      </ShowOnly>
+    </>
   );
 };
 

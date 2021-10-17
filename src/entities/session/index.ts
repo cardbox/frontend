@@ -9,4 +9,4 @@ export {
   sessionLoaded,
 } from './model';
 
-export { SessionPanel } from './molecules';
+export { SessionPanel, ShowOnly } from './molecules';
