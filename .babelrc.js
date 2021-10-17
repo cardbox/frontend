@@ -24,7 +24,7 @@ module.exports = (api) => {
       [
         'styled-components',
         {
-          displayName: debug,
+          displayName: true,
           ssr: true,
         },
       ],

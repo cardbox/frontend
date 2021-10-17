@@ -103,9 +103,7 @@ const UserPageContentComponent = () => {
           <UserCardTitle>User cards</UserCardTitle>
           <CardList
             cards={cards}
-            getUser={() => userInfo}
             getHref={(card) => paths.cardView(card.id)}
-            getUserHref={() => paths.user(userInfo?.username)}
             loading={isLoading}
           />
         </UserCards>
@@ -143,7 +141,7 @@ const UserHeader = styled.div`
 
   border: 1px solid var(${theme.palette.bnw900});
   box-shadow: ${theme.shadows[3]};
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 1.5rem 1.875rem;
   position: relative;
 

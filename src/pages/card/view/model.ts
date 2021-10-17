@@ -73,5 +73,8 @@ sample({
   target: historyPush,
 });
 
+hatch.$params.reset(hatch.exit);
+$cardAuthor.reset(hatch.exit);
+
 // FIXME: move to entities/user?
 $cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);

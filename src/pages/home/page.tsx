@@ -9,7 +9,6 @@ import {
   Toast,
 } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
 import { useStore } from 'effector-react/ssr';
@@ -94,10 +93,8 @@ export const HomePage: React.FC = () => {
               <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
                 cards={latestCards}
-                getUser={handleUser}
                 getHref={handleCardHref}
-                getUserHref={handleUserHref}
-                loading={isLoading}
+                loading={latestCards.length === 0 && isLoading}
               />
             </Section>
             {/* TODO: Process "empty" case correctly */}

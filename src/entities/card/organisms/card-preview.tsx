@@ -25,10 +25,8 @@ type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card: Card;
-  author: User;
   isCardInFavorite?: boolean;
   href?: string;
-  userHref?: string;
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
@@ -39,10 +37,8 @@ interface CardPreviewProps {
 
 export const CardPreview = ({
   card,
-  author,
   isCardInFavorite = false,
   href,
-  userHref,
   loading = false,
   size = 'small',
 }: CardPreviewProps) => {
@@ -77,12 +73,28 @@ export const CardPreview = ({
           updatedAt={card.updatedAt}
         />
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+        <OverHelm />
       </Header>
 
       {size === 'small' && <Meta updatedAt={card.updatedAt} />}
     </PaperContainerStyled>
   );
 };
+
+const OverHelm = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--card-background), 0) 0%,
+    rgba(var(--card-background), 0) 20%,
+    rgba(var(--card-background), 0.5) 60%,
+    rgba(var(--card-background), 1) 100%
+  );
+`;
 
 const PaperContainerStyled = styled(PaperContainer)<{
   'data-size': CardSize;
@@ -91,23 +103,22 @@ const PaperContainerStyled = styled(PaperContainer)<{
   overflow: hidden;
   border-color: var(${theme.palette.bnw900});
   box-shadow: ${theme.shadows[1]};
+  --card-background: 255, 255, 255;
+  background-color: rgb(var(--card-background));
 
   &[data-size='small'] {
-    background-color: var(${theme.palette.bnw950});
     box-shadow: ${theme.shadows[2]};
     height: 190px;
-    transition: 0.25s;
 
     &:hover,
     &:focus {
+      --card-background: 250, 249, 250;
       border-color: var(${theme.palette.wizard800});
-      background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
   }
 
   &[data-size='large'] {
-    background: var(${theme.palette.bnw1000});
     min-height: 190px;
   }
 `;
@@ -119,7 +130,7 @@ const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <TextStyled type="h4">
+      <TextStyled type="h5">
         {href && (
           <TitleLink to={href}>
             <HighlightText text={title} />
@@ -163,10 +174,8 @@ const ItemEditorContainer = styled.div`
   --editor-color: var(${theme.palette.bnw400});
   --editor-font-size: 15px;
   --editor-line-height: 21px;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  max-height: 90px;
+  display: flex;
+  max-height: 122px;
 `;
 
 type MetaProps = Pick<Card, 'updatedAt'>;
@@ -220,8 +229,9 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  position: relative;
 
-  & > *:not(:first-child) {
+  & > *:not(:first-child):not(:last-child) {
     margin-left: 1rem;
   }
 `;

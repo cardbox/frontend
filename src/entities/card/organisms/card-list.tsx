@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import type { Card, User } from '@box/shared/api';
+import type { Card } from '@box/shared/api';
 import { Empty, SkeletonGroup } from '@box/shared/ui';
 
 import { CardPreview } from './card-preview';
@@ -10,19 +10,10 @@ import { CardPreview } from './card-preview';
 interface Props {
   cards: Card[];
   getHref?: (data: Card) => string | undefined;
-  getUserHref?: (data: Card) => string | undefined;
-  // FIXME: will be removed later
-  getUser: (data: Card) => User;
   loading?: boolean;
 }
 
-export const CardList = ({
-  cards,
-  getHref,
-  getUserHref,
-  getUser,
-  loading,
-}: Props) => {
+export const CardList = ({ cards, getHref, loading }: Props) => {
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
@@ -38,10 +29,8 @@ export const CardList = ({
           key={card.id}
           card={card}
           // FIXME: temp hack, will be optimized later
-          author={getUser(card)}
           isCardInFavorite={i % 2 === 0}
           href={getHref?.(card)}
-          userHref={getUserHref?.(card)}
           size="small"
         />
       ))}
