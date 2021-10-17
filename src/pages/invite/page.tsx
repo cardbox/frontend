@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IconUserLogoDefault, Text } from '@box/shared/ui';
+import { SignInButton } from '@box/entities/session';
 
 export const InvitePage = () => {
   return (
@@ -13,14 +14,15 @@ export const InvitePage = () => {
         developments. Now it is at the stage of closed testing. You can join it
         by writing to{' '}
         <a href="https://t.me/joinchat/qbcXKo55seY4OThi" target="_blank">
-          telegramm channel
+          Telegram channel
         </a>
         . You can also write there if you want to help the service by hand.
       </InviteText>
-      <Text type="span">
+      <SubText type="span">
         We will submit all your wishes for the service for general discussion
         and take them by priority to work.
-      </Text>
+      </SubText>
+      <SignInButton variant="outlined" label="I have an invite" />
     </InvitePageWrapper>
   );
 };
@@ -45,5 +47,10 @@ const LogoText = styled.span`
 
 const InviteText = styled(Text)`
   padding: 48px 0 24px;
+  display: block;
+`;
+
+const SubText = styled(Text)`
+  padding-bottom: 24px;
   display: block;
 `;

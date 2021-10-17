@@ -5,7 +5,7 @@ import { theme } from '@box/shared/lib/theme';
 type ButtonTheme = 'primary' | 'secondary' | 'danger';
 type ButtonVariant = 'text' | 'outlined' | 'solid';
 
-type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   theme?: ButtonTheme;
   variant?: ButtonVariant;
   icon?: React.ReactNode;
@@ -20,7 +20,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
  * @see https://woly.sova.dev/woly/atoms/button
  * @see https://material-ui.com/components/buttons
  */
-export const Button = React.forwardRef<HTMLButtonElement, Props>(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       theme = 'primary',
@@ -69,7 +69,7 @@ const Variants = css`
   &[data-variant='outlined'] {
     --text-color: var(--base-color);
     background: var(${theme.palette.bnw1000});
-    border-color: var(${theme.palette.bnw900});
+    border-color: var(--base-color, ${theme.palette.bnw900});
   }
 
   &[data-variant='text'] {
