@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@box/shared/ui';
-import { ShowOnly } from '@box/entities/session';
 import { getFullName } from '@box/entities/user/lib';
 import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from './session-panel.model';
 import { $session } from '../model';
+import { ShowOnly } from './show-only';
 
 // FIXME: move to features
 export const SessionPanel: React.FC = () => {
