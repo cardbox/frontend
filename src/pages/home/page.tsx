@@ -79,7 +79,7 @@ export const HomePage: React.FC = () => {
           <Main>
             {/* FIXME: simplify */}
             {/* FIXME: handle empty? */}
-            <Section>
+            {/*<Section>
               <SectionTitle type="h2">Top</SectionTitle>
               <CardList
                 cards={topCards}
@@ -89,6 +89,7 @@ export const HomePage: React.FC = () => {
                 loading={isLoading}
               />
             </Section>
+            */}
             <Section>
               <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
