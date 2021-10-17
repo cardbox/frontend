@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import { Button, ContentCenteredTemplate, IconLogo } from '@box/shared/ui';
 import { Link } from 'react-router-dom';
-import { SessionPanel } from '@box/entities/session';
+import { SessionPanel, ShowOnly } from '@box/entities/session';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react/ssr';
@@ -24,11 +24,13 @@ export const Searchbar: React.FC = () => {
           <SearchWrapper>
             <Search />
           </SearchWrapper>
-          <NewCardLink to={paths.cardCreate()}>
-            <Button theme="primary" variant="outlined" accented>
-              New card
-            </Button>
-          </NewCardLink>
+          <ShowOnly when="authorized">
+            <NewCardLink to={paths.cardCreate()}>
+              <Button theme="primary" variant="outlined" accented>
+                New card
+              </Button>
+            </NewCardLink>
+          </ShowOnly>
           <SessionPanel />
         </Nav>
       </ContentCenteredTemplate>

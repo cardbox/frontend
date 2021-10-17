@@ -1,23 +1,21 @@
-import { attach, createDomain, createEvent, guard, sample } from 'effector';
+import { attach, createDomain, guard, sample } from 'effector';
 import { cardDraftModel } from '@box/features/card/draft';
 import { createHatch } from 'framework';
+import { filterAnonymous, filterAuthenticated } from '@box/entities/session';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/shared/api';
-
-import { paths } from '../../paths';
+import { paths } from '@box/pages/paths';
 
 export const hatch = createHatch(createDomain('CardCreatePage'));
+const anonymousEnter = filterAnonymous(hatch.enter);
+const authenticatedEnter = filterAuthenticated(hatch.enter);
 
 export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 
-// Ивент, который сабмитит форму при отправке ее со страницы создания карточки
-const formCreateSubmitted = createEvent<string>();
-
 // Реагируем на сабмит формы только если сабмит происходит на странице создания
-guard({
+const formCreateSubmitted = guard({
   source: cardDraftModel.formSubmitted,
   filter: (payload) => payload === 'create',
-  target: formCreateSubmitted,
 });
 
 // Обрабатываем отправку формы
@@ -36,14 +34,10 @@ sample({
   target: historyPush,
 });
 
-// Ивент, который ресетит форму при эмите его со страницы создания карточки
-const formCreateReset = createEvent<string>();
-
 // Реагируем на ресетит формы только если ресет происходит на странице создания
-guard({
+const formCreateReset = guard({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'create',
-  target: formCreateReset,
 });
 
 // Редиректим на home-страницу после отмены изменений
@@ -58,6 +52,12 @@ sample({
 // - успешной отправке
 // FIXME: Позднее будет обеспечиваться фабриками модели для страницы
 sample({
-  clock: [cardCreateFx.done, hatch.enter],
+  clock: [cardCreateFx.done, authenticatedEnter],
   target: cardDraftModel._formInit,
+});
+
+sample({
+  clock: anonymousEnter,
+  fn: paths.home,
+  target: historyPush,
 });

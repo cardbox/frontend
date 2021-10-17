@@ -8,5 +8,6 @@ export {
   readyToLoadSession,
   sessionLoaded,
 } from './model';
+export { filterAuthenticated, filterAnonymous, filterOnly } from './only-hooks';
 
-export { SessionPanel } from './molecules';
+export { SessionPanel, ShowOnly } from './molecules';
