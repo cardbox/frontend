@@ -8,4 +8,4 @@ export { ReactComponent as IconDeckCheck } from './deck-check.svg';
 export { ReactComponent as IconEdit } from './edit.svg';
 export { ReactComponent as IconLike } from './like.svg';
 export { ReactComponent as IconLogo } from './logo.svg';
-export { ReactComponent as IconUserLogoDefault } from './default_userlogo.svg';
+export { ReactComponent as IconUserLogoDefault } from './user-logo-default.svg';
