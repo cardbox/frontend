@@ -64,12 +64,7 @@ export const CardViewPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            {author && (
-              <UserCard
-                user={author}
-                getUserHref={(user) => paths.user(user.username)}
-              />
-            )}
+            {author && <UserCard user={author} />}
             {card && isAuthorViewing && (
               <Buttons>
                 <Link to={paths.cardEdit(card.id)}>
