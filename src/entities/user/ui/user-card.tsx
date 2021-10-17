@@ -4,18 +4,22 @@ import { Avatar } from '@box/shared/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
+import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
 
 import { getFullName } from '../lib';
 
 interface Props {
   user: User;
-  getUserHref?: (data: User) => string | undefined;
+}
+
+function linkToUser(user: User): string {
+  return paths.user(user.username || user.id);
 }
 
 // FIXME: move to entities/user (BOX-155)
-export const UserCard: React.FC<Props> = ({ user, getUserHref }) => {
-  const href = getUserHref?.(user) || '';
+export const UserCard: React.FC<Props> = ({ user }) => {
+  const href = linkToUser(user);
   const fullName = getFullName(user);
   const { avatar, work } = user;
 

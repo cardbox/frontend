@@ -54,7 +54,12 @@ export const HomePage: React.FC = () => {
       <Helmet title="Welcome to Cardbox" />
       <Toast
         extra={
-          <MoreLink to={paths.home()}>
+          <MoreLink
+            title="Telegram chat with support"
+            href="https://t.me/joinchat/Zu-xxWESnbw0MmUy"
+            target="_blank"
+            rel="noopener"
+          >
             More <IconArrowRight />
           </MoreLink>
         }
@@ -75,7 +80,7 @@ export const HomePage: React.FC = () => {
           <Main>
             {/* FIXME: simplify */}
             {/* FIXME: handle empty? */}
-            <Section>
+            {/*<Section>
               <SectionTitle type="h2">Top</SectionTitle>
               <CardList
                 cards={topCards}
@@ -85,6 +90,7 @@ export const HomePage: React.FC = () => {
                 loading={isLoading}
               />
             </Section>
+            */}
             <Section>
               <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
@@ -143,7 +149,7 @@ const SectionTitle = styled(Text)`
   margin-bottom: 1rem;
 `;
 
-const MoreLink = styled(Link)`
+const MoreLink = styled.a`
   display: flex;
   text-decoration: none;
   color: var(${theme.palette.bnw0});

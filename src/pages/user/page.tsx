@@ -10,10 +10,12 @@ import {
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
+import { Link } from 'react-router-dom';
+import { ShowOnly } from '@box/entities/session';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
 import { theme } from '@box/shared/lib/theme';
-import { useStore } from 'effector-react/ssr';
+import { useStore } from 'effector-react/scope';
 import { userLib } from '@box/entities/user';
 import { variant } from '@effector/reflect/ssr';
 
@@ -23,6 +25,7 @@ import { paths } from '../paths';
 export const $currentUser = createStore<User | null>(null);
 export const $cards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
+export const $isOnOwnedPage = createStore(false);
 
 const $isUserFound = $currentUser.map((user) => Boolean(user));
 
@@ -43,6 +46,7 @@ export const UserPage = () => {
 const UserPageContentComponent = () => {
   const isLoading = useStore($pagePending);
   const userInfo = useStore($currentUser)!;
+  const isOnOwnedPage = useStore($isOnOwnedPage);
   const cards = useStore($cards);
 
   const { work, bio, socials, avatar } = userInfo;
@@ -82,9 +86,17 @@ const UserPageContentComponent = () => {
         <UserLogo>
           <StAvatar size="large" src={avatar || imgLogo} />
         </UserLogo>
-        <EditProfile theme="secondary" variant="outlined" icon={<IconEdit />}>
-          Edit profile
-        </EditProfile>
+        {isOnOwnedPage && false && (
+          <ShowOnly when="authorized">
+            <EditProfile
+              theme="secondary"
+              variant="outlined"
+              icon={<IconEdit />}
+            >
+              Edit profile
+            </EditProfile>
+          </ShowOnly>
+        )}
       </UserHeader>
       <Main>
         <UserCards>

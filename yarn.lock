@@ -6905,10 +6905,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framework@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/framework/-/framework-0.4.0.tgz#9cb62efd77f8a08ef71bd8c4037a65f653455261"
-  integrity sha512-ELtZU66UVWSOaoJDa/JbildsMi1O4pURbxHQghPLLC93+bzMK2hvHfqAvYBPEKRbGdh8kdjG07xiRF2xECP0YA==
+framework@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/framework/-/framework-0.5.0.tgz#ae20d3cc52053f2ded61014cd238356fde95673e"
+  integrity sha512-OmIvRUaIpxOXYdHHFLaEjl3ZE2h6bL+yUEcNkZv2m8DhsiiHqA75h8RsAcyEUvndBx/sRU+dloDDfy/DuiAlpA==
   dependencies:
     "@loadable/component" "^5.15.0"
     debug "^4.3.2"

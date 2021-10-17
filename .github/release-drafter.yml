@@ -6,15 +6,20 @@ categories:
     labels:
       - 'feature'
       - 'enhancement'
+      - 'Improvement'
 
   - title: '🐛 Bug Fixes'
     labels:
       - 'fix'
       - 'bugfix'
       - 'bug'
+      - 'Defect'
 
   - title: '🧰 Maintenance'
-    label: 'chore'
+    labels:
+      - 'chore'
+      - 'Refactoring'
+      - 'Infrastructure'
 
   - title: '📚 Documentation'
     label: 'documentation'

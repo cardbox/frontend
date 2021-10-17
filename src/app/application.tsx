@@ -8,6 +8,7 @@ import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
+import { globalFonts } from '@box/app/styles/global-fonts';
 
 import { Pages } from '../pages';
 
@@ -30,9 +31,10 @@ const Globals = createGlobalStyle`
     margin: 0;
     overflow: hidden;
     padding: 0;
-    font-family: sans-serif;
+    font-family: 'TT Hoves', sans-serif;
   }
 
+  ${globalFonts}
   ${customProps}
 `;
 

@@ -64,40 +64,35 @@ export const CardViewPage = () => {
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>
-            {author && (
-              <UserCard
-                user={author}
-                getUserHref={(user) => paths.user(user.username)}
-              />
-            )}
-            {/* {card && isAuthorViewing && ( */}
-            <Buttons>
-              <Link to={paths.cardEdit(card.id)}>
+            {author && <UserCard user={author} />}
+            {card && isAuthorViewing && (
+              <Buttons>
+                <Link to={paths.cardEdit(card.id)}>
+                  <ButtonCard
+                    type="button"
+                    theme="secondary"
+                    variant="outlined"
+                    icon={<IconEdit />}
+                  >
+                    Edit card
+                  </ButtonCard>
+                </Link>
                 <ButtonCard
                   type="button"
-                  theme="secondary"
+                  theme="danger"
                   variant="outlined"
-                  icon={<IconEdit />}
+                  icon={<IconDeckCheck />}
+                  onClick={() => {
+                    // FIXME: replace to UIKit implementation later
+                    // eslint-disable-next-line no-alert
+                    if (!window.confirm(DELETE_WARN)) return;
+                    handleDeleteCard();
+                  }}
                 >
-                  Edit card
+                  Delete card
                 </ButtonCard>
-              </Link>
-              <ButtonCard
-                type="button"
-                theme="danger"
-                variant="outlined"
-                icon={<IconDeckCheck />}
-                onClick={() => {
-                  // FIXME: replace to UIKit implementation later
-                  // eslint-disable-next-line no-alert
-                  if (!window.confirm(DELETE_WARN)) return;
-                  handleDeleteCard();
-                }}
-              >
-                Delete card
-              </ButtonCard>
-            </Buttons>
-            {/* )} */}
+              </Buttons>
+            )}
           </Sidebar>
         </Container>
       </ContentCenteredTemplate>
