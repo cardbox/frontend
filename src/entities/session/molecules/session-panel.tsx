@@ -6,7 +6,7 @@ import { useStore } from 'effector-react/ssr';
 
 import { $session } from '../model';
 import { ShowOnly } from './show-only';
-import { SignInButton } from '../atoms/sign-in-button';
+import { SignInButton } from '../atoms';
 
 // FIXME: move to features
 export const SessionPanel = () => {
