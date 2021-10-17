@@ -10,6 +10,7 @@ import {
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
+import { Link } from 'react-router-dom';
 import { ShowOnly } from '@box/entities/session';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
@@ -85,7 +86,7 @@ const UserPageContentComponent = () => {
         <UserLogo>
           <StAvatar size="large" src={avatar || imgLogo} />
         </UserLogo>
-        {isOnOwnedPage && (
+        {isOnOwnedPage && false && (
           <ShowOnly when="authorized">
             <EditProfile
               theme="secondary"
