@@ -65,18 +65,12 @@ export const CardPreview = ({
       aria-label="Open card"
     >
       <Header>
-        <Content
-          title={card.title}
-          content={card.content}
-          href={href}
-          size={size}
-          updatedAt={card.updatedAt}
-        />
+        <Content card={card} href={href} size={size} />
         <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
         <OverHelm />
       </Header>
 
-      {size === 'small' && <Meta updatedAt={card.updatedAt} />}
+      {size === 'small' && <Meta card={card} />}
     </PaperContainerStyled>
   );
 };
@@ -123,32 +117,31 @@ const PaperContainerStyled = styled(PaperContainer)<{
   }
 `;
 
-type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
-  Pick<CardPreviewProps, 'href' | 'size'>;
+type ContentProps = { card: Card } & Pick<CardPreviewProps, 'href' | 'size'>;
 
-const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
+const Content = ({ card, size, href }: ContentProps) => {
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
       <TextStyled type="h5">
         {href && (
           <TitleLink to={href}>
-            <HighlightText text={title} />
+            <HighlightText text={card.title} />
           </TitleLink>
         )}
-        {!href && title}
+        {!href && card.title}
       </TextStyled>
       {size === 'large' && (
         <>
-          <Meta updatedAt={updatedAt} />
+          <Meta card={card} />
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly />
+          <Editor value={card.content as EditorValue} readOnly />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly />
+          <Editor value={card.content as EditorValue} readOnly />
         </ItemEditorContainer>
       )}
     </ContentStyled>
@@ -177,15 +170,14 @@ const ItemEditorContainer = styled.div`
   display: flex;
   max-height: 122px;
 `;
-
-type MetaProps = Pick<Card, 'updatedAt'>;
-
-const Meta = ({ updatedAt }: MetaProps) => {
-  const date = dayjs(updatedAt);
+const Meta: React.FC<{ card: Card }> = ({ card }) => {
+  const date = dayjs(card.updatedAt);
+  const isJustCreated = card.updatedAt === card.createdAt;
+  const label = isJustCreated ? 'Created' : 'Updated';
   return (
     <MetaStyled>
       <Text type="p" title={date.format('HH:mm DD.MM.YYYY')}>
-        Updated {date.fromNow()}
+        {label} {date.fromNow()}
       </Text>
     </MetaStyled>
   );
