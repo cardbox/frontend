@@ -11,3 +11,4 @@ export {
 export { filterAuthenticated, filterAnonymous, filterOnly } from './only-hooks';
 
 export { SessionPanel, ShowOnly } from './molecules';
+export { SignInButton } from './atoms';

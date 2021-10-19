@@ -1,0 +1,1 @@
+export { InvitePage } from './page';
