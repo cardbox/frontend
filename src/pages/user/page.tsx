@@ -6,11 +6,12 @@ import {
   ContentCenteredTemplate,
   Empty,
   IconEdit,
+  Tab,
+  Tabs,
   iconUserBg,
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
-import { Link } from 'react-router-dom';
 import { ShowOnly } from '@box/entities/session';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
@@ -24,6 +25,7 @@ import { paths } from '../paths';
 
 export const $currentUser = createStore<User | null>(null);
 export const $cards = createStore<Card[]>([]);
+export const $favoritesCards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
 export const $isOnOwnedPage = createStore(false);
 
@@ -48,6 +50,7 @@ const UserPageContentComponent = () => {
   const userInfo = useStore($currentUser)!;
   const isOnOwnedPage = useStore($isOnOwnedPage);
   const cards = useStore($cards);
+  const favoritesCards = useStore($favoritesCards);
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
@@ -100,12 +103,22 @@ const UserPageContentComponent = () => {
       </UserHeader>
       <Main>
         <UserCards>
-          <UserCardTitle>User cards</UserCardTitle>
-          <CardList
-            cards={cards}
-            getHref={(card) => paths.cardView(card.id)}
-            loading={isLoading}
-          />
+          <Tabs>
+            <Tab label="User cards">
+              <CardList
+                cards={cards}
+                getHref={(card) => paths.cardView(card.id)}
+                loading={isLoading}
+              />
+            </Tab>
+            <Tab label="Saved" show={isOnOwnedPage}>
+              <CardList
+                cards={favoritesCards}
+                getHref={(card) => paths.cardView(card.id)}
+                loading={isLoading}
+              />
+            </Tab>
+          </Tabs>
         </UserCards>
       </Main>
     </Container>

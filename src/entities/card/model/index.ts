@@ -15,9 +15,8 @@ export const $currentCardId = $currentCard.map((card) =>
   card ? card.id : null,
 );
 
-$cards.on(
-  internalApi.cardsList.doneData,
-  (_, { answer }) => answer.cards as Card[],
+$cards.on(internalApi.cardsList.done, (cards, { params, result }) =>
+  !params.body?.favorites ? (result.answer.cards as Card[]) : cards,
 );
 
 $cards.on(setCards, (_, cards) => cards);
@@ -25,8 +24,10 @@ $cards.on(setCards, (_, cards) => cards);
 $currentCard.on(internalApi.cardsGet.doneData, (_, { answer }) => answer.card);
 
 $cardsCache
-  .on(internalApi.cardsList.doneData, (cache, { answer }) =>
-    updateCache(cache, answer.cards as Card[]),
+  .on(internalApi.cardsList.done, (cache, { params, result }) =>
+    !params.body?.favorites
+      ? updateCache(cache, result.answer.cards as Card[])
+      : cache,
   )
   .on(internalApi.cardsGet.doneData, (cache, { answer }) =>
     updateCache(cache, [answer.card as Card]),
