@@ -348,6 +348,7 @@ function htmlStart(props: StartProps) {
       ${props.helmet.title.toString()}
       ${props.helmet.link.toString()}
       ${props.helmet.style.toString()}
+      <script src="https://zvkqqfcvklvc.statuspage.io/embed/script.js"></script>
       ${
         props.assetsCss
           ? `<link rel='stylesheet' href='${props.assetsCss}'>`
