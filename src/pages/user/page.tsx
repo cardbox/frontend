@@ -21,7 +21,6 @@ import { userLib } from '@box/entities/user';
 import { variant } from '@effector/reflect/ssr';
 
 import { SkeletonLayout } from './skeleton';
-import { paths } from '../paths';
 
 export const $currentUser = createStore<User | null>(null);
 export const $cards = createStore<Card[]>([]);
@@ -105,18 +104,10 @@ const UserPageContentComponent = () => {
         <UserCards>
           <Tabs>
             <Tab label="User cards">
-              <CardList
-                cards={cards}
-                getHref={(card) => paths.cardView(card.id)}
-                loading={isLoading}
-              />
+              <CardList cards={cards} loading={isLoading} />
             </Tab>
-            <Tab label="Saved" show={isOnOwnedPage}>
-              <CardList
-                cards={favoritesCards}
-                getHref={(card) => paths.cardView(card.id)}
-                loading={isLoading}
-              />
+            <Tab label="Saved" isVisible={isOnOwnedPage}>
+              <CardList cards={favoritesCards} loading={isLoading} />
             </Tab>
           </Tabs>
         </UserCards>

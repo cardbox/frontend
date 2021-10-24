@@ -55,7 +55,9 @@ sample({
 
 sample({
   source: usersGetFx.doneData,
-  fn: ({ answer }) => ({ body: { authorId: answer.user.id, favorites: true } }),
+  fn: ({ answer }) => ({
+    body: { authorId: answer.user.id, favorites: true },
+  }),
   target: cardsListFx,
 });
 

@@ -17,7 +17,7 @@ const Tabs: React.FC<TabProps> = ({ children }) => {
             // no need to handle index issue here
             // eslint-disable-next-line react/jsx-key,react/no-array-index-key
             key={index}
-            show={item.props.show}
+            isVisible={item.props.isVisible}
             title={item.props.label}
             index={index}
             active={activeTab}

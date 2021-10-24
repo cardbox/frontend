@@ -9,7 +9,7 @@ interface TitleProps {
   index: number;
   setSelectedTab: (index: number) => void;
   active: number;
-  show?: boolean;
+  isVisible?: boolean;
 }
 
 const TabTitle: React.FC<TitleProps> = ({
@@ -17,12 +17,12 @@ const TabTitle: React.FC<TitleProps> = ({
   active,
   index,
   setSelectedTab,
-  show = true,
+  isVisible = true,
 }) => {
   const onClick = useCallback(() => {
     setSelectedTab(index);
   }, [setSelectedTab, index]);
-  if (!show) {
+  if (!isVisible) {
     return null;
   }
   return (
