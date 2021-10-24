@@ -99,13 +99,7 @@ const CardResults = () => {
   const cards = useStore(searchModel.$cardList);
   const isLoading = useStore(model.$isShowLoading);
 
-  return (
-    <CardList
-      cards={cards}
-      getHref={(card) => paths.cardView(card.id)}
-      loading={isLoading}
-    />
-  );
+  return <CardList cards={cards} loading={isLoading} />;
 };
 
 const UserResults = reflect({
