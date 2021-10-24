@@ -12,9 +12,26 @@ const readStateFx = createEffect(() => {
 
 const redirectToAccessoFx = createEffect(
   ({ accessoUrl }: { accessoUrl: string }) => {
-    document.location = accessoUrl as any;
+    document.location = replaceRedirectWithLocal(accessoUrl);
   },
 );
+
+// In general host in redirect_uri is same with current host we login,
+// but for local authorization we have to override it
+function replaceRedirectWithLocal(accessoUrl: string): Location {
+  const url = new URL(accessoUrl);
+  const currentRedirect = url.searchParams.get('redirect_uri');
+  if (!currentRedirect) {
+    throw new Error('redirect_uri should be specified for accessoUrl');
+  }
+  const redirectUrl = new URL(currentRedirect);
+  redirectUrl.host = document.location.host;
+  if (document.location.port) {
+    redirectUrl.port = document.location.port;
+  }
+  url.searchParams.set('redirect_uri', redirectUrl.toString());
+  return url as unknown as Location;
+}
 
 sample({
   clock: loginClicked,

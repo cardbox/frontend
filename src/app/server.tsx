@@ -370,6 +370,7 @@ function htmlEnd(props: EndProps) {
     </script>
     ${props.helmet.script.toString()}
     ${props.helmet.noscript.toString()}
+    <script src="https://zvkqqfcvklvc.statuspage.io/embed/script.js"></script>
   </body>
 </html>
   `;
