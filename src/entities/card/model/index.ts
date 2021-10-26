@@ -8,11 +8,18 @@ export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
 });
 
+export const $cards = createStore<Card[]>([]);
 export const $currentCard = createStore<Card | null>(null);
 // TODO: remove current card id and current card store from entities
 export const $currentCardId = $currentCard.map((card) =>
   card ? card.id : null,
 );
+
+$cards.on(internalApi.cardsList.done, (cards, { params, result }) =>
+  !params.body?.favorites ? (result.answer.cards as Card[]) : cards,
+);
+
+$cards.on(setCards, (_, cards) => cards);
 
 $currentCard.on(internalApi.cardsGet.doneData, (_, { answer }) => answer.card);
 
