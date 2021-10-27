@@ -14,8 +14,14 @@ export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
+const $favoritesIds = createStore<string[]>([]);
 export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
   ids.map((id) => cache[id]),
+);
+export const $favoritesCards = combine(
+  $favoritesIds,
+  $cardsCache,
+  (ids, { cache }) => ids.map((id) => cache[id]),
 );
 export const $isOnOwnedPage = combine(
   $session,
@@ -41,10 +47,24 @@ $currentUser.on(usersGetFx.doneData, (_, { answer }) => answer.user);
 
 sample({
   source: usersGetFx.doneData,
-  fn: ({ answer }) => ({ body: { authorId: answer.user.id } }),
+  fn: ({ answer }) => ({
+    body: { authorId: answer.user.id, favorites: false },
+  }),
   target: cardsListFx,
 });
 
-$cardsIds.on(cardsListFx.doneData, (_, { answer }) =>
-  answer.cards.map(({ id }) => id),
+sample({
+  source: usersGetFx.doneData,
+  fn: ({ answer }) => ({
+    body: { authorId: answer.user.id, favorites: true },
+  }),
+  target: cardsListFx,
+});
+
+$cardsIds.on(cardsListFx.done, (ids, { params, result }) =>
+  params.body?.favorites ? ids : result.answer.cards.map(({ id }) => id),
+);
+
+$favoritesIds.on(cardsListFx.done, (ids, { params, result }) =>
+  params.body?.favorites ? result.answer.cards.map(({ id }) => id) : ids,
 );
