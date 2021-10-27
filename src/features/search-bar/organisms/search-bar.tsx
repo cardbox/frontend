@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { SessionPanel, ShowOnly } from '@box/entities/session';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent } from 'effector-react/ssr';
+import { useEvent } from 'effector-react/scope';
 
 import * as model from '../models';
 import { Search } from '../molecules';

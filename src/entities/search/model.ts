@@ -1,5 +1,7 @@
 import { createEvent, createStore } from 'effector';
 
+export const $searchQuery = createStore('');
+
 export const highlightSet = createEvent<string>();
 export const highlightHide = createEvent();
 

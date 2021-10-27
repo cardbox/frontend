@@ -156,9 +156,3 @@ allSettled(ready, { scope }).then(() => {
 if (module.hot) {
   module.hot.accept();
 }
-
-// FIXME: later will be fixed by local-auth (BOX-205)
-// Uncomment for passing auth token
-// document.cookie = `session-token=${
-//   process.env.RAZZLE_SESSION_TOKEN || ''
-// }; Path=/;`;
