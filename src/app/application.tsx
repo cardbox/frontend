@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import styled, { createGlobalStyle } from 'styled-components';
+import { EditorGlobalStyles } from '@cardbox/editor';
 import { Helmet } from 'react-helmet-async';
 import { InvitePage } from '@box/pages/invite';
 import { Provider } from 'effector-react/ssr';
@@ -53,6 +54,7 @@ export const Application = ({ root }: Props) => (
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <Globals />
+        <EditorGlobalStyles />
         <ShowOnly when="authorized">
           <Searchbar />
           <PagesContainer>

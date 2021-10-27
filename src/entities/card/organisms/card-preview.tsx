@@ -12,7 +12,7 @@ import {
   Text,
 } from '@box/shared/ui';
 import type { Card, User } from '@box/shared/api';
-import { Editor } from '@cardbox/editor';
+import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
@@ -120,6 +120,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 type ContentProps = { card: Card } & Pick<CardPreviewProps, 'href' | 'size'>;
 
 const Content = ({ card, size, href }: ContentProps) => {
+  const editor = useExtendedEditor();
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
@@ -135,13 +136,21 @@ const Content = ({ card, size, href }: ContentProps) => {
         <>
           <Meta card={card} />
           {/* FIXME: resolve better later */}
-          <Editor value={card.content as EditorValue} readOnly />
+          <Editor
+            editor={editor}
+            value={card.content as EditorValue}
+            readOnly
+          />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
           {/* FIXME: resolve better later */}
-          <Editor value={card.content as EditorValue} readOnly />
+          <Editor
+            editor={editor}
+            value={card.content as EditorValue}
+            readOnly
+          />
         </ItemEditorContainer>
       )}
     </ContentStyled>

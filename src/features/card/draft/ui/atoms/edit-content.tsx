@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
-import { Editor } from '@cardbox/editor';
+import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -10,6 +10,7 @@ import * as model from '../../model';
  * Редактирование контента карточки
  */
 export const EditContent = () => {
+  const editor = useExtendedEditor();
   const content = useStore(model.$content);
   const contentChange = useEvent(model.contentChanged);
 
@@ -20,7 +21,7 @@ export const EditContent = () => {
 
   return (
     <Container>
-      <Editor value={content} onChange={handleChange} />
+      <Editor editor={editor} value={content} onChange={handleChange} />
     </Container>
   );
 };

@@ -1044,10 +1044,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cardbox/editor@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@cardbox/editor/-/editor-0.1.4.tgz#d100e7bf01d68911626b6842b933f55a22cc3838"
-  integrity sha512-bMPBHvAMlvExiEiCROZjpGxlSvTWo0A0/KNhLnuU6e9pL1GN46g98M5UCxaoiSyGjV6ZthTkNGxnL+ZgSvAfRg==
+"@cardbox/editor@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@cardbox/editor/-/editor-0.3.0.tgz#5b233c615f42856659e4e7f0fb3ec0f18e1bc52f"
+  integrity sha512-p1ez5LysFyL7I32MMxmGt2XOiBtsmx9w9zMbrSH2apY4NdN+XomVIdCVsNKo5CZ6ZRKJjEklmN/EmZZyd9dTCw==
   dependencies:
     clsx "^1.1.1"
     is-hotkey "0.1.8"
