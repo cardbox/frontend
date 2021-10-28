@@ -1,8 +1,8 @@
 import type { Card } from '@box/shared/api';
 import { attach } from 'effector/effector.umd';
+import { cardsUnsave } from '@box/shared/api/internal';
 import { combine, createEvent, createStore, sample } from 'effector';
 import { internalApi } from '@box/shared/api';
-import { cardsUnsave } from "@box/shared/api/internal";
 
 export const setCards = createEvent<Card[]>();
 
