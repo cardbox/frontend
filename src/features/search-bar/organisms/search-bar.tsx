@@ -27,7 +27,7 @@ export const Searchbar: React.FC = () => {
           <ShowOnly when="authorized">
             <NewCardLink to={paths.cardCreate()}>
               <Button theme="primary" variant="outlined" accented>
-                New card
+                Create card
               </Button>
             </NewCardLink>
           </ShowOnly>
@@ -110,7 +110,8 @@ const ButtonsWrapper = styled.div`
 `;
 
 const NewCardLink = styled(Link)`
-  margin-left: 1.125rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   text-decoration: none;
 
   button {

@@ -85,7 +85,6 @@ export const HomePage: React.FC = () => {
               <CardList
                 cards={topCards}
                 getUser={handleUser}
-                getHref={handleCardHref}
                 getUserHref={handleUserHref}
                 loading={isLoading}
               />
@@ -95,10 +94,7 @@ export const HomePage: React.FC = () => {
               <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
                 cards={latestCards}
-                getUser={handleUser}
-                getHref={handleCardHref}
-                getUserHref={handleUserHref}
-                loading={isLoading}
+                loading={latestCards.length === 0 && isLoading}
               />
             </Section>
             {/* TODO: Process "empty" case correctly */}

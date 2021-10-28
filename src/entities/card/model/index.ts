@@ -15,9 +15,8 @@ export const $currentCardId = $currentCard.map((card) =>
   card ? card.id : null,
 );
 
-$cards.on(
-  internalApi.cardsList.doneData,
-  (_, { answer }) => answer.cards as Card[],
+$cards.on(internalApi.cardsList.done, (cards, { params, result }) =>
+  !params.body?.favorites ? (result.answer.cards as Card[]) : cards,
 );
 
 $cards.on(setCards, (_, cards) => cards);

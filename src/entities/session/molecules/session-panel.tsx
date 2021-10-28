@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@box/shared/ui';
+import { Link } from 'react-router-dom';
 import { getFullName } from '@box/entities/user/lib';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { paths } from '@box/pages/paths';
+import { useStore } from 'effector-react/scope';
 
-import * as model from './session-panel.model';
 import { $session } from '../model';
 import { ShowOnly } from './show-only';
+import { SignInButton } from '../atoms';
 
 // FIXME: move to features
-export const SessionPanel: React.FC = () => {
-  const handleClick = useEvent(model.loginClicked);
-
+export const SessionPanel = () => {
   return (
     <>
       <ShowOnly when="authorized">
@@ -19,9 +19,7 @@ export const SessionPanel: React.FC = () => {
         <Button variant="text">Logout</Button>
       </ShowOnly>
       <ShowOnly when="anonymous">
-        <Button variant="text" onClick={handleClick}>
-          Sign in
-        </Button>
+        <SignInButton />
       </ShowOnly>
     </>
   );
@@ -32,13 +30,13 @@ const Viewer = () => {
   if (!viewer) return null;
 
   return (
-    <User>
+    <User to={paths.user(viewer.id)}>
       <span data-user="name">{getFullName(viewer)}</span>
     </User>
   );
 };
 
-const User = styled.div`
+const User = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -47,5 +45,9 @@ const User = styled.div`
   [data-user='name'] {
     margin-right: 12px;
     margin-left: 8px;
+  }
+
+  &:hover [data-user='name'] {
+    border-bottom: 1px solid currentColor;
   }
 `;

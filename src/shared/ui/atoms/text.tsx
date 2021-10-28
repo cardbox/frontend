@@ -50,6 +50,11 @@ const TextStyled = styled.p<{ 'data-type': TextProps['type'] }>`
     font-size: 1.875rem;
     line-height: 42px;
   }
+  &[data-type='h5'] {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 36px;
+  }
   &[data-type='h6'] {
     font-size: 21px;
     line-height: 30px;

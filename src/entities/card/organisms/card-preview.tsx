@@ -1,3 +1,5 @@
+import 'dayjs/plugin/relativeTime';
+
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import React, { forwardRef } from 'react';
@@ -10,7 +12,7 @@ import {
   Text,
 } from '@box/shared/ui';
 import type { Card, User } from '@box/shared/api';
-import { Editor } from '@cardbox/editor';
+import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
@@ -24,10 +26,8 @@ type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card: Card;
-  author: User;
   isCardInFavorite?: boolean;
   href?: string;
-  userHref?: string;
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
@@ -38,10 +38,8 @@ interface CardPreviewProps {
 
 export const CardPreview = ({
   card,
-  author,
   isCardInFavorite = false,
   href,
-  userHref,
   loading = false,
   size = 'small',
 }: CardPreviewProps) => {
@@ -68,23 +66,30 @@ export const CardPreview = ({
       aria-label="Open card"
     >
       <Header>
-        <Content
-          title={card.title}
-          content={card.content}
-          href={href}
-          size={size}
-          updatedAt={card.updatedAt}
-        />
+        <Content card={card} href={href} size={size} />
+        <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+        <OverHelm />
       </Header>
 
-      {size === 'small' && (
-        <Meta author={author} userHref={userHref} updatedAt={card.updatedAt} />
-      )}
-
-      <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+      {size === 'small' && <Meta card={card} />}
     </PaperContainerStyled>
   );
 };
+
+const OverHelm = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--card-background), 0) 0%,
+    rgba(var(--card-background), 0) 20%,
+    rgba(var(--card-background), 0.5) 60%,
+    rgba(var(--card-background), 1) 100%
+  );
+`;
 
 const PaperContainerStyled = styled(PaperContainer)<{
   'data-size': CardSize;
@@ -94,57 +99,60 @@ const PaperContainerStyled = styled(PaperContainer)<{
   overflow: hidden;
   border-color: var(${theme.palette.bnw900});
   box-shadow: ${theme.shadows[1]};
+  --card-background: 255, 255, 255;
+  background-color: rgb(var(--card-background));
 
   &[data-size='small'] {
-    background-color: var(${theme.palette.bnw950});
     box-shadow: ${theme.shadows[2]};
     height: 190px;
-    transition: 0.25s;
 
     &:hover,
     &:focus {
+      --card-background: 250, 249, 250;
       border-color: var(${theme.palette.wizard800});
-      background-color: var(${theme.palette.bnw1000});
       cursor: pointer;
     }
   }
 
   &[data-size='large'] {
-    background: var(${theme.palette.bnw1000});
     min-height: 190px;
   }
 `;
 
-type ContentProps = Pick<Card, 'title' | 'content' | 'updatedAt'> &
-  Pick<CardPreviewProps, 'href' | 'size'>;
+type ContentProps = { card: Card } & Pick<CardPreviewProps, 'href' | 'size'>;
 
-const Content = ({ content, title, href, size, updatedAt }: ContentProps) => {
+const Content = ({ card, size, href }: ContentProps) => {
+  const editor = useExtendedEditor();
   return (
     <ContentStyled>
       {/* FIXME: Add text-overflow processing */}
-      <TextStyled type="h4">
+      <TextStyled type="h5">
         {href && (
           <TitleLink to={href}>
-            <HighlightText text={title} />
+            <HighlightText text={card.title} />
           </TitleLink>
         )}
-        {!href && title}
+        {!href && card.title}
       </TextStyled>
       {size === 'large' && (
         <>
-          <MetaStyled>
-            <Text type="p">
-              Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}
-            </Text>
-          </MetaStyled>
+          <Meta card={card} />
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly={true} />
+          <Editor
+            editor={editor}
+            value={card.content as EditorValue}
+            readOnly
+          />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
           {/* FIXME: resolve better later */}
-          <Editor value={content as EditorValue} readOnly={true} />
+          <Editor
+            editor={editor}
+            value={card.content as EditorValue}
+            readOnly
+          />
         </ItemEditorContainer>
       )}
     </ContentStyled>
@@ -170,28 +178,21 @@ const ItemEditorContainer = styled.div`
   --editor-color: var(${theme.palette.bnw400});
   --editor-font-size: 15px;
   --editor-line-height: 21px;
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  max-height: 90px;
+  display: flex;
+  max-height: 122px;
 `;
-
-type MetaProps = Pick<Card, 'updatedAt'> & {
-  userHref?: string;
-  author: User;
+const Meta: React.FC<{ card: Card }> = ({ card }) => {
+  const date = dayjs(card.updatedAt);
+  const isJustCreated = card.updatedAt === card.createdAt;
+  const label = isJustCreated ? 'Created' : 'Updated';
+  return (
+    <MetaStyled>
+      <Text type="p" title={date.format('HH:mm DD.MM.YYYY')}>
+        {label} {date.fromNow()}
+      </Text>
+    </MetaStyled>
+  );
 };
-
-const Meta = ({ author, userHref = '', updatedAt }: MetaProps) => (
-  <MetaStyled>
-    {/* FIXME: Add click processing */}
-    <UserLink to={userHref}>
-      <Text type="span">{author.username}</Text>
-    </UserLink>
-    <Text type="p">
-      Update {dayjs(updatedAt).format('HH:mm DD.MM.YYYY')}, {author.username}
-    </Text>
-  </MetaStyled>
-);
 
 const ContentStyled = styled.div`
   width: 100%;
@@ -231,8 +232,9 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  position: relative;
 
-  & > *:not(:first-child) {
+  & > *:not(:first-child):not(:last-child) {
     margin-left: 1rem;
   }
 

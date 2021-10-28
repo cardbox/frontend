@@ -1,16 +1,23 @@
 import * as React from 'react';
+import * as dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import styled, { createGlobalStyle } from 'styled-components';
+import { EditorGlobalStyles } from '@cardbox/editor';
 import { Helmet } from 'react-helmet-async';
+import { InvitePage } from '@box/pages/invite';
 import { Provider } from 'effector-react/ssr';
 import { QueryParamProvider } from 'use-query-params';
 import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
+import { ShowOnly } from '@box/entities/session';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 import { globalFonts } from '@box/app/styles/global-fonts';
 
 import { Pages } from '../pages';
+
+dayjs.extend(relativeTime);
 
 // FIXME: replace later to usage of entities/viewer
 
@@ -52,12 +59,18 @@ export const Application = ({ root }: Props) => (
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Helmet>
         <Globals />
-        <Searchbar />
-        <PagesContainer>
-          <PagesContent>
-            <Pages />
-          </PagesContent>
-        </PagesContainer>
+        <EditorGlobalStyles />
+        <ShowOnly when="authorized">
+          <Searchbar />
+          <PagesContainer>
+            <PagesContent>
+              <Pages />
+            </PagesContent>
+          </PagesContainer>
+        </ShowOnly>
+        <ShowOnly when="anonymous">
+          <InvitePage />
+        </ShowOnly>
       </Container>
     </Provider>
   </QueryParamProvider>

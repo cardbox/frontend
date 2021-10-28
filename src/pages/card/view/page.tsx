@@ -55,7 +55,6 @@ export const CardViewPage = () => {
             {card && author && (
               <CardPreview
                 card={card}
-                author={author}
                 loading={isLoading}
                 isCardInFavorite={false}
                 size="large"
