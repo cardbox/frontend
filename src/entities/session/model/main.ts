@@ -10,7 +10,7 @@ import {
   sample,
 } from 'effector';
 import type { SessionUser } from '@box/shared/api';
-import { condition } from 'patronum';
+import { condition, debug } from 'patronum';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/shared/api';
 import { paths } from '@box/pages/paths';
@@ -20,6 +20,8 @@ export const readyToLoadSession = createEvent<void>();
 export const sessionLoaded = internalApi.sessionGet.finally;
 
 export const $session = createStore<SessionUser | null>(null);
+
+debug($session);
 
 export const $isAuthenticated = $session.map((user) => user !== null);
 
@@ -58,7 +60,13 @@ $session
     }
     return session;
   })
-  .on(internalApi.sessionDelete.done, () => null);
+  .on(internalApi.sessionDelete.done, () => {
+    console.log(
+      'internalApi.sessionDelete.done',
+      internalApi.sessionDelete.done,
+    );
+    return null;
+  });
 
 guard({
   source: readyToLoadSession,
