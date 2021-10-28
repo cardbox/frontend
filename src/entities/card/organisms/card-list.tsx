@@ -11,9 +11,18 @@ import { CardPreview } from './card-preview';
 interface Props {
   cards: Card[];
   loading?: boolean;
+  favoritesCards: Card[];
+  addToFavorites: (id: string) => void;
+  removeFromFavorites: (id: string) => void;
 }
 
-export const CardList = ({ cards, loading }: Props) => {
+export const CardList = ({
+  cards,
+  favoritesCards,
+  loading,
+  addToFavorites,
+  removeFromFavorites,
+}: Props) => {
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
@@ -28,9 +37,10 @@ export const CardList = ({ cards, loading }: Props) => {
         <CardPreview
           key={card.id}
           card={card}
-          // FIXME: temp hack, will be optimized later
-          isCardInFavorite={i % 2 === 0}
+          isCardInFavorite={favoritesCards?.some((s) => s.id === card.id)}
           href={paths.cardView(card.id)}
+          addToFavorites={addToFavorites}
+          removeFromFavorites={removeFromFavorites}
           size="small"
         />
       ))}

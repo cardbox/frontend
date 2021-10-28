@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
 import type { Card, User } from '@box/shared/api';
-import { CardList } from '@box/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
 import {
   ContentCenteredTemplate,
   IconArrowRight,
@@ -11,7 +11,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
-import { useStore } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
 
 import { paths } from '../paths';
 
@@ -25,6 +25,10 @@ export const HomePage: React.FC = () => {
   const topCards = useStore($topCards);
   const latestCards = useStore($latestCards);
   const usersMap = useStore($usersMap);
+  const favoritesCards = useStore(cardModel.$favoritesCards);
+
+  const addToFavorites = useEvent(cardModel.addedToFavorites);
+  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
 
   // FIXME: temp handlers
   const handleUser = useCallback(
@@ -42,6 +46,14 @@ export const HomePage: React.FC = () => {
     },
     [usersMap],
   );
+
+  const handleFavoritesAdd = useCallback((cardId: string) => {
+    addToFavorites({ id: cardId });
+  }, []);
+
+  const handleFavoritesRemove = useCallback((cardId: string) => {
+    removeFromFavorites({ id: cardId });
+  }, []);
 
   const handleCardHref = useCallback((card: Card) => {
     return paths.cardView(card.id);
@@ -92,7 +104,10 @@ export const HomePage: React.FC = () => {
               <SectionTitle type="h2">Latest</SectionTitle>
               <CardList
                 cards={latestCards}
+                favoritesCards={favoritesCards}
                 loading={latestCards.length === 0 && isLoading}
+                removeFromFavorites={handleFavoritesRemove}
+                addToFavorites={handleFavoritesAdd}
               />
             </Section>
             {/* TODO: Process "empty" case correctly */}

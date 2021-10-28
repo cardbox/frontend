@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from "react";
 import styled from 'styled-components';
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   IconEdit,
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api/index';
-import { CardPreview } from '@box/entities/card';
+import { CardPreview, cardModel } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
@@ -35,8 +35,20 @@ export const CardViewPage = () => {
   const pageTitle = useStore($pageTitle);
   const author = useStore($cardAuthor);
   const isAuthorViewing = useStore($isAuthorViewing);
+  const favoritesCards = useStore(cardModel.$favoritesCards);
+
+  const addToFavorites = useEvent(cardModel.addedToFavorites);
+  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
 
   const handleDeleteCard = useEvent(deleteCard);
+
+  const handleFavoritesAdd = useCallback((cardId: string) => {
+    addToFavorites({ id: cardId });
+  }, []);
+
+  const handleFavoritesRemove = useCallback((cardId: string) => {
+    removeFromFavorites({ id: cardId });
+  }, []);
 
   if (!card && !isLoading) {
     return (
@@ -55,8 +67,10 @@ export const CardViewPage = () => {
             {card && author && (
               <CardPreview
                 card={card}
+                removeFromFavorites={handleFavoritesRemove}
+                addToFavorites={handleFavoritesAdd}
                 loading={isLoading}
-                isCardInFavorite={false}
+                isCardInFavorite={favoritesCards?.some((s) => s.id === card.id)}
                 size="large"
               />
             )}

@@ -1,7 +1,7 @@
 module.exports = {
   file: 'https://cardbox.github.io/backend/api-internal/openapi.yaml',
   templateFileNameCode: 'index.gen.ts',
-  outputDir: './src/api/internal',
+  outputDir: './src/shared/api/internal',
   presets: [
     [
       'effector-openapi-preset',

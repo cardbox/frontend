@@ -1,5 +1,8 @@
+import { $favoritesIds } from '@box/entities/card/model';
+import { $session } from '@box/entities/session';
 import type { Card } from '@box/shared/api';
 import { attach, createDomain, createStore, restore, sample } from 'effector';
+import { cardsListFx } from '@box/pages/user/model';
 import { createHatch } from 'framework';
 import { internalApi } from '@box/shared/api';
 import { userModel } from '@box/entities/user';
@@ -34,3 +37,16 @@ sample({
   fn: ({ answer }) => [...answer.latest.users, ...answer.top.users],
   target: userModel.updateMap,
 });
+
+sample({
+  source: $session,
+  clock: hatch.enter,
+  fn: (user) => ({
+    body: { authorId: user?.id, favorites: true },
+  }),
+  target: cardsListFx,
+});
+
+$favoritesIds.on(cardsListFx.done, (ids, { params, result }) =>
+  params.body?.favorites ? result.answer.cards.map(({ id }) => id) : ids,
+);

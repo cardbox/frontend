@@ -28,6 +28,8 @@ interface CardPreviewProps {
   isCardInFavorite?: boolean;
   href?: string;
   loading?: boolean;
+  addToFavorites: (id: string) => void;
+  removeFromFavorites: (id: string) => void;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
    * @default "small"
@@ -41,6 +43,8 @@ export const CardPreview = ({
   href,
   loading = false,
   size = 'small',
+  addToFavorites,
+  removeFromFavorites,
 }: CardPreviewProps) => {
   const historyPush = useEvent(navigationModel.historyPush);
 
@@ -51,6 +55,14 @@ export const CardPreview = ({
       else historyPush(href);
     },
   );
+
+  const handleCardClick = (cardId: string) => {
+    if (!isCardInFavorite) {
+      addToFavorites(cardId);
+    } else {
+      removeFromFavorites(cardId);
+    }
+  };
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
@@ -66,7 +78,12 @@ export const CardPreview = ({
     >
       <Header>
         <Content card={card} href={href} size={size} />
-        <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+        <AddButton
+          ref={buttonRef}
+          onClick={handleCardClick}
+          isCardToDeckAdded={isCardInFavorite}
+          card={card}
+        />
         <OverHelm />
       </Header>
 
@@ -197,35 +214,40 @@ const ContentStyled = styled.div`
   overflow: hidden;
 `;
 
-const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
-  ({ isCardToDeckAdded }, ref) => {
-    const handleClick: React.MouseEventHandler = (e) => {
-      e.stopPropagation();
-    };
-
-    if (isCardToDeckAdded) {
-      return (
-        <Button
-          ref={ref}
-          onClick={handleClick}
-          variant="outlined"
-          theme="primary"
-          icon={<IconDeckCheck title="Remove card from my deck" />}
-        />
-      );
-    }
-
+const AddButton = forwardRef<
+  HTMLButtonElement,
+  {
+    isCardToDeckAdded: boolean;
+    card: Card;
+    onClick: (id: string) => void;
+  }
+>(({ isCardToDeckAdded, card, onClick }, ref) => {
+  const handleClick: React.MouseEventHandler = (e) => {
+    e.stopPropagation();
+    onClick(card.id);
+  };
+  if (isCardToDeckAdded) {
     return (
       <Button
         ref={ref}
         onClick={handleClick}
         variant="outlined"
-        theme="secondary"
-        icon={<IconDeckArrow title="Add card to my deck" />}
+        theme="primary"
+        icon={<IconDeckCheck title="Remove card from my deck" />}
       />
     );
-  },
-);
+  }
+
+  return (
+    <Button
+      ref={ref}
+      onClick={handleClick}
+      variant="outlined"
+      theme="secondary"
+      icon={<IconDeckArrow title="Add card to my deck" />}
+    />
+  );
+});
 
 const Header = styled.header`
   display: flex;

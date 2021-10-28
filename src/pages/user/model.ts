@@ -1,4 +1,4 @@
-import { $cardsCache } from '@box/entities/card/model';
+import { $cardsCache, $favoritesIds } from '@box/entities/card/model';
 import { $session } from '@box/entities/session';
 import { User, internalApi } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
@@ -14,14 +14,8 @@ export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
-const $favoritesIds = createStore<string[]>([]);
 export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
   ids.map((id) => cache[id]),
-);
-export const $favoritesCards = combine(
-  $favoritesIds,
-  $cardsCache,
-  (ids, { cache }) => ids.map((id) => cache[id]),
 );
 export const $isOnOwnedPage = combine(
   $session,

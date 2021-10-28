@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import {
   Avatar,
@@ -11,12 +11,12 @@ import {
   iconUserBg,
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api';
-import { CardList } from '@box/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
 import { theme } from '@box/shared/lib/theme';
-import { useStore } from 'effector-react/scope';
+import { useEvent, useStore } from 'effector-react/scope';
 import { userLib } from '@box/entities/user';
 import { variant } from '@effector/reflect/ssr';
 
@@ -24,7 +24,6 @@ import { SkeletonLayout } from './skeleton';
 
 export const $currentUser = createStore<User | null>(null);
 export const $cards = createStore<Card[]>([]);
-export const $favoritesCards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
 export const $isOnOwnedPage = createStore(false);
 
@@ -49,10 +48,21 @@ const UserPageContentComponent = () => {
   const userInfo = useStore($currentUser)!;
   const isOnOwnedPage = useStore($isOnOwnedPage);
   const cards = useStore($cards);
-  const favoritesCards = useStore($favoritesCards);
+  const favoritesCards = useStore(cardModel.$favoritesCards);
+
+  const addToFavorites = useEvent(cardModel.addedToFavorites);
+  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);
+
+  const handleFavoritesAdd = useCallback((cardId: string) => {
+    addToFavorites({ id: cardId });
+  }, []);
+
+  const handleFavoritesRemove = useCallback((cardId: string) => {
+    removeFromFavorites({ id: cardId });
+  }, []);
 
   return (
     <Container>
@@ -104,10 +114,22 @@ const UserPageContentComponent = () => {
         <UserCards>
           <Tabs>
             <Tab label="User cards">
-              <CardList cards={cards} loading={isLoading} />
+              <CardList
+                cards={cards}
+                favoritesCards={favoritesCards}
+                loading={isLoading}
+                removeFromFavorites={handleFavoritesRemove}
+                addToFavorites={handleFavoritesAdd}
+              />
             </Tab>
             <Tab label="Saved" isVisible={isOnOwnedPage}>
-              <CardList cards={favoritesCards} loading={isLoading} />
+              <CardList
+                cards={favoritesCards}
+                favoritesCards={favoritesCards}
+                loading={isLoading}
+                removeFromFavorites={handleFavoritesRemove}
+                addToFavorites={handleFavoritesAdd}
+              />
             </Tab>
           </Tabs>
         </UserCards>
