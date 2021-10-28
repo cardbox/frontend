@@ -24,14 +24,14 @@ export const Searchbar: React.FC = () => {
             <Search />
           </SearchWrapper>
           <ButtonsWrapper>
-          <ShowOnly when="authorized">
-            <NewCardLink to={paths.cardCreate()}>
-              <Button theme="primary" variant="outlined" accented>
-                Create card
-              </Button>
-            </NewCardLink>
-          </ShowOnly>
-          <SessionPanel />
+            <ShowOnly when="authorized">
+              <NewCardLink to={paths.cardCreate()}>
+                <Button theme="primary" variant="outlined" accented>
+                  Create card
+                </Button>
+              </NewCardLink>
+            </ShowOnly>
+            <SessionPanel />
           </ButtonsWrapper>
         </Nav>
       </ContentCenteredTemplate>

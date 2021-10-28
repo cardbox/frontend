@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import type { Card } from '@box/shared/api';
 import { Empty, SkeletonGroup } from '@box/shared/ui';
-import { paths } from '@box/pages/paths';
 import { breakpoints } from '@box/shared/lib/breakpoints';
+import { paths } from '@box/pages/paths';
 
 import { CardPreview } from './card-preview';
 
