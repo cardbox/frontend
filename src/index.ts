@@ -1,12 +1,12 @@
 import type { FastifyInstance } from 'fastify';
-import type { Http2Server } from 'http2';
+import type { Server } from 'http';
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 
 import * as app from './app/server';
 
 // this require is necessary for server HMR to recover from error
-let server: FastifyInstance<Http2Server> = app.fastifyInstance;
+let server: FastifyInstance<Server> = app.fastifyInstance;
 
 process.on('unhandledRejection', (error) => {
   // Will print "unhandledRejection err is not defined"
