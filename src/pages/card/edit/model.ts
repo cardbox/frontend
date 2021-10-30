@@ -1,3 +1,4 @@
+import * as sessionModel from '@box/entities/session';
 import {
   attach,
   createDomain,
@@ -23,10 +24,41 @@ export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
 export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
 
 // Подгружаем данные после монтирования страницы
-sample({
+const shouldLoadCard = sample({
   clock: [hatch.enter, hatch.update],
-  fn: ({ params: { cardId } }) => ({ body: { cardId } }),
+  fn: ({ params }) => params.cardId,
+});
+
+sample({
+  clock: shouldLoadCard,
+  fn: (cardId) => ({ body: { cardId } }),
   target: cardsGetFx,
+});
+
+const cardCtxLoaded = sample({
+  clock: cardsGetFx.doneData,
+  source: sessionModel.$session,
+  fn: (viewer, card) => ({ viewer, card }),
+});
+
+// Фактическая проверка прав на редактирование
+const isAnotherViewing = guard({
+  source: cardCtxLoaded,
+  filter: ({ viewer, card }) => {
+    if (!viewer) return false;
+    return viewer.id !== card.answer.card.authorId;
+  },
+});
+sample({
+  clock: isAnotherViewing,
+  fn: ({ card }) => paths.cardView(card.answer.card.id),
+  target: historyPush,
+});
+
+guard({
+  source: cardsGetFx.doneData,
+  filter: (isAuthor) => !isAuthor,
+  target: historyPush.prepend(() => paths.home()),
 });
 
 // Ивент, который сабмитит форму при отправке ее со страницы редактирования карточки
