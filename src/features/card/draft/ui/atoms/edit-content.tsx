@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useCallback } from 'react';
-import { Editor } from '@cardbox/editor';
+import { Editor, isEditorEmpty, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { useEvent, useStore } from 'effector-react/ssr';
 
@@ -13,6 +13,9 @@ export const EditContent = () => {
   const content = useStore(model.$content);
   const contentChange = useEvent(model.contentChanged);
 
+  const editor = useExtendedEditor();
+  const isEmpty = () => isEditorEmpty(editor, content);
+
   const handleChange = useCallback(
     (nextValue: EditorValue) => contentChange(nextValue),
     [],
@@ -20,7 +23,7 @@ export const EditContent = () => {
 
   return (
     <Container>
-      <Editor value={content} onChange={handleChange} />
+      <Editor editor={editor} value={content} onChange={handleChange} />
     </Container>
   );
 };
