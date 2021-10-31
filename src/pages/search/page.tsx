@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import React, { useCallback, useEffect } from 'react';
-import { CardList, cardModel } from '@box/entities/card';
+import React, { useEffect } from 'react';
+import { CardList } from '@box/entities/card';
 import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -99,26 +99,10 @@ const CardResults = () => {
   const cards = useStore(searchModel.$cardList);
   const isLoading = useStore(model.$isShowLoading);
 
-  const favoritesCards = useStore(cardModel.$favoritesCards);
-
-  const addToFavorites = useEvent(cardModel.addedToFavorites);
-  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
-
-  const handleFavoritesAdd = useCallback((cardId: string) => {
-    addToFavorites({ id: cardId });
-  }, []);
-
-  const handleFavoritesRemove = useCallback((cardId: string) => {
-    removeFromFavorites({ id: cardId });
-  }, []);
-
   return (
     <CardList
       cards={cards}
-      favoritesCards={favoritesCards}
       loading={isLoading}
-      removeFromFavorites={handleFavoritesRemove}
-      addToFavorites={handleFavoritesAdd}
     />
   );
 };

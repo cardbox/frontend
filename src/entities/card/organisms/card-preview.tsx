@@ -2,7 +2,7 @@ import 'dayjs/plugin/relativeTime';
 
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import {
   Button,
   IconDeckArrow,
@@ -16,20 +16,20 @@ import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
+import { cardModel } from '@box/entities/card';
+import { createStore } from 'effector';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
 import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
+import { useStore } from 'effector-react/ssr';
 
 type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card: Card;
-  isCardInFavorite?: boolean;
   href?: string;
   loading?: boolean;
-  addToFavorites: (id: string) => void;
-  removeFromFavorites: (id: string) => void;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
    * @default "small"
@@ -37,16 +37,28 @@ interface CardPreviewProps {
   size?: CardSize;
 }
 
+export const $isCardInFavorites = createStore(false);
+
 export const CardPreview = ({
   card,
-  isCardInFavorite = false,
   href,
   loading = false,
   size = 'small',
-  addToFavorites,
-  removeFromFavorites,
 }: CardPreviewProps) => {
+  const favoritesCards = useStore(cardModel.$favoritesCards);
+  const isCardInFavorites = favoritesCards.some((s) => s.id === card.id);
+
+  const addToFavorites = useEvent(cardModel.addedToFavorites);
+  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
   const historyPush = useEvent(navigationModel.historyPush);
+
+  const handleFavoritesAdd = useCallback((cardId: string) => {
+    addToFavorites({ id: cardId });
+  }, []);
+
+  const handleFavoritesRemove = useCallback((cardId: string) => {
+    removeFromFavorites({ id: cardId });
+  }, []);
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
     (inNewTab = false) => {
@@ -57,10 +69,10 @@ export const CardPreview = ({
   );
 
   const handleCardClick = (cardId: string) => {
-    if (!isCardInFavorite) {
-      addToFavorites(cardId);
+    if (!isCardInFavorites) {
+      handleFavoritesAdd(cardId);
     } else {
-      removeFromFavorites(cardId);
+      handleFavoritesRemove(cardId);
     }
   };
 
@@ -81,7 +93,7 @@ export const CardPreview = ({
         <AddButton
           ref={buttonRef}
           onClick={handleCardClick}
-          isCardToDeckAdded={isCardInFavorite}
+          isCardToDeckAdded={isCardInFavorites}
           card={card}
         />
         <OverHelm />

@@ -11,18 +11,9 @@ import { CardPreview } from './card-preview';
 interface Props {
   cards: Card[];
   loading?: boolean;
-  favoritesCards: Card[];
-  addToFavorites: (id: string) => void;
-  removeFromFavorites: (id: string) => void;
 }
 
-export const CardList = ({
-  cards,
-  favoritesCards,
-  loading,
-  addToFavorites,
-  removeFromFavorites,
-}: Props) => {
+export const CardList = ({ cards, loading }: Props) => {
   if (loading) {
     return <SkeletonGroup amount={4} />;
   }
@@ -37,10 +28,7 @@ export const CardList = ({
         <CardPreview
           key={card.id}
           card={card}
-          isCardInFavorite={favoritesCards?.some((s) => s.id === card.id)}
           href={paths.cardView(card.id)}
-          addToFavorites={addToFavorites}
-          removeFromFavorites={removeFromFavorites}
           size="small"
         />
       ))}

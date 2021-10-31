@@ -1,6 +1,5 @@
 import type { Card } from '@box/shared/api';
 import { attach } from 'effector/effector.umd';
-import { cardsUnsave } from '@box/shared/api/internal';
 import { combine, createEvent, createStore, sample } from 'effector';
 import { internalApi } from '@box/shared/api';
 
@@ -14,7 +13,11 @@ export const cardsSaveFx = attach({ effect: internalApi.cardsSave });
 export const cardsUnsaveFx = attach({ effect: internalApi.cardsUnsave });
 
 export const $cards = createStore<Card[]>([]);
+
+// @TODO It's bad practice to use global store. Will be fixed after BOX-250
 export const $favoritesIds = createStore<string[]>([]);
+
+export const changeFavorites = createEvent<string[]>();
 
 export const $favoritesCards = combine(
   $favoritesIds,
@@ -53,9 +56,12 @@ $cardsCache
   )
   .on(internalApi.cardsSave.doneData, (cache, { answer }) =>
     updateCache(cache, [answer.card as Card]),
+  )
+  .on(internalApi.cardsUnsave.doneData, (cache, { answer }) =>
+    updateCache(cache, [answer.card as Card]),
   );
 
-sample({
+const cardSaveResolved = sample({
   source: addedToFavorites,
   fn: ({ id }) => ({
     body: { cardId: id },
@@ -63,21 +69,20 @@ sample({
   target: cardsSaveFx,
 });
 
-sample({
+const cardUnsaveResolved = sample({
   source: removedFromFavorites,
   fn: ({ id }) => ({
     body: { cardId: id },
   }),
-  target: cardsUnsave,
+  target: cardsUnsaveFx,
 });
 
-$favoritesIds.on(
-  [internalApi.cardsSave.doneData, internalApi.cardsUnsave.doneData],
-  (ids, { answer }) =>
-    ids.includes(answer.card.id)
-      ? ids.filter((s) => s !== answer.card.id)
-      : [...ids, answer.card.id],
-);
+$favoritesIds
+  .on(changeFavorites, (_, ids) => ids)
+  .on(cardSaveResolved.doneData, (ids, { answer }) => [...ids, answer.card.id])
+  .on(cardUnsaveResolved.doneData, (ids, { answer }) =>
+    ids.filter((s) => s !== answer.card.id),
+  );
 
 function updateCache<T extends { id: string }>(
   source: { cache: Record<string, T> },
