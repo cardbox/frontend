@@ -58,9 +58,7 @@ $session
     }
     return session;
   })
-  .on(internalApi.sessionDelete.done, () => {
-    return null;
-  });
+  .on(internalApi.sessionDelete.done, () => null);
 
 guard({
   source: readyToLoadSession,
