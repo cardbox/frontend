@@ -1,13 +1,28 @@
-import { attach, createEffect, createEvent, sample } from 'effector';
+import {
+  attach,
+  createEffect,
+  createEvent,
+  forward,
+  guard,
+  sample,
+} from 'effector';
 import { internalApi } from '@box/shared/api';
 
 const authParamsFx = attach({ effect: internalApi.authParams });
+export const sessionDeleteFx = attach({ effect: internalApi.sessionDelete });
 
 export const loginClicked = createEvent();
+export const logout = createEvent<void>();
 
 const readStateFx = createEffect(() => {
   const url = new URL(document.location.toString());
   return `${url.pathname}${url.search}${url.hash}`;
+});
+
+const reloadFx = createEffect<void, void, any>({
+  handler() {
+    document.location = '';
+  },
 });
 
 const redirectToAccessoFx = createEffect(
@@ -51,4 +66,18 @@ sample({
   clock: authParamsFx.doneData,
   fn: ({ answer }) => answer,
   target: redirectToAccessoFx,
+});
+
+sample({
+  source: guard({
+    source: logout,
+    filter: sessionDeleteFx.pending.map((is) => !is),
+  }),
+  target: sessionDeleteFx,
+  fn: (_) => ({ body: { deleteAllSessions: true } }),
+});
+
+forward({
+  from: internalApi.sessionDelete.done,
+  to: reloadFx,
 });
