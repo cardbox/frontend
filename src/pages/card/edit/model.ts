@@ -55,12 +55,6 @@ sample({
   target: historyPush,
 });
 
-guard({
-  source: cardsGetFx.doneData,
-  filter: (isAuthor) => !isAuthor,
-  target: historyPush.prepend(() => paths.home()),
-});
-
 // Ивент, который сабмитит форму при отправке ее со страницы редактирования карточки
 const formEditSubmitted = createEvent<string>();
 
