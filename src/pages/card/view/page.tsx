@@ -53,11 +53,7 @@ export const CardViewPage = () => {
         <Container>
           <Main>
             {card && author && (
-              <CardPreview
-                card={card}
-                loading={isLoading}
-                size="large"
-              />
+              <CardPreview card={card} loading={isLoading} size="large" />
             )}
             {/* TODO: Process "empty" case correctly */}
           </Main>

@@ -103,16 +103,10 @@ const UserPageContentComponent = () => {
         <UserCards>
           <Tabs>
             <Tab label="User cards">
-              <CardList
-                cards={cards}
-                loading={isLoading}
-              />
+              <CardList cards={cards} loading={isLoading} />
             </Tab>
             <Tab label="Saved" isVisible={isOnOwnedPage}>
-              <CardList
-                cards={favoritesCards}
-                loading={isLoading}
-              />
+              <CardList cards={favoritesCards} loading={isLoading} />
             </Tab>
           </Tabs>
         </UserCards>
