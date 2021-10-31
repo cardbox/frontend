@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Avatar } from '@box/shared/ui/atoms';
 import { Link } from 'react-router-dom';
 import type { User } from '@box/shared/api';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { imgLogo } from '@box/shared/assets';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
@@ -46,6 +47,30 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.0625rem 1.3125rem;
+
+  & > *:first-child {
+    order: 0;
+  }
+
+  & > *:last-child {
+    order: 1;
+  }
+
+  ${breakpoints.devices.mobile} {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    & > *:first-child {
+      order: 1;
+    }
+
+    & > *:last-child {
+      order: 0;
+      margin-right: 12px;
+    }
+  }
 `;
 
 const Content = styled.div`

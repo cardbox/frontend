@@ -1,17 +1,17 @@
 const sizes = {
-  mobile: '576px',
-  tablet: '768px',
-  laptop: '1600px',
-  desktop: '1920px',
-  desktopL: '2560px',
+  mobile: 576,
+  tablet: 768,
+  laptop: 1600,
+  desktop: 1920,
+  desktopL: 2560,
 };
 
 const devices = {
-  mobile: `@media screen and (max-width: ${sizes.tablet})`,
-  tablet: `@media screen and (max-width: ${sizes.laptop})`,
-  laptop: `@media screen and (max-width: ${sizes.desktop})`,
-  desktop: `@media screen and (max-width: ${sizes.desktopL})`,
-  desktopL: `@media screen and (min-width: ${sizes.desktopL})`,
+  mobile: `@media screen and (max-width: ${sizes.tablet - 1}px)`,
+  tablet: `@media screen and (max-width: ${sizes.laptop - 1}px)`,
+  laptop: `@media screen and (max-width: ${sizes.desktop - 1}px)`,
+  desktop: `@media screen and (max-width: ${sizes.desktopL - 1}px)`,
+  desktopL: `@media screen and (min-width: ${sizes.desktopL}px)`,
 };
 
 export const breakpoints = {

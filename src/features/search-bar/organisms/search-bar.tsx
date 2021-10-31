@@ -92,7 +92,7 @@ const SearchWrapper = styled.div`
   margin-left: 3.125rem;
   margin-right: 1.125rem;
 
-  ${breakpoints.devices.mobile} {
+  @media screen and (max-width: 623px) {
     order: 2;
     width: 100%;
     margin: 12px 0 0;
@@ -103,12 +103,9 @@ const ButtonsWrapper = styled.div`
   display: flex;
   order: 2;
 
-  ${breakpoints.devices.tablet} {
+  @media screen and (max-width: 623px) {
     order: 1;
     margin-left: auto;
-  }
-
-  @media screen and (max-width: ${breakpoints.sizes.mobile}) {
     justify-content: space-between;
     width: 100%;
   }
@@ -123,7 +120,7 @@ const NewCardLink = styled(Link)`
     color: var(${theme.palette.wizard});
   }
 
-  @media screen and (max-width: ${breakpoints.sizes.mobile}) {
+  ${breakpoints.devices.mobile} {
     margin-left: 0;
   }
 `;
