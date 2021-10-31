@@ -964,7 +964,7 @@ export interface SessionDelete {
 }
 
 /* session deleted */
-export const sessionDeleteOk = typed.string;
+export const sessionDeleteOk = typed.nul;
 export interface SessionDeleteDone {
   status: 'ok';
   answer: typed.Get<typeof sessionDeleteOk>;

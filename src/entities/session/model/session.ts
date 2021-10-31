@@ -1,5 +1,11 @@
-import { attach, createEffect, createEvent, guard, sample } from 'effector';
-import { historyPush } from '@box/entities/navigation';
+import {
+  attach,
+  createEffect,
+  createEvent,
+  forward,
+  guard,
+  sample,
+} from 'effector';
 import { internalApi } from '@box/shared/api';
 
 const authParamsFx = attach({ effect: internalApi.authParams });
@@ -11,6 +17,12 @@ export const logout = createEvent<void>();
 const readStateFx = createEffect(() => {
   const url = new URL(document.location.toString());
   return `${url.pathname}${url.search}${url.hash}`;
+});
+
+const reloadFx = createEffect<void, void, any>({
+  handler() {
+    document.location = '';
+  },
 });
 
 const redirectToAccessoFx = createEffect(
@@ -65,8 +77,7 @@ sample({
   fn: (_) => ({ body: { deleteAllSessions: true } }),
 });
 
-sample({
-  source: internalApi.sessionDelete.done,
-  target: historyPush,
-  fn: (_) => '/login',
+forward({
+  from: internalApi.sessionDelete.done,
+  to: reloadFx,
 });
