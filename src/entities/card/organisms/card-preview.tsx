@@ -67,11 +67,12 @@ export const CardPreview = ({
     >
       <Header>
         <Content card={card} href={href} size={size} />
-        <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+
         <OverHelm />
       </Header>
 
       {size === 'small' && <Meta card={card} />}
+      <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
     </PaperContainerStyled>
   );
 };

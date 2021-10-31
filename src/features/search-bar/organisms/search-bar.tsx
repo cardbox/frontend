@@ -107,6 +107,11 @@ const ButtonsWrapper = styled.div`
     order: 1;
     margin-left: auto;
   }
+
+  @media screen and (max-width: ${breakpoints.sizes.mobile}) {
+    justify-content: space-between;
+    width: 100%;
+  }
 `;
 
 const NewCardLink = styled(Link)`
@@ -116,5 +121,9 @@ const NewCardLink = styled(Link)`
 
   button {
     color: var(${theme.palette.wizard});
+  }
+
+  @media screen and (max-width: ${breakpoints.sizes.mobile}) {
+    margin-left: 0;
   }
 `;

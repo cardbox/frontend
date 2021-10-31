@@ -9,9 +9,4 @@ export const PaperContainer = styled.article`
   display: flex;
   flex-direction: column;
   outline: 0;
-
-  & > *:not(:first-child),
-  & > *:not(:last-child) {
-    margin-top: 1rem;
-  }
 `;
