@@ -16,6 +16,7 @@ import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
@@ -66,11 +67,12 @@ export const CardPreview = ({
     >
       <Header>
         <Content card={card} href={href} size={size} />
-        <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+
         <OverHelm />
       </Header>
 
       {size === 'small' && <Meta card={card} />}
+      <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
     </PaperContainerStyled>
   );
 };
@@ -93,6 +95,7 @@ const OverHelm = styled.div`
 const PaperContainerStyled = styled(PaperContainer)<{
   'data-size': CardSize;
 }>`
+  position: relative;
   justify-content: space-between;
   overflow: hidden;
   border-color: var(${theme.palette.bnw900});
@@ -205,7 +208,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
 
     if (isCardToDeckAdded) {
       return (
-        <Button
+        <CardButton
           ref={ref}
           onClick={handleClick}
           variant="outlined"
@@ -216,7 +219,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
     }
 
     return (
-      <Button
+      <CardButton
         ref={ref}
         onClick={handleClick}
         variant="outlined"
@@ -235,6 +238,10 @@ const Header = styled.header`
   & > *:not(:first-child):not(:last-child) {
     margin-left: 1rem;
   }
+
+  ${breakpoints.devices.mobile} {
+    max-width: calc(100% - 60px);
+  }
 `;
 
 const MetaStyled = styled.div`
@@ -242,9 +249,26 @@ const MetaStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${breakpoints.devices.mobile} {
+    display: block;
+    max-width: calc(100% - 60px);
+  }
 `;
 
 const UserLink = styled(Link)`
   text-decoration: none;
   color: var(${theme.palette.bnw600});
+`;
+
+const CardButton = styled(Button)`
+  position: absolute;
+  right: 1.5rem;
+  top: 1.125rem;
+  margin-top: 0;
+
+  ${breakpoints.devices.mobile} {
+    top: unset;
+    bottom: 0.625rem;
+  }
 `;

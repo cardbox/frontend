@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 
 interface Props {
@@ -24,6 +25,10 @@ const Root = styled.article`
   justify-content: space-between;
   margin-top: -1.875rem; // Компенсируем отступ PagesContainer
   padding: 0 36px;
+
+  ${breakpoints.devices.mobile} {
+    padding: 0 18px;
+  }
 `;
 
 const Content = styled.div`
@@ -33,6 +38,11 @@ const Content = styled.div`
   justify-content: space-between;
   line-height: 30px;
   padding: 10px 0;
+
+  ${breakpoints.devices.mobile} {
+    font-size: 12px;
+    line-height: 24px;
+  }
 `;
 
 const Extra = styled.div`

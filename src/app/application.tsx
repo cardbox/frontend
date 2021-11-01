@@ -11,6 +11,7 @@ import { Route } from 'react-router';
 import { Scope } from 'effector/fork';
 import { Searchbar } from '@box/features/search-bar';
 import { ShowOnly } from '@box/entities/session';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 import { globalFonts } from '@box/app/styles/global-fonts';
 
@@ -27,6 +28,10 @@ interface Props {
 const Globals = createGlobalStyle`
   html {
     font-size: 16px;
+
+    ${breakpoints.devices.tablet} {
+      font-size: 80%;
+    }
   }
 
   body {
@@ -76,12 +81,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+
+  ${breakpoints.devices.mobile} {
+    overflow-y: auto;
+  }
 `;
 
 const PagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
   padding-top: 1.875rem;
+
+  ${breakpoints.devices.mobile} {
+    overflow-y: unset;
+  }
 `;
 
 //Чтобы скролл страницы не сдвигал ее по горизонтали влево, иначе страница будет отцентрована левее чем хедер.

@@ -12,6 +12,7 @@ import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { UserCard } from '@box/entities/user';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createEvent, createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
@@ -73,7 +74,7 @@ export const CardViewPage = () => {
                     variant="outlined"
                     icon={<IconEdit />}
                   >
-                    Edit card
+                    <span>Edit card</span>
                   </ButtonCard>
                 </Link>
                 <ButtonCard
@@ -88,7 +89,7 @@ export const CardViewPage = () => {
                     handleDeleteCard();
                   }}
                 >
-                  Delete card
+                  <span>Delete card</span>
                 </ButtonCard>
               </Buttons>
             )}
@@ -105,10 +106,23 @@ const map = (props: { disabled?: boolean }) => ({
 
 const Container = styled.div`
   display: flex;
+  flex-direction: row;
   padding: 0 126px 126px 126px;
 
   & > *:first-child {
     margin-right: 2.25rem;
+  }
+
+  ${breakpoints.devices.laptop} {
+    padding: 0 18px;
+  }
+
+  ${breakpoints.devices.mobile} {
+    flex-direction: column-reverse;
+
+    & > *:first-child {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -125,6 +139,17 @@ const Sidebar = styled.div`
   & > *:first-child {
     margin-bottom: 1.625rem;
   }
+
+  ${breakpoints.devices.mobile} {
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.625rem;
+
+    & > *:first-child {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const Buttons = styled.div`
@@ -138,11 +163,32 @@ const Buttons = styled.div`
   a {
     text-decoration: none;
   }
+
+  ${breakpoints.devices.mobile} {
+    flex-direction: row;
+
+    & > *:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const ButtonCard = styled(Button)`
   justify-content: flex-start;
   width: 100%;
+
+  ${breakpoints.devices.mobile} {
+    width: 54px;
+    height: 48px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    span:nth-of-type(2) {
+      display: none;
+    }
+  }
 `;
 
 const LinkHome = styled(Link)`
