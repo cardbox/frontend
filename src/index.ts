@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 require('./app/opentelemetry-config');
 import type { FastifyInstance } from 'fastify';
 import type { Server } from 'http';
