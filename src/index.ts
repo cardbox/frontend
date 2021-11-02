@@ -1,3 +1,6 @@
+import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
+const httpInstrumentation = new HttpInstrumentation();
+httpInstrumentation.init();
 import * as dotenv from 'dotenv';
 dotenv.config();
 require('./app/opentelemetry-config');
