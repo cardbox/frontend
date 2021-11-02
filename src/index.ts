@@ -1,3 +1,4 @@
+require('./app/opentelemetry-config');
 import type { FastifyInstance } from 'fastify';
 import type { Server } from 'http';
 import { env } from '@box/shared/config';

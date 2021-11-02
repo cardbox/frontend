@@ -5,6 +5,7 @@ import * as path from 'path';
 import dotenv from 'dotenv';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
+import fastifyOpenTelemetry from '@autotelic/fastify-opentelemetry';
 import fastifyStatic from 'fastify-static';
 import through from 'through';
 import fastify, { FastifyInstance } from 'fastify';
@@ -238,11 +239,20 @@ fastifyInstance.register(fastifyStatic, {
 
 fastifyInstance.register(fastifyCookie);
 
+fastifyInstance.register(fastifyOpenTelemetry, {
+  wrapRoutes: true,
+});
+
 fastifyInstance.get('/*', async function (req, res) {
   this.log.info('[REQUEST] %s %s', req.method, req.url);
   res.header('Content-Type', 'text/html');
   const timeStart = performance.now();
   const scope = fork();
+  const log = this.log;
+
+  const { tracer } = req.openTelemetry();
+
+  const rootSpan = tracer.startSpan('Cardbox-Frontend-Main', { root: true });
 
   try {
     await allSettled(serverStarted, {
@@ -305,17 +315,18 @@ fastifyInstance.get('/*', async function (req, res) {
         function end() {
           this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
           this.queue(null);
+          log.info(
+            '[PERF] sent page at %sms',
+            (performance.now() - timeStart).toFixed(2),
+          );
+
+          rootSpan.end();
         },
       ),
     );
 
   res.send(stream);
   cleanUp();
-
-  this.log.info(
-    '[PERF] sent page at %sms',
-    (performance.now() - timeStart).toFixed(2),
-  );
 
   function cleanUp() {
     sheet.seal();
