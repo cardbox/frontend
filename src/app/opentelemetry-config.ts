@@ -19,7 +19,7 @@ const sdk = new NodeSDK({
   }),
   spanProcessor: new BatchSpanProcessor(
     new JaegerExporter({
-      port: Number(process.env.OTEL_EXPORTER_JAEGER_AGENT_PORT!),
+      endpoint: process.env.OTEL_EXPORTER_JAEGER_AGENT_ENDPOINT,
     }),
   ),
   sampler: new TraceIdRatioBasedSampler(0.5),
