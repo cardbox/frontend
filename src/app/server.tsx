@@ -250,10 +250,6 @@ fastifyInstance.get('/*', async function (req, res) {
   const scope = fork();
   const log = this.log;
 
-  const { tracer } = req.openTelemetry();
-
-  const rootSpan = tracer.startSpan('Cardbox-Frontend-Main', { root: true });
-
   try {
     await allSettled(serverStarted, {
       scope,
@@ -319,8 +315,6 @@ fastifyInstance.get('/*', async function (req, res) {
             '[PERF] sent page at %sms',
             (performance.now() - timeStart).toFixed(2),
           );
-
-          rootSpan.end();
         },
       ),
     );
