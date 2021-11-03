@@ -19,6 +19,7 @@ sample({
 sample({
   clock: authDoneFx.doneData,
   fn: ({ answer: { user } }) => ({
+    avatar: user.avatar,
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,

@@ -1,6 +1,7 @@
 import Tippy from '@tippyjs/react';
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { Avatar } from '@box/shared/ui';
 import { Instance } from 'tippy.js';
 import { getFullName } from '@box/entities/user/lib';
 import { historyPush } from '@box/entities/navigation';
@@ -78,6 +79,7 @@ const Viewer = () => {
         }
       >
         <NameWrapper>
+          <Avatar size={'small'} src={viewer.avatar || ''} />
           <Name>{getFullName(viewer)}</Name>
         </NameWrapper>
       </Tippy>
