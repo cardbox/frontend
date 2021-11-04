@@ -5,6 +5,7 @@ import { Avatar } from '@box/shared/ui';
 import { Instance } from 'tippy.js';
 import { getFullName } from '@box/entities/user/lib';
 import { historyPush } from '@box/entities/navigation';
+import { imgLogo } from '@box/shared/assets';
 import { paths } from '@box/pages/paths';
 import { useStore } from 'effector-react/ssr';
 
@@ -79,7 +80,7 @@ const Viewer = () => {
         }
       >
         <NameWrapper>
-          <Avatar size={'small'} src={viewer.avatar || ''} />
+          <Avatar size="small" src={viewer.avatar || imgLogo} />
           <Name>{getFullName(viewer)}</Name>
         </NameWrapper>
       </Tippy>
