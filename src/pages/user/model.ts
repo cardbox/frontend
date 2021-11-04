@@ -17,7 +17,7 @@ const $cardsIds = createStore<string[]>([]);
 export const $cards = combine(
   $cardsIds,
   cardModel.$cardsCache,
-  (ids, { cache }) => ids.map((id) => cache[id]),
+  (ids, { cache }) => ids.map((id) => cache[id] ?? null),
 );
 export const $isOnOwnedPage = combine(
   $session,

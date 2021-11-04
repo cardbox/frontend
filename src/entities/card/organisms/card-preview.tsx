@@ -2,7 +2,7 @@ import 'dayjs/plugin/relativeTime';
 
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import {
   Button,
   IconDeckArrow,
@@ -16,9 +16,9 @@ import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { cardModel } from '@box/entities/card';
 import { createStore } from 'effector';
-import { breakpoints } from '@box/shared/lib/breakpoints';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
@@ -53,13 +53,15 @@ export const CardPreview = ({
   const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
   const historyPush = useEvent(navigationModel.historyPush);
 
-  const handleFavoritesAdd = useCallback((cardId: string) => {
-    addToFavorites({ id: cardId });
-  }, []);
+  const handleFavoritesAdd = useCallback(
+    (cardId: string) => addToFavorites(cardId),
+    [addToFavorites],
+  );
 
-  const handleFavoritesRemove = useCallback((cardId: string) => {
-    removeFromFavorites({ id: cardId });
-  }, []);
+  const handleFavoritesRemove = useCallback(
+    (cardId: string) => removeFromFavorites(cardId),
+    [removeFromFavorites],
+  );
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
     (inNewTab = false) => {
@@ -96,10 +98,10 @@ export const CardPreview = ({
       </Header>
 
       {size === 'small' && <Meta card={card} />}
-      <AddButton
+      <SaveCardButton
         ref={buttonRef}
         onClick={handleCardClick}
-        isCardToDeckAdded={isCardInFavorites}
+        isCardInFavorites={isCardInFavorites}
         card={card}
       />
     </PaperContainerStyled>
@@ -229,42 +231,41 @@ const ContentStyled = styled.div`
   overflow: hidden;
 `;
 
-const AddButton = forwardRef<
+const SaveCardButton = forwardRef<
   HTMLButtonElement,
   {
-    isCardToDeckAdded: boolean;
+    isCardInFavorites: boolean;
     card: Card;
     onClick: (id: string) => void;
-  }>(
-  ({ isCardToDeckAdded, card, onClick }, ref) => {
-    const handleClick: React.MouseEventHandler = (e) => {
-      e.stopPropagation();
-      onClick(card.id);
-    };
+  }
+>(({ isCardInFavorites, card, onClick }, ref) => {
+  const handleClick: React.MouseEventHandler = (e) => {
+    e.stopPropagation();
+    onClick(card.id);
+  };
 
-    if (isCardToDeckAdded) {
-      return (
-        <CardButton
-          ref={ref}
-          onClick={handleClick}
-          variant="outlined"
-          theme="primary"
-          icon={<IconDeckCheck title="Remove card from my deck" />}
-        />
-      );
-    }
-
+  if (isCardInFavorites) {
     return (
       <CardButton
         ref={ref}
         onClick={handleClick}
         variant="outlined"
-        theme="secondary"
-        icon={<IconDeckArrow title="Add card to my deck" />}
+        theme="primary"
+        icon={<IconDeckCheck title="Remove card from my deck" />}
       />
     );
-  },
-);
+  }
+
+  return (
+    <CardButton
+      ref={ref}
+      onClick={handleClick}
+      variant="outlined"
+      theme="secondary"
+      icon={<IconDeckArrow title="Add card to my deck" />}
+    />
+  );
+});
 
 const Header = styled.header`
   display: flex;
