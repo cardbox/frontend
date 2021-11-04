@@ -1,20 +1,26 @@
 import { $session } from '@box/entities/session';
-import { attach, createDomain, sample } from 'effector';
+import { attach, createDomain, createStore, sample } from 'effector';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
 import { internalApi } from '@box/shared/api';
 
-import { paths } from '../paths';
+const DEFAULT_REDIRECT_STATE = '/';
 
 export const hatch = createHatch(createDomain('OAuthDonePage'));
 
 const authDoneFx = attach({ effect: internalApi.authDone });
+const redirectBackState$ = createStore<string>(DEFAULT_REDIRECT_STATE);
 
 sample({
   clock: hatch.enter,
   fn: ({ query }) => ({ body: { authorizationCode: query.code } }),
   target: authDoneFx,
 });
+
+redirectBackState$.on(
+  hatch.enter,
+  (_, { query }) => query.state || DEFAULT_REDIRECT_STATE,
+);
 
 sample({
   clock: authDoneFx.doneData,
@@ -27,6 +33,8 @@ sample({
 });
 
 sample({
-  source: authDoneFx.doneData,
-  target: historyPush.prepend(paths.home),
+  source: redirectBackState$,
+  clock: authDoneFx.doneData,
+  target: historyPush,
+  fn: (redirectBackState) => redirectBackState,
 });
