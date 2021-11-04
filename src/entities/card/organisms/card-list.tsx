@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import type { Card } from '@box/shared/api';
 import { Empty, SkeletonGroup } from '@box/shared/ui';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { paths } from '@box/pages/paths';
 
 import { CardPreview } from './card-preview';
@@ -38,10 +39,29 @@ export const CardList = ({ cards, loading }: Props) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 1.125rem;
 
   & > *:not(:last-child) {
     margin-bottom: 1.125rem;
+  }
+
+  ${breakpoints.devices.desktopL} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  ${breakpoints.devices.desktop} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  ${breakpoints.devices.laptop} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${breakpoints.devices.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${breakpoints.devices.mobile} {
+    grid-template-columns: 1fr;
   }
 `;

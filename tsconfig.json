@@ -26,6 +26,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": false,
     "baseUrl": "./src",
+    "resolveJsonModule": true,
     "paths": {
       "@box/*": ["./*"]
     },

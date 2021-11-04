@@ -2,7 +2,7 @@ import 'dayjs/plugin/relativeTime';
 
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef } from 'react';
 import {
   Button,
   IconDeckArrow,
@@ -18,6 +18,7 @@ import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { cardModel } from '@box/entities/card';
 import { createStore } from 'effector';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { navigationModel } from '@box/entities/navigation';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent } from 'effector-react';
@@ -90,16 +91,17 @@ export const CardPreview = ({
     >
       <Header>
         <Content card={card} href={href} size={size} />
-        <AddButton
-          ref={buttonRef}
-          onClick={handleCardClick}
-          isCardToDeckAdded={isCardInFavorites}
-          card={card}
-        />
+
         <OverHelm />
       </Header>
 
       {size === 'small' && <Meta card={card} />}
+      <AddButton
+        ref={buttonRef}
+        onClick={handleCardClick}
+        isCardToDeckAdded={isCardInFavorites}
+        card={card}
+      />
     </PaperContainerStyled>
   );
 };
@@ -122,6 +124,7 @@ const OverHelm = styled.div`
 const PaperContainerStyled = styled(PaperContainer)<{
   'data-size': CardSize;
 }>`
+  position: relative;
   justify-content: space-between;
   overflow: hidden;
   border-color: var(${theme.palette.bnw900});
@@ -232,34 +235,36 @@ const AddButton = forwardRef<
     isCardToDeckAdded: boolean;
     card: Card;
     onClick: (id: string) => void;
-  }
->(({ isCardToDeckAdded, card, onClick }, ref) => {
-  const handleClick: React.MouseEventHandler = (e) => {
-    e.stopPropagation();
-    onClick(card.id);
-  };
-  if (isCardToDeckAdded) {
+  }>(
+  ({ isCardToDeckAdded, card, onClick }, ref) => {
+    const handleClick: React.MouseEventHandler = (e) => {
+      e.stopPropagation();
+      onClick(card.id);
+    };
+
+    if (isCardToDeckAdded) {
+      return (
+        <CardButton
+          ref={ref}
+          onClick={handleClick}
+          variant="outlined"
+          theme="primary"
+          icon={<IconDeckCheck title="Remove card from my deck" />}
+        />
+      );
+    }
+
     return (
-      <Button
+      <CardButton
         ref={ref}
         onClick={handleClick}
         variant="outlined"
-        theme="primary"
-        icon={<IconDeckCheck title="Remove card from my deck" />}
+        theme="secondary"
+        icon={<IconDeckArrow title="Add card to my deck" />}
       />
     );
-  }
-
-  return (
-    <Button
-      ref={ref}
-      onClick={handleClick}
-      variant="outlined"
-      theme="secondary"
-      icon={<IconDeckArrow title="Add card to my deck" />}
-    />
-  );
-});
+  },
+);
 
 const Header = styled.header`
   display: flex;
@@ -269,6 +274,10 @@ const Header = styled.header`
   & > *:not(:first-child):not(:last-child) {
     margin-left: 1rem;
   }
+
+  ${breakpoints.devices.mobile} {
+    max-width: calc(100% - 60px);
+  }
 `;
 
 const MetaStyled = styled.div`
@@ -276,9 +285,26 @@ const MetaStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${breakpoints.devices.mobile} {
+    display: block;
+    max-width: calc(100% - 60px);
+  }
 `;
 
 const UserLink = styled(Link)`
   text-decoration: none;
   color: var(${theme.palette.bnw600});
+`;
+
+const CardButton = styled(Button)`
+  position: absolute;
+  right: 1.5rem;
+  top: 1.125rem;
+  margin-top: 0;
+
+  ${breakpoints.devices.mobile} {
+    top: unset;
+    bottom: 0.625rem;
+  }
 `;

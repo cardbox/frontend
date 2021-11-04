@@ -7,6 +7,7 @@ import {
   Skeleton,
   iconUserBg,
 } from '@box/shared/ui';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 
 export const SkeletonLayout = () => {
@@ -41,10 +42,10 @@ export const SkeletonLayout = () => {
             </UserSocial>
             <UserLogo>
               <StAvatar size="large" />
+              <EditProfile theme="secondary" variant="outlined">
+                <ButtonText />
+              </EditProfile>
             </UserLogo>
-            <EditProfile theme="secondary" variant="outlined">
-              <ButtonText />
-            </EditProfile>
           </UserHeader>
           <Main>
             <UserCards>
@@ -81,6 +82,19 @@ const UserHeader = styled.div`
   & > *:not(:first-child) {
     align-self: start;
     justify-self: flex-end;
+
+    ${breakpoints.devices.mobile} {
+      justify-self: flex-start;
+    }
+  }
+
+  ${breakpoints.devices.mobile} {
+    grid-template-columns: unset;
+    grid-auto-flow: row;
+
+    & > div:not(:nth-of-type(2)) {
+      margin-bottom: 25px;
+    }
   }
 `;
 
@@ -98,9 +112,14 @@ const UnderLay = styled.div<{ bg?: string }>`
 const UserFace = styled.div`
   display: flex;
   align-items: flex-start;
+  order: 0;
 
   & > *:first-child {
     margin-right: 1.5rem;
+  }
+
+  ${breakpoints.devices.mobile} {
+    order: 1;
   }
 `;
 
@@ -175,7 +194,13 @@ const UserFaceDescriptionSkeleton = styled.div`
   ${bgColorSkeleton}
 `;
 
-const UserSocial = styled.div``;
+const UserSocial = styled.div`
+  order: 1;
+
+  ${breakpoints.devices.mobile} {
+    order: 2;
+  }
+`;
 
 const SocialStaff = styled.div`
   & > *:first-child {
@@ -210,10 +235,21 @@ const SocialStaffItemText = styled.div`
 const StAvatar = styled(Avatar)`
   border: 1px solid var(${theme.palette.bnw850});
   border-radius: 3px;
+  margin-bottom: 2.5rem;
+  align-self: flex-end;
+
   ${bgColorSkeleton}
 `;
 
-const UserLogo = styled.div``;
+const UserLogo = styled.div`
+  display: flex;
+  flex-direction: column;
+  order: 2;
+
+  ${breakpoints.devices.mobile} {
+    order: 0;
+  }
+`;
 
 const AvatarSkeleton = styled(Avatar)`
   transform: rotate(180deg);
@@ -246,13 +282,16 @@ const CardListContainer = styled.div`
 `;
 
 const EditProfile = styled(Button)`
-  position: absolute;
   display: flex;
   align-items: center;
-  right: 1.875rem;
-  bottom: 1.5rem;
   ${bgColorSkeleton};
   width: 160px;
+
+  ${breakpoints.devices.mobile} {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.875rem;
+  }
 `;
 
 const ButtonText = styled.span``;

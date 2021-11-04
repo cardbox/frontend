@@ -13,6 +13,7 @@ import {
 import { Card, User } from '@box/shared/api';
 import { CardList, cardModel } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
 import { imgLogo } from '@box/shared/assets';
 import { theme } from '@box/shared/lib/theme';
@@ -86,18 +87,18 @@ const UserPageContentComponent = () => {
         {/* FIXME: move to entities/user logic */}
         <UserLogo>
           <StAvatar size="large" src={avatar || imgLogo} />
+          {isOnOwnedPage && false && (
+            <ShowOnly when="authorized">
+              <EditProfile
+                theme="secondary"
+                variant="outlined"
+                icon={<IconEdit />}
+              >
+                Edit profile
+              </EditProfile>
+            </ShowOnly>
+          )}
         </UserLogo>
-        {isOnOwnedPage && false && (
-          <ShowOnly when="authorized">
-            <EditProfile
-              theme="secondary"
-              variant="outlined"
-              icon={<IconEdit />}
-            >
-              Edit profile
-            </EditProfile>
-          </ShowOnly>
-        )}
       </UserHeader>
       <Main>
         <UserCards>
@@ -151,6 +152,15 @@ const UserHeader = styled.div`
   & > *:not(:first-child) {
     align-self: start;
     justify-self: flex-end;
+
+    ${breakpoints.devices.mobile} {
+      justify-self: flex-start;
+    }
+  }
+
+  ${breakpoints.devices.mobile} {
+    grid-template-columns: unset;
+    grid-auto-flow: row;
   }
 `;
 
@@ -165,19 +175,33 @@ const UnderLay = styled.div<{ bg?: string }>`
   z-index: 1;
 `;
 
-const UserSocial = styled.div``;
+const UserSocial = styled.div`
+  order: 1;
+
+  ${breakpoints.devices.mobile} {
+    order: 2;
+  }
+`;
 
 const UserLogo = styled.div`
   display: flex;
   flex-direction: column;
+  order: 2;
+
+  ${breakpoints.devices.mobile} {
+    order: 0;
+  }
 `;
 
 const EditProfile = styled(Button)`
-  position: absolute;
   display: flex;
   align-items: center;
-  right: 1.875rem;
-  bottom: 1.5rem;
+
+  ${breakpoints.devices.mobile} {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.875rem;
+  }
 `;
 
 const StAvatar = styled(Avatar)`
@@ -185,6 +209,9 @@ const StAvatar = styled(Avatar)`
 
   border: 1px solid var(${theme.palette.bnw850});
   border-radius: 3px;
+
+  margin-bottom: 2.5rem;
+  align-self: flex-end;
 `;
 
 const Main = styled.main`
@@ -201,9 +228,14 @@ const Main = styled.main`
 const UserFace = styled.div`
   display: flex;
   align-items: flex-start;
+  order: 0;
 
   & > *:first-child {
     margin-right: 1.5rem;
+  }
+
+  ${breakpoints.devices.mobile} {
+    order: 1;
   }
 `;
 

@@ -3,11 +3,12 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
 import dotenv from 'dotenv';
-import fastify from 'fastify';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
+import fastifyOpenTelemetry from '@autotelic/fastify-opentelemetry';
 import fastifyStatic from 'fastify-static';
 import through from 'through';
+import fastify, { FastifyInstance } from 'fastify';
 import {
   $cookiesForRequest,
   $cookiesFromResponse,
@@ -17,9 +18,9 @@ import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { HatchParams, getHatch } from 'framework';
-import type { Http2Server } from 'http2';
 import { ROUTES } from '@box/pages/routes';
 import { RouteGenericInterface } from 'fastify/types/route';
+import type { Server } from 'http';
 import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router-dom';
 import {
@@ -45,8 +46,8 @@ dotenv.config();
 initializeServerHistory();
 
 const serverStarted = createEvent<{
-  req: FastifyRequest<RouteGenericInterface, Http2Server>;
-  res: FastifyReply<Http2Server>;
+  req: FastifyRequest<RouteGenericInterface, Server>;
+  res: FastifyReply<Server>;
 }>();
 
 const requestHandled = serverStarted.map(({ req }) => req);
@@ -162,7 +163,7 @@ function syncLoadAssets() {
 
 syncLoadAssets();
 
-function createFastify() {
+function createFastify(): FastifyInstance {
   if (env.IS_DEV_ENV) {
     const CRT = path.resolve(__dirname, '..', 'tls', 'cardbox.crt');
     const KEY = path.resolve(__dirname, '..', 'tls', 'cardbox.key');
@@ -182,7 +183,6 @@ function createFastify() {
         https: {
           cert: fs.readFileSync(CRT),
           key: fs.readFileSync(KEY),
-          allowHTTP1: true,
         },
       };
     } catch (error) {
@@ -200,7 +200,6 @@ function createFastify() {
 
     return fastify({
       logger,
-      http2: true,
       ...options,
     });
   }
@@ -210,16 +209,13 @@ function createFastify() {
       https: {
         cert: fs.readFileSync(path.resolve(env.TLS_CERT_FILE)),
         key: fs.readFileSync(path.resolve(env.TLS_KEY_FILE)),
-        allowHTTP1: true,
       },
-      http2: true,
       logger,
     });
   }
 
   return fastify({
     logger,
-    http2: true,
   });
 }
 
@@ -227,7 +223,6 @@ export const fastifyInstance = createFastify();
 
 fastifyInstance.register(fastifyHttpProxy, {
   upstream: env.BACKEND_URL,
-  http2: env.BACKEND_URL.includes('https'),
   prefix: '/api/internal',
   logLevel: 'debug',
   replyOptions: {
@@ -244,11 +239,16 @@ fastifyInstance.register(fastifyStatic, {
 
 fastifyInstance.register(fastifyCookie);
 
+fastifyInstance.register(fastifyOpenTelemetry, {
+  wrapRoutes: true,
+});
+
 fastifyInstance.get('/*', async function (req, res) {
   this.log.info('[REQUEST] %s %s', req.method, req.url);
   res.header('Content-Type', 'text/html');
   const timeStart = performance.now();
   const scope = fork();
+  const log = this.log;
 
   try {
     await allSettled(serverStarted, {
@@ -311,17 +311,16 @@ fastifyInstance.get('/*', async function (req, res) {
         function end() {
           this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
           this.queue(null);
+          log.info(
+            '[PERF] sent page at %sms',
+            (performance.now() - timeStart).toFixed(2),
+          );
         },
       ),
     );
 
   res.send(stream);
   cleanUp();
-
-  this.log.info(
-    '[PERF] sent page at %sms',
-    (performance.now() - timeStart).toFixed(2),
-  );
 
   function cleanUp() {
     sheet.seal();
@@ -376,6 +375,6 @@ function htmlEnd(props: EndProps) {
   `;
 }
 
-function isRedirected(response: FastifyReply<Http2Server>): boolean {
+function isRedirected(response: FastifyReply<Server>): boolean {
   return response.statusCode >= 300 && response.statusCode < 400;
 }
