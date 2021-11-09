@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
-import dotenv from 'dotenv';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyOpenTelemetry from '@autotelic/fastify-opentelemetry';
@@ -40,8 +39,6 @@ import { resetIdCounter } from 'react-tabs';
 import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
-
-dotenv.config();
 
 initializeServerHistory();
 
