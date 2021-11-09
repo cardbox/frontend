@@ -9,6 +9,8 @@ import {
 } from 'effector';
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
+import { measurement } from '@box/shared/lib/measure';
+import { performance } from 'perf_hooks';
 
 export interface Request {
   path: string;
@@ -62,8 +64,27 @@ if (env.BUILD_ON_SERVER) {
 }
 
 if (env.IS_DEBUG || env.IS_DEV_ENV) {
-  sendRequestFx.watch(({ path, method }) => {
+  const EffectTimingMap = new Map<unknown, ReturnType<typeof measurement>>();
+
+  sendRequestFx.watch((params) => {
+    const { method, path } = params;
     logger.info({ method, path }, `[requestInternal]`);
+    EffectTimingMap.set(params, measurement(''));
+  });
+
+  sendRequestFx.finally.watch(({ status, params }) => {
+    const { method, path } = params;
+    const effectTime = EffectTimingMap.get(params);
+    if (effectTime) {
+      effectTime.measure(
+        logger.info.bind(logger),
+        `[requestInternal] ${method} ${path} — ${status.toUpperCase()}`,
+      );
+    } else {
+      logger.warn(
+        `Cannot find measurement for ${method} ${path}. Fx — ${status.toUpperCase()}`,
+      );
+    }
   });
 
   sendRequestFx.done.watch(
