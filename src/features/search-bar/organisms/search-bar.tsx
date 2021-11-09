@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect } from 'react';
-import { Button, ContentCenteredTemplate } from '@box/shared/ui';
+import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
 import { Link } from 'react-router-dom';
 import { SessionPanel, ShowOnly } from '@box/entities/session';
 import { breakpoints } from '@box/shared/lib/breakpoints';
@@ -19,7 +19,7 @@ export const Searchbar: React.FC = () => {
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Logo to={paths.home()}>Cardbox</Logo>
+          <CardboxLogo />
           <SearchWrapper>
             <Search />
           </SearchWrapper>
