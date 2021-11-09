@@ -13,18 +13,18 @@ module.exports = (api) => {
           factories: [],
         },
       ],
-      debug && [
-        'module-resolver',
-        {
-          alias: {
-            effector: 'effector-logger',
-          },
-        },
-      ],
+      // debug && [
+      //   'module-resolver',
+      //   {
+      //     alias: {
+      //       effector: 'effector-logger',
+      //     },
+      //   },
+      // ],
       [
         'styled-components',
         {
-          displayName: debug,
+          displayName: process.env.STYLED_DEBUG === 'true',
           ssr: true,
         },
       ],

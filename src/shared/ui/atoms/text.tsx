@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled from 'styled-components';
 import { breakpoints } from '@box/shared/lib/breakpoints';
@@ -12,8 +13,15 @@ export const Text: React.FC<TextProps> = ({
   type,
   className,
   title,
+  ...props
 }) => (
-  <TextStyled data-type={type} as={type} className={className} title={title}>
+  <TextStyled
+    data-type={type}
+    as={type}
+    className={className}
+    title={title}
+    {...props}
+  >
     {children}
   </TextStyled>
 );
