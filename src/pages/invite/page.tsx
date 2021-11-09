@@ -9,16 +9,16 @@ export const InvitePage = () => {
       <IconWrapper>
         <IconUserLogoDefault /> <LogoText>cardbox</LogoText>
       </IconWrapper>
-      <InviteText type="span">
+      <InviteText>
         We make a service for convenient storage and search of our ideas and
         developments. Now it is at the stage of closed testing. You can join it
         by writing to{' '}
         <a href="https://t.me/joinchat/qbcXKo55seY4OThi" target="_blank">
-          Telegram channel
+          telegram
         </a>
         . You can also write there if you want to help the service by hand.
       </InviteText>
-      <SubText type="span">
+      <SubText>
         We will submit all your wishes for the service for general discussion
         and take them by priority to work.
       </SubText>
@@ -47,10 +47,14 @@ const LogoText = styled.span`
 
 const InviteText = styled(Text)`
   padding: 48px 0 24px;
+  line-height: 24px;
+  font-size: 18px;
   display: block;
 `;
 
 const SubText = styled(Text)`
   padding-bottom: 24px;
+  line-height: 24px;
+  font-size: 18px;
   display: block;
 `;
