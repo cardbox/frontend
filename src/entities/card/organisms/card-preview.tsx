@@ -65,11 +65,11 @@ export const CardPreview = ({
       onMouseUp={handleMouseUp}
       aria-label="Open card"
     >
-      <Header>
+      <ContentBlock>
         <Content card={card} href={href} size={size} />
 
         <OverHelm />
-      </Header>
+      </ContentBlock>
 
       {size === 'small' && <Meta card={card} />}
       <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
@@ -230,7 +230,7 @@ const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
   },
 );
 
-const Header = styled.header`
+const ContentBlock = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
