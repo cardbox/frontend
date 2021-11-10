@@ -1,7 +1,5 @@
-import type { Card } from '@box/shared/api';
-import { attach } from 'effector/effector.umd';
-import { combine, createEvent, createStore, sample } from 'effector';
-import { internalApi } from '@box/shared/api';
+import { Card, internalApi } from '@box/shared/api';
+import { attach, combine, createEvent, createStore, sample } from 'effector';
 
 export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
@@ -21,8 +19,8 @@ export const $favoritesCards = combine(
   (ids, { cache }) => ids.map((id) => cache[id] ?? null),
 );
 
-export const addedToFavorites = createEvent<string>();
-export const removedFromFavorites = createEvent<string>();
+export const favoritesAdd = createEvent<string>();
+export const favoritesRemove = createEvent<string>();
 
 $cardsCache
   .on(internalApi.cardsList.doneData, (cache, { answer }) =>
@@ -40,13 +38,13 @@ $cardsCache
   );
 
 sample({
-  clock: addedToFavorites,
+  clock: favoritesAdd,
   fn: (cardId) => ({ body: { cardId } }),
   target: cardsSaveFx,
 });
 
 sample({
-  clock: removedFromFavorites,
+  clock: favoritesRemove,
   fn: (cardId) => ({
     body: { cardId },
   }),

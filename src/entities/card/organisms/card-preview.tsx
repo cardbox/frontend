@@ -11,25 +11,23 @@ import {
   Skeleton,
   Text,
 } from '@box/shared/ui';
-import type { Card, User } from '@box/shared/api';
+import type { Card } from '@box/shared/api';
 import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { cardModel } from '@box/entities/card';
-import { createStore } from 'effector';
 import { navigationModel } from '@box/entities/navigation';
+import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent } from 'effector-react';
+import { useEvent, useStoreMap } from 'effector-react/scope';
 import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
-import { useStore } from 'effector-react/ssr';
 
 type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card: Card;
-  href?: string;
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
@@ -38,30 +36,26 @@ interface CardPreviewProps {
   size?: CardSize;
 }
 
-export const $isCardInFavorites = createStore(false);
-
 export const CardPreview = ({
   card,
-  href,
   loading = false,
   size = 'small',
 }: CardPreviewProps) => {
-  const favoritesCards = useStore(cardModel.$favoritesCards);
-  const isCardInFavorites = favoritesCards.some((s) => s.id === card.id);
+  const href = paths.cardView(card.id);
+  const isCardInFavorites = useStoreMap({
+    store: cardModel.$favoritesCards,
+    keys: [card.id],
+    fn: (list, [id]) => list.some((card) => card.id === id),
+  });
 
-  const addToFavorites = useEvent(cardModel.addedToFavorites);
-  const removeFromFavorites = useEvent(cardModel.removedFromFavorites);
+  const addToFavorites = useEvent(cardModel.favoritesAdd);
+  const removeFromFavorites = useEvent(cardModel.favoritesRemove);
   const historyPush = useEvent(navigationModel.historyPush);
 
-  const handleFavoritesAdd = useCallback(
-    (cardId: string) => addToFavorites(cardId),
-    [addToFavorites],
-  );
-
-  const handleFavoritesRemove = useCallback(
-    (cardId: string) => removeFromFavorites(cardId),
-    [removeFromFavorites],
-  );
+  const toggleFavorites = useCallback(() => {
+    if (isCardInFavorites) removeFromFavorites(card.id);
+    else addToFavorites(card.id);
+  }, [addToFavorites, removeFromFavorites, card.id, isCardInFavorites]);
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
     (inNewTab = false) => {
@@ -70,14 +64,6 @@ export const CardPreview = ({
       else historyPush(href);
     },
   );
-
-  const handleCardClick = (cardId: string) => {
-    if (!isCardInFavorites) {
-      handleFavoritesAdd(cardId);
-    } else {
-      handleFavoritesRemove(cardId);
-    }
-  };
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
@@ -92,7 +78,7 @@ export const CardPreview = ({
       aria-label="Open card"
     >
       <ContentBlock>
-        <Content card={card} href={href} size={size} />
+        <Content card={card} size={size} />
 
         <OverHelm />
       </ContentBlock>
@@ -100,7 +86,7 @@ export const CardPreview = ({
       {size === 'small' && <Meta card={card} />}
       <SaveCardButton
         ref={buttonRef}
-        onClick={handleCardClick}
+        onClick={toggleFavorites}
         isCardInFavorites={isCardInFavorites}
         card={card}
       />
@@ -151,9 +137,10 @@ const PaperContainerStyled = styled(PaperContainer)<{
   }
 `;
 
-type ContentProps = { card: Card } & Pick<CardPreviewProps, 'href' | 'size'>;
+type ContentProps = { card: Card } & Pick<CardPreviewProps, 'size'>;
 
-const Content = ({ card, size, href }: ContentProps) => {
+const Content = ({ card, size }: ContentProps) => {
+  const href = paths.cardView(card.id);
   const editor = useExtendedEditor();
   return (
     <ContentStyled>
