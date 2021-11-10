@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
-import { useStore } from 'effector-react/ssr';
+import { useEvent, useStore } from 'effector-react/ssr';
 
 export const $pagePending = createStore(false);
 export const $topCards = createStore<Card[]>([]);

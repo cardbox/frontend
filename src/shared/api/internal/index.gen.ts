@@ -637,6 +637,7 @@ export const cardsGet = createEffect<CardsGet, CardsGetDone, CardsGetFail>({
 export interface CardsCreate {
   body?: {
     title: string;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     content: {};
     tags?: string[];
   };
@@ -711,6 +712,7 @@ export interface CardsEdit {
   body?: {
     cardId: string;
     title?: string;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     content?: {};
     tags?: string[];
   };
@@ -901,6 +903,79 @@ export const cardsSave = createEffect<CardsSave, CardsSaveDone, CardsSaveFail>({
   },
 });
 //#endregion cardsSave
+
+/* --- */
+//#region cardsUnsave
+export interface CardsUnsave {
+  body?: {
+    cardId: string;
+  };
+}
+
+/* OK */
+export const cardsUnsaveOk = typed.object({
+  card: typed.object({
+    id: typed.string,
+    title: typed.string,
+    content: typed.array(typed.object({})),
+    createdAt: typed.string,
+    updatedAt: typed.string,
+
+    /* Author user uuid */
+    authorId: typed.string,
+
+    /* Later, we can create `Tag` entity */
+    tags: typed.array(typed.string),
+
+    /* Later, we can add this field
+     * For custom text-overflow (instead of truncating with emphasizing) */
+    summary: typed.string.maybe,
+  }),
+  boxId: typed.string,
+});
+export interface CardsUnsaveDone {
+  status: 'ok';
+  answer: typed.Get<typeof cardsUnsaveOk>;
+}
+
+/* CLIENT_ERROR */
+export const cardsUnsaveBadRequest = typed.object({
+  error: typed.boolean,
+  code: typed.union('already_unsaved', 'card_not_found', 'no_access'),
+});
+
+/* SERVER_ERROR */
+export const cardsUnsaveInternalServerError = typed.nul;
+export type CardsUnsaveFail =
+  | {
+      status: 'bad_request';
+      error: typed.Get<typeof cardsUnsaveBadRequest>;
+    }
+  | {
+      status: 'internal_server_error';
+      error: typed.Get<typeof cardsUnsaveInternalServerError>;
+    }
+  | GenericErrors;
+export const cardsUnsave = createEffect<
+  CardsUnsave,
+  CardsUnsaveDone,
+  CardsUnsaveFail
+>({
+  async handler({ body }) {
+    const name = 'cardsUnsave.body';
+    const response = await requestFx({
+      path: '/cards.unsave',
+      method: 'POST',
+      body,
+    });
+    return parseByStatus(name, response, {
+      200: ['ok', cardsUnsaveOk],
+      400: ['bad_request', cardsUnsaveBadRequest],
+      500: ['internal_server_error', cardsUnsaveInternalServerError],
+    });
+  },
+});
+//#endregion cardsUnsave
 
 /* --- */
 //#region sessionGet

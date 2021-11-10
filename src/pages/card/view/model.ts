@@ -1,4 +1,5 @@
 import * as sessionModel from '@box/entities/session';
+import { $session } from '@box/entities/session';
 import type { Card, User } from '@box/shared/api';
 import {
   attach,
@@ -20,6 +21,7 @@ export const hatch = createHatch(createDomain('CardViewPage'));
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
 export const usersGetFx = attach({ effect: internalApi.usersGet });
+export const cardsListFx = attach({ effect: internalApi.cardsList });
 
 export const deleteCard = createEvent();
 
@@ -78,3 +80,19 @@ $cardAuthor.reset(hatch.exit);
 
 // FIXME: move to entities/user?
 $cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);
+
+// @TODO Will be deleted after BOX-250
+const favoritesCtxLoaded = sample({
+  source: $session,
+  clock: hatch.enter,
+  fn: (user) => ({
+    body: { authorId: user?.id, favorites: true },
+  }),
+  target: cardsListFx,
+});
+
+sample({
+  source: favoritesCtxLoaded.doneData,
+  fn: ({ answer }) => answer.cards.map(({ id }) => id),
+  target: cardModel.changeFavorites,
+});

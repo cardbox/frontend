@@ -1,5 +1,5 @@
 import * as editorLib from '@box/shared/lib/editor';
-import type { CardContent } from '@box/shared/api';
+import type { Card, CardContent } from '@box/shared/api';
 import {
   StoreValue,
   combine,
@@ -24,6 +24,7 @@ export const lastTagRemoved = createEvent();
 // FIXME: remove after converting to page-unique fabric
 
 export const _formInit = createEvent();
+export const setInitialState = createEvent<Card>();
 export const formReset = createEvent<string>();
 
 const draft = createDomain();
@@ -58,7 +59,7 @@ export type Draft = StoreValue<typeof $draft>;
 
 // Init
 spread({
-  source: internalApi.cardsGet.doneData.map(({ answer }) => answer.card),
+  source: setInitialState,
   targets: {
     id: $id,
     title: $title,

@@ -2,7 +2,7 @@ import 'dayjs/plugin/relativeTime';
 
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import {
   Button,
   IconDeckArrow,
@@ -11,23 +11,23 @@ import {
   Skeleton,
   Text,
 } from '@box/shared/ui';
-import type { Card, User } from '@box/shared/api';
+import type { Card } from '@box/shared/api';
 import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
 import { breakpoints } from '@box/shared/lib/breakpoints';
+import { cardModel } from '@box/entities/card';
 import { navigationModel } from '@box/entities/navigation';
+import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent } from 'effector-react';
+import { useEvent, useStoreMap } from 'effector-react/scope';
 import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
 
 type CardSize = 'small' | 'large';
 
 interface CardPreviewProps {
   card: Card;
-  isCardInFavorite?: boolean;
-  href?: string;
   loading?: boolean;
   /**
    * @remark May be in future - make sense to split independent components - CardItem, CardDetails
@@ -38,12 +38,24 @@ interface CardPreviewProps {
 
 export const CardPreview = ({
   card,
-  isCardInFavorite = false,
-  href,
   loading = false,
   size = 'small',
 }: CardPreviewProps) => {
+  const href = paths.cardView(card.id);
+  const isCardInFavorites = useStoreMap({
+    store: cardModel.$favoritesCards,
+    keys: [card.id],
+    fn: (list, [id]) => list.some((card) => card.id === id),
+  });
+
+  const addToFavorites = useEvent(cardModel.favoritesAdd);
+  const removeFromFavorites = useEvent(cardModel.favoritesRemove);
   const historyPush = useEvent(navigationModel.historyPush);
+
+  const toggleFavorites = useCallback(() => {
+    if (isCardInFavorites) removeFromFavorites(card.id);
+    else addToFavorites(card.id);
+  }, [addToFavorites, removeFromFavorites, card.id, isCardInFavorites]);
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
     (inNewTab = false) => {
@@ -66,13 +78,18 @@ export const CardPreview = ({
       aria-label="Open card"
     >
       <ContentBlock>
-        <Content card={card} href={href} size={size} />
+        <Content card={card} size={size} />
 
         <OverHelm />
       </ContentBlock>
 
       {size === 'small' && <Meta card={card} />}
-      <AddButton ref={buttonRef} isCardToDeckAdded={isCardInFavorite} />
+      <SaveCardButton
+        ref={buttonRef}
+        onClick={toggleFavorites}
+        isCardInFavorites={isCardInFavorites}
+        card={card}
+      />
     </PaperContainerStyled>
   );
 };
@@ -120,9 +137,10 @@ const PaperContainerStyled = styled(PaperContainer)<{
   }
 `;
 
-type ContentProps = { card: Card } & Pick<CardPreviewProps, 'href' | 'size'>;
+type ContentProps = { card: Card } & Pick<CardPreviewProps, 'size'>;
 
-const Content = ({ card, size, href }: ContentProps) => {
+const Content = ({ card, size }: ContentProps) => {
+  const href = paths.cardView(card.id);
   const editor = useExtendedEditor();
   return (
     <ContentStyled>
@@ -200,35 +218,41 @@ const ContentStyled = styled.div`
   overflow: hidden;
 `;
 
-const AddButton = forwardRef<HTMLButtonElement, { isCardToDeckAdded: boolean }>(
-  ({ isCardToDeckAdded }, ref) => {
-    const handleClick: React.MouseEventHandler = (e) => {
-      e.stopPropagation();
-    };
+const SaveCardButton = forwardRef<
+  HTMLButtonElement,
+  {
+    isCardInFavorites: boolean;
+    card: Card;
+    onClick: (id: string) => void;
+  }
+>(({ isCardInFavorites, card, onClick }, ref) => {
+  const handleClick: React.MouseEventHandler = (e) => {
+    e.stopPropagation();
+    onClick(card.id);
+  };
 
-    if (isCardToDeckAdded) {
-      return (
-        <CardButton
-          ref={ref}
-          onClick={handleClick}
-          variant="outlined"
-          theme="primary"
-          icon={<IconDeckCheck title="Remove card from my deck" />}
-        />
-      );
-    }
-
+  if (isCardInFavorites) {
     return (
       <CardButton
         ref={ref}
         onClick={handleClick}
         variant="outlined"
-        theme="secondary"
-        icon={<IconDeckArrow title="Add card to my deck" />}
+        theme="primary"
+        icon={<IconDeckCheck title="Remove card from my deck" />}
       />
     );
-  },
-);
+  }
+
+  return (
+    <CardButton
+      ref={ref}
+      onClick={handleClick}
+      variant="outlined"
+      theme="secondary"
+      icon={<IconDeckArrow title="Add card to my deck" />}
+    />
+  );
+});
 
 const ContentBlock = styled.div`
   display: flex;

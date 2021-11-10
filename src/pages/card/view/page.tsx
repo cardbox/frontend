@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useCallback } from 'react';
 import {
   Button,
   ContentCenteredTemplate,
@@ -54,12 +54,7 @@ export const CardViewPage = () => {
         <Container>
           <Main>
             {card && author && (
-              <CardPreview
-                card={card}
-                loading={isLoading}
-                isCardInFavorite={false}
-                size="large"
-              />
+              <CardPreview card={card} loading={isLoading} size="large" />
             )}
             {/* TODO: Process "empty" case correctly */}
           </Main>

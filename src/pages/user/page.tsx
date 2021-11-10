@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import {
   Avatar,
@@ -11,7 +11,7 @@ import {
   iconUserBg,
 } from '@box/shared/ui';
 import { Card, User } from '@box/shared/api';
-import { CardList } from '@box/entities/card';
+import { CardList, cardModel } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
@@ -25,7 +25,6 @@ import { SkeletonLayout } from './skeleton';
 
 export const $currentUser = createStore<User | null>(null);
 export const $cards = createStore<Card[]>([]);
-export const $favoritesCards = createStore<Card[]>([]);
 export const $pagePending = createStore(false);
 export const $isOnOwnedPage = createStore(false);
 
@@ -50,7 +49,7 @@ const UserPageContentComponent = () => {
   const userInfo = useStore($currentUser)!;
   const isOnOwnedPage = useStore($isOnOwnedPage);
   const cards = useStore($cards);
-  const favoritesCards = useStore($favoritesCards);
+  const favoritesCards = useStore(cardModel.$favoritesCards);
 
   const { work, bio, socials, avatar } = userInfo;
   const fullName = userLib.getFullName(userInfo);

@@ -1,7 +1,7 @@
-import { $cardsCache } from '@box/entities/card/model';
 import { $session } from '@box/entities/session';
 import { User, internalApi } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
+import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { some } from 'patronum';
 
@@ -14,14 +14,10 @@ export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
-const $favoritesIds = createStore<string[]>([]);
-export const $cards = combine($cardsIds, $cardsCache, (ids, { cache }) =>
-  ids.map((id) => cache[id]),
-);
-export const $favoritesCards = combine(
-  $favoritesIds,
-  $cardsCache,
-  (ids, { cache }) => ids.map((id) => cache[id]),
+export const $cards = combine(
+  $cardsIds,
+  cardModel.$cardsCache,
+  (ids, { cache }) => ids.map((id) => cache[id] ?? null),
 );
 export const $isOnOwnedPage = combine(
   $session,
@@ -65,6 +61,18 @@ $cardsIds.on(cardsListFx.done, (ids, { params, result }) =>
   params.body?.favorites ? ids : result.answer.cards.map(({ id }) => id),
 );
 
-$favoritesIds.on(cardsListFx.done, (ids, { params, result }) =>
-  params.body?.favorites ? result.answer.cards.map(({ id }) => id) : ids,
-);
+// @TODO Will be deleted after BOX-250
+const favoritesCtxLoaded = sample({
+  source: $session,
+  clock: hatch.enter,
+  fn: (user) => ({
+    body: { authorId: user?.id, favorites: true },
+  }),
+  target: cardsListFx,
+});
+
+sample({
+  source: favoritesCtxLoaded.doneData,
+  fn: ({ answer }) => answer.cards.map(({ id }) => id),
+  target: cardModel.changeFavorites,
+});

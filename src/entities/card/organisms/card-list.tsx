@@ -26,14 +26,7 @@ export const CardList = ({ cards, loading }: Props) => {
   return (
     <Container>
       {cards.map((card, i) => (
-        <CardPreview
-          key={card.id}
-          card={card}
-          // FIXME: temp hack, will be optimized later
-          isCardInFavorite={i % 2 === 0}
-          href={paths.cardView(card.id)}
-          size="small"
-        />
+        <CardPreview key={card.id} card={card} size="small" />
       ))}
     </Container>
   );
