@@ -3,8 +3,6 @@ import { attach } from 'effector/effector.umd';
 import { combine, createEvent, createStore, sample } from 'effector';
 import { internalApi } from '@box/shared/api';
 
-export const setCards = createEvent<Card[]>();
-
 export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
 });
@@ -12,13 +10,11 @@ export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
 export const cardsSaveFx = attach({ effect: internalApi.cardsSave });
 export const cardsUnsaveFx = attach({ effect: internalApi.cardsUnsave });
 
-export const $cards = createStore<Card[]>([]);
-
 // @TODO It's bad practice to use global store. Will be fixed after BOX-250
 export const $favoritesIds = createStore<string[]>([]);
 
 export const changeFavorites = createEvent<string[]>();
-
+changeFavorites.watch((list) => console.info('————', list));
 export const $favoritesCards = combine(
   $favoritesIds,
   $cardsCache,
@@ -28,27 +24,18 @@ export const $favoritesCards = combine(
 export const addedToFavorites = createEvent<string>();
 export const removedFromFavorites = createEvent<string>();
 
-$cards.on(internalApi.cardsList.done, (cards, { params, result }) =>
-  !params.body?.favorites ? (result.answer.cards as Card[]) : cards,
-);
-
-$cards.on(setCards, (_, cards) => cards);
-
 $cardsCache
   .on(internalApi.cardsList.doneData, (cache, { answer }) =>
     updateCache(cache, answer.cards as Card[]),
   )
-  .on(internalApi.cardsGet.doneData, (cache, { answer }) =>
-    updateCache(cache, [answer.card as Card]),
-  )
-  .on(internalApi.cardsCreate.doneData, (cache, { answer }) =>
-    updateCache(cache, [answer.card as Card]),
-  )
-  .on(internalApi.cardsEdit.doneData, (cache, { answer }) =>
-    updateCache(cache, [answer.card as Card]),
-  )
   .on(
-    [internalApi.cardsSave.doneData, internalApi.cardsUnsave.doneData],
+    [
+      internalApi.cardsGet.doneData,
+      internalApi.cardsCreate.doneData,
+      internalApi.cardsEdit.doneData,
+      internalApi.cardsSave.doneData,
+      internalApi.cardsUnsave.doneData,
+    ],
     (cache, { answer }) => updateCache(cache, [answer.card as Card]),
   );
 
