@@ -19,7 +19,9 @@ export const Searchbar: React.FC = () => {
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <CardboxLogo />
+          <Link to={paths.home()}>
+            <CardboxLogo />
+          </Link>
           <SearchWrapper>
             <Search />
           </SearchWrapper>
