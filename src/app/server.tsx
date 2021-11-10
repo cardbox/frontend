@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
-import fastifyOpenTelemetry from '@autotelic/fastify-opentelemetry';
 import fastifyStatic from 'fastify-static';
 import through from 'through';
 import fastify, { FastifyInstance } from 'fastify';
@@ -235,10 +234,6 @@ fastifyInstance.register(fastifyStatic, {
 });
 
 fastifyInstance.register(fastifyCookie);
-
-fastifyInstance.register(fastifyOpenTelemetry, {
-  wrapRoutes: true,
-});
 
 fastifyInstance.get('/*', async function (req, res) {
   const log = this.log;
