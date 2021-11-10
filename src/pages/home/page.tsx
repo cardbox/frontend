@@ -17,7 +17,6 @@ import { useStore } from 'effector-react/ssr';
 export const $pagePending = createStore(false);
 export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
-export const $usersMap = createStore<Record<string, User>>({});
 
 export const HomePage: React.FC = () => {
   const isLoading = useStore($pagePending);
