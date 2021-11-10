@@ -1,6 +1,6 @@
 import { $session } from '@box/entities/session';
 import type { Card } from '@box/shared/api';
-import { attach, createDomain, createStore, combine, sample } from 'effector';
+import { attach, combine, createDomain, createStore, sample } from 'effector';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { internalApi } from '@box/shared/api';

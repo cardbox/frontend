@@ -54,33 +54,28 @@ $cardsCache
   .on(internalApi.cardsEdit.doneData, (cache, { answer }) =>
     updateCache(cache, [answer.card as Card]),
   )
-  .on(internalApi.cardsSave.doneData, (cache, { answer }) =>
-    updateCache(cache, [answer.card as Card]),
-  )
-  .on(internalApi.cardsUnsave.doneData, (cache, { answer }) =>
+  .on([internalApi.cardsSave.doneData, internalApi.cardsUnsave.doneData], (cache, { answer }) =>
     updateCache(cache, [answer.card as Card]),
   );
 
-const cardSaveResolved = sample({
+sample({
   clock: addedToFavorites,
-  fn: (id) => ({
-    body: { cardId: id },
-  }),
+  fn: (cardId) => ({ body: { cardId } }),
   target: cardsSaveFx,
 });
 
-const cardUnsaveResolved = sample({
+sample({
   clock: removedFromFavorites,
-  fn: (id) => ({
-    body: { cardId: id },
+  fn: (cardId) => ({
+    body: { cardId },
   }),
   target: cardsUnsaveFx,
 });
 
 $favoritesIds
   .on(changeFavorites, (_, ids) => ids)
-  .on(cardSaveResolved.doneData, (ids, { answer }) => [...ids, answer.card.id])
-  .on(cardUnsaveResolved.doneData, (ids, { answer }) =>
+  .on(cardsSaveFx.doneData, (ids, { answer }) => [...ids, answer.card.id])
+  .on(cardsUnsaveFx.doneData, (ids, { answer }) =>
     ids.filter((s) => s !== answer.card.id),
   );
 
