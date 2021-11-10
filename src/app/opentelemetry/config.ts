@@ -1,17 +1,12 @@
 import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-import { TraceIdRatioBasedSampler } from '@opentelemetry/core';
 import { logger } from '@box/shared/lib/logger';
 
-import pkg from '../../package.json';
-
-const httpInstrumentation = new HttpInstrumentation();
-httpInstrumentation.init();
+import pkg from '../../../package.json';
 
 const sdk = new NodeSDK({
   resource: new Resource({
@@ -25,8 +20,7 @@ const sdk = new NodeSDK({
     new JaegerExporter({
       endpoint: process.env.OTEL_EXPORTER_JAEGER_AGENT_ENDPOINT,
     }),
-  ),
-  sampler: new TraceIdRatioBasedSampler(0.5),
+  )
 });
 
 sdk
