@@ -1,11 +1,13 @@
 import type { EditorValue } from '@cardbox/editor';
 
+import { CardsGetDone, SessionGetDone, UsersGetDone } from './internal';
+
 // Экспортируем отдельно, чтобы могли обращаться к типу, не зная, про реализацию (Editor)
 export type CardContent = EditorValue;
 
-export type Card = import('./internal').CardsGetDone['answer']['card'];
+export type Card = CardsGetDone['answer']['card'];
 
-export type User = import('./internal').UsersGetDone['answer']['user'];
+export type User = UsersGetDone['answer']['user'];
 
 // FIXME: Просчитывать позднее от User - пока что не получается из-за non-required поля
 export interface UserSocial {
@@ -15,7 +17,7 @@ export interface UserSocial {
   readonly username: string;
 }
 
-export type SessionUser = import('./internal').SessionGetDone['answer']['user'];
+export type SessionUser = SessionGetDone['answer']['user'];
 
 // FIXME: implement on real API
 

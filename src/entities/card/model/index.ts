@@ -24,11 +24,6 @@ export const $favoritesCards = combine(
   $cardsCache,
   (ids, { cache }) => ids.map((id) => cache[id] ?? null),
 );
-export const $currentCard = createStore<Card | null>(null);
-// TODO: remove current card id and current card store from entities
-export const $currentCardId = $currentCard.map((card) =>
-  card ? card.id : null,
-);
 
 export const addedToFavorites = createEvent<string>();
 export const removedFromFavorites = createEvent<string>();
@@ -38,8 +33,6 @@ $cards.on(internalApi.cardsList.done, (cards, { params, result }) =>
 );
 
 $cards.on(setCards, (_, cards) => cards);
-
-$currentCard.on(internalApi.cardsGet.doneData, (_, { answer }) => answer.card);
 
 $cardsCache
   .on(internalApi.cardsList.doneData, (cache, { answer }) =>
@@ -54,8 +47,9 @@ $cardsCache
   .on(internalApi.cardsEdit.doneData, (cache, { answer }) =>
     updateCache(cache, [answer.card as Card]),
   )
-  .on([internalApi.cardsSave.doneData, internalApi.cardsUnsave.doneData], (cache, { answer }) =>
-    updateCache(cache, [answer.card as Card]),
+  .on(
+    [internalApi.cardsSave.doneData, internalApi.cardsUnsave.doneData],
+    (cache, { answer }) => updateCache(cache, [answer.card as Card]),
   );
 
 sample({

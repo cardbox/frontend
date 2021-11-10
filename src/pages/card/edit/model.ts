@@ -1,27 +1,29 @@
 import * as sessionModel from '@box/entities/session';
+import { Card, internalApi } from '@box/shared/api';
 import {
   attach,
   createDomain,
   createEvent,
+  createStore,
   guard,
   merge,
   sample,
 } from 'effector';
 import { cardDraftModel } from '@box/features/card/draft';
-import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/shared/api';
-
-import { paths } from '../../paths';
+import { paths } from '@box/pages/paths';
 
 export const hatch = createHatch(createDomain('CardEditPage'));
+const $currentCardId = hatch.$params.map((params) => params.cardId || null);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
 
+const $currentCard = createStore<Card | null>(null);
+
 // FIXME: may be should be replace to "$errors" in future
-export const $isCardFound = cardModel.$currentCard.map((card) => Boolean(card));
+export const $isCardFound = $currentCard.map((card) => Boolean(card));
 
 // Подгружаем данные после монтирования страницы
 const shouldLoadCard = sample({
@@ -34,6 +36,8 @@ sample({
   fn: (cardId) => ({ body: { cardId } }),
   target: cardsGetFx,
 });
+
+$currentCard.on(cardsGetFx.doneData, (_, { answer }) => answer.card);
 
 const cardCtxLoaded = sample({
   clock: cardsGetFx.doneData,
@@ -53,6 +57,20 @@ sample({
   clock: isAnotherViewing,
   fn: ({ card }) => paths.cardView(card.answer.card.id),
   target: historyPush,
+});
+
+const isAuthorViewing = guard({
+  source: cardCtxLoaded,
+  filter: ({ viewer, card }) => {
+    if (!viewer) return false;
+    return viewer.id === card.answer.card.authorId;
+  },
+});
+
+sample({
+  clock: isAuthorViewing,
+  fn: ({ card }) => card.answer.card,
+  target: cardDraftModel.setInitialState,
 });
 
 // Ивент, который сабмитит форму при отправке ее со страницы редактирования карточки
@@ -91,7 +109,7 @@ guard({
 // Возвращаем на страницу карточки после сохранения/отмены изменений
 sample({
   clock: merge([cardUpdateFx.done, formEditReset]),
-  source: cardModel.$currentCardId,
+  source: $currentCardId,
   fn: (cardId) => (cardId ? paths.cardView(cardId) : paths.home()),
   target: historyPush,
 });
