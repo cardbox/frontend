@@ -1,9 +1,5 @@
-import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
-const httpInstrumentation = new HttpInstrumentation();
-httpInstrumentation.init();
-import * as dotenv from 'dotenv';
-dotenv.config();
-require('./app/opentelemetry-config');
+import 'dotenv/config';
+
 import type { FastifyInstance } from 'fastify';
 import type { Server } from 'http';
 import { env } from '@box/shared/config';
@@ -11,16 +7,18 @@ import { logger } from '@box/shared/lib/logger';
 
 import * as app from './app/server';
 
+require('./app/opentelemetry-config');
+
 // this require is necessary for server HMR to recover from error
 let server: FastifyInstance<Server> = app.fastifyInstance;
 
-process.on('unhandledRejection', (error) => {
+process.on('unhandledRejection', (error: any) => {
   // Will print "unhandledRejection err is not defined"
   logger.fatal(
     {
       error: String(error),
-      message: error?.['message'],
-      stack: error?.['stack'],
+      message: error?.message,
+      stack: error?.stack,
     },
     'unhandledRejection',
   );

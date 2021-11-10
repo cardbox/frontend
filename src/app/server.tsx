@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as fs from 'fs';
 import * as path from 'path';
-import dotenv from 'dotenv';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyOpenTelemetry from '@autotelic/fastify-opentelemetry';
@@ -34,14 +33,12 @@ import {
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 import { matchRoutes } from 'react-router-config';
-import { performance } from 'perf_hooks';
+import { measurement } from '@box/shared/lib/measure';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { resetIdCounter } from 'react-tabs';
 import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
-
-dotenv.config();
 
 initializeServerHistory();
 
@@ -244,12 +241,15 @@ fastifyInstance.register(fastifyOpenTelemetry, {
 });
 
 fastifyInstance.get('/*', async function (req, res) {
-  this.log.info('[REQUEST] %s %s', req.method, req.url);
-  res.header('Content-Type', 'text/html');
-  const timeStart = performance.now();
-  const scope = fork();
   const log = this.log;
+  log.info('[REQUEST] %s %s', req.method, req.url);
+  const pageContructionTime = measurement(
+    'page construction',
+    log.info.bind(log),
+  );
+  const scope = fork();
 
+  const allSettledTime = measurement('all settled', log.info.bind(log));
   try {
     await allSettled(serverStarted, {
       scope,
@@ -258,16 +258,23 @@ fastifyInstance.get('/*', async function (req, res) {
   } catch (error) {
     this.log.error(error);
   }
+  allSettledTime.measure();
 
+  const serializeTime = measurement('serialize scope', log.info.bind(log));
   const storesValues = serialize(scope, {
     ignore: [$cookiesForRequest, $cookiesFromResponse],
     onlyChanges: true,
   });
+  serializeTime.measure();
 
   const routerContext = {};
   const sheet = new ServerStyleSheet();
   const helmetContext: FilledContext = {} as FilledContext;
 
+  const collectStylesTime = measurement(
+    'sheet collects styles',
+    log.info.bind(log),
+  );
   const jsx = sheet.collectStyles(
     <HelmetProvider context={helmetContext}>
       <StaticRouter context={routerContext} location={req.url}>
@@ -275,20 +282,26 @@ fastifyInstance.get('/*', async function (req, res) {
       </StaticRouter>
     </HelmetProvider>,
   );
+  collectStylesTime.measure();
 
   if (isRedirected(res)) {
     cleanUp();
-    this.log.info(
-      '[REDIRECT] from %s to %s at %sms',
-      req.url,
-      res.getHeader('Location'),
-      (performance.now() - timeStart).toFixed(2),
+    pageContructionTime.measure(
+      log.info,
+      `REDIRECT from ${req.url} to ${res.getHeader('Location')}`,
     );
     res.send();
     return;
   }
 
+  res.header('Content-Type', 'text/html');
+
   let sent = false;
+
+  const renderTime = measurement(
+    'react dom server render to stream',
+    log.info.bind(log),
+  );
 
   resetIdCounter();
   const stream = sheet
@@ -311,10 +324,8 @@ fastifyInstance.get('/*', async function (req, res) {
         function end() {
           this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
           this.queue(null);
-          log.info(
-            '[PERF] sent page at %sms',
-            (performance.now() - timeStart).toFixed(2),
-          );
+          renderTime.measure();
+          pageContructionTime.measure();
         },
       ),
     );
@@ -369,7 +380,11 @@ function htmlEnd(props: EndProps) {
     </script>
     ${props.helmet.script.toString()}
     ${props.helmet.noscript.toString()}
-    <script src="https://zvkqqfcvklvc.statuspage.io/embed/script.js"></script>
+    ${
+      process.env.STATUSPAGE_ID
+        ? `<script src='https://${process.env.STATUSPAGE_ID}.statuspage.io/embed/script.js'></script>`
+        : ''
+    }
   </body>
 </html>
   `;

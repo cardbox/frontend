@@ -1,6 +1,6 @@
 import { $session } from '@box/entities/session';
 import type { Card } from '@box/shared/api';
-import { attach, createDomain, createStore, restore, sample } from 'effector';
+import { attach, createDomain, createStore, combine, sample } from 'effector';
 import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { internalApi } from '@box/shared/api';
@@ -10,12 +10,16 @@ export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
 export const cardsListFx = attach({ effect: internalApi.cardsList });
 export const hatch = createHatch(createDomain('HomePage'));
 
-export const $pagePending = restore(cardsFeedFx.pending.updates, true);
-
 // FIXME: move to entities/card level later? (as cache store?)
 export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
-export const $usersMap = userModel.$usersMap;
+
+export const $pagePending = combine(
+  cardsFeedFx.pending,
+  $topCards,
+  $latestCards,
+  (pending, top, _latest) => pending && top.length === 0,
+);
 
 sample({
   source: hatch.enter,

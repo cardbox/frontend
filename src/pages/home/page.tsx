@@ -1,5 +1,5 @@
+import React from 'react';
 import styled from 'styled-components';
-import React, { useCallback } from 'react';
 import type { Card, User } from '@box/shared/api';
 import { CardList } from '@box/entities/card';
 import {
@@ -9,45 +9,19 @@ import {
   Toast,
 } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
 import { useEvent, useStore } from 'effector-react/ssr';
 
-import { paths } from '../paths';
-
 export const $pagePending = createStore(false);
 export const $topCards = createStore<Card[]>([]);
 export const $latestCards = createStore<Card[]>([]);
-export const $usersMap = createStore<Record<string, User>>({});
 
 export const HomePage: React.FC = () => {
   const isLoading = useStore($pagePending);
-  const topCards = useStore($topCards);
+  // const topCards = useStore($topCards);
   const latestCards = useStore($latestCards);
-  const usersMap = useStore($usersMap);
-
-  // FIXME: temp handlers
-  const handleUser = useCallback(
-    (card: Card) => {
-      const user = usersMap[card.authorId];
-      return user;
-    },
-    [usersMap],
-  );
-
-  const handleUserHref = useCallback(
-    (card: Card) => {
-      const user = usersMap[card.authorId];
-      return paths.user(user.username);
-    },
-    [usersMap],
-  );
-
-  const handleCardHref = useCallback((card: Card) => {
-    return paths.cardView(card.id);
-  }, []);
 
   return (
     <>

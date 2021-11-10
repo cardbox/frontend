@@ -40,6 +40,9 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: 'TT Hoves', sans-serif;
   }
+  * {
+    box-sizing: border-box;
+  }
 
   ${globalFonts}
   ${customProps}

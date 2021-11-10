@@ -16,7 +16,7 @@ interface Props {
 
 export const CardList = ({ cards, loading }: Props) => {
   if (loading) {
-    return <SkeletonGroup amount={4} />;
+    return <SkeletonGroup columns={3} amount={4} />;
   }
 
   if (cards.length === 0) {
@@ -54,7 +54,7 @@ const Container = styled.div`
   }
 
   ${breakpoints.devices.laptop} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   ${breakpoints.devices.tablet} {

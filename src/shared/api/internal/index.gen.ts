@@ -87,6 +87,7 @@ export interface AuthDone {
 }
 export const authDoneOk = typed.object({
   user: typed.object({
+    avatar: typed.string.maybe,
     id: typed.string,
     firstName: typed.string,
     lastName: typed.string,
@@ -983,6 +984,7 @@ export interface SessionGet {}
 /* Session exists */
 export const sessionGetOk = typed.object({
   user: typed.object({
+    avatar: typed.string.maybe,
     id: typed.string,
     firstName: typed.string,
     lastName: typed.string,
