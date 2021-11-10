@@ -20,7 +20,7 @@ const sdk = new NodeSDK({
     new JaegerExporter({
       endpoint: process.env.OTEL_EXPORTER_JAEGER_AGENT_ENDPOINT,
     }),
-  )
+  ),
 });
 
 sdk
