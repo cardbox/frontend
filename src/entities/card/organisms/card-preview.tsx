@@ -198,7 +198,7 @@ const ItemEditorContainer = styled.div`
   --editor-font-size: 15px;
   --editor-line-height: 21px;
   display: flex;
-  max-height: 122px;
+  max-height: 108px;
 `;
 const Meta: React.FC<{ card: Card }> = ({ card }) => {
   const date = dayjs(card.updatedAt);
