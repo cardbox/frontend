@@ -217,6 +217,8 @@ function createFastify(): FastifyInstance {
 
 export const fastifyInstance = createFastify();
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 fastifyInstance.register(fastifyHttpProxy, {
   upstream: env.BACKEND_URL,
   prefix: '/api/internal',
@@ -226,6 +228,7 @@ fastifyInstance.register(fastifyHttpProxy, {
       reply.log.error('[proxy error]', error);
     },
   },
+  undici: false,
 });
 
 fastifyInstance.register(fastifyStatic, {
@@ -237,6 +240,7 @@ fastifyInstance.register(fastifyCookie);
 
 fastifyInstance.get('/*', async function (req, res) {
   const log = this.log;
+  console.log(req.socket);
   log.info('[REQUEST] %s %s', req.method, req.url);
   const pageContructionTime = measurement(
     'page construction',
