@@ -24,6 +24,7 @@ export const ResetChanges = ({ _name }: Props) => {
       variant="outlined"
       onClick={() => {
         // FIXME: replace to UIKit implementation later
+        // eslint-disable-next-line no-alert
         if (!window.confirm(CANCEL_WARN)) return;
         formReset(_name);
       }}

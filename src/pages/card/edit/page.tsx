@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { variant } from '@effector/reflect/scope';
+import { variant } from '@effector/reflect/ssr';
 
 import { CardDraft } from '@box/features/card/draft';
 import { paths } from '@box/pages/paths';

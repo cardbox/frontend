@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styled from 'styled-components';
 
-import { reflect } from '@effector/reflect/scope';
+import { reflect } from '@effector/reflect/ssr';
 
 import { CardList } from '@box/entities/card';
 import { historyReplace } from '@box/entities/navigation';

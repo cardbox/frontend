@@ -3,7 +3,7 @@ import { useStore } from 'effector-react/scope';
 import React, { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
-import { variant } from '@effector/reflect/scope';
+import { variant } from '@effector/reflect/ssr';
 
 import { CardList, cardModel } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';

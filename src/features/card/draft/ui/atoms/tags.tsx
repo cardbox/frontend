@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { reflect } from '@effector/reflect/scope';
+import { reflect } from '@effector/reflect/ssr';
 
 import { theme } from '@box/shared/lib/theme';
 import { Chip } from '@box/shared/ui';

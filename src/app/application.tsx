@@ -18,6 +18,7 @@ import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 
 import { Pages } from '../pages';
+import './application.css';
 
 dayjs.extend(relativeTime);
 
