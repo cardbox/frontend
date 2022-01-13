@@ -10,14 +10,11 @@ module.exports = {
       name: 'typescript',
       options: {
         useBabel: true,
-        forkTsChecker: {
-          tslint: false,
-        },
       },
     },
     'svg-react-component',
   ],
-  modify(config, { dev }) {
+  modifyWebpackConfig({ webpackConfig, env: { dev } }) {
     if (dev) {
       const CRT = path.resolve(__dirname, 'tls', 'cardbox.crt');
       const KEY = path.resolve(__dirname, 'tls', 'cardbox.key');
@@ -44,17 +41,17 @@ module.exports = {
         throw error;
       }
 
-      config.devServer = {
-        ...config.devServer,
+      webpackConfig.devServer = {
+        ...webpackConfig.devServer,
         ...devServer,
       };
     }
 
-    config.output.publicPath = config.output.publicPath.replace(
+    webpackConfig.output.publicPath = webpackConfig.output.publicPath.replace(
       'http://',
       '//',
     );
-    config.resolve.alias['@box'] = path.resolve(__dirname, 'src');
-    return config;
+    webpackConfig.resolve.alias['@box'] = path.resolve(__dirname, 'src');
+    return webpackConfig;
   },
 };
