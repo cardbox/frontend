@@ -1,5 +1,6 @@
-import { $isAuthenticated } from '@box/entities/session/model';
 import { Effect, Event, Store, createEvent, guard } from 'effector';
+
+import { $isAuthenticated } from '@box/entities/session/model';
 
 export function filterAuthenticated<T>(
   source: Event<T> | Store<T> | Effect<T, any, any>,
@@ -15,9 +16,7 @@ export function filterAuthenticated<T>(
   return target;
 }
 
-export function filterAnonymous<T>(
-  source: Event<T> | Store<T> | Effect<T, any, any>,
-): Event<T> {
+export function filterAnonymous<T>(source: Event<T> | Store<T> | Effect<T, any, any>): Event<T> {
   const target = createEvent<T>();
 
   guard({

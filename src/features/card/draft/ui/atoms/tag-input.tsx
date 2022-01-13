@@ -1,15 +1,12 @@
-import styled from 'styled-components';
-import React, {
-  ChangeEvent,
-  FC,
-  FormEventHandler,
-  KeyboardEventHandler,
-} from 'react';
-import { Button, IconAdd, Input } from '@box/shared/ui';
 import { combine } from 'effector';
-import { reflect } from '@effector/reflect/ssr';
+import React, { ChangeEvent, FC, FormEventHandler, KeyboardEventHandler } from 'react';
+import styled from 'styled-components';
+
+import { reflect } from '@effector/reflect/scope';
+
 import { theme } from '@box/shared/lib/theme';
 import { todo } from '@box/shared/lib/todo';
+import { Button, IconAdd, Input } from '@box/shared/ui';
 
 import * as model from '../../model';
 
@@ -53,12 +50,7 @@ const TagInputView = ({
     if (e.key === 'Backspace') handleBackSpace();
   };
   return (
-    <Input
-      value={value}
-      onChange={onChange}
-      placeholder="add new tag"
-      onKeyDown={handleKeyDown}
-    />
+    <Input value={value} onChange={onChange} placeholder="add new tag" onKeyDown={handleKeyDown} />
   );
 };
 
@@ -102,8 +94,7 @@ const NewTagForm = reflect({
     existedTag: combine(
       model.$newTagInput,
       model.$tags,
-      (newTag, tags) =>
-        tags.find((tag) => tag.toLowerCase() === newTag.toLowerCase()) || '',
+      (newTag, tags) => tags.find((tag) => tag.toLowerCase() === newTag.toLowerCase()) || '',
     ),
   },
 });

@@ -1,23 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Avatar, PaperContainer, Text } from '@box/shared/ui';
-import { HighlightText } from '@box/entities/search';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { HighlightText } from '@box/entities/search';
 import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { plural } from '@box/shared/lib/plural';
 import { theme } from '@box/shared/lib/theme';
+import { Avatar, PaperContainer, Text } from '@box/shared/ui';
 
 interface UserPreviewProps {
   user: User;
   userHref?: string;
   cardsCount?: number;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({
-  user,
-  userHref,
-  cardsCount,
-}) => {
+export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref, cardsCount }) => {
   const { username, avatar, bio } = user;
   return (
     <PaperContainerStyled>
@@ -37,11 +34,7 @@ export const UserPreview: React.FC<UserPreviewProps> = ({
 
 type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
 
-const Content: React.FC<ContentProps> = ({
-  children,
-  username,
-  userHref = '',
-}) => {
+const Content: React.FC<ContentProps> = ({ children, username, userHref = '' }) => {
   return (
     <ContentStyled>
       <UserLink to={userHref}>

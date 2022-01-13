@@ -19,9 +19,7 @@ export function useMouseSelection(fn: (inNewTab?: boolean) => void) {
     }
     if (e.button === 0) {
       if (preventingRef?.current) {
-        isUpPreventing.current = preventingRef.current.contains(
-          e.target as Node,
-        );
+        isUpPreventing.current = preventingRef.current.contains(e.target as Node);
       }
       mouseDownCoords.current = {
         x: e.pageX,

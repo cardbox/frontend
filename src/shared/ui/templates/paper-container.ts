@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { theme } from '@box/shared/lib/theme';
 
 export const PaperContainer = styled.article`

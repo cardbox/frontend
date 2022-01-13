@@ -1,5 +1,5 @@
-import React from 'react';
 import { useStore } from 'effector-react/scope';
+import React from 'react';
 
 import { $isAuthenticated } from '../model';
 

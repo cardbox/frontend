@@ -1,5 +1,6 @@
 import { Scope, createEvent, createStore, merge, scopeBind } from 'effector';
 import { createBrowserHistory } from 'history';
+
 import { env } from '@box/shared/config';
 
 export interface HistoryChange {

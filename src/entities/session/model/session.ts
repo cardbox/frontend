@@ -1,11 +1,5 @@
-import {
-  attach,
-  createEffect,
-  createEvent,
-  forward,
-  guard,
-  sample,
-} from 'effector';
+import { attach, createEffect, createEvent, forward, guard, sample } from 'effector';
+
 import { internalApi } from '@box/shared/api';
 
 const authParamsFx = attach({ effect: internalApi.authParams });
@@ -25,11 +19,9 @@ const reloadFx = createEffect<void, void, any>({
   },
 });
 
-const redirectToAccessoFx = createEffect(
-  ({ accessoUrl }: { accessoUrl: string }) => {
-    document.location = replaceRedirectWithLocal(accessoUrl);
-  },
-);
+const redirectToAccessoFx = createEffect(({ accessoUrl }: { accessoUrl: string }) => {
+  document.location = replaceRedirectWithLocal(accessoUrl);
+});
 
 // In general host in redirect_uri is same with current host we login,
 // but for local authorization we have to override it

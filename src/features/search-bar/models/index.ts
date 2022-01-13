@@ -1,18 +1,11 @@
-import { Card, User, internalApi } from '@box/shared/api';
-import { ChangeEvent } from 'react';
-import {
-  attach,
-  createEffect,
-  createEvent,
-  createStore,
-  guard,
-  restore,
-  sample,
-} from 'effector';
+import { attach, createEffect, createEvent, createStore, guard, restore, sample } from 'effector';
 import { debounce } from 'patronum/debounce';
+import { ChangeEvent } from 'react';
+
 import { historyPush } from '@box/entities/navigation';
-import { paths } from '@box/pages/paths';
 import { userModel } from '@box/entities/user';
+import { paths } from '@box/pages/paths';
+import { Card, User, internalApi } from '@box/shared/api';
 
 export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 

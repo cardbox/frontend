@@ -1,5 +1,6 @@
 import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
+
 import { theme } from '@box/shared/lib/theme';
 
 type ButtonTheme = 'primary' | 'secondary' | 'danger';

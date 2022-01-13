@@ -29,8 +29,7 @@ export const IS_PROD_ENV = NODE_ENV === 'production';
 export const BACKEND_URL = process.env.BACKEND_URL ?? 'http://localhost:9008';
 export const SESSION_TOKEN = process.env.RAZZLE_SESSION_TOKEN;
 
-export const CLIENT_BACKEND_URL =
-  process.env.CLIENT_BACKEND_URL ?? '/api/internal';
+export const CLIENT_BACKEND_URL = process.env.CLIENT_BACKEND_URL ?? '/api/internal';
 export const TLS_CERT_FILE = process.env.TLS_CERT_FILE!;
 export const TLS_KEY_FILE = process.env.TLS_KEY_FILE!;
 export const RAZZLE_PUBLIC_DIR = process.env.RAZZLE_PUBLIC_DIR!;

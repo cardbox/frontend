@@ -1,17 +1,19 @@
-import Tippy from '@tippyjs/react';
+import { useStore } from 'effector-react/scope';
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Avatar } from '@box/shared/ui';
 import { Instance } from 'tippy.js';
-import { getFullName } from '@box/entities/user/lib';
-import { historyPush } from '@box/entities/navigation';
-import { imgLogo } from '@box/shared/assets';
-import { paths } from '@box/pages/paths';
-import { useStore } from 'effector-react/ssr';
 
+import Tippy from '@tippyjs/react';
+
+import { historyPush } from '@box/entities/navigation';
+import { getFullName } from '@box/entities/user/lib';
+import { paths } from '@box/pages/paths';
+import { imgLogo } from '@box/shared/assets';
+import { Avatar } from '@box/shared/ui';
+
+import { SignInButton } from '../atoms';
 import { $session, logout } from '../model';
 import { ShowOnly } from './show-only';
-import { SignInButton } from '../atoms';
 
 enum ItemOption {
   PROFILE = 'PROFILE',
@@ -37,9 +39,7 @@ const Viewer = () => {
   const viewer = useStore($session);
   if (!viewer) return null;
 
-  const handleMenuClick: React.MouseEventHandler<HTMLButtonElement> = (
-    event,
-  ) => {
+  const handleMenuClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     instance?.hide();
     if (!(event.currentTarget instanceof HTMLButtonElement)) {
       return;
@@ -67,10 +67,7 @@ const Viewer = () => {
         onCreate={setInstance}
         content={
           <MenuContent>
-            <MenuItem
-              data-option={ItemOption.PROFILE}
-              onClick={handleMenuClick}
-            >
+            <MenuItem data-option={ItemOption.PROFILE} onClick={handleMenuClick}>
               Profile
             </MenuItem>
             <MenuItem data-option={ItemOption.LOGOUT} onClick={handleMenuClick}>

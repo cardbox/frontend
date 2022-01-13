@@ -89,8 +89,7 @@ test('event from a page changes state of the model', async () => {
     const happened = app.createEvent();
     const $counter = app.createStore(1);
     const effect = app.createEffect(
-      (value: number) =>
-        new Promise<number>((resolve) => setTimeout(resolve, 5, value + 1)),
+      (value: number) => new Promise<number>((resolve) => setTimeout(resolve, 5, value + 1)),
     );
     const changer = attach({ source: $counter, effect });
     forward({

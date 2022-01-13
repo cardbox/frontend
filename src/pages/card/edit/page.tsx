@@ -1,13 +1,15 @@
+import { createStore } from 'effector';
 import React from 'react';
-import styled from 'styled-components';
-import { CardDraft } from '@box/features/card/draft';
-import { ContentCenteredTemplate, Empty } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { createStore } from 'effector';
+import styled from 'styled-components';
+
+import { variant } from '@effector/reflect/scope';
+
+import { CardDraft } from '@box/features/card/draft';
 import { paths } from '@box/pages/paths';
 import { theme } from '@box/shared/lib/theme';
-import { variant } from '@effector/reflect/ssr';
+import { ContentCenteredTemplate, Empty } from '@box/shared/ui';
 
 export const $isCardFound = createStore(false);
 

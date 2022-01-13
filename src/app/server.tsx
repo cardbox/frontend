@@ -1,41 +1,35 @@
-import * as React from 'react';
-import * as ReactDOMServer from 'react-dom/server';
-import * as fs from 'fs';
-import * as path from 'path';
+import { allSettled, createEvent, fork, forward, sample, serialize } from 'effector';
+import fastify, { FastifyInstance } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyStatic from 'fastify-static';
+import { RouteGenericInterface } from 'fastify/types/route';
+import { HatchParams, getHatch } from 'framework';
+import * as fs from 'fs';
+import type { Server } from 'http';
+import * as path from 'path';
+import { splitMap } from 'patronum/split-map';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { matchRoutes } from 'react-router-config';
+import { StaticRouter } from 'react-router-dom';
+import { resetIdCounter } from 'react-tabs';
+import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
-import fastify, { FastifyInstance } from 'fastify';
+
+import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
+import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
+import { ROUTES } from '@box/pages/routes';
 import {
   $cookiesForRequest,
   $cookiesFromResponse,
   setCookiesForRequest,
 } from '@box/shared/api/request';
-import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { HatchParams, getHatch } from 'framework';
-import { ROUTES } from '@box/pages/routes';
-import { RouteGenericInterface } from 'fastify/types/route';
-import type { Server } from 'http';
-import { ServerStyleSheet } from 'styled-components';
-import { StaticRouter } from 'react-router-dom';
-import {
-  allSettled,
-  createEvent,
-  fork,
-  forward,
-  sample,
-  serialize,
-} from 'effector';
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
-import { matchRoutes } from 'react-router-config';
 import { measurement } from '@box/shared/lib/measure';
-import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
-import { resetIdCounter } from 'react-tabs';
-import { splitMap } from 'patronum/split-map';
 
 import { Application } from './application';
 
@@ -74,10 +68,7 @@ routeResolved.watch((match) => {
 });
 
 routeNotResolved.watch((req) => {
-  logger.fatal(
-    { url: req.url, query: req.query },
-    `Not found route for this path`,
-  );
+  logger.fatal({ url: req.url, query: req.query }, `Not found route for this path`);
 });
 
 forward({
@@ -242,10 +233,7 @@ fastifyInstance.get('/*', async function (req, res) {
   const log = this.log;
   console.log(req.socket);
   log.info('[REQUEST] %s %s', req.method, req.url);
-  const pageContructionTime = measurement(
-    'page construction',
-    log.info.bind(log),
-  );
+  const pageContructionTime = measurement('page construction', log.info.bind(log));
   const scope = fork();
 
   const allSettledTime = measurement('all settled', log.info.bind(log));
@@ -270,10 +258,7 @@ fastifyInstance.get('/*', async function (req, res) {
   const sheet = new ServerStyleSheet();
   const helmetContext: FilledContext = {} as FilledContext;
 
-  const collectStylesTime = measurement(
-    'sheet collects styles',
-    log.info.bind(log),
-  );
+  const collectStylesTime = measurement('sheet collects styles', log.info.bind(log));
   const jsx = sheet.collectStyles(
     <HelmetProvider context={helmetContext}>
       <StaticRouter context={routerContext} location={req.url}>
@@ -297,37 +282,32 @@ fastifyInstance.get('/*', async function (req, res) {
 
   let sent = false;
 
-  const renderTime = measurement(
-    'react dom server render to stream',
-    log.info.bind(log),
-  );
+  const renderTime = measurement('react dom server render to stream', log.info.bind(log));
 
   resetIdCounter();
-  const stream = sheet
-    .interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx))
-    .pipe(
-      through(
-        function write(data) {
-          if (!sent) {
-            this.queue(
-              htmlStart({
-                helmet: helmetContext.helmet,
-                assetsCss: assets.client.css,
-                assetsJs: assets.client.js,
-              }),
-            );
-            sent = true;
-          }
-          this.queue(data);
-        },
-        function end() {
-          this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
-          this.queue(null);
-          renderTime.measure();
-          pageContructionTime.measure();
-        },
-      ),
-    );
+  const stream = sheet.interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx)).pipe(
+    through(
+      function write(data) {
+        if (!sent) {
+          this.queue(
+            htmlStart({
+              helmet: helmetContext.helmet,
+              assetsCss: assets.client.css,
+              assetsJs: assets.client.js,
+            }),
+          );
+          sent = true;
+        }
+        this.queue(data);
+      },
+      function end() {
+        this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
+        this.queue(null);
+        renderTime.measure();
+        pageContructionTime.measure();
+      },
+    ),
+  );
 
   res.send(stream);
   cleanUp();
@@ -357,11 +337,7 @@ function htmlStart(props: StartProps) {
       ${props.helmet.title.toString()}
       ${props.helmet.link.toString()}
       ${props.helmet.style.toString()}
-      ${
-        props.assetsCss
-          ? `<link rel='stylesheet' href='${props.assetsCss}'>`
-          : ''
-      }
+      ${props.assetsCss ? `<link rel='stylesheet' href='${props.assetsCss}'>` : ''}
       ${
         env.IS_PROD_ENV
           ? `<script src='${props.assetsJs}' defer></script>`

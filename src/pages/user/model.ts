@@ -1,9 +1,10 @@
-import { $session } from '@box/entities/session';
-import { User, internalApi } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
-import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
 import { some } from 'patronum';
+
+import { cardModel } from '@box/entities/card';
+import { $session } from '@box/entities/session';
+import { User, internalApi } from '@box/shared/api';
 
 export const hatch = createHatch(createDomain('UserViewPage'));
 
@@ -14,19 +15,13 @@ export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
-export const $cards = combine(
-  $cardsIds,
-  cardModel.$cardsCache,
-  (ids, { cache }) => ids.map((id) => cache[id] ?? null),
+export const $cards = combine($cardsIds, cardModel.$cardsCache, (ids, { cache }) =>
+  ids.map((id) => cache[id] ?? null),
 );
-export const $isOnOwnedPage = combine(
-  $session,
-  $currentUser,
-  (session, current) => {
-    if (!session || !current) return false;
-    return session.id === current.id;
-  },
-);
+export const $isOnOwnedPage = combine($session, $currentUser, (session, current) => {
+  if (!session || !current) return false;
+  return session.id === current.id;
+});
 
 export const $pagePending = some({
   predicate: true,

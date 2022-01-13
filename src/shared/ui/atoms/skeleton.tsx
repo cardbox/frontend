@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { theme } from '@box/shared/lib/theme';
 
 interface SkeletonProps {
@@ -19,10 +20,7 @@ interface SkeletonGroupProps {
    */
   columns?: number;
 }
-export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
-  amount,
-  columns = 2,
-}) => (
+export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({ amount, columns = 2 }) => (
   <Group columns={columns}>
     {Array.from({ length: amount }, (_, idx) => (
       <Skeleton key={idx} />

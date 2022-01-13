@@ -32,7 +32,7 @@ Now create effector units to correctly connects with:
 ```tsx
 import React from 'react';
 import { createEvent, createStore } from 'effector';
-import { useStore, useEvent } from 'effector-react/ssr';
+import { useStore, useEvent } from 'effector-react/scope';
 import { Text, Button } from 'my-ui';
 
 export const buttonClicked = createEvent();
@@ -61,7 +61,7 @@ Also, you can use [`effector-reflect`](https://npmjs.com/effector-reflect):
 ```tsx
 import React from 'react';
 import { createEvent, createStore } from 'effector';
-import { reflect } from 'effector-reflect/ssr';
+import { reflect } from 'effector-reflect/scope';
 import { Text, Button } from 'my-ui';
 
 export const buttonClicked = createEvent();

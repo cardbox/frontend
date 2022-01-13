@@ -1,12 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Avatar } from '@box/shared/ui/atoms';
 import { Link } from 'react-router-dom';
-import type { User } from '@box/shared/api';
-import { breakpoints } from '@box/shared/lib/breakpoints';
-import { imgLogo } from '@box/shared/assets';
+import styled from 'styled-components';
+
 import { paths } from '@box/pages/paths';
+import type { User } from '@box/shared/api';
+import { imgLogo } from '@box/shared/assets';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
+import { Avatar } from '@box/shared/ui/atoms';
 
 import { getFullName } from '../lib';
 

@@ -1,20 +1,13 @@
+import { attach, combine, createDomain, createEvent, createStore, guard, sample } from 'effector';
+import { createHatch } from 'framework';
+
+import { cardModel } from '@box/entities/card';
+import { historyPush } from '@box/entities/navigation';
 import * as sessionModel from '@box/entities/session';
 import { $session } from '@box/entities/session';
-import type { Card, User } from '@box/shared/api';
-import {
-  attach,
-  combine,
-  createDomain,
-  createEvent,
-  createStore,
-  guard,
-  sample,
-} from 'effector';
-import { cardModel } from '@box/entities/card';
-import { createHatch } from 'framework';
-import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/shared/api';
 import { paths } from '@box/pages/paths';
+import type { Card, User } from '@box/shared/api';
+import { internalApi } from '@box/shared/api';
 
 export const hatch = createHatch(createDomain('CardViewPage'));
 

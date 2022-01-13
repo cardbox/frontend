@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 

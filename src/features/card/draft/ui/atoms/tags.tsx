@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Chip } from '@box/shared/ui';
-import { reflect } from '@effector/reflect/ssr';
+
+import { reflect } from '@effector/reflect/scope';
+
 import { theme } from '@box/shared/lib/theme';
+import { Chip } from '@box/shared/ui';
 
 import * as model from '../../model';
 

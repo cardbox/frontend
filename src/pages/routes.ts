@@ -5,9 +5,9 @@ import { CardViewPage } from './card/view';
 import { Error404Page } from './error404';
 import { HomePage } from './home';
 import { OAuthDonePage } from './oauth-done';
+import { paths } from './paths';
 import { SearchPage } from './search';
 import { UserPage } from './user';
-import { paths } from './paths';
 
 export const ROUTES = [
   { exact: true, path: paths.home(), component: HomePage },

@@ -1,8 +1,21 @@
-import 'dayjs/plugin/relativeTime';
-
 import dayjs from 'dayjs';
-import styled from 'styled-components';
+import 'dayjs/plugin/relativeTime';
+import { useEvent, useStoreMap } from 'effector-react/scope';
 import React, { forwardRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { Editor, useExtendedEditor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
+
+import { cardModel } from '@box/entities/card';
+import { navigationModel } from '@box/entities/navigation';
+import { HighlightText } from '@box/entities/search';
+import { paths } from '@box/pages/paths';
+import type { Card } from '@box/shared/api';
+import { breakpoints } from '@box/shared/lib/breakpoints';
+import { theme } from '@box/shared/lib/theme';
+import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
 import {
   Button,
   IconDeckArrow,
@@ -11,18 +24,6 @@ import {
   Skeleton,
   Text,
 } from '@box/shared/ui';
-import type { Card } from '@box/shared/api';
-import { Editor, useExtendedEditor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
-import { HighlightText } from '@box/entities/search';
-import { Link } from 'react-router-dom';
-import { breakpoints } from '@box/shared/lib/breakpoints';
-import { cardModel } from '@box/entities/card';
-import { navigationModel } from '@box/entities/navigation';
-import { paths } from '@box/pages/paths';
-import { theme } from '@box/shared/lib/theme';
-import { useEvent, useStoreMap } from 'effector-react/scope';
-import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
 
 type CardSize = 'small' | 'large';
 
@@ -36,11 +37,7 @@ interface CardPreviewProps {
   size?: CardSize;
 }
 
-export const CardPreview = ({
-  card,
-  loading = false,
-  size = 'small',
-}: CardPreviewProps) => {
+export const CardPreview = ({ card, loading = false, size = 'small' }: CardPreviewProps) => {
   const href = paths.cardView(card.id);
   const isCardInFavorites = useStoreMap({
     store: cardModel.$favoritesCards,
@@ -57,13 +54,11 @@ export const CardPreview = ({
     else addToFavorites(card.id);
   }, [addToFavorites, removeFromFavorites, card.id, isCardInFavorites]);
 
-  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection(
-    (inNewTab = false) => {
-      if (!href) return;
-      if (inNewTab) window.open(href, '_blank');
-      else historyPush(href);
-    },
-  );
+  const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection((inNewTab = false) => {
+    if (!href) return;
+    if (inNewTab) window.open(href, '_blank');
+    else historyPush(href);
+  });
 
   // FIXME: refine size of card pre-detecting
   if (loading) return <Skeleton />;
@@ -157,21 +152,13 @@ const Content = ({ card, size }: ContentProps) => {
         <>
           <Meta card={card} />
           {/* FIXME: resolve better later */}
-          <Editor
-            editor={editor}
-            value={card.content as EditorValue}
-            readOnly
-          />
+          <Editor editor={editor} value={card.content as EditorValue} readOnly />
         </>
       )}
       {size === 'small' && (
         <ItemEditorContainer>
           {/* FIXME: resolve better later */}
-          <Editor
-            editor={editor}
-            value={card.content as EditorValue}
-            readOnly
-          />
+          <Editor editor={editor} value={card.content as EditorValue} readOnly />
         </ItemEditorContainer>
       )}
     </ContentStyled>

@@ -1,9 +1,10 @@
-import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
-import { NodeSDK } from '@opentelemetry/sdk-node';
+import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
 import { Resource } from '@opentelemetry/resources';
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
 import { logger } from '@box/shared/lib/logger';
 
 import pkg from '../../../package.json';
@@ -26,16 +27,12 @@ const sdk = new NodeSDK({
 sdk
   .start()
   .then(() => logger.info('[OPENTELEMETRY] - started'))
-  .catch((error) =>
-    logger.log('[OPENTELEMETRY] - Error initializing tracing', error),
-  );
+  .catch((error) => logger.log('[OPENTELEMETRY] - Error initializing tracing', error));
 
 process.on('SIGTERM', () => {
   sdk
     .shutdown()
     .then(() => logger.log('[OPENTELEMETRY] - Tracing terminated'))
-    .catch((error) =>
-      logger.log('[OPENTELEMETRY] - Error terminating tracing', error),
-    )
+    .catch((error) => logger.log('[OPENTELEMETRY] - Error terminating tracing', error))
     .finally(() => process.exit(0));
 });

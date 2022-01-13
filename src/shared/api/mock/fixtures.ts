@@ -3,8 +3,7 @@ import { getValueNode } from '@box/shared/lib/editor';
 import type { Card, User } from '../types';
 
 // FIXME: pseudo-uuid generation (refine later or use another solution)
-const stubId = () =>
-  Date.now().toString(36) + Math.random().toString(36).slice(2);
+const stubId = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
 
 // FIXME: Поправить позднее роли
 
@@ -283,8 +282,7 @@ export const cards: Card[] = [
   {
     id: stubId(),
     title: `Effector: Domain usage`,
-    content:
-      getValueNode(`Domain is a namespace for your events, stores and effects.
+    content: getValueNode(`Domain is a namespace for your events, stores and effects.
     Domain can subscribe to event, effect, store or nested domain creation with onCreateEvent, onCreateStore, onCreateEffect, onCreateDomain methods.
     It is useful for logging or other side effects.`),
     summary: undefined,

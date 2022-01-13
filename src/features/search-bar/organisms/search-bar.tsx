@@ -1,16 +1,17 @@
-import styled from 'styled-components';
+import { useEvent } from 'effector-react/scope';
 import React, { useEffect } from 'react';
-import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
 import { Link } from 'react-router-dom';
-import { SessionPanel, ShowOnly } from '@box/entities/session';
-import { breakpoints } from '@box/shared/lib/breakpoints';
-import { paths } from '@box/pages/paths';
-import { theme } from '@box/shared/lib/theme';
-import { useEvent } from 'effector-react/ssr';
+import styled from 'styled-components';
 
+import { SessionPanel, ShowOnly } from '@box/entities/session';
+import { paths } from '@box/pages/paths';
+import { breakpoints } from '@box/shared/lib/breakpoints';
+import { theme } from '@box/shared/lib/theme';
+import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
+
+import { useSearchQuery } from '../lib';
 import * as model from '../models';
 import { Search } from '../molecules';
-import { useSearchQuery } from '../lib';
 
 export const Searchbar: React.FC = () => {
   useSearchQueryChanged();

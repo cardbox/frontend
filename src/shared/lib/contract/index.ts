@@ -32,9 +32,7 @@ export function contract<
         pageUnit.defaultState = modelUnit.defaultState;
 
         // Change current state
-        (pageUnit as any).stateRef.current = (
-          modelUnit as any
-        ).stateRef.current;
+        (pageUnit as any).stateRef.current = (modelUnit as any).stateRef.current;
 
         // Change initial state inside scope
         // https://t.me/c/1489066599/4652

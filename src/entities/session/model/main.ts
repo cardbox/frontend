@@ -9,11 +9,12 @@ import {
   guard,
   sample,
 } from 'effector';
-import type { SessionUser } from '@box/shared/api';
 import { condition } from 'patronum';
+
 import { historyPush } from '@box/entities/navigation';
-import { internalApi } from '@box/shared/api';
 import { paths } from '@box/pages/paths';
+import type { SessionUser } from '@box/shared/api';
+import { internalApi } from '@box/shared/api';
 
 export const readyToLoadSession = createEvent<void>();
 
@@ -29,11 +30,7 @@ export const $sessionPending = combine(
   ([session, pending]) => !session && pending,
 );
 
-const sessionWaitFx = createEffect<
-  void,
-  internalApi.SessionGetDone,
-  internalApi.SessionGetFail
->({
+const sessionWaitFx = createEffect<void, internalApi.SessionGetDone, internalApi.SessionGetFail>({
   async handler() {
     // Here is pivot: sessionWaitFx was emitter before this point and events wait for it to resolve
     // but now sessionWaitFx effect became subscriber(watcher) itself
@@ -123,10 +120,7 @@ export function checkAuthenticated<T>(config: {
 /**
  * If user **anonymous**, continue, else redirect to home
  */
-export function checkAnonymous<T>(config: {
-  when: Unit<T>;
-  continue?: Unit<T>;
-}): Event<T> {
+export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> }): Event<T> {
   const continueLogic = config.continue ?? createEvent<T>();
 
   // Synthetic event just to get store value

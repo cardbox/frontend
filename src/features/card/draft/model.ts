@@ -1,16 +1,11 @@
-import * as editorLib from '@box/shared/lib/editor';
-import type { Card, CardContent } from '@box/shared/api';
-import {
-  StoreValue,
-  combine,
-  createDomain,
-  createEvent,
-  guard,
-} from 'effector';
+import { StoreValue, combine, createDomain, createEvent, guard } from 'effector';
 import { every } from 'patronum/every';
-import { internalApi } from '@box/shared/api';
-import { isNonEmpty } from '@box/shared/lib/fp';
 import { spread } from 'patronum/spread';
+
+import type { Card, CardContent } from '@box/shared/api';
+import { internalApi } from '@box/shared/api';
+import * as editorLib from '@box/shared/lib/editor';
+import { isNonEmpty } from '@box/shared/lib/fp';
 
 export const titleChanged = createEvent<string>();
 export const contentChanged = createEvent<CardContent>();
@@ -79,9 +74,7 @@ const saveNewTag = guard({
 });
 $tags
   .on(saveNewTag, (tags, newTag) => [...tags, newTag])
-  .on(existingTagRemoved, (tags, tagToRemove) =>
-    tags.filter((tag) => tag !== tagToRemove),
-  )
+  .on(existingTagRemoved, (tags, tagToRemove) => tags.filter((tag) => tag !== tagToRemove))
   .on(lastTagRemoved, (tags) => tags.slice(0, -1));
 $newTagInput.reset(saveNewTag);
 

@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import React, { useCallback } from 'react';
+import styled from 'styled-components';
+
 import { theme } from '@box/shared/lib/theme';
 
 import { Button } from '../../atoms';
@@ -26,12 +27,7 @@ const TabTitle: React.FC<TitleProps> = ({
     return null;
   }
   return (
-    <ButtonStyled
-      variant="text"
-      type="button"
-      data-is-active={index === active}
-      onClick={onClick}
-    >
+    <ButtonStyled variant="text" type="button" data-is-active={index === active} onClick={onClick}>
       {title}
     </ButtonStyled>
   );

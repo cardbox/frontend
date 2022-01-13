@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Empty, SkeletonGroup } from '@box/shared/ui';
+
 import type { User } from '@box/shared/api';
+import { Empty, SkeletonGroup } from '@box/shared/ui';
 
 import { UserPreview } from './user-preview';
 
@@ -14,12 +15,7 @@ interface UserListProps {
   // FIXME: will be removed later
   getCardsCount?: (data: User) => number;
 }
-export const UserPreviewList = ({
-  users,
-  loading,
-  getUserHref,
-  getCardsCount,
-}: UserListProps) => {
+export const UserPreviewList = ({ users, loading, getUserHref, getCardsCount }: UserListProps) => {
   if (loading) {
     return <SkeletonGroup amount={3} columns={3} />;
   }

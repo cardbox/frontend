@@ -1,5 +1,6 @@
 import * as path from 'path';
 import P, { pino } from 'pino';
+
 import { env } from '@box/shared/config';
 
 import Logger = P.Logger;

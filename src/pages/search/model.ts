@@ -1,9 +1,10 @@
-import { $session } from '@box/entities/session';
 import { attach, combine, createDomain, createEvent, sample } from 'effector';
-import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
-import { internalApi } from '@box/shared/api';
+
+import { cardModel } from '@box/entities/card';
+import { $session } from '@box/entities/session';
 import { searchModel } from '@box/features/search-bar';
+import { internalApi } from '@box/shared/api';
 
 export const cardsListFx = attach({ effect: internalApi.cardsList });
 
@@ -14,8 +15,7 @@ export const $isShowLoading = combine(
   searchModel.searchFx.pending,
   searchModel.$cardsCount,
   searchModel.$usersCount,
-  (isPending, cardsCount, usersCount) =>
-    isPending && !cardsCount && !usersCount,
+  (isPending, cardsCount, usersCount) => isPending && !cardsCount && !usersCount,
 );
 
 // @TODO Will be deleted after BOX-250

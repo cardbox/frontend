@@ -1,21 +1,16 @@
-import styled from 'styled-components';
+import { createEvent, createStore } from 'effector';
+import { useEvent, useStore } from 'effector-react/scope';
 import React, { useCallback } from 'react';
-import {
-  Button,
-  ContentCenteredTemplate,
-  Empty,
-  IconDeckCheck,
-  IconEdit,
-} from '@box/shared/ui';
-import { Card, User } from '@box/shared/api/index';
-import { CardPreview } from '@box/entities/card';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { CardPreview } from '@box/entities/card';
 import { UserCard } from '@box/entities/user';
+import { Card, User } from '@box/shared/api/index';
 import { breakpoints } from '@box/shared/lib/breakpoints';
-import { createEvent, createStore } from 'effector';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { Button, ContentCenteredTemplate, Empty, IconDeckCheck, IconEdit } from '@box/shared/ui';
 
 import { paths } from '../../paths';
 
@@ -53,9 +48,7 @@ export const CardViewPage = () => {
       <ContentCenteredTemplate>
         <Container>
           <Main>
-            {card && author && (
-              <CardPreview card={card} loading={isLoading} size="large" />
-            )}
+            {card && author && <CardPreview card={card} loading={isLoading} size="large" />}
             {/* TODO: Process "empty" case correctly */}
           </Main>
           <Sidebar>

@@ -1,7 +1,7 @@
-import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { fork } from 'effector';
+import React from 'react';
 import { render } from 'react-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import { Application } from './application';
 

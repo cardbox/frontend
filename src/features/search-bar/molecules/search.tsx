@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import { reflect } from '@effector/reflect/scope';
+
 import { Input } from '@box/shared/ui';
-import { reflect } from '@effector/reflect/ssr';
 
 import * as model from '../models';
 

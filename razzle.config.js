@@ -47,10 +47,7 @@ module.exports = {
       };
     }
 
-    webpackConfig.output.publicPath = webpackConfig.output.publicPath.replace(
-      'http://',
-      '//',
-    );
+    webpackConfig.output.publicPath = webpackConfig.output.publicPath.replace('http://', '//');
     webpackConfig.resolve.alias['@box'] = path.resolve(__dirname, 'src');
     return webpackConfig;
   },

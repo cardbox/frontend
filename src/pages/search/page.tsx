@@ -1,18 +1,20 @@
-import styled from 'styled-components';
+import { useEvent, useStore } from 'effector-react/scope';
 import React, { useEffect } from 'react';
-import { CardList } from '@box/entities/card';
-import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { UserPreviewList, userModel } from '@box/entities/user';
+import styled from 'styled-components';
+
+import { reflect } from '@effector/reflect/scope';
+
+import { CardList } from '@box/entities/card';
 import { historyReplace } from '@box/entities/navigation';
-import { reflect } from '@effector/reflect/ssr';
+import { UserPreviewList, userModel } from '@box/entities/user';
 import { searchModel, useSearchQuery } from '@box/features/search-bar';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 
-import * as model from './model';
 import { paths } from '../paths';
+import * as model from './model';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);

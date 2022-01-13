@@ -1,5 +1,6 @@
-import { Card, internalApi } from '@box/shared/api';
 import { attach, combine, createEvent, createStore, sample } from 'effector';
+
+import { Card, internalApi } from '@box/shared/api';
 
 export const $cardsCache = createStore<{ cache: Record<string, Card> }>({
   cache: {},
@@ -13,10 +14,8 @@ export const $favoritesIds = createStore<string[]>([]);
 
 export const changeFavorites = createEvent<string[]>();
 changeFavorites.watch((list) => console.info('————', list));
-export const $favoritesCards = combine(
-  $favoritesIds,
-  $cardsCache,
-  (ids, { cache }) => ids.map((id) => cache[id] ?? null),
+export const $favoritesCards = combine($favoritesIds, $cardsCache, (ids, { cache }) =>
+  ids.map((id) => cache[id] ?? null),
 );
 
 export const favoritesAdd = createEvent<string>();
@@ -54,14 +53,9 @@ sample({
 $favoritesIds
   .on(changeFavorites, (_, ids) => ids)
   .on(cardsSaveFx.doneData, (ids, { answer }) => [...ids, answer.card.id])
-  .on(cardsUnsaveFx.doneData, (ids, { answer }) =>
-    ids.filter((s) => s !== answer.card.id),
-  );
+  .on(cardsUnsaveFx.doneData, (ids, { answer }) => ids.filter((s) => s !== answer.card.id));
 
-function updateCache<T extends { id: string }>(
-  source: { cache: Record<string, T> },
-  values: T[],
-) {
+function updateCache<T extends { id: string }>(source: { cache: Record<string, T> }, values: T[]) {
   let modified = false;
   values.forEach((value) => {
     if (source.cache[value.id] === value) {

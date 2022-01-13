@@ -1,7 +1,7 @@
 import 'dotenv/config';
-
 import type { FastifyInstance } from 'fastify';
 import type { Server } from 'http';
+
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 

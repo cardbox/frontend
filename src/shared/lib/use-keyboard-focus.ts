@@ -10,9 +10,7 @@ export function useKeyboardFocus() {
   const focusNext = () => {
     if (!containerRef.current) return;
     const children = [...containerRef.current.children];
-    const curFocusIndex = children.findIndex(
-      (el) => el === document.activeElement,
-    );
+    const curFocusIndex = children.findIndex((el) => el === document.activeElement);
     const indexToFocus = curFocusIndex + 1;
     const isIndexIncorrect = indexToFocus >= children.length;
     if (isIndexIncorrect) return;
@@ -23,9 +21,7 @@ export function useKeyboardFocus() {
   const focusPrev = () => {
     if (!containerRef.current) return;
     const children = [...containerRef.current.children];
-    const curFocusIndex = children.findIndex(
-      (el) => el === document.activeElement,
-    );
+    const curFocusIndex = children.findIndex((el) => el === document.activeElement);
     const indexToFocus = curFocusIndex - 1;
     const isIndexIncorrect = indexToFocus < 0;
     if (isIndexIncorrect) return;

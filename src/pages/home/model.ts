@@ -1,10 +1,11 @@
-import { $session } from '@box/entities/session';
-import type { Card } from '@box/shared/api';
 import { attach, combine, createDomain, createStore, sample } from 'effector';
-import { cardModel } from '@box/entities/card';
 import { createHatch } from 'framework';
-import { internalApi } from '@box/shared/api';
+
+import { cardModel } from '@box/entities/card';
+import { $session } from '@box/entities/session';
 import { userModel } from '@box/entities/user';
+import type { Card } from '@box/shared/api';
+import { internalApi } from '@box/shared/api';
 
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
 export const cardsListFx = attach({ effect: internalApi.cardsList });
@@ -26,14 +27,8 @@ sample({
   target: cardsFeedFx,
 });
 
-$topCards.on(
-  cardsFeedFx.doneData,
-  (_, { answer }) => answer.top.cards as Card[],
-);
-$latestCards.on(
-  cardsFeedFx.doneData,
-  (_, { answer }) => answer.latest.cards as Card[],
-);
+$topCards.on(cardsFeedFx.doneData, (_, { answer }) => answer.top.cards as Card[]);
+$latestCards.on(cardsFeedFx.doneData, (_, { answer }) => answer.latest.cards as Card[]);
 
 // FIXME: move logic to entities level?
 sample({

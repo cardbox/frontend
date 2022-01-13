@@ -1,6 +1,6 @@
+import { useEvent, useStore } from 'effector-react/scope';
 import React from 'react';
 import styled from 'styled-components';
-import { useEvent, useStore } from 'effector-react/ssr';
 
 import * as model from '../../model';
 
@@ -12,11 +12,7 @@ export const EditTitle = () => {
   const titleChange = useEvent(model.titleChanged);
 
   return (
-    <Title
-      placeholder="Card name"
-      value={title}
-      onChange={(e) => titleChange(e.target.value)}
-    />
+    <Title placeholder="Card name" value={title} onChange={(e) => titleChange(e.target.value)} />
   );
 };
 

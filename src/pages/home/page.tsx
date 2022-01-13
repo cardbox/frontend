@@ -1,18 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import type { Card, User } from '@box/shared/api';
-import { CardList } from '@box/entities/card';
-import {
-  ContentCenteredTemplate,
-  IconArrowRight,
-  Text,
-  Toast,
-} from '@box/shared/ui';
-import { Helmet } from 'react-helmet-async';
-import { breakpoints } from '@box/shared/lib/breakpoints';
 import { createStore } from 'effector';
+import { useEvent, useStore } from 'effector-react/scope';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import styled from 'styled-components';
+
+import { CardList } from '@box/entities/card';
+import type { Card, User } from '@box/shared/api';
+import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
-import { useEvent, useStore } from 'effector-react/ssr';
+import { ContentCenteredTemplate, IconArrowRight, Text, Toast } from '@box/shared/ui';
 
 export const $pagePending = createStore(false);
 export const $topCards = createStore<Card[]>([]);
@@ -45,9 +41,8 @@ export const HomePage: React.FC = () => {
           <PrimaryText type="h1">Cardbox</PrimaryText>
           <Text type="h1">Storage of all your ideas</Text>
           <HeroText>
-            The purpose of this product is to create a convenient repository of
-            your ideas with the ability to share them with others and keep all
-            the accumulated knowledge up to date.
+            The purpose of this product is to create a convenient repository of your ideas with the
+            ability to share them with others and keep all the accumulated knowledge up to date.
           </HeroText>
         </Hero>
         <Content>
@@ -66,10 +61,7 @@ export const HomePage: React.FC = () => {
             */}
             <Section>
               <SectionTitle type="h2">Latest</SectionTitle>
-              <CardList
-                cards={latestCards}
-                loading={latestCards.length === 0 && isLoading}
-              />
+              <CardList cards={latestCards} loading={latestCards.length === 0 && isLoading} />
             </Section>
             {/* TODO: Process "empty" case correctly */}
           </Main>

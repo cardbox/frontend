@@ -1,16 +1,10 @@
+import { attach, createEffect, createEvent, guard, merge, restore } from 'effector';
+import { performance } from 'perf_hooks';
 import queryString from 'query-string';
-import {
-  attach,
-  createEffect,
-  createEvent,
-  guard,
-  merge,
-  restore,
-} from 'effector';
+
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 import { measurement } from '@box/shared/lib/measure';
-import { performance } from 'perf_hooks';
 
 export interface Request {
   path: string;
@@ -81,27 +75,19 @@ if (env.IS_DEBUG || env.IS_DEV_ENV) {
         `[requestInternal] ${method} ${path} — ${status.toUpperCase()}`,
       );
     } else {
-      logger.warn(
-        `Cannot find measurement for ${method} ${path}. Fx — ${status.toUpperCase()}`,
-      );
+      logger.warn(`Cannot find measurement for ${method} ${path}. Fx — ${status.toUpperCase()}`);
     }
   });
 
-  sendRequestFx.done.watch(
-    ({ params: { path, method }, result: { status } }) => {
-      logger.info({ method, path, status }, `[requestInternal.done]`);
-    },
-  );
+  sendRequestFx.done.watch(({ params: { path, method }, result: { status } }) => {
+    logger.info({ method, path, status }, `[requestInternal.done]`);
+  });
 
-  sendRequestFx.fail.watch(
-    ({ params: { path, method }, error: { status } }) => {
-      logger.info({ method, path, status }, `[requestInternal.fail]`);
-    },
-  );
+  sendRequestFx.fail.watch(({ params: { path, method }, error: { status } }) => {
+    logger.info({ method, path, status }, `[requestInternal.fail]`);
+  });
 }
 
-export function queryToString(
-  query: Record<string, string> | undefined,
-): string {
+export function queryToString(query: Record<string, string> | undefined): string {
   return query ? `?${queryString.stringify(query)}` : '';
 }

@@ -4,11 +4,7 @@ import { Request, queryToString, sendRequestFx } from './base';
 
 sendRequestFx.use(requestClient);
 
-export async function requestClient<Response = unknown>({
-  path,
-  method,
-  ...options
-}: Request) {
+export async function requestClient<Response = unknown>({ path, method, ...options }: Request) {
   const headers = new Headers(options.headers);
   contentDefault(headers, 'application/json; charset=utf-8');
 
