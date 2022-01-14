@@ -6,7 +6,7 @@
   "scripts": {
     "start": "razzle start --noninteractive | pino-pretty -c -l",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "build": "razzle build",
+    "build": "razzle build --noninteractive",
     "test": "razzle test --env=jsdom",
     "format": "prettier --write \"./src/**/**.{ts,tsx,js,jsx,json}\"",
     "api": "openapi && prettier --write ./src/shared/api/internal/index.ts",
