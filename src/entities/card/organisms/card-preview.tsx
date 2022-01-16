@@ -9,7 +9,7 @@ import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
 
 import { cardModel } from '@box/entities/card';
-import { navigationModel } from '@box/entities/navigation';
+import { navigationModel, history } from '@box/entities/navigation';
 import { HighlightText } from '@box/entities/search';
 import { paths } from '@box/pages/paths';
 import type { Card } from '@box/shared/api';
@@ -56,8 +56,14 @@ export const CardPreview = ({ card, loading = false, size = 'small' }: CardPrevi
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection((inNewTab = false) => {
     if (!href) return;
-    if (inNewTab) window.open(href, '_blank');
-    else historyPush(href);
+    if (inNewTab) {
+      window.open(href, '_blank');
+    } else {
+      if (href === history?.location.pathname) {
+        return;
+      }
+      historyPush(href);
+    }
   });
 
   // FIXME: refine size of card pre-detecting
