@@ -1,9 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { Answer, Question } from '@box/shared/api';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { paths } from '@box/pages/paths';
+import * as api from '@box/shared/api';
 import { theme } from '@box/shared/lib/theme';
 
 export const Comments = () => (
@@ -21,10 +22,9 @@ export const Comments = () => (
           resolved
           text={
             <>
-              I'm afraid this is a very simple question. It might be too easy to
-              be asked here, but I can't figure this out on my own and I just
-              want to know. It is about oDataModel and the methods "create" and
-              "update". In Demo Kit I find the interface as follows:
+              I'm afraid this is a very simple question. It might be too easy to be asked here, but
+              I can't figure this out on my own and I just want to know. It is about oDataModel and
+              the methods "create" and "update". In Demo Kit I find the interface as follows:
             </>
           }
           responses={{
@@ -39,10 +39,9 @@ export const Comments = () => (
             title="Artur Bon"
             text={
               <>
-                <Mention>@Esprit</Mention> positif So what are the issues,
-                challenges- potential for improvement? You’ve been through he
-                strengths. Where does it fall short in comparison to other
-                tools? I apologise for sounding a bit crude, but this post read
+                <Mention>@Esprit</Mention> positif So what are the issues, challenges-potential for
+                improvement? You’ve been through he strengths. Where does it fall short in
+                comparison to other tools? I apologise for sounding a bit crude, but this post read
                 like a sales pitch, not a designer’s review.
               </>
             }
@@ -55,10 +54,9 @@ export const Comments = () => (
           when="3 days ago"
           text={
             <>
-              It doesn't seem to be very clear for me, it is suppose to ask for
-              permission to the user but I keep getting the error "Error:
-              NotAllowedError: Permission denied by system". Is it a feature
-              that is on testing
+              It doesn't seem to be very clear for me, it is suppose to ask for permission to the
+              user but I keep getting the error "Error: NotAllowedError: Permission denied by
+              system". Is it a feature that is on testing
             </>
           }
           responses={{
@@ -73,9 +71,9 @@ export const Comments = () => (
           when="week ago"
           text={
             <>
-              ID's are unique for each element and same ID cannot be used on
-              multiple elements. If you really want to do operations using a
-              single block of code to different elements, try using classes
+              ID's are unique for each element and same ID cannot be used on multiple elements. If
+              you really want to do operations using a single block of code to different elements,
+              try using classes
             </>
           }
           responses={{
@@ -115,7 +113,7 @@ const List = styled.div`
   }
 `;
 
-const Question: React.FC<Question> = ({
+const Question: React.FC<api.Question> = ({
   topic,
   author,
   when,
@@ -131,9 +129,7 @@ const Question: React.FC<Question> = ({
       </UserLink>
       <Topic>{topic}</Topic>
       <When>{when}</When>
-      {resolved && (
-        <ResolvedChip data-kind="primary">Question is resolved</ResolvedChip>
-      )}
+      {resolved && <ResolvedChip data-kind="primary">Question is resolved</ResolvedChip>}
     </Heading>
     <Content>
       <Text>{text}</Text>
@@ -142,24 +138,20 @@ const Question: React.FC<Question> = ({
           <AuthorImage key={id} src={`https://i.pravatar.cc/48?u=${id}`} />
         ))}
         <span data-kind="primary">{responses.count} responses</span>
-        <span>
-          {responses.count ? responses.lastResponseAt : 'Write response'}
-        </span>
+        <span>{responses.count ? responses.lastResponseAt : 'Write response'}</span>
       </ResponsesButton>
       {children}
     </Content>
   </QuestionContainer>
 );
 
-const Answer: React.FC<Answer> = ({ author, when, title, text, why }) => (
+const Answer: React.FC<api.Answer> = ({ author, when, title, text, why }) => (
   <AnswerContainer>
     <Heading>
       <AuthorImage src={`https://i.pravatar.cc/72?u=${author.id}`} />
       <Topic>{title}</Topic>
       <When>{when}</When>
-      {why === 'liked' ? (
-        <ResolvedChip>The most liked answer</ResolvedChip>
-      ) : null}
+      {why === 'liked' ? <ResolvedChip>The most liked answer</ResolvedChip> : null}
     </Heading>
     <Content>
       <Text>{text}</Text>
