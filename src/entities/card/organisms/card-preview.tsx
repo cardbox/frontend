@@ -56,8 +56,14 @@ export const CardPreview = ({ card, loading = false, size = 'small' }: CardPrevi
 
   const { handleMouseDown, handleMouseUp, buttonRef } = useMouseSelection((inNewTab = false) => {
     if (!href) return;
-    if (inNewTab) window.open(href, '_blank');
-    else historyPush(href);
+    if (inNewTab) {
+      window.open(href, '_blank');
+    } else {
+      if (size === 'large') {
+        return;
+      }
+      historyPush(href);
+    }
   });
 
   // FIXME: refine size of card pre-detecting
