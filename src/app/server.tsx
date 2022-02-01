@@ -231,7 +231,6 @@ fastifyInstance.register(fastifyCookie);
 
 fastifyInstance.get('/*', async function (req, res) {
   const log = this.log;
-  console.log(req.socket);
   log.info('[REQUEST] %s %s', req.method, req.url);
   const pageContructionTime = measurement('page construction', log.info.bind(log));
   const scope = fork();

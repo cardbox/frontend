@@ -13,7 +13,6 @@ export const cardsUnsaveFx = attach({ effect: internalApi.cardsUnsave });
 export const $favoritesIds = createStore<string[]>([]);
 
 export const changeFavorites = createEvent<string[]>();
-changeFavorites.watch((list) => console.info('————', list));
 export const $favoritesCards = combine($favoritesIds, $cardsCache, (ids, { cache }) =>
   ids.map((id) => cache[id] ?? null),
 );
