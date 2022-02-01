@@ -1,4 +1,5 @@
 import { allSettled, createEvent, fork, forward, sample, serialize } from 'effector';
+import { Provider } from 'effector-react/scope';
 import fastify, { FastifyInstance } from 'fastify';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyCookie from 'fastify-cookie';
@@ -20,6 +21,7 @@ import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
 
 import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
+import { OpenGraphTags } from '@box/entities/opengraph';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
 import { ROUTES } from '@box/pages/routes';
 import {
@@ -148,6 +150,8 @@ function syncLoadAssets() {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 }
 
+const PUBLIC_URL = process.env.PUBLIC_URL;
+
 syncLoadAssets();
 
 function createFastify(): FastifyInstance {
@@ -257,11 +261,16 @@ fastifyInstance.get('/*', async function (req, res) {
   const sheet = new ServerStyleSheet();
   const helmetContext: FilledContext = {} as FilledContext;
 
+  const basePath = PUBLIC_URL ?? `${req.protocol}://${req.hostname}`;
+
   const collectStylesTime = measurement('sheet collects styles', log.info.bind(log));
   const jsx = sheet.collectStyles(
     <HelmetProvider context={helmetContext}>
       <StaticRouter context={routerContext} location={req.url}>
-        <Application root={scope} />
+        <Provider value={scope}>
+          <OpenGraphTags basePath={basePath} />
+          <Application />
+        </Provider>
       </StaticRouter>
     </HelmetProvider>,
   );

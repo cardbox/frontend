@@ -3,6 +3,7 @@ import { createHatch } from 'framework';
 
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
+import { withOpenGraph } from '@box/entities/opengraph';
 import * as sessionModel from '@box/entities/session';
 import { $session } from '@box/entities/session';
 import { paths } from '@box/pages/paths';
@@ -42,6 +43,20 @@ export const $isAuthorViewing = combine(
   sessionModel.$session,
   (card, viewer) => viewer?.id === card?.authorId,
 );
+
+withOpenGraph({
+  hatch,
+  openGraph: $currentCard.map((card) => {
+    if (!card) return null;
+    return {
+      type: 'article',
+      tag: card.tags as string[],
+      description: card.summary ?? '',
+      title: card.title,
+      path: paths.cardView(card.id),
+    };
+  }),
+});
 
 sample({
   clock: [hatch.enter, hatch.update],

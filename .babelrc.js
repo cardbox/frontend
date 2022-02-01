@@ -10,7 +10,7 @@ module.exports = (api) => {
           addLoc: debug,
           addNames: debug,
           debugSids: debug,
-          factories: [],
+          factories: ['src/entities/opengraph', '@box/entities/opengraph'],
         },
       ],
       // debug && [

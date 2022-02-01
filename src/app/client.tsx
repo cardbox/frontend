@@ -1,4 +1,5 @@
 import { allSettled, createEvent, createStore, fork, forward, guard, sample } from 'effector';
+import { Provider } from 'effector-react/scope';
 import { HatchParams, getHatch } from 'framework';
 import { splitMap } from 'patronum/split-map';
 import React from 'react';
@@ -135,7 +136,9 @@ allSettled(ready, { scope }).then(() => {
   ReactDOM.hydrate(
     <HelmetProvider>
       <Router history={history!}>
-        <Application root={scope} />
+        <Provider value={scope}>
+          <Application />
+        </Provider>
       </Router>
     </HelmetProvider>,
     document.querySelector('#root'),

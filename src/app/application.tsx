@@ -1,7 +1,5 @@
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Scope } from 'effector';
-import { Provider } from 'effector-react/scope';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Route } from 'react-router';
@@ -22,12 +20,6 @@ import './application.css';
 
 dayjs.extend(relativeTime);
 
-// FIXME: replace later to usage of entities/viewer
-
-interface Props {
-  root: Scope;
-}
-
 const Globals = createGlobalStyle`
   html {
     font-size: 16px;
@@ -43,6 +35,7 @@ const Globals = createGlobalStyle`
     padding: 0;
     font-family: 'TT Hoves', sans-serif;
   }
+
   * {
     box-sizing: border-box;
   }
@@ -51,34 +44,32 @@ const Globals = createGlobalStyle`
   ${customProps}
 `;
 
-export const Application = ({ root }: Props) => (
+export const Application = () => (
   <QueryParamProvider ReactRouterRoute={Route}>
-    <Provider value={root}>
-      <Container>
-        <Helmet
-          htmlAttributes={{ lang: 'en' }}
-          titleTemplate="%s | Cardbox"
-          defaultTitle="Welcome to Cardbox"
-        >
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Helmet>
-        <Globals />
-        <EditorGlobalStyles />
-        <ShowOnly when="authorized">
-          <Searchbar />
-          <PagesContainer>
-            <PagesContent>
-              <Pages />
-            </PagesContent>
-          </PagesContainer>
-        </ShowOnly>
-        <ShowOnly when="anonymous">
-          <InvitePage />
-        </ShowOnly>
-      </Container>
-    </Provider>
+    <Container>
+      <Helmet
+        htmlAttributes={{ lang: 'en' }}
+        titleTemplate="%s | Cardbox"
+        defaultTitle="Welcome to Cardbox"
+      >
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
+      <Globals />
+      <EditorGlobalStyles />
+      <ShowOnly when="authorized">
+        <Searchbar />
+        <PagesContainer>
+          <PagesContent>
+            <Pages />
+          </PagesContent>
+        </PagesContainer>
+      </ShowOnly>
+      <ShowOnly when="anonymous">
+        <InvitePage />
+      </ShowOnly>
+    </Container>
   </QueryParamProvider>
 );
 
