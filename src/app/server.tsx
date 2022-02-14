@@ -227,7 +227,7 @@ fastifyInstance.register(fastifyHttpProxy, {
 });
 
 fastifyInstance.register(fastifyStatic, {
-  root: env.RAZZLE_PUBLIC_DIR,
+  root: path.resolve(env.RAZZLE_PUBLIC_DIR),
   wildcard: false,
 });
 
