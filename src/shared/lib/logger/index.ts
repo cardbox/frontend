@@ -1,19 +1,15 @@
 import * as path from 'path';
-import P, { pino } from 'pino';
+import Pino, { pino } from 'pino';
 
 import { env } from '@box/shared/config';
 
-import Logger = P.Logger;
-
-let serverLogger: Logger;
-let clientLogger: Logger;
+let serverLogger: Pino.Logger = global.console as any;
+let clientLogger: Pino.Logger;
 
 function createOrInitLogger() {
-  const isClient = typeof window !== 'undefined';
-
-  if (isClient) {
+  if (process.env.BUILD_TARGET === 'client') {
     if (typeof clientLogger === 'undefined') {
-      clientLogger = P();
+      clientLogger = Pino();
     }
     return clientLogger;
   }

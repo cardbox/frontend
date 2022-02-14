@@ -30,7 +30,7 @@ WORKDIR /app
 
 COPY --from=build /app/package.json /app/yarn.lock ./
 RUN yarn install --production
-COPY ./worker ./worker
+COPY ./worker /app/worker
 COPY --from=build /app/build ./build
 
 EXPOSE 3000

@@ -49,7 +49,7 @@
     "miragejs": "^0.1.41",
     "node-fetch": "^2.6.1",
     "patronum": "^1.1.0",
-    "pino": "^7.0.0-rc.2",
+    "pino": "^7.6.5",
     "query-string": "^6.13.1",
     "razzle-plugin-svg-react-component": "^2.0.0",
     "react": "^16.8.6",
