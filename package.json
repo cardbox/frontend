@@ -33,7 +33,7 @@
     "@opentelemetry/semantic-conventions": "^1.0.0",
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
-    "cross-fetch": "^3.0.4",
+    "cross-fetch": "^3.1.5",
     "dayjs": "^1.10.5",
     "dotenv": "^8.2.0",
     "effector": "^22.1.2",
