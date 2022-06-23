@@ -44,7 +44,7 @@
     "fastify-http-proxy": "^6.2.0",
     "fastify-static": "^4.2.3",
     "framework": "^0.5.0",
-    "got": "^11.8.2",
+    "got": "^11.8.5",
     "got-fetch": "^4.0.0",
     "miragejs": "^0.1.41",
     "node-fetch": "^2.6.1",
