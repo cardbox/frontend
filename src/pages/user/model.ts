@@ -4,7 +4,8 @@ import { some } from 'patronum';
 
 import { cardModel } from '@box/entities/card';
 import { $session } from '@box/entities/session';
-import { User, internalApi } from '@box/shared/api';
+
+import { internalApi, User } from '@box/shared/api';
 
 export const hatch = createHatch(createDomain('UserViewPage'));
 

@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
-import { Avatar, Button, ContentCenteredTemplate, Skeleton, iconUserBg } from '@box/shared/ui';
+import { Avatar, Button, ContentCenteredTemplate, iconUserBg, Skeleton } from '@box/shared/ui';
 
 export const SkeletonLayout = () => {
   return (

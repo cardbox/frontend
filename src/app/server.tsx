@@ -1,3 +1,7 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 import { allSettled, createEvent, fork, forward, sample, serialize } from 'effector';
 import { Provider } from 'effector-react/scope';
 import fastify, { FastifyInstance } from 'fastify';
@@ -6,13 +10,9 @@ import fastifyCookie from 'fastify-cookie';
 import fastifyHttpProxy from 'fastify-http-proxy';
 import fastifyStatic from 'fastify-static';
 import { RouteGenericInterface } from 'fastify/types/route';
-import { HatchParams, getHatch } from 'framework';
-import * as fs from 'fs';
+import { getHatch, HatchParams } from 'framework';
 import type { Server } from 'http';
-import * as path from 'path';
 import { splitMap } from 'patronum/split-map';
-import * as React from 'react';
-import * as ReactDOMServer from 'react-dom/server';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { matchRoutes } from 'react-router-config';
 import { StaticRouter } from 'react-router-dom';
@@ -20,10 +20,12 @@ import { resetIdCounter } from 'react-tabs';
 import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
 
+import { ROUTES } from '@box/pages/routes';
+
 import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
 import { OpenGraphTags } from '@box/entities/opengraph';
 import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
-import { ROUTES } from '@box/pages/routes';
+
 import {
   $cookiesForRequest,
   $cookiesFromResponse,

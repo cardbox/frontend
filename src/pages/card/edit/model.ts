@@ -1,10 +1,13 @@
 import { attach, createDomain, createEvent, createStore, guard, merge, sample } from 'effector';
 import { createHatch } from 'framework';
 
-import { historyPush } from '@box/entities/navigation';
-import * as sessionModel from '@box/entities/session';
-import { cardDraftModel } from '@box/features/card/draft';
 import { paths } from '@box/pages/paths';
+
+import { cardDraftModel } from '@box/features/card/draft';
+
+import * as sessionModel from '@box/entities/session';
+import { historyPush } from '@box/entities/navigation';
+
 import { Card, internalApi } from '@box/shared/api';
 
 export const hatch = createHatch(createDomain('CardEditPage'));

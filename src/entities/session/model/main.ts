@@ -1,18 +1,20 @@
 import {
-  Event,
-  Unit,
   combine,
   createEffect,
   createEvent,
   createStore,
+  Event,
   forward,
   guard,
   sample,
+  Unit,
 } from 'effector';
 import { condition } from 'patronum';
 
-import { historyPush } from '@box/entities/navigation';
 import { paths } from '@box/pages/paths';
+
+import { historyPush } from '@box/entities/navigation';
+
 import type { SessionUser } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
 

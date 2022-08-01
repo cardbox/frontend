@@ -1,8 +1,7 @@
+import { reflect } from '@effector/reflect/ssr';
 import { combine } from 'effector';
 import React, { ChangeEvent, FC, FormEventHandler, KeyboardEventHandler } from 'react';
 import styled from 'styled-components';
-
-import { reflect } from '@effector/reflect/ssr';
 
 import { theme } from '@box/shared/lib/theme';
 import { todo } from '@box/shared/lib/todo';

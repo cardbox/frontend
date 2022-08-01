@@ -1,3 +1,5 @@
+import { Editor, useExtendedEditor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
 import dayjs from 'dayjs';
 import 'dayjs/plugin/relativeTime';
 import { useEvent, useStoreMap } from 'effector-react/scope';
@@ -5,13 +7,12 @@ import React, { forwardRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Editor, useExtendedEditor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
+import { paths } from '@box/pages/paths';
 
 import { cardModel } from '@box/entities/card';
 import { navigationModel } from '@box/entities/navigation';
 import { HighlightText } from '@box/entities/search';
-import { paths } from '@box/pages/paths';
+
 import type { Card } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';

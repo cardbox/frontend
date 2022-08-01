@@ -1,9 +1,11 @@
 import { attach, combine, createDomain, createEvent, sample } from 'effector';
 import { createHatch } from 'framework';
 
+import { searchModel } from '@box/features/search-bar';
+
 import { cardModel } from '@box/entities/card';
 import { $session } from '@box/entities/session';
-import { searchModel } from '@box/features/search-bar';
+
 import { internalApi } from '@box/shared/api';
 
 export const cardsListFx = attach({ effect: internalApi.cardsList });

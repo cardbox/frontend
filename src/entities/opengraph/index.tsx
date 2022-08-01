@@ -1,4 +1,4 @@
-import { createStore, createEvent, Store, sample, guard } from 'effector';
+import { createEvent, createStore, guard, sample, Store } from 'effector';
 import { useStore } from 'effector-react/scope';
 import { Hatch } from 'framework';
 import React from 'react';

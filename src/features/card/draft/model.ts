@@ -1,10 +1,10 @@
-import { StoreValue, combine, createDomain, createEvent, guard } from 'effector';
+import { combine, createDomain, createEvent, guard, StoreValue } from 'effector';
 import { every } from 'patronum/every';
 import { spread } from 'patronum/spread';
 
+import * as editorLib from '@box/shared/lib/editor';
 import type { Card, CardContent } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
-import * as editorLib from '@box/shared/lib/editor';
 import { isNonEmpty } from '@box/shared/lib/fp';
 
 export const titleChanged = createEvent<string>();

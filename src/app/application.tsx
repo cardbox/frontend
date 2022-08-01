@@ -1,17 +1,20 @@
 import * as dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import * as React from 'react';
+import { EditorGlobalStyles } from '@cardbox/editor';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { Helmet } from 'react-helmet-async';
 import { Route } from 'react-router';
 import styled, { createGlobalStyle } from 'styled-components';
 import { QueryParamProvider } from 'use-query-params';
 
-import { EditorGlobalStyles } from '@cardbox/editor';
-
 import { globalFonts } from '@box/app/styles/global-fonts';
-import { ShowOnly } from '@box/entities/session';
-import { Searchbar } from '@box/features/search-bar';
+
 import { InvitePage } from '@box/pages/invite';
+
+import { Searchbar } from '@box/features/search-bar';
+
+import { ShowOnly } from '@box/entities/session';
+
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 

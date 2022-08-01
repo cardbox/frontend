@@ -3,14 +3,16 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { SessionPanel, ShowOnly } from '@box/entities/session';
 import { paths } from '@box/pages/paths';
+
+import { SessionPanel, ShowOnly } from '@box/entities/session';
+
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
 
-import { useSearchQuery } from '../lib';
 import * as model from '../models';
+import { useSearchQuery } from '../lib';
 import { Search } from '../molecules';
 
 export const Searchbar: React.FC = () => {

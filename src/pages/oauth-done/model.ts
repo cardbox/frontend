@@ -3,6 +3,7 @@ import { createHatch } from 'framework';
 
 import { historyPush } from '@box/entities/navigation';
 import { $session } from '@box/entities/session';
+
 import { internalApi } from '@box/shared/api';
 
 const DEFAULT_REDIRECT_STATE = '/';

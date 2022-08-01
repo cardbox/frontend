@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { CardPreview } from '@box/entities/card';
 import { UserCard } from '@box/entities/user';
+
 import { Card, User } from '@box/shared/api/index';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { paths } from '@box/pages/paths';
+
 import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { breakpoints } from '@box/shared/lib/breakpoints';

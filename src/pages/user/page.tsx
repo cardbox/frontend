@@ -1,13 +1,13 @@
+import { variant } from '@effector/reflect/ssr';
 import { createStore } from 'effector';
 import { useStore } from 'effector-react/scope';
 import React, { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
-import { variant } from '@effector/reflect/ssr';
-
 import { CardList, cardModel } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';
 import { userLib } from '@box/entities/user';
+
 import { Card, User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { breakpoints } from '@box/shared/lib/breakpoints';
@@ -18,9 +18,9 @@ import {
   ContentCenteredTemplate,
   Empty,
   IconEdit,
+  iconUserBg,
   Tab,
   Tabs,
-  iconUserBg,
 } from '@box/shared/ui';
 
 import { SkeletonLayout } from './skeleton';

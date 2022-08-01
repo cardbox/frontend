@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { SignInButton } from '@box/entities/session';
+
 import { Text } from '@box/shared/ui';
 import { CardboxLogo } from '@box/shared/ui/atoms/cardbox-logo';
 

@@ -1,7 +1,6 @@
+import { reflect } from '@effector/reflect/ssr';
 import React from 'react';
 import styled from 'styled-components';
-
-import { reflect } from '@effector/reflect/ssr';
 
 import { Input } from '@box/shared/ui';
 

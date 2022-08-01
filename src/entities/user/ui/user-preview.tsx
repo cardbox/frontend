@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { HighlightText } from '@box/entities/search';
+
 import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { plural } from '@box/shared/lib/plural';

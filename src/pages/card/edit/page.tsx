@@ -1,13 +1,14 @@
+import { variant } from '@effector/reflect/ssr';
 import { createStore } from 'effector';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { variant } from '@effector/reflect/ssr';
+import { paths } from '@box/pages/paths';
 
 import { CardDraft } from '@box/features/card/draft';
-import { paths } from '@box/pages/paths';
+
 import { theme } from '@box/shared/lib/theme';
 import { ContentCenteredTemplate, Empty } from '@box/shared/ui';
 

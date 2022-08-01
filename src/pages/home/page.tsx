@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 
 import { CardList } from '@box/entities/card';
+
 import type { Card, User } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';

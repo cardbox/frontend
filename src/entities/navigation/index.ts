@@ -1,4 +1,4 @@
-import { Scope, createEvent, createStore, merge, scopeBind } from 'effector';
+import { createEvent, createStore, merge, Scope, scopeBind } from 'effector';
 import { createBrowserHistory } from 'history';
 
 import { env } from '@box/shared/config';

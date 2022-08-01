@@ -1,12 +1,14 @@
 import { attach, combine, createDomain, createEvent, createStore, guard, sample } from 'effector';
 import { createHatch } from 'framework';
 
+import { paths } from '@box/pages/paths';
+
+import * as sessionModel from '@box/entities/session';
 import { cardModel } from '@box/entities/card';
 import { historyPush } from '@box/entities/navigation';
 import { withOpenGraph } from '@box/entities/opengraph';
-import * as sessionModel from '@box/entities/session';
 import { $session } from '@box/entities/session';
-import { paths } from '@box/pages/paths';
+
 import type { Card, User } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
 

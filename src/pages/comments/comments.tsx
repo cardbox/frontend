@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { paths } from '@box/pages/paths';
+
 import * as api from '@box/shared/api';
 import { theme } from '@box/shared/lib/theme';
 

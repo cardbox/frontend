@@ -1,9 +1,8 @@
+import { Editor, useExtendedEditor } from '@cardbox/editor';
+import type { EditorValue } from '@cardbox/editor';
 import { useEvent, useStore } from 'effector-react/scope';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-
-import { Editor, useExtendedEditor } from '@cardbox/editor';
-import type { EditorValue } from '@cardbox/editor';
 
 import * as model from '../../model';
 

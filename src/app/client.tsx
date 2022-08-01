@@ -1,6 +1,6 @@
 import { allSettled, createEvent, createStore, fork, forward, guard, sample } from 'effector';
 import { Provider } from 'effector-react/scope';
-import { HatchParams, getHatch } from 'framework';
+import { getHatch, HatchParams } from 'framework';
 import { splitMap } from 'patronum/split-map';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,8 +8,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router';
 import { matchRoutes } from 'react-router-config';
 
-import { history, historyChanged, initializeClientHistory } from '@box/entities/navigation';
 import { ROUTES } from '@box/pages/routes';
+
+import { history, historyChanged, initializeClientHistory } from '@box/entities/navigation';
 
 import { Application } from './application';
 

@@ -3,7 +3,7 @@ import fetch, { Headers } from 'node-fetch';
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 
-import { Request, queryToString, sendRequestFx } from './base';
+import { queryToString, Request, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
 

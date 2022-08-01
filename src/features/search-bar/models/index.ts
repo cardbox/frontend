@@ -2,10 +2,12 @@ import { attach, createEffect, createEvent, createStore, guard, restore, sample 
 import { debounce } from 'patronum/debounce';
 import { ChangeEvent } from 'react';
 
+import { paths } from '@box/pages/paths';
+
 import { historyPush } from '@box/entities/navigation';
 import { userModel } from '@box/entities/user';
-import { paths } from '@box/pages/paths';
-import { Card, User, internalApi } from '@box/shared/api';
+
+import { Card, internalApi, User } from '@box/shared/api';
 
 export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 

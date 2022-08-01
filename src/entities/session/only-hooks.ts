@@ -1,4 +1,4 @@
-import { Effect, Event, Store, createEvent, guard } from 'effector';
+import { createEvent, Effect, Event, guard, Store } from 'effector';
 
 import { $isAuthenticated } from '@box/entities/session/model';
 

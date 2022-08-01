@@ -1,8 +1,8 @@
 // Do not forget to rename import at .babelrc.js
 // In effector/babel-plugin — page-routing section
-import { Event, createEvent } from 'effector';
-import { useEvent } from 'effector-react/scope';
 import * as React from 'react';
+import { createEvent, Event } from 'effector';
+import { useEvent } from 'effector-react/scope';
 import { useLocation, useParams } from 'react-router';
 
 const START = `☄️/start-event`;

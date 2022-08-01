@@ -1,13 +1,14 @@
+import Tippy from '@tippyjs/react';
 import { useStore } from 'effector-react/scope';
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Instance } from 'tippy.js';
 
-import Tippy from '@tippyjs/react';
+import { paths } from '@box/pages/paths';
 
 import { historyPush } from '@box/entities/navigation';
 import { getFullName } from '@box/entities/user/lib';
-import { paths } from '@box/pages/paths';
+
 import { imgLogo } from '@box/shared/assets';
 import { Avatar } from '@box/shared/ui';
 

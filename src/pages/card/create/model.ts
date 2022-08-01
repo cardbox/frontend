@@ -1,10 +1,13 @@
 import { attach, createDomain, guard, sample } from 'effector';
 import { createHatch } from 'framework';
 
+import { paths } from '@box/pages/paths';
+
+import { cardDraftModel } from '@box/features/card/draft';
+
 import { historyPush } from '@box/entities/navigation';
 import { filterAnonymous, filterAuthenticated } from '@box/entities/session';
-import { cardDraftModel } from '@box/features/card/draft';
-import { paths } from '@box/pages/paths';
+
 import { internalApi } from '@box/shared/api';
 
 export const hatch = createHatch(createDomain('CardCreatePage'));
