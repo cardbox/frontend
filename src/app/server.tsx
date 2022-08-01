@@ -67,9 +67,9 @@ const { routeResolved, __: routeNotResolved } = splitMap({
   },
 });
 
-routeResolved.watch((match) => {
-  logger.trace(match, `Route resolved`);
-});
+// routeResolved.watch((match) => {
+//   logger.trace(match, `Route resolved`);
+// });
 
 routeNotResolved.watch((req) => {
   logger.fatal({ url: req.url, query: req.query }, `Not found route for this path`);
@@ -116,9 +116,9 @@ for (const { component, path, exact } of ROUTES) {
     },
   });
 
-  routeMatched.watch((match) => {
-    logger.trace(match, `Route matched for "${path}"`);
-  });
+  // routeMatched.watch((match) => {
+  //   logger.trace(match, `Route matched for "${path}"`);
+  // });
 
   forward({
     from: routeMatched,
