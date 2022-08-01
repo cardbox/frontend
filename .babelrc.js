@@ -41,6 +41,6 @@ module.exports = (api) => {
         'framework',
       ],
     ].filter(Boolean),
-    presets: [],
+    presets: ['patronum/babel-preset'],
   };
 };
