@@ -5886,14 +5886,16 @@ effector-openapi-preset@^0.3.3:
     change-case "^4.1.1"
 
 effector-react@^22.0.6:
-  version "22.0.6"
-  resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-22.0.6.tgz#e6651febfc124a8adf550deb950fbd03dfb9ec4e"
-  integrity sha512-uzVjrh5S94eMeihu8N8eQvLFnZA56VT00etMVovnSyZxujo0f8gtZZebIYOKyYFkGcYUyfiOHRRzBhYpIfAIhg==
+  version "22.1.6"
+  resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-22.1.6.tgz#51d68c23dc62aebf964da5e641a14831d7aa927d"
+  integrity sha512-1+kjtjX62tm3upJBQvsFGm6Sp+5po8j1OEWmkllSw4e8Kg1XampD5gqSRlGt9s9iJxtNl1oZoDiTxKyF5EoKtw==
+  dependencies:
+    use-sync-external-store "^1.0.0"
 
 effector@^22.1.2:
-  version "22.1.2"
-  resolved "https://registry.yarnpkg.com/effector/-/effector-22.1.2.tgz#5edf2aea4d6b5ae932a2a9c75312804c50e3fe55"
-  integrity sha512-myJlmwZbaoNV5YYaRmM4QhAQeUqpbnmmUXZkACzuhV/2z49qCByC4DT62hghHpGz6Knr/sbB4sAAZ8VJCUYy2g==
+  version "22.3.0"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-22.3.0.tgz#c743dd7d934ec3f9a2efac76a563cd0281bc4201"
+  integrity sha512-Nh7IXn8U4emq8YtAZf2+y2Rs6n4W/gjPaNZpZLFOXOIAsRZSNBFjtK1vHTWNKxxmNFZOaZN6XUXdT8FDs0mAdQ==
 
 electron-to-chromium@^1.3.341:
   version "1.4.46"
@@ -11091,9 +11093,9 @@ path-type@^4.0.0:
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
 patronum@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.1.0.tgz#6c56f334bfff46042a597cf68deb1540e8134949"
-  integrity sha512-YSbGQUbLxTO8m4FeXEwg/Xq0h3ka9S3+WvTANHGlNqo+2gPpglex32xh2dzC7ZP0likG/gHQNEOZokNV1nS7HA==
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.9.0.tgz#d30ad231b708a675e66237b94bbd117e76cc1803"
+  integrity sha512-+uaVUFiHCkIvCf7CfM2+bUkqfVcYGdQjgRsbj/+fcw0J5QSdJREMqLfr8ALRkS5DMw1F7B2EJStFZ5xx7Ubv3g==
 
 pause-stream@0.0.11:
   version "0.0.11"
@@ -14527,6 +14529,11 @@ use-query-params@^1.2.2:
   integrity sha512-cdG0tgbzK+FzsV6DAt2CN8Saa3WpRnze7uC4Rdh7l15epSFq7egmcB/zuREvPNwO5Yk80nUpDZpiyHsoq50d8w==
   dependencies:
     serialize-query-params "^1.3.5"
+
+use-sync-external-store@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 use@^3.1.0:
   version "3.1.1"

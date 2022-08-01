@@ -5,11 +5,11 @@ import {
   createStore,
   Event,
   forward,
-  guard,
   sample,
+  Store,
   Unit,
 } from 'effector';
-import { condition } from 'patronum';
+import { and, condition, equals, not } from 'patronum';
 
 import { paths } from '@box/pages/paths';
 
@@ -17,10 +17,11 @@ import { historyPush } from '@box/entities/navigation';
 
 import type { SessionUser } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
+import { $cookiesForRequest } from '@box/shared/api/request';
 
 export const readyToLoadSession = createEvent<void>();
 
-export const sessionLoaded = internalApi.sessionGet.finally;
+export const sessionLoaded = createEvent<void>();
 
 export const $session = createStore<SessionUser | null>(null);
 
@@ -59,10 +60,23 @@ $session
   })
   .on(internalApi.sessionDelete.done, () => null);
 
-guard({
-  source: readyToLoadSession,
-  filter: $sessionPending.map((is) => !is),
+const $cookiesEmpty = equals(trim($cookiesForRequest), '');
+
+sample({
+  clock: readyToLoadSession,
+  filter: and(not($sessionPending), not($cookiesEmpty)),
   target: internalApi.sessionGet.prepend(() => ({})),
+});
+
+sample({
+  clock: internalApi.sessionGet.finally,
+  target: sessionLoaded,
+});
+
+sample({
+  clock: readyToLoadSession,
+  filter: $cookiesEmpty,
+  target: sessionLoaded,
 });
 
 export function checkAuthenticated<T>(config: {
@@ -90,7 +104,7 @@ export function checkAuthenticated<T>(config: {
     else: authenticatedCheck,
   });
 
-  guard({
+  sample({
     source: authenticatedCheck,
     filter: $isAuthenticated.map((is) => !is),
     target: stopLogic.prepend(noop),
@@ -142,13 +156,13 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
     else: authenticatedCheck,
   });
 
-  guard({
+  sample({
     source: authenticatedCheck,
     filter: $isAuthenticated,
     target: historyPush.prepend(paths.home),
   });
 
-  // Used as guard event
+  // Used as sample event
   const continueTrigger = createEvent();
   sample({
     source: config.when,
@@ -172,3 +186,7 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
 }
 
 function noop(): void {}
+
+function trim(source: Store<string>): Store<string> {
+  return source.map((string) => string.trim());
+}

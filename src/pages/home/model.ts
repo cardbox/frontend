@@ -2,7 +2,7 @@ import { attach, combine, createDomain, createStore, sample } from 'effector';
 import { createHatch } from 'framework';
 
 import { cardModel } from '@box/entities/card';
-import { $session } from '@box/entities/session';
+import { $session, filterAuthenticated } from '@box/entities/session';
 import { userModel } from '@box/entities/user';
 
 import type { Card } from '@box/shared/api';
@@ -11,6 +11,7 @@ import { internalApi } from '@box/shared/api';
 export const cardsFeedFx = attach({ effect: internalApi.cardsFeed });
 export const cardsListFx = attach({ effect: internalApi.cardsList });
 export const hatch = createHatch(createDomain('HomePage'));
+const authenticatedEnter = filterAuthenticated(hatch.enter);
 
 // FIXME: move to entities/card level later? (as cache store?)
 export const $topCards = createStore<Card[]>([]);
@@ -24,7 +25,7 @@ export const $pagePending = combine(
 );
 
 sample({
-  source: hatch.enter,
+  source: authenticatedEnter,
   target: cardsFeedFx,
 });
 
@@ -41,7 +42,7 @@ sample({
 // @TODO Will be deleted after BOX-250
 const favoritesCtxLoaded = sample({
   source: $session,
-  clock: hatch.enter,
+  clock: authenticatedEnter,
   fn: (user) => ({
     body: { authorId: user?.id, favorites: true },
   }),
