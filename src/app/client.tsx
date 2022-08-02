@@ -3,7 +3,7 @@ import { Provider } from 'effector-react/scope';
 import { getHatch, HatchParams } from 'framework';
 import { splitMap } from 'patronum/split-map';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router';
 import { matchRoutes } from 'react-router-config';
@@ -13,15 +13,6 @@ import { ROUTES } from '@box/pages/routes';
 import { history, historyChanged, initializeClientHistory } from '@box/entities/navigation';
 
 import { Application } from './application';
-
-// import { runMockServer } from '../shared/api/mock';
-
-/**
- * Run mock-api server for frontend
- * @see https://miragejs.com/quickstarts/react/develop-an-app/
- * @see https://miragejs.com/quickstarts/nextjs/develop-an-app/
- */
-// runMockServer();
 
 const ready = createEvent();
 
@@ -133,25 +124,21 @@ const scope = fork({ values: INITIAL_STATE });
 
 initializeClientHistory(scope);
 
-allSettled(ready, { scope }).then(() => {
-  ReactDOM.hydrate(
+const root = createRoot(document.querySelector('#root')!);
+
+allSettled(ready, { scope }).then(() =>
+  root.render(
     <HelmetProvider>
+      {/* @ts-ignore */}
       <Router history={history!}>
         <Provider value={scope}>
           <Application />
         </Provider>
       </Router>
     </HelmetProvider>,
-    document.querySelector('#root'),
-  );
-});
+  ),
+);
 
 if (module.hot) {
   module.hot.accept();
 }
-
-// FIXME: later will be fixed by local-auth (BOX-205)
-// Uncomment for passing auth token
-// document.cookie = `session-token=${
-//   process.env.RAZZLE_SESSION_TOKEN || ''
-// }; Path=/;`;

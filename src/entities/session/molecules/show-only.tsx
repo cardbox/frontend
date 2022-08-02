@@ -5,6 +5,7 @@ import { $isAuthenticated } from '../model';
 
 interface Props {
   when: 'authorized' | 'anonymous';
+  children?: React.ReactNode;
 }
 
 export const ShowOnly: React.FC<Props> = ({ when, children }) => {

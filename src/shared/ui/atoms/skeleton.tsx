@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { theme } from '@box/shared/lib/theme';
 
 interface SkeletonProps {
-  // Для базовых кастомизаций (например для высоты)
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
 
 export const Skeleton: React.FC<SkeletonProps> = ({ children, style }) => {

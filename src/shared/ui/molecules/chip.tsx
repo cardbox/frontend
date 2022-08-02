@@ -9,6 +9,7 @@ import { IconClose } from '../icons';
 interface ChipProps {
   label: string;
   onRemove: () => void;
+  children?: React.ReactNode;
 }
 export const Chip: React.FC<ChipProps> = ({ onRemove, label }) => {
   return (

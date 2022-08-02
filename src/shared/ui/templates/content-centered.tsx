@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { breakpoints } from '@box/shared/lib/breakpoints';
 
-export const ContentCenteredTemplate: React.FC = ({ children }) => (
+export const ContentCenteredTemplate: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
   <Container>
     <Content>{children}</Content>
   </Container>

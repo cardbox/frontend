@@ -1,7 +1,7 @@
 import { variant } from '@effector/reflect/ssr';
 import { createStore } from 'effector';
 import { useStore } from 'effector-react/scope';
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 import { CardList, cardModel } from '@box/entities/card';
@@ -61,10 +61,12 @@ const UserPageContentComponent = () => {
       <UserHeader>
         <UserFace>
           <UserFaceContent>
-            <UserFaceName>{fullName}</UserFaceName>
-            {work && <UserFacePosition>{work}</UserFacePosition>}
-            <UserLocation>Saint-Petersburg, Russia</UserLocation>
-            {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
+            <>
+              <UserFaceName>{fullName}</UserFaceName>
+              {work && <UserFacePosition>{work}</UserFacePosition>}
+              <UserLocation>Saint-Petersburg, Russia</UserLocation>
+              {bio && <UserFaceDescription>{bio}</UserFaceDescription>}
+            </>
           </UserFaceContent>
         </UserFace>
         <UserSocial>

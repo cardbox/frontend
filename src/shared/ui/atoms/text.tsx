@@ -8,6 +8,7 @@ interface TextProps {
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
   className?: string;
   title?: string;
+  children?: React.ReactNode;
 }
 export const Text: React.FC<TextProps> = ({ children, type, className, title, ...props }) => (
   <TextStyled data-type={type} as={type} className={className} title={title} {...props}>

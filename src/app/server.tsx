@@ -16,7 +16,6 @@ import { splitMap } from 'patronum/split-map';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { matchRoutes } from 'react-router-config';
 import { StaticRouter } from 'react-router-dom';
-import { resetIdCounter } from 'react-tabs';
 import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
 
@@ -268,6 +267,7 @@ fastifyInstance.get('/*', async function (req, res) {
   const collectStylesTime = measurement('sheet collects styles', log.info.bind(log));
   const jsx = sheet.collectStyles(
     <HelmetProvider context={helmetContext}>
+      {/* @ts-ignore */}
       <StaticRouter context={routerContext} location={req.url}>
         <Provider value={scope}>
           <OpenGraphTags basePath={basePath} />
@@ -294,7 +294,6 @@ fastifyInstance.get('/*', async function (req, res) {
 
   const renderTime = measurement('react dom server render to stream', log.info.bind(log));
 
-  resetIdCounter();
   const stream = sheet.interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx)).pipe(
     through(
       function write(data) {

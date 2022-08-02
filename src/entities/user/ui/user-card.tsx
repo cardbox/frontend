@@ -29,11 +29,13 @@ export const UserCard: React.FC<Props> = ({ user }) => {
   return (
     <Container>
       <Content>
-        <Name>
-          {href && <TitleLink to={href}>{fullName}</TitleLink>}
-          {!href && fullName}
-        </Name>
-        {work && <Role>{work}</Role>}
+        <>
+          <Name>
+            {href && <TitleLink to={href}>{fullName}</TitleLink>}
+            {!href && fullName}
+          </Name>
+          {work && <Role>{work}</Role>}
+        </>
       </Content>
       <Avatar src={avatar || imgLogo} />
     </Container>

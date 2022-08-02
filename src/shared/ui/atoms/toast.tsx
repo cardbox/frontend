@@ -6,6 +6,7 @@ import { theme } from '@box/shared/lib/theme';
 
 interface Props {
   extra?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Toast: React.FC<Props> = ({ extra, children }) => {

@@ -82,6 +82,7 @@ const Viewer = () => {
           <Name>{getFullName(viewer)}</Name>
         </NameWrapper>
       </Tippy>
+      {/* @ts-ignore */}
       <MenuStyles />
     </User>
   );

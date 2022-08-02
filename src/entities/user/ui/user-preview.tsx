@@ -20,12 +20,14 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref, cardsC
   return (
     <PaperContainerStyled>
       <Header>
-        {bio && (
-          <Content username={username} userHref={userHref}>
-            {bio}
-          </Content>
-        )}
-        <Avatar src={avatar || imgLogo} />
+        <>
+          {bio && (
+            <Content username={username} userHref={userHref}>
+              {bio}
+            </Content>
+          )}
+          <Avatar src={avatar || imgLogo} />
+        </>
       </Header>
 
       {cardsCount && <Meta cardsCount={cardsCount} />}
@@ -33,7 +35,8 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref, cardsC
   );
 };
 
-type ContentProps = Pick<UserPreviewProps, 'userHref'> & Pick<User, 'username'>;
+type ContentProps = Pick<UserPreviewProps, 'userHref'> &
+  Pick<User, 'username'> & { children?: React.ReactNode };
 
 const Content: React.FC<ContentProps> = ({ children, username, userHref = '' }) => {
   return (

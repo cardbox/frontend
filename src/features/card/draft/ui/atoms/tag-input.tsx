@@ -49,6 +49,8 @@ const TagInputView = ({
     if (e.key === 'Backspace') handleBackSpace();
   };
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <Input value={value} onChange={onChange} placeholder="add new tag" onKeyDown={handleKeyDown} />
   );
 };
@@ -76,6 +78,7 @@ const Submit = () => {
 const FormView: FC<{
   submitForm: () => void;
   existedTag: string;
+  children?: React.ReactNode;
 }> = ({ children, submitForm, existedTag }) => {
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();

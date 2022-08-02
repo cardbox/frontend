@@ -48,6 +48,7 @@ const Globals = createGlobalStyle`
 `;
 
 export const Application = () => (
+  /* @ts-ignore */
   <QueryParamProvider ReactRouterRoute={Route}>
     <Container>
       <Helmet
@@ -59,6 +60,7 @@ export const Application = () => (
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Helmet>
+      {/* @ts-ignore */}
       <Globals />
       <EditorGlobalStyles />
       <ShowOnly when="authorized">
