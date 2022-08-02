@@ -9,11 +9,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 import { globalFonts } from '@box/app/styles/global-fonts';
 
-import { InvitePage } from '@box/pages/invite';
-
 import { Searchbar } from '@box/features/search-bar';
-
-import { ShowOnly } from '@box/entities/session';
 
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
@@ -63,17 +59,12 @@ export const Application = () => (
       {/* @ts-ignore */}
       <Globals />
       <EditorGlobalStyles />
-      <ShowOnly when="authorized">
-        <Searchbar />
-        <PagesContainer>
-          <PagesContent>
-            <Pages />
-          </PagesContent>
-        </PagesContainer>
-      </ShowOnly>
-      <ShowOnly when="anonymous">
-        <InvitePage />
-      </ShowOnly>
+      <Searchbar />
+      <PagesContainer>
+        <PagesContent>
+          <Pages />
+        </PagesContent>
+      </PagesContainer>
     </Container>
   </QueryParamProvider>
 );
