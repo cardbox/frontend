@@ -9,8 +9,6 @@ import { Button, IconAdd, Input } from '@box/shared/ui';
 
 import * as model from '../../model';
 
-todo('logic for existing tags');
-
 export const TagInput = () => {
   return (
     <NewTagForm>
