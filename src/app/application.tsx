@@ -3,9 +3,7 @@ import * as React from 'react';
 import { EditorGlobalStyles } from '@cardbox/editor';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Helmet } from 'react-helmet-async';
-import { Route } from 'react-router';
 import styled, { createGlobalStyle } from 'styled-components';
-import { QueryParamProvider } from 'use-query-params';
 
 import { globalFonts } from '@box/app/styles/global-fonts';
 
@@ -44,29 +42,26 @@ const Globals = createGlobalStyle`
 `;
 
 export const Application = () => (
-  /* @ts-ignore */
-  <QueryParamProvider ReactRouterRoute={Route}>
-    <Container>
-      <Helmet
-        htmlAttributes={{ lang: 'en' }}
-        titleTemplate="%s | Cardbox"
-        defaultTitle="Welcome to Cardbox"
-      >
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Helmet>
-      {/* @ts-ignore */}
-      <Globals />
-      <EditorGlobalStyles />
-      <Searchbar />
-      <PagesContainer>
-        <PagesContent>
-          <Pages />
-        </PagesContent>
-      </PagesContainer>
-    </Container>
-  </QueryParamProvider>
+  <Container>
+    <Helmet
+      htmlAttributes={{ lang: 'en' }}
+      titleTemplate="%s | Cardbox"
+      defaultTitle="Welcome to Cardbox"
+    >
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </Helmet>
+    {/* @ts-ignore */}
+    <Globals />
+    <EditorGlobalStyles />
+    <Searchbar />
+    <PagesContainer>
+      <PagesContent>
+        <Pages />
+      </PagesContent>
+    </PagesContainer>
+  </Container>
 );
 
 // Разметка для того, чтобы скроллился только PagesContainer

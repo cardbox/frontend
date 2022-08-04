@@ -1,6 +1,4 @@
-import { StringParam, useQueryParam } from 'use-query-params';
-
 export function useSearchQuery() {
-  const [res] = useQueryParam('query', StringParam);
-  return res || '';
+  // TODO: use atomic-router $query
+  return '';
 }

@@ -1,13 +1,12 @@
 import type { EditorValue } from '@cardbox/editor';
 import { Editor, useExtendedEditor } from '@cardbox/editor';
+import { Link, useRouter } from 'atomic-router-react';
 import dayjs from 'dayjs';
 import 'dayjs/plugin/relativeTime';
 import { useEvent, useStoreMap } from 'effector-react/scope';
 import React, { forwardRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { navigationModel } from '@box/entities/navigation';
 import { HighlightText } from '@box/entities/search';
 
 import type { Card } from '@box/shared/api';
@@ -40,6 +39,7 @@ interface CardPreviewProps {
 
 export const CardPreview = ({ card, loading = false, size = 'small' }: CardPreviewProps) => {
   const href = useLink(routes.card.view, { cardId: card.id });
+  const router = useRouter();
   const isCardInFavorites = useStoreMap({
     store: cardModel.$favoritesCards,
     keys: [card.id],
@@ -48,7 +48,6 @@ export const CardPreview = ({ card, loading = false, size = 'small' }: CardPrevi
 
   const addToFavorites = useEvent(cardModel.favoritesAdd);
   const removeFromFavorites = useEvent(cardModel.favoritesRemove);
-  const historyPush = useEvent(navigationModel.historyPush);
 
   const toggleFavorites = useCallback(() => {
     if (isCardInFavorites) removeFromFavorites(card.id);
@@ -63,7 +62,7 @@ export const CardPreview = ({ card, loading = false, size = 'small' }: CardPrevi
       if (size === 'large') {
         return;
       }
-      historyPush(href);
+      router.push({ path: href, query: {}, params: {}, method: 'push' });
     }
   });
 

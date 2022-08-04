@@ -6,7 +6,6 @@ export {
   checkAuthenticated,
   checkAnonymous,
   readyToLoadSession,
-  sessionLoaded,
 } from './model';
 export {
   filterAuthenticated,

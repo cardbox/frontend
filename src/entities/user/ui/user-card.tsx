@@ -1,5 +1,5 @@
+import { Link } from 'atomic-router-react';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { User } from '@box/shared/api';

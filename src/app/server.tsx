@@ -2,134 +2,49 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
-import { allSettled, createEvent, fork, forward, sample, serialize } from 'effector';
+import fastifyCookie from '@fastify/cookie';
+import fastifyHttpProxy from '@fastify/http-proxy';
+import fastifyStatic from '@fastify/static';
+import { createHistoryRouter } from 'atomic-router';
+import { RouterProvider } from 'atomic-router-react';
+import { allSettled, createEvent, fork, sample, serialize } from 'effector';
 import { Provider } from 'effector-react/scope';
-import fastify, { FastifyInstance } from 'fastify';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import fastifyCookie from 'fastify-cookie';
-import fastifyHttpProxy from 'fastify-http-proxy';
-import fastifyStatic from 'fastify-static';
+import fastify, { FastifyInstance } from 'fastify';
 import { RouteGenericInterface } from 'fastify/types/route';
-import { getHatch, HatchParams } from 'framework';
 import type { Server } from 'http';
-import { splitMap } from 'patronum/split-map';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { matchRoutes } from 'react-router-config';
-import { StaticRouter } from 'react-router-dom';
 import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
 
-import { ROUTES } from '@box/pages/routes';
+import { notFoundRoute, routesMap } from '@box/pages';
 
-import { $redirectTo, initializeServerHistory } from '@box/entities/navigation';
+import { $redirectTo, createServerHistory } from '@box/entities/navigation';
 import { OpenGraphTags } from '@box/entities/opengraph';
-import { readyToLoadSession, sessionLoaded } from '@box/entities/session';
+import { readyToLoadSession } from '@box/entities/session';
 
-import {
-  $cookiesForRequest,
-  $cookiesFromResponse,
-  setCookiesForRequest,
-} from '@box/shared/api/request';
+import { $cookiesFromResponse, setCookiesForRequests } from '@box/shared/api/request';
 import { env } from '@box/shared/config';
 import { logger } from '@box/shared/lib/logger';
 import { measurement } from '@box/shared/lib/measure';
 
 import { Application } from './application';
 
-initializeServerHistory();
+let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+function syncLoadAssets() {
+  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
+}
+syncLoadAssets();
 
 const serverStarted = createEvent<{
   req: FastifyRequest<RouteGenericInterface, Server>;
   res: FastifyReply<Server>;
 }>();
-
 const requestHandled = serverStarted.map(({ req }) => req);
-
 const cookiesReceived = requestHandled.filterMap((r) => r.headers.cookie);
 
-const { routeResolved, __: routeNotResolved } = splitMap({
-  source: requestHandled,
-  cases: {
-    routeResolved({ url, query }) {
-      const routes = matchRoutes(ROUTES, url.split('?')[0]);
-
-      if (routes.length > 0)
-        return {
-          route: routes[0].route,
-          match: routes[0].match,
-          url,
-          query,
-        };
-
-      return undefined;
-    },
-  },
-});
-
-// routeResolved.watch((match) => {
-//   logger.trace(match, `Route resolved`);
-// });
-
-routeNotResolved.watch((req) => {
-  logger.fatal({ url: req.url, query: req.query }, `Not found route for this path`);
-});
-
-forward({
-  from: cookiesReceived,
-  to: setCookiesForRequest,
-});
-
-forward({
-  from: serverStarted,
-  to: readyToLoadSession,
-});
-
-for (const { component, path, exact } of ROUTES) {
-  if (!component) {
-    logger.trace({ component, path, exact }, `No component for path "${path}"`);
-    continue;
-  }
-
-  const hatch = getHatch(component);
-  if (!hatch) {
-    logger.trace({ component, path, exact }, `No hatch for path "${path}"`);
-    continue;
-  }
-
-  const { routeMatched, __: notMatched } = splitMap({
-    source: sample(routeResolved, sessionLoaded),
-    cases: {
-      routeMatched({ route, match, query }) {
-        if (route.path === path)
-          return {
-            // route.path is a string with path params, like "/user/:userId"
-            // :userId is a path param
-            // match.params is an object contains parsed params values
-            // "/user/123" will be transformed to { userId: 123 } in match.params
-            params: match.params,
-            query,
-          } as HatchParams;
-
-        return undefined;
-      },
-    },
-  });
-
-  // routeMatched.watch((match) => {
-  //   logger.trace(match, `Route matched for "${path}"`);
-  // });
-
-  forward({
-    from: routeMatched,
-    to: hatch.enter,
-  });
-
-  // guard({
-  //   source: notMatched,
-  //   filter: hatch.$opened.map(Boolean),
-  //   target: hatch.exit,
-  // });
-}
+sample({ clock: cookiesReceived, target: setCookiesForRequests });
+sample({ clock: serverStarted, target: readyToLoadSession });
 
 sample({
   source: serverStarted,
@@ -143,17 +58,7 @@ sample({
   fn: ({ res }, redirectUri) => ({ res, redirectUri }),
 }).watch(({ res, redirectUri }) => res.redirect(redirectUri));
 
-let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-function syncLoadAssets() {
-  // NOTE: couldn't be import from shared/config
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
-}
-
 const PUBLIC_URL = process.env.PUBLIC_URL;
-
-syncLoadAssets();
 
 function createFastify(): FastifyInstance {
   if (env.IS_DEV_ENV) {
@@ -240,25 +145,28 @@ fastifyInstance.get('/*', async function (req, res) {
   const pageContructionTime = measurement('page construction', log.info.bind(log));
   const scope = fork();
 
-  const allSettledTime = measurement('all settled', log.info.bind(log));
-  try {
-    await allSettled(serverStarted, {
-      scope,
-      params: { req, res },
-    });
-  } catch (error) {
-    this.log.error(error);
-  }
-  allSettledTime.measure();
+  const authorization = measurement('authorization', log.info.bind(log));
+  await allSettled(serverStarted, {
+    scope,
+    params: { req, res },
+  });
+  authorization.measure();
+
+  const routingLogic = measurement('routing logic', log.info.bind(log));
+  const router = createHistoryRouter({
+    routes: routesMap,
+    notFoundRoute,
+  });
+  await allSettled(router.setHistory, {
+    scope,
+    params: createServerHistory(),
+  });
+  routingLogic.measure();
 
   const serializeTime = measurement('serialize scope', log.info.bind(log));
-  const storesValues = serialize(scope, {
-    ignore: [$cookiesForRequest, $cookiesFromResponse],
-    onlyChanges: true,
-  });
+  const storesValues = serialize(scope);
   serializeTime.measure();
 
-  const routerContext = {};
   const sheet = new ServerStyleSheet();
   const helmetContext: FilledContext = {} as FilledContext;
 
@@ -267,13 +175,12 @@ fastifyInstance.get('/*', async function (req, res) {
   const collectStylesTime = measurement('sheet collects styles', log.info.bind(log));
   const jsx = sheet.collectStyles(
     <HelmetProvider context={helmetContext}>
-      {/* @ts-ignore */}
-      <StaticRouter context={routerContext} location={req.url}>
+      <RouterProvider router={router}>
         <Provider value={scope}>
           <OpenGraphTags basePath={basePath} />
           <Application />
         </Provider>
-      </StaticRouter>
+      </RouterProvider>
     </HelmetProvider>,
   );
   collectStylesTime.measure();

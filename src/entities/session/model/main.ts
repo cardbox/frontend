@@ -13,12 +13,10 @@ import { and, condition, equals, not } from 'patronum';
 
 import type { SessionUser } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
-import { $cookiesForRequest } from '@box/shared/api/request';
+import { $cookiesForRequests } from '@box/shared/api/request';
 import { routes } from '@box/shared/routes';
 
 export const readyToLoadSession = createEvent<void>();
-
-export const sessionLoaded = createEvent<void>();
 
 export const $session = createStore<SessionUser | null>(null);
 
@@ -57,23 +55,12 @@ $session
   })
   .on(internalApi.sessionDelete.done, () => null);
 
-const $cookiesEmpty = equals(trim($cookiesForRequest), '');
+const $cookiesEmpty = equals(trim($cookiesForRequests), '');
 
 sample({
   clock: readyToLoadSession,
   filter: and(not($sessionPending), not($cookiesEmpty)),
   target: internalApi.sessionGet.prepend(() => ({})),
-});
-
-sample({
-  clock: internalApi.sessionGet.finally,
-  target: sessionLoaded,
-});
-
-sample({
-  clock: readyToLoadSession,
-  filter: $cookiesEmpty,
-  target: sessionLoaded,
 });
 
 export function checkAuthenticated<T>(config: {

@@ -1,14 +1,7 @@
-import { createEvent, createStore, merge, Scope, scopeBind } from 'effector';
-import { createBrowserHistory, createMemoryHistory } from 'history';
+import { createEvent, createStore } from 'effector';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 
 import { env } from '@box/shared/config';
-
-export interface HistoryChange {
-  pathname: string;
-  hash: string;
-  search: string;
-  action: 'PUSH' | 'POP' | 'REPLACE';
-}
 
 export const history = env.BUILD_ON_CLIENT ? createBrowserHistory() : createMemoryHistory();
 
@@ -16,25 +9,16 @@ export const $redirectTo = createStore('');
 
 // Used in some cases
 export const historyPush = createEvent<string>();
-// export const historyReplace = createEvent<string>();
 
-export const historyChanged = createEvent<HistoryChange>();
-
-export function initializeClientHistory(scope: Scope) {
-  historyPush.watch((url) => history?.push(url));
-  // historyReplace.watch((url) => history?.replace(url));
-  // const boundHistoryChange = scopeBind(historyChanged, { scope });
-  // history?.listen(({ pathname, search, hash }, action) => {
-  //   boundHistoryChange({ pathname, search, hash, action });
-  // });
+function attachEvents<T extends History>(history: T): T {
+  historyPush.watch((url) => history.push(url));
+  return history;
 }
 
-export function initializeServerHistory() {
-  // const historyUpdate = merge([historyPush, historyReplace]);
-  // $redirectTo.on(historyUpdate, (_, url) => url);
+export function createClientHistory() {
+  return attachEvents(createBrowserHistory());
 }
 
-export const navigationModel = {
-  historyPush,
-  // historyReplace,
-};
+export function createServerHistory() {
+  return attachEvents(createMemoryHistory());
+}
