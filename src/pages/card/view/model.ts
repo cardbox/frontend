@@ -1,5 +1,4 @@
-import { attach, combine, createDomain, createEvent, createStore, guard, sample } from 'effector';
-import { createHatch } from 'framework';
+import { attach, combine, createEvent, createStore, guard, sample } from 'effector';
 
 import * as sessionModel from '@box/entities/session';
 import { cardModel } from '@box/entities/card';
@@ -10,7 +9,7 @@ import type { Card, User } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
 import { routes } from '@box/shared/routes';
 
-export const hatch = createHatch(createDomain('CardViewPage'));
+const currentRoute = routes.card.view;
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardsDeleteFx = attach({ effect: internalApi.cardsDelete });
@@ -21,7 +20,7 @@ export const deleteCard = createEvent();
 
 export const $currentCard = combine(
   cardModel.$cardsCache,
-  hatch.$params,
+  currentRoute.$params,
   ({ cache }, params) => (cache[params.cardId] ?? null) as Card | null,
 );
 export const $cardAuthor = createStore<User | null>(null);
@@ -45,7 +44,7 @@ export const $isAuthorViewing = combine(
 );
 
 withOpenGraph({
-  hatch,
+  route: currentRoute,
   openGraph: $currentCard.map((card) => {
     if (!card) return null;
     return {
@@ -59,7 +58,7 @@ withOpenGraph({
 });
 
 sample({
-  clock: [hatch.enter, hatch.update],
+  clock: [currentRoute.opened, currentRoute.updated],
   fn: ({ params: { cardId } }) => ({ body: { cardId } }),
   target: cardsGetFx,
 });
@@ -82,16 +81,15 @@ sample({
   target: routes.home.open,
 });
 
-hatch.$params.reset(hatch.exit);
-$cardAuthor.reset(hatch.exit);
+$cardAuthor.reset(currentRoute.closed);
 
 // FIXME: move to entities/user?
 $cardAuthor.on(cardsGetFx.doneData, (_, { answer }) => answer.user);
 
-// @TODO Will be deleted after BOX-250
+// TODO: Will be deleted after BOX-250
 const favoritesCtxLoaded = sample({
   source: $session,
-  clock: hatch.enter,
+  clock: currentRoute.opened,
   fn: (user) => ({
     body: { authorId: user?.id, favorites: true },
   }),

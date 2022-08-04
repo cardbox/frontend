@@ -1,9 +1,9 @@
-import { contract, withHatch } from 'framework';
+import { contract } from 'framework';
 
 import * as model from './model';
 import * as page from './page';
 
-export const CardEditPage = withHatch(model.hatch, page.CardEditPage);
+export { CardEditPage } from './page';
 
 contract({
   page,

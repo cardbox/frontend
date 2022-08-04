@@ -1,4 +1,4 @@
-import { variant } from '@effector/reflect/ssr';
+import { variant } from '@effector/reflect/scope';
 import { createStore } from 'effector';
 import { useStore } from 'effector-react/scope';
 import React from 'react';

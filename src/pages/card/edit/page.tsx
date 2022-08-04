@@ -1,4 +1,4 @@
-import { variant } from '@effector/reflect/ssr';
+import { variant } from '@effector/reflect/scope';
 import { Link } from 'atomic-router-react';
 import { createStore } from 'effector';
 import React from 'react';

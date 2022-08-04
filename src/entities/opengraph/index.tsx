@@ -1,6 +1,6 @@
-import { createEvent, createStore, guard, sample, Store } from 'effector';
+import { RouteInstance, RouteParams } from 'atomic-router';
+import { createEvent, createStore, sample, Store } from 'effector';
 import { useStore } from 'effector-react/scope';
-import { Hatch } from 'framework';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -37,22 +37,22 @@ export const $openGraph = createStore<OpenGraph | null>(null, { serialize: 'igno
 
 $openGraph.on(setOpenGraph, (_, openGraph) => openGraph).reset(cleanupOpenGraph);
 
-export function withOpenGraph({
-  hatch,
+export function withOpenGraph<T extends RouteParams>({
+  route,
   openGraph,
 }: {
-  hatch: Hatch;
+  route: RouteInstance<T>;
   openGraph: Store<OpenGraph | null>;
 }) {
-  guard({
+  sample({
     source: openGraph,
-    clock: [hatch.enter, openGraph, hatch.update],
+    clock: [route.opened, openGraph, route.updated],
     filter: (openGraph): openGraph is OpenGraph => Boolean(openGraph),
     target: setOpenGraph,
   });
 
   sample({
-    source: hatch.exit,
+    clock: route.closed,
     target: cleanupOpenGraph,
   });
 }

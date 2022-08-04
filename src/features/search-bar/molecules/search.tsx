@@ -1,4 +1,4 @@
-import { reflect } from '@effector/reflect/ssr';
+import { reflect } from '@effector/reflect/scope';
 import React from 'react';
 import styled from 'styled-components';
 

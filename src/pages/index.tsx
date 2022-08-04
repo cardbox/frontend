@@ -7,6 +7,7 @@ import { CardCreatePage } from './card/create';
 import { CardEditPage } from './card/edit';
 import { CardViewPage } from './card/view';
 import { CommentsPage } from './comments';
+import { Error404Page } from './error404';
 import { HomePage } from './home';
 import { OAuthDonePage } from './oauth-done';
 import { SearchPage } from './search';
@@ -23,6 +24,7 @@ export function Pages() {
       <Route route={routes.home} view={HomePage} />
       <Route route={routes.search.results} view={SearchPage} />
       <Route route={routes.user.view} view={UserPage} />
+      <Route route={routes.errors.notFound} view={Error404Page} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { reflect } from '@effector/reflect/ssr';
+import { reflect } from '@effector/reflect/scope';
 import { combine } from 'effector';
 import React, { ChangeEvent, FC, FormEventHandler, KeyboardEventHandler } from 'react';
 import styled from 'styled-components';

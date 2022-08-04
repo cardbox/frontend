@@ -1,6 +1,5 @@
 import { buildPath, createRoute, RouteInstance, RouteParams, RouteQuery } from 'atomic-router';
 import { useRouter } from 'atomic-router-react';
-import { Route } from 'react-router';
 
 export const routes = {
   home: createRoute(),
@@ -20,6 +19,9 @@ export const routes = {
   },
   test: {
     comments: createRoute(),
+  },
+  errors: {
+    notFound: createRoute(),
   },
 };
 

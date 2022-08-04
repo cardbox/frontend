@@ -1,5 +1,4 @@
-import { attach, createDomain, createEvent, createStore, guard, merge, sample } from 'effector';
-import { createHatch } from 'framework';
+import { attach, createEvent, createStore, sample } from 'effector';
 
 import { cardDraftModel } from '@box/features/card/draft';
 
@@ -8,8 +7,8 @@ import * as sessionModel from '@box/entities/session';
 import { Card, internalApi } from '@box/shared/api';
 import { routes } from '@box/shared/routes';
 
-export const hatch = createHatch(createDomain('CardEditPage'));
-const $currentCardId = hatch.$params.map((params) => params.cardId || null);
+const currentRoute = routes.card.edit;
+const $currentCardId = currentRoute.$params.map((params) => params.cardId || null);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
@@ -20,13 +19,13 @@ const $currentCard = createStore<Card | null>(null);
 export const $isCardFound = $currentCard.map((card) => Boolean(card));
 
 // Подгружаем данные после монтирования страницы
-const shouldLoadCard = sample({
-  clock: [hatch.enter, hatch.update],
+const startLoadingCard = sample({
+  clock: [currentRoute.opened, currentRoute.updated],
   fn: ({ params }) => params.cardId,
 });
 
 sample({
-  clock: shouldLoadCard,
+  clock: startLoadingCard,
   fn: (cardId) => ({ body: { cardId } }),
   target: cardsGetFx,
 });
@@ -40,7 +39,7 @@ const cardCtxLoaded = sample({
 });
 
 // Фактическая проверка прав на редактирование
-const isAnotherViewing = guard({
+const isAnotherViewing = sample({
   source: cardCtxLoaded,
   filter: ({ viewer, card }) => {
     if (!viewer) return false;
@@ -53,7 +52,7 @@ sample({
   target: routes.card.view.open,
 });
 
-const isAuthorViewing = guard({
+const isAuthorViewing = sample({
   source: cardCtxLoaded,
   filter: ({ viewer, card }) => {
     if (!viewer) return false;
@@ -71,14 +70,14 @@ sample({
 const formEditSubmitted = createEvent<string>();
 
 // Реагируем на сабмит формы только если сабмит происходит на странице редактирования карточки
-guard({
+sample({
   source: cardDraftModel.formSubmitted,
   filter: (payload) => payload === 'edit',
   target: formEditSubmitted,
 });
 
 // Обрабатываем отправку формы
-guard({
+sample({
   clock: formEditSubmitted,
   source: cardDraftModel.$draft.map(({ id, ...data }) => ({
     body: {
@@ -94,7 +93,7 @@ guard({
 const formEditReset = createEvent<string>();
 
 // Реагируем на ресетит формы только если ресет происходит на странице редактирования карточки
-guard({
+sample({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'edit',
   target: formEditReset,

@@ -1,13 +1,13 @@
-import { attach, combine, createDomain, createStore, sample } from 'effector';
-import { createHatch } from 'framework';
-import { some } from 'patronum';
+import { attach, combine, createStore, sample } from 'effector';
+import { or } from 'patronum';
 
 import { cardModel } from '@box/entities/card';
 import { $session } from '@box/entities/session';
 
 import { internalApi, User } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
 
-export const hatch = createHatch(createDomain('UserViewPage'));
+const currentRoute = routes.user.view;
 
 export const usersGetFx = attach({ effect: internalApi.usersGet });
 export const cardsListFx = attach({ effect: internalApi.cardsList });
@@ -24,13 +24,10 @@ export const $isOnOwnedPage = combine($session, $currentUser, (session, current)
   return session.id === current.id;
 });
 
-export const $pagePending = some({
-  predicate: true,
-  stores: [$userPending, $cardsPending],
-});
+export const $pagePending = or($userPending, $cardsPending);
 
 sample({
-  clock: [hatch.enter, hatch.update],
+  clock: [currentRoute.opened, currentRoute.updated],
   fn: ({ params }) => ({ body: { username: params.username } }),
   target: usersGetFx,
 });
@@ -60,7 +57,7 @@ $cardsIds.on(cardsListFx.done, (ids, { params, result }) =>
 // @TODO Will be deleted after BOX-250
 const favoritesCtxLoaded = sample({
   source: $session,
-  clock: hatch.enter,
+  clock: [currentRoute.opened, currentRoute.updated],
   fn: (user) => ({
     body: { authorId: user?.id, favorites: true },
   }),

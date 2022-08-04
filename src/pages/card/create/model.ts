@@ -1,16 +1,14 @@
-import { attach, createDomain, guard, sample } from 'effector';
-import { createHatch } from 'framework';
+import { attach, guard, sample } from 'effector';
 
 import { cardDraftModel } from '@box/features/card/draft';
 
-import { filterAnonymous, filterAuthenticated } from '@box/entities/session';
+import { chainAnonymous, chainAuthenticated } from '@box/entities/session';
 
 import { internalApi } from '@box/shared/api';
 import { routes } from '@box/shared/routes';
 
-export const hatch = createHatch(createDomain('CardCreatePage'));
-const anonymousEnter = filterAnonymous(hatch.enter);
-const authenticatedEnter = filterAuthenticated(hatch.enter);
+const anonymousRoute = chainAnonymous(routes.card.create);
+const authenticatedRoute = chainAuthenticated(routes.card.create);
 
 export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 
@@ -21,7 +19,7 @@ const formCreateSubmitted = guard({
 });
 
 // Обрабатываем отправку формы
-guard({
+sample({
   clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
   source: cardDraftModel.$draft.map(({ id, ...data }) => ({ body: data })),
@@ -47,11 +45,11 @@ sample({
 // - успешной отправке
 // FIXME: Позднее будет обеспечиваться фабриками модели для страницы
 sample({
-  clock: [cardCreateFx.done, authenticatedEnter],
+  clock: [cardCreateFx.done, authenticatedRoute.opened],
   target: cardDraftModel._formInit,
 });
 
 sample({
-  clock: anonymousEnter,
+  clock: anonymousRoute.opened,
   target: routes.home.open,
 });

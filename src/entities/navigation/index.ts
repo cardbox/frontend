@@ -14,6 +14,7 @@ export const history = env.BUILD_ON_CLIENT ? createBrowserHistory() : null;
 
 export const $redirectTo = createStore('');
 
+// Used in some cases
 export const historyPush = createEvent<string>();
 export const historyPushParams = createEvent<{ search: string }>();
 export const historyReplace = createEvent<string>();

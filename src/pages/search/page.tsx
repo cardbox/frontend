@@ -1,4 +1,4 @@
-import { reflect } from '@effector/reflect/ssr';
+import { reflect } from '@effector/reflect/scope';
 import { useRouter } from 'atomic-router-react';
 import { useEvent, useStore } from 'effector-react/scope';
 import React, { useEffect } from 'react';

@@ -1,11 +1,9 @@
-import { withHatch } from 'framework';
-
-import { contract } from '@box/shared/lib/contract';
+import { contract } from 'framework';
 
 import * as model from './model';
 import * as page from './page';
 
-export const OAuthDonePage = withHatch(model.hatch, page.OAuthDonePage);
+export { OAuthDonePage } from './page';
 
 contract({
   page,
