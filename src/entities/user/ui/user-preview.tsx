@@ -34,11 +34,11 @@ const Content: React.FC<{ user: User }> = ({ user }) => {
   if (!user.bio) return null;
   return (
     <ContentStyled>
-      <UserLink to={routes.user.view} params={{ username: user.username || user.id }}>
+      <Link to={routes.user.view} params={{ username: user.username || user.id }}>
         <UserName type="h4" title={user.username}>
           <HighlightText text={user.username} />
         </UserName>
-      </UserLink>
+      </Link>
       <ContentText type="span">{user.bio}</ContentText>
     </ContentStyled>
   );
@@ -110,13 +110,4 @@ const ContentText = styled(Text)`
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-`;
-
-const UserLink = styled(Link)`
-  text-decoration: none;
-  color: var(${theme.palette.bnw0});
-
-  &:hover {
-    color: var(${theme.palette.wizard500});
-  }
 `;
