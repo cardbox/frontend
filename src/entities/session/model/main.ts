@@ -11,13 +11,10 @@ import {
 } from 'effector';
 import { and, condition, equals, not } from 'patronum';
 
-import { paths } from '@box/pages/paths';
-
-import { historyPush } from '@box/entities/navigation';
-
 import type { SessionUser } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
 import { $cookiesForRequest } from '@box/shared/api/request';
+import { routes } from '@box/shared/routes';
 
 export const readyToLoadSession = createEvent<void>();
 
@@ -159,7 +156,7 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
   sample({
     source: authenticatedCheck,
     filter: $isAuthenticated,
-    target: historyPush.prepend(paths.home),
+    target: routes.home.open,
   });
 
   // Used as sample event
@@ -173,7 +170,7 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
   condition({
     source: sessionWaitFx.finally,
     if: $isAuthenticated,
-    then: historyPush.prepend(paths.home),
+    then: routes.home.open.prepend(() => ({})),
     else: continueTrigger,
   });
 

@@ -2,12 +2,10 @@ import { attach, createEffect, createEvent, createStore, guard, restore, sample 
 import { debounce } from 'patronum/debounce';
 import { ChangeEvent } from 'react';
 
-import { paths } from '@box/pages/paths';
-
-import { historyPush } from '@box/entities/navigation';
 import { userModel } from '@box/entities/user';
 
 import { Card, internalApi, User } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
 
 export const searchFieldChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 
@@ -50,8 +48,9 @@ const searchSubmitted = guard({
 const trimmedSearchSubmitted = searchSubmitted.map((query) => query.trim());
 
 sample({
-  source: trimmedSearchSubmitted.map(paths.search),
-  target: historyPush,
+  clock: trimmedSearchSubmitted,
+  fn: (search) => ({ query: { query: search }, params: {} }),
+  target: routes.search.results.navigate,
 });
 sample({
   source: trimmedSearchSubmitted,

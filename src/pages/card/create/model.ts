@@ -1,14 +1,12 @@
 import { attach, createDomain, guard, sample } from 'effector';
 import { createHatch } from 'framework';
 
-import { paths } from '@box/pages/paths';
-
 import { cardDraftModel } from '@box/features/card/draft';
 
-import { historyPush } from '@box/entities/navigation';
 import { filterAnonymous, filterAuthenticated } from '@box/entities/session';
 
 import { internalApi } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
 
 export const hatch = createHatch(createDomain('CardCreatePage'));
 const anonymousEnter = filterAnonymous(hatch.enter);
@@ -34,21 +32,14 @@ guard({
 // Редиректим на страницу созданной карточки после сохранения изменений
 sample({
   clock: cardCreateFx.done,
-  fn: ({ result }) => paths.cardView(result.answer.card.id),
-  target: historyPush,
-});
-
-// Реагируем на ресетит формы только если ресет происходит на странице создания
-const formCreateReset = guard({
-  source: cardDraftModel.formReset,
-  filter: (payload) => payload === 'create',
+  fn: ({ result }) => ({ cardId: result.answer.card.id }),
+  target: routes.card.view.open,
 });
 
 // Редиректим на home-страницу после отмены изменений
 sample({
   clock: cardDraftModel.formReset,
-  fn: () => paths.home(),
-  target: historyPush,
+  target: routes.home.open,
 });
 
 // Сбрасываем форму при
@@ -62,6 +53,5 @@ sample({
 
 sample({
   clock: anonymousEnter,
-  fn: paths.home,
-  target: historyPush,
+  target: routes.home.open,
 });

@@ -2,12 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { paths } from '@box/pages/paths';
-
 import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
+import { routes, useLink } from '@box/shared/routes';
 import { Avatar } from '@box/shared/ui/atoms';
 
 import { getFullName } from '../lib';
@@ -16,13 +15,9 @@ interface Props {
   user: User;
 }
 
-function linkToUser(user: User): string {
-  return paths.user(user.username || user.id);
-}
-
 // FIXME: move to entities/user (BOX-155)
 export const UserCard: React.FC<Props> = ({ user }) => {
-  const href = linkToUser(user);
+  const href = useLink(routes.user.view, { username: user.username || user.id });
   const fullName = getFullName(user);
   const { avatar, work } = user;
 

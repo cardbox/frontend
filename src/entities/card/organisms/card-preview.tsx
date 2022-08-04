@@ -1,13 +1,11 @@
-import { Editor, useExtendedEditor } from '@cardbox/editor';
 import type { EditorValue } from '@cardbox/editor';
+import { Editor, useExtendedEditor } from '@cardbox/editor';
 import dayjs from 'dayjs';
 import 'dayjs/plugin/relativeTime';
 import { useEvent, useStoreMap } from 'effector-react/scope';
 import React, { forwardRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { paths } from '@box/pages/paths';
 
 import { cardModel } from '@box/entities/card';
 import { navigationModel } from '@box/entities/navigation';
@@ -17,6 +15,7 @@ import type { Card } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 import { useMouseSelection } from '@box/shared/lib/use-mouse-selection';
+import { routes, useLink } from '@box/shared/routes';
 import {
   Button,
   IconDeckArrow,
@@ -39,7 +38,7 @@ interface CardPreviewProps {
 }
 
 export const CardPreview = ({ card, loading = false, size = 'small' }: CardPreviewProps) => {
-  const href = paths.cardView(card.id);
+  const href = useLink(routes.card.view, { cardId: card.id });
   const isCardInFavorites = useStoreMap({
     store: cardModel.$favoritesCards,
     keys: [card.id],
@@ -142,7 +141,7 @@ const PaperContainerStyled = styled(PaperContainer)<{
 type ContentProps = { card: Card } & Pick<CardPreviewProps, 'size'>;
 
 const Content = ({ card, size }: ContentProps) => {
-  const href = paths.cardView(card.id);
+  const href = useLink(routes.card.view, { cardId: card.id });
   const editor = useExtendedEditor();
   return (
     <ContentStyled>

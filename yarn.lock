@@ -1128,6 +1128,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.7.6":
+  version "7.18.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
+  integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.12.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.16.7.tgz#8d126c8701fde4d66b264b3eba3d96f07666d155"
@@ -1467,10 +1474,10 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@effector/reflect@^7.0.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-7.1.1.tgz#0808776a7e7e4918817fafe1bd582ed57ed1300a"
-  integrity sha512-GSorX7Vk62whu/4ypUT7ELQsT6MCHZm4uTDLiRUgzWFvKRdCAVWEVhYrId8+vdp8qlKN6hIVoYmSgxG0tz5Y9A==
+"@effector/reflect@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@effector/reflect/-/reflect-8.0.0.tgz#ff248a18f49be8439dd316d316a550aacd34dc12"
+  integrity sha512-roMf2JjIY22OywkO26FRIw9pf/knPvFo0r1f30XbCjWn3fGQik8/vh8Nyz2eUb02yRnSuVi+1nXM1YbDiuGNgQ==
 
 "@emotion/is-prop-valid@^1.1.0":
   version "1.2.0"
@@ -3503,10 +3510,10 @@ atomic-router-react@^0.5.0:
   dependencies:
     clsx "^1.1.1"
 
-atomic-router@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/atomic-router/-/atomic-router-0.5.1.tgz#94dfeba26342b08aafb9dd9e37e137b274921793"
-  integrity sha512-jCZoA9VeZ8ZPWgO3vu1GpXCHi9UPnuibArumbCjDyf4607BWkRelLlp0kVlCLAC5DEnLWS2nOQUn6/jBIJ4JnQ==
+atomic-router@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/atomic-router/-/atomic-router-0.6.0.tgz#28cbf0901edcbe657ae84949fb0da8de9815848d"
+  integrity sha512-dIOckeR8eot2XWpaCvWel9WuFHEwVGBhj698kH4BeL36E8wLPbfh6UA+Xcq4Fw18TvnvKEyRqwlXVlqCYW4oKA==
   dependencies:
     path-to-regexp "^6.2.0"
 
@@ -7710,6 +7717,13 @@ history@^4.9.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
+
+history@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/history/-/history-5.3.0.tgz#1548abaa245ba47992f063a0783db91ef201c73b"
+  integrity sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==
+  dependencies:
+    "@babel/runtime" "^7.7.6"
 
 hmac-drbg@^1.0.1:
   version "1.0.1"

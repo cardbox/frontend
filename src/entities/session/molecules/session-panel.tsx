@@ -1,15 +1,13 @@
 import Tippy from '@tippyjs/react';
-import { useStore } from 'effector-react/scope';
+import { useStore, useUnit } from 'effector-react/scope';
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Instance } from 'tippy.js';
 
-import { paths } from '@box/pages/paths';
-
-import { historyPush } from '@box/entities/navigation';
 import { getFullName } from '@box/entities/user/lib';
 
 import { imgLogo } from '@box/shared/assets';
+import { routes } from '@box/shared/routes';
 import { Avatar } from '@box/shared/ui';
 
 import { SignInButton } from '../atoms';
@@ -38,6 +36,8 @@ export const SessionPanel = () => {
 const Viewer = () => {
   const [instance, setInstance] = useState<Instance | null>(null);
   const viewer = useStore($session);
+  const openUserPage = useUnit(routes.user.view.open);
+
   if (!viewer) return null;
 
   const handleMenuClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -47,7 +47,7 @@ const Viewer = () => {
     }
     switch (event.currentTarget?.dataset.option) {
       case ItemOption.PROFILE:
-        historyPush(paths.user(viewer.id));
+        openUserPage({ username: viewer.id });
         break;
       case ItemOption.LOGOUT:
         logout();

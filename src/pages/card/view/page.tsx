@@ -1,21 +1,19 @@
+import { Link } from 'atomic-router-react';
 import { createEvent, createStore } from 'effector';
 import { useEvent, useStore } from 'effector-react/scope';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CardPreview } from '@box/entities/card';
 import { UserCard } from '@box/entities/user';
 
-import { Card, User } from '@box/shared/api/index';
+import { Card, User } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
+import { routes } from '@box/shared/routes';
 import { Button, ContentCenteredTemplate, Empty, IconDeckCheck, IconEdit } from '@box/shared/ui';
 
-import { paths } from '../../paths';
-
-// eslint-disable-next-line prettier/prettier
 const DELETE_WARN = 'Are you sure you want to delete this card?';
 
 export const $currentCard = createStore<Card | null>(null);
@@ -38,7 +36,7 @@ export const CardViewPage = () => {
   if (!card && !isLoading) {
     return (
       <Empty text="Sorry, the page you visited does not exist.">
-        <LinkHome to={paths.home()}>Back Home</LinkHome>
+        <LinkHome to={routes.home}>Back Home</LinkHome>
       </Empty>
     );
   }
@@ -56,7 +54,7 @@ export const CardViewPage = () => {
             {author && <UserCard user={author} />}
             {card && isAuthorViewing && (
               <Buttons>
-                <Link to={paths.cardEdit(card.id)}>
+                <Link to={routes.card.edit} params={{ cardId: card.id }}>
                   <ButtonCard
                     type="button"
                     theme="secondary"
@@ -185,6 +183,7 @@ const LinkHome = styled(Link)`
 
   color: var(--base-color);
   margin-top: 2rem;
+
   &:hover {
     opacity: 0.7;
   }

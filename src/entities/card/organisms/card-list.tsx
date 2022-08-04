@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { paths } from '@box/pages/paths';
-
 import type { Card } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { Empty, SkeletonGroup } from '@box/shared/ui';

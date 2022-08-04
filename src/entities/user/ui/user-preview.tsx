@@ -1,5 +1,5 @@
+import { Link } from 'atomic-router-react';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { HighlightText } from '@box/entities/search';
@@ -8,25 +8,20 @@ import type { User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
 import { plural } from '@box/shared/lib/plural';
 import { theme } from '@box/shared/lib/theme';
+import { routes } from '@box/shared/routes';
 import { Avatar, PaperContainer, Text } from '@box/shared/ui';
 
 interface UserPreviewProps {
   user: User;
-  userHref?: string;
   cardsCount?: number;
 }
-export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref, cardsCount }) => {
-  const { username, avatar, bio } = user;
+export const UserPreview: React.FC<UserPreviewProps> = ({ user, cardsCount }) => {
   return (
     <PaperContainerStyled>
       <Header>
         <>
-          {bio && (
-            <Content username={username} userHref={userHref}>
-              {bio}
-            </Content>
-          )}
-          <Avatar src={avatar || imgLogo} />
+          <Content user={user} />
+          <Avatar src={user.avatar || imgLogo} />
         </>
       </Header>
 
@@ -35,18 +30,16 @@ export const UserPreview: React.FC<UserPreviewProps> = ({ user, userHref, cardsC
   );
 };
 
-type ContentProps = Pick<UserPreviewProps, 'userHref'> &
-  Pick<User, 'username'> & { children?: React.ReactNode };
-
-const Content: React.FC<ContentProps> = ({ children, username, userHref = '' }) => {
+const Content: React.FC<{ user: User }> = ({ user }) => {
+  if (!user.bio) return null;
   return (
     <ContentStyled>
-      <UserLink to={userHref}>
-        <UserName type="h4" title={username}>
-          <HighlightText text={username} />
+      <UserLink to={routes.user.view} params={{ username: user.username || user.id }}>
+        <UserName type="h4" title={user.username}>
+          <HighlightText text={user.username} />
         </UserName>
       </UserLink>
-      <ContentText type="span">{children}</ContentText>
+      <ContentText type="span">{user.bio}</ContentText>
     </ContentStyled>
   );
 };

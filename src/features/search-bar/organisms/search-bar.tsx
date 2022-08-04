@@ -1,14 +1,13 @@
+import { Link } from 'atomic-router-react';
 import { useEvent } from 'effector-react/scope';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { paths } from '@box/pages/paths';
 
 import { SessionPanel, ShowOnly } from '@box/entities/session';
 
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
+import { routes } from '@box/shared/routes';
 import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
 
 import * as model from '../models';
@@ -22,7 +21,7 @@ export const Searchbar: React.FC = () => {
     <Container>
       <ContentCenteredTemplate>
         <Nav>
-          <Link to={paths.home()}>
+          <Link to={routes.home}>
             <CardboxLogo />
           </Link>
           <SearchWrapper>
@@ -30,7 +29,7 @@ export const Searchbar: React.FC = () => {
           </SearchWrapper>
           <ButtonsWrapper>
             <ShowOnly when="authorized">
-              <NewCardLink to={paths.cardCreate()}>
+              <NewCardLink to={routes.card.create}>
                 <Button theme="primary" variant="outlined" accented>
                   Create card
                 </Button>
@@ -71,23 +70,6 @@ const Nav = styled.nav`
     height: auto;
     flex-wrap: wrap;
     padding: 12px 0;
-  }
-`;
-
-const Logo = styled(Link)`
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 37.35px;
-  text-decoration: none;
-  color: var(${theme.palette.bnw0});
-
-  ${breakpoints.devices.mobile} {
-    font-size: 26px;
-  }
-
-  @media screen and (max-width: 310px) {
-    // Galaxy Fold front
-    font-size: 18px;
   }
 `;
 

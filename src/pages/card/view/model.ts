@@ -1,16 +1,14 @@
 import { attach, combine, createDomain, createEvent, createStore, guard, sample } from 'effector';
 import { createHatch } from 'framework';
 
-import { paths } from '@box/pages/paths';
-
 import * as sessionModel from '@box/entities/session';
 import { cardModel } from '@box/entities/card';
-import { historyPush } from '@box/entities/navigation';
 import { withOpenGraph } from '@box/entities/opengraph';
 import { $session } from '@box/entities/session';
 
 import type { Card, User } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
 
 export const hatch = createHatch(createDomain('CardViewPage'));
 
@@ -55,7 +53,7 @@ withOpenGraph({
       tag: card.tags as string[],
       description: card.summary ?? '',
       title: card.title,
-      path: paths.cardView(card.id),
+      path: '', // paths.cardView(card.id), // How to resolve link from effector?
     };
   }),
 });
@@ -81,8 +79,7 @@ guard({
 sample({
   clock: cardsDeleteFx.done,
   // FIXME: push later to card.author page
-  fn: () => paths.home(),
-  target: historyPush,
+  target: routes.home.open,
 });
 
 hatch.$params.reset(hatch.exit);

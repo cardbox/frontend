@@ -1,4 +1,5 @@
 import { reflect } from '@effector/reflect/ssr';
+import { useRouter } from 'atomic-router-react';
 import { useEvent, useStore } from 'effector-react/scope';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -8,26 +9,34 @@ import styled from 'styled-components';
 import { searchModel, useSearchQuery } from '@box/features/search-bar';
 
 import { CardList } from '@box/entities/card';
-import { historyReplace } from '@box/entities/navigation';
-import { userModel, UserPreviewList } from '@box/entities/user';
+import { UserPreviewList } from '@box/entities/user';
 
 import { theme } from '@box/shared/lib/theme';
+import { routes, useLink } from '@box/shared/routes';
 import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 
 import * as model from './model';
-import { paths } from '../paths';
 
 export const SearchPage = () => {
   const searchQueryChanged = useEvent(model.searchQueryChanged);
   const searchQuery = useSearchQuery();
+  const router = useRouter();
+  const homePath = useLink(routes.home, {});
 
   useEffect(() => {
     searchQueryChanged();
   }, [searchQuery, searchQueryChanged]);
 
   useEffect(() => {
-    if (searchQuery === '') historyReplace(paths.home());
-  }, [searchQuery]);
+    if (searchQuery === '') {
+      router.push({
+        path: homePath,
+        params: {},
+        query: {},
+        method: 'replace',
+      });
+    }
+  }, [searchQuery, router, homePath]);
 
   return (
     <>
@@ -98,7 +107,6 @@ const TabStyled = styled(Tab)`
 `;
 
 const CardResults = () => {
-  const usersMap = useStore(userModel.$usersMap);
   const cards = useStore(searchModel.$cardList);
   const isLoading = useStore(model.$isShowLoading);
 
@@ -110,7 +118,5 @@ const UserResults = reflect({
   bind: {
     users: searchModel.$userList,
     loading: model.$isShowLoading,
-    getUserHref: (user) => paths.user(user.username),
-    // FIXME: implement later getCardsCount (if 'll be needed)
   },
 });

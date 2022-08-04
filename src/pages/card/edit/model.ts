@@ -1,14 +1,12 @@
 import { attach, createDomain, createEvent, createStore, guard, merge, sample } from 'effector';
 import { createHatch } from 'framework';
 
-import { paths } from '@box/pages/paths';
-
 import { cardDraftModel } from '@box/features/card/draft';
 
 import * as sessionModel from '@box/entities/session';
-import { historyPush } from '@box/entities/navigation';
 
 import { Card, internalApi } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
 
 export const hatch = createHatch(createDomain('CardEditPage'));
 const $currentCardId = hatch.$params.map((params) => params.cardId || null);
@@ -51,8 +49,8 @@ const isAnotherViewing = guard({
 });
 sample({
   clock: isAnotherViewing,
-  fn: ({ card }) => paths.cardView(card.answer.card.id),
-  target: historyPush,
+  fn: ({ card }) => ({ cardId: card.answer.card.id }),
+  target: routes.card.view.open,
 });
 
 const isAuthorViewing = guard({
@@ -103,11 +101,23 @@ guard({
 });
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
-sample({
-  clock: merge([cardUpdateFx.done, formEditReset]),
+const readyToRedirectBack = sample({
+  clock: [cardUpdateFx.done, formEditReset],
   source: $currentCardId,
-  fn: (cardId) => (cardId ? paths.cardView(cardId) : paths.home()),
-  target: historyPush,
+});
+
+sample({
+  clock: readyToRedirectBack,
+  filter: Boolean,
+  fn: (cardId) => ({ cardId }),
+  target: routes.card.view.open,
+});
+
+sample({
+  clock: readyToRedirectBack,
+  filter: (cardId) => !cardId,
+  fn: () => ({}),
+  target: routes.home.open,
 });
 
 // Сбрасываем форму при успешной отправке

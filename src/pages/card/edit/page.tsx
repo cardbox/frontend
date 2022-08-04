@@ -1,15 +1,14 @@
 import { variant } from '@effector/reflect/ssr';
+import { Link } from 'atomic-router-react';
 import { createStore } from 'effector';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { paths } from '@box/pages/paths';
 
 import { CardDraft } from '@box/features/card/draft';
 
 import { theme } from '@box/shared/lib/theme';
+import { routes } from '@box/shared/routes';
 import { ContentCenteredTemplate, Empty } from '@box/shared/ui';
 
 export const $isCardFound = createStore(false);
@@ -40,7 +39,7 @@ const PageContent = variant({
     // @see https://ant.design/components/result/#components-result-demo-404
     notFound: () => (
       <Empty text="Sorry, the page you visited does not exist.">
-        <LinkHome to={paths.home()}>Back Home</LinkHome>
+        <LinkHome to={routes.home}>Back Home</LinkHome>
       </Empty>
     ),
     ready: () => <CardDraft.Form okText="Save" _name="edit" />,

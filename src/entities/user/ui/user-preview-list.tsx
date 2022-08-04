@@ -11,11 +11,10 @@ import { UserPreview } from './user-preview';
 interface UserListProps {
   users: User[];
   loading?: boolean;
-  getUserHref?: (data: User) => string | undefined;
   // FIXME: will be removed later
   getCardsCount?: (data: User) => number;
 }
-export const UserPreviewList = ({ users, loading, getUserHref, getCardsCount }: UserListProps) => {
+export const UserPreviewList = ({ users, loading, getCardsCount }: UserListProps) => {
   if (loading) {
     return <SkeletonGroup amount={3} columns={3} />;
   }
@@ -30,7 +29,6 @@ export const UserPreviewList = ({ users, loading, getUserHref, getCardsCount }: 
         <UserPreview
           key={user.id}
           user={user}
-          userHref={getUserHref?.(user)}
           // FIXME: temp hack, will be optimized later
           cardsCount={getCardsCount?.(user)}
         />

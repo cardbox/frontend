@@ -27,6 +27,8 @@ process.on('unhandledRejection', (error: any) => {
 
 server.listen(env.PORT, '0.0.0.0').catch(logger.error);
 
+export default server;
+
 if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
   module.hot.accept('./app/server', () => {
