@@ -33,14 +33,13 @@ const root = createRoot(document.querySelector('#root')!);
 
 allSettled(ready, { scope }).then(() =>
   root.render(
-    <HelmetProvider>
-      {/* @ts-ignore */}
-      <RouterProvider router={router}>
-        <Provider value={scope}>
+    <Provider value={scope}>
+      <HelmetProvider>
+        <RouterProvider router={router}>
           <Application />
-        </Provider>
-      </RouterProvider>
-    </HelmetProvider>,
+        </RouterProvider>
+      </HelmetProvider>
+    </Provider>,
   ),
 );
 

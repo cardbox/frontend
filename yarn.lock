@@ -3364,10 +3364,10 @@ atomic-router-react@^0.5.0:
   dependencies:
     clsx "^1.1.1"
 
-atomic-router@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/atomic-router/-/atomic-router-0.6.0.tgz#28cbf0901edcbe657ae84949fb0da8de9815848d"
-  integrity sha512-dIOckeR8eot2XWpaCvWel9WuFHEwVGBhj698kH4BeL36E8wLPbfh6UA+Xcq4Fw18TvnvKEyRqwlXVlqCYW4oKA==
+atomic-router@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/atomic-router/-/atomic-router-0.6.1.tgz#52f29b967e225a71f772aaf8239d069643e310ff"
+  integrity sha512-2JB13flCcZbf+P5Ri80XP8FGen9+87bwsB8/+ioanERKGM5vh9b0/SwOc+kCfYA+eOdutGhGaCHsHMEq/3+ERQ==
   dependencies:
     path-to-regexp "^6.2.0"
 

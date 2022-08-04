@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as React from 'react';
-import * as ReactDOMServer from 'react-dom/server';
 import fastifyCookie from '@fastify/cookie';
 import fastifyHttpProxy from '@fastify/http-proxy';
 import fastifyStatic from '@fastify/static';
@@ -16,7 +15,6 @@ import type { Server } from 'http';
 import { renderToString } from 'react-dom/server';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { ServerStyleSheet } from 'styled-components';
-import through from 'through';
 
 import { notFoundRoute, routesMap } from '@box/pages';
 
@@ -35,7 +33,13 @@ let assets: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 function syncLoadAssets() {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 }
+
 syncLoadAssets();
+
+const router = createHistoryRouter({
+  routes: routesMap,
+  notFoundRoute,
+});
 
 const serverStarted = createEvent<{
   req: FastifyRequest<RouteGenericInterface, Server>;
@@ -156,13 +160,11 @@ fastifyInstance.get('/*', async function (req, res) {
   authorization.measure();
 
   const routingLogic = measurement('routing logic', log.info.bind(log));
-  const router = createHistoryRouter({
-    routes: routesMap,
-    notFoundRoute,
-  });
+  const history = createServerHistory(req.url);
+  history.push(req.url);
   await allSettled(router.setHistory, {
     scope,
-    params: createServerHistory(),
+    params: history,
   });
   routingLogic.measure();
 
@@ -186,14 +188,14 @@ fastifyInstance.get('/*', async function (req, res) {
   try {
     const renderTime = measurement('react dom server render to string', log.info.bind(log));
     const html = renderToString(
-      <HelmetProvider context={helmetContext}>
-        <RouterProvider router={router}>
-          <Provider value={scope}>
+      <Provider value={scope}>
+        <HelmetProvider context={helmetContext}>
+          <RouterProvider router={router}>
             <OpenGraphTags basePath={basePath} />
             <Application />
-          </Provider>
-        </RouterProvider>
-      </HelmetProvider>,
+          </RouterProvider>
+        </HelmetProvider>
+      </Provider>,
     );
     renderTime.measure();
 

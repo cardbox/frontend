@@ -30,6 +30,6 @@ module.exports = (api) => {
       ],
       ['@babel/plugin-proposal-export-namespace-from'],
     ].filter(Boolean),
-    presets: ['patronum/babel-preset'],
+    presets: ['patronum/babel-preset', 'atomic-router/babel-preset'],
   };
 };

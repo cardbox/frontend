@@ -37,7 +37,7 @@
     "@opentelemetry/semantic-conventions": "^1.0.0",
     "@svgr/webpack": "^5.5.0",
     "@tippyjs/react": "^4.2.5",
-    "atomic-router": "^0.6.0",
+    "atomic-router": "^0.6.1",
     "atomic-router-react": "^0.5.0",
     "cross-fetch": "^3.0.4",
     "dayjs": "^1.10.5",

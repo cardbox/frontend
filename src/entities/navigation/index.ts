@@ -19,6 +19,8 @@ export function createClientHistory() {
   return attachEvents(createBrowserHistory());
 }
 
-export function createServerHistory() {
-  return attachEvents(createMemoryHistory());
+export function createServerHistory(path: string) {
+  return createMemoryHistory();
+  // use createWatch
+  // return attachEvents(createMemoryHistory({ initialEntries: [path] }));
 }
