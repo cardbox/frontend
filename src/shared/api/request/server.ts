@@ -1,8 +1,8 @@
 import fetch, { Headers } from 'node-fetch';
 
 import { env } from '@box/shared/config';
-import { logger } from '@box/shared/lib/logger';
 
+// import { logger } from '@box/shared/lib/logger';
 import { queryToString, Request, sendRequestFx } from './base';
 
 sendRequestFx.use(requestServer);
@@ -44,7 +44,7 @@ async function requestServer({ path, method, ...options }: Request) {
     throw responder;
   } catch (error) {
     if (error instanceof Error) {
-      logger.error(error);
+      // logger.error(error);
       throw {
         ok: false,
         body: error,

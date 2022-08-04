@@ -7,7 +7,6 @@ import React, { forwardRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { cardModel } from '@box/entities/card';
 import { navigationModel } from '@box/entities/navigation';
 import { HighlightText } from '@box/entities/search';
 
@@ -24,6 +23,8 @@ import {
   Skeleton,
   Text,
 } from '@box/shared/ui';
+
+import * as cardModel from '../model';
 
 type CardSize = 'small' | 'large';
 

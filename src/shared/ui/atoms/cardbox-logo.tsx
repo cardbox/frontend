@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IconCardboxLogo, IconUserLogoDefault } from '@box/shared/ui';
+import { IconCardboxLogo, IconUserLogoDefault } from '../icons';
 
 export function CardboxLogo() {
   return (
