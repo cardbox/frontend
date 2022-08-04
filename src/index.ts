@@ -25,9 +25,12 @@ process.on('unhandledRejection', (error: any) => {
   );
 });
 
-server.listen(env.PORT, '0.0.0.0').catch(logger.error);
-
-export default server;
+server
+  .listen({
+    host: '0.0.0.0',
+    port: env.PORT,
+  })
+  .catch(logger.error);
 
 if (module.hot) {
   logger.info('✅  Server-side HMR Enabled!');
@@ -38,7 +41,12 @@ if (module.hot) {
       server.close(() => {
         server = require('./app/server').fastifyInstance;
 
-        server.listen(env.PORT, '0.0.0.0').catch(logger.error);
+        server
+          .listen({
+            host: '0.0.0.0',
+            port: env.PORT,
+          })
+          .catch(logger.error);
       });
     } catch (error) {
       logger.error(error as any);
