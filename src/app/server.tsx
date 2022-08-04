@@ -50,13 +50,15 @@ sample({
   source: serverStarted,
   clock: $cookiesFromResponse,
   fn: ({ res }, cookies) => ({ res, cookies }),
-}).watch(({ res, cookies }) => res.header('Set-Cookie', cookies));
+});
+// .watch(({ res, cookies }) => res.header('Set-Cookie', cookies));
 
 sample({
   source: serverStarted,
   clock: $redirectTo,
   fn: ({ res }, redirectUri) => ({ res, redirectUri }),
-}).watch(({ res, redirectUri }) => res.redirect(redirectUri));
+});
+// .watch(({ res, redirectUri }) => res.redirect(redirectUri));
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
 
