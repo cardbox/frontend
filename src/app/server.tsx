@@ -13,6 +13,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import fastify, { FastifyInstance } from 'fastify';
 import { RouteGenericInterface } from 'fastify/types/route';
 import type { Server } from 'http';
+import { renderToString } from 'react-dom/server';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { ServerStyleSheet } from 'styled-components';
 import through from 'through';
@@ -165,30 +166,7 @@ fastifyInstance.get('/*', async function (req, res) {
   });
   routingLogic.measure();
 
-  const serializeTime = measurement('serialize scope', log.info.bind(log));
-  const storesValues = serialize(scope);
-  serializeTime.measure();
-
-  const sheet = new ServerStyleSheet();
-  const helmetContext: FilledContext = {} as FilledContext;
-
-  const basePath = PUBLIC_URL ?? `${req.protocol}://${req.hostname}`;
-
-  const collectStylesTime = measurement('sheet collects styles', log.info.bind(log));
-  const jsx = sheet.collectStyles(
-    <HelmetProvider context={helmetContext}>
-      <RouterProvider router={router}>
-        <Provider value={scope}>
-          <OpenGraphTags basePath={basePath} />
-          <Application />
-        </Provider>
-      </RouterProvider>
-    </HelmetProvider>,
-  );
-  collectStylesTime.measure();
-
   if (isRedirected(res)) {
-    cleanUp();
     pageContructionTime.measure(
       log.info,
       `REDIRECT from ${req.url} to ${res.getHeader('Location')}`,
@@ -197,48 +175,55 @@ fastifyInstance.get('/*', async function (req, res) {
     return;
   }
 
-  res.header('Content-Type', 'text/html');
+  const serializeTime = measurement('serialize scope', log.info.bind(log));
+  const storesValues = serialize(scope);
+  serializeTime.measure();
 
-  let sent = false;
+  const sheet = new ServerStyleSheet();
+  const helmetContext: FilledContext = {} as FilledContext;
+  const basePath = PUBLIC_URL ?? `${req.protocol}://${req.hostname}`;
 
-  const renderTime = measurement('react dom server render to stream', log.info.bind(log));
+  try {
+    const renderTime = measurement('react dom server render to string', log.info.bind(log));
+    const html = renderToString(
+      <HelmetProvider context={helmetContext}>
+        <RouterProvider router={router}>
+          <Provider value={scope}>
+            <OpenGraphTags basePath={basePath} />
+            <Application />
+          </Provider>
+        </RouterProvider>
+      </HelmetProvider>,
+    );
+    renderTime.measure();
 
-  const stream = sheet.interleaveWithNodeStream(ReactDOMServer.renderToNodeStream(jsx)).pipe(
-    through(
-      function write(data) {
-        if (!sent) {
-          this.queue(
-            htmlStart({
-              helmet: helmetContext.helmet,
-              assetsCss: assets.client.css,
-              assetsJs: assets.client.js,
-            }),
-          );
-          sent = true;
-        }
-        this.queue(data);
-      },
-      function end() {
-        this.queue(htmlEnd({ storesValues, helmet: helmetContext.helmet }));
-        this.queue(null);
-        renderTime.measure();
-        pageContructionTime.measure();
-      },
-    ),
-  );
+    res.header('Content-Type', 'text/html');
 
-  res.send(stream);
-  cleanUp();
+    const styleTags = sheet.getStyleTags();
 
-  function cleanUp() {
+    res.send(
+      htmlStart({
+        helmet: helmetContext.helmet,
+        assetsCss: assets.client.css,
+        assetsJs: assets.client.js,
+        styleTags,
+      }) +
+        html +
+        htmlEnd({ storesValues, helmet: helmetContext.helmet }),
+    );
+  } catch (error) {
+    this.log.error(error);
+  } finally {
     sheet.seal();
   }
+  pageContructionTime.measure();
 });
 
 interface StartProps {
   assetsCss?: string;
   assetsJs: string;
   helmet: FilledContext['helmet'];
+  styleTags: string;
 }
 
 interface EndProps {
@@ -261,6 +246,7 @@ function htmlStart(props: StartProps) {
           ? `<script src='${props.assetsJs}' defer></script>`
           : `<script src='${props.assetsJs}' defer crossorigin></script>`
       }
+      ${props.styleTags}
     </head>
     <body ${props.helmet.bodyAttributes.toString()}>
       <div id='root'>`;
