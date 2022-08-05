@@ -5,7 +5,7 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyHttpProxy from '@fastify/http-proxy';
 import fastifyStatic from '@fastify/static';
 import { createHistoryRouter } from 'atomic-router';
-import { RouterProvider } from 'atomic-router-react';
+import { RouterProvider } from 'atomic-router-react/scope';
 import { allSettled, createEvent, fork, sample, serialize } from 'effector';
 import { Provider } from 'effector-react/scope';
 import type { FastifyReply, FastifyRequest } from 'fastify';

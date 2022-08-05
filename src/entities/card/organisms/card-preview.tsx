@@ -1,6 +1,6 @@
 import type { EditorValue } from '@cardbox/editor';
 import { Editor, useExtendedEditor } from '@cardbox/editor';
-import { Link, useRouter } from 'atomic-router-react';
+import { Link, useRouter } from 'atomic-router-react/scope';
 import dayjs from 'dayjs';
 import 'dayjs/plugin/relativeTime';
 import { useEvent, useStoreMap } from 'effector-react/scope';

@@ -1,4 +1,4 @@
-import { Link } from 'atomic-router-react';
+import { Link } from 'atomic-router-react/scope';
 import React from 'react';
 import styled from 'styled-components';
 

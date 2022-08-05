@@ -1,5 +1,5 @@
 import { variant } from '@effector/reflect/scope';
-import { Link } from 'atomic-router-react';
+import { Link } from 'atomic-router-react/scope';
 import { createStore } from 'effector';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';

@@ -1,4 +1,4 @@
-import { Link } from 'atomic-router-react';
+import { Link } from 'atomic-router-react/scope';
 import { createEvent, createStore } from 'effector';
 import { useEvent, useStore } from 'effector-react/scope';
 import React from 'react';

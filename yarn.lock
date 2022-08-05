@@ -3357,10 +3357,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-atomic-router-react@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/atomic-router-react/-/atomic-router-react-0.5.0.tgz#da702804946b6bf7c50ae6ddb752812e01c643e8"
-  integrity sha512-FSoHpbAu0DG9yOxklYMXhxBbzfuEbI1Gf8A79ubZbVY6giCDBraPO1V7hmSQCKOjnnJ1PbgxCj44np8SucVZsw==
+atomic-router-react@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/atomic-router-react/-/atomic-router-react-0.6.2.tgz#f19c682b78b4d6d5407896e631fd675dff4204fe"
+  integrity sha512-BtOTMBD5ZlEBwF7Zhqzvinz2lm9IvwsD5lvwH4QQgWkfvQIMd+fpoXw7YA0KrQqoSjCsNR4ole6m4YIO98/6QA==
   dependencies:
     clsx "^1.1.1"
 

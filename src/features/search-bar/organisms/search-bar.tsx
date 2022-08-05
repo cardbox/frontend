@@ -1,4 +1,4 @@
-import { Link } from 'atomic-router-react';
+import { Link } from 'atomic-router-react/scope';
 import { useEvent } from 'effector-react/scope';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';

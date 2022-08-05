@@ -1,5 +1,5 @@
 import { createHistoryRouter } from 'atomic-router';
-import { RouterProvider } from 'atomic-router-react';
+import { RouterProvider } from 'atomic-router-react/scope';
 import { allSettled, createEvent, fork, sample } from 'effector';
 import { Provider } from 'effector-react/scope';
 import React from 'react';

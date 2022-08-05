@@ -1,5 +1,5 @@
 import { buildPath, createRoute, RouteInstance, RouteParams, RouteQuery } from 'atomic-router';
-import { useRouter } from 'atomic-router-react';
+import { useRouter } from 'atomic-router-react/scope';
 
 export const routes = {
   home: createRoute(),

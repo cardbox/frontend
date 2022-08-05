@@ -1,4 +1,4 @@
-import { Route } from 'atomic-router-react';
+import { Route } from 'atomic-router-react/scope';
 import React from 'react';
 
 import { routes } from '@box/shared/routes';

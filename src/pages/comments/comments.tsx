@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'atomic-router-react';
+import { Link } from 'atomic-router-react/scope';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 

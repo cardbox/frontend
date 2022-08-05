@@ -1,5 +1,5 @@
 import { reflect } from '@effector/reflect/scope';
-import { useRouter } from 'atomic-router-react';
+import { useRouter } from 'atomic-router-react/scope';
 import { useEvent, useStore } from 'effector-react/scope';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
