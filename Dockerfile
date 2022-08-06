@@ -1,6 +1,6 @@
 #
 # ---- Build ----
-FROM node:16.10.0-alpine3.11 as build
+FROM node:18.7.0-alpine3.16 as build
 
 ARG RAZZLE_SESSION_TOKEN
 
@@ -8,7 +8,7 @@ ENV RAZZLE_SESSION_TOKEN=${RAZZLE_SESSION_TOKEN}
 
 LABEL img.name="frontend/main" \
   img.description="Main frontend" \
-  img.vcs-url="https://github.com/cardboxdev/frontend" \
+  img.vcs-url="https://github.com/cardbox/frontend" \
   maintainer="Sergey Sova <mail@sergeysova.com>"
 # img.version="0.1.7" \
 
@@ -24,7 +24,7 @@ RUN yarn build
 
 #
 # ---- Release ----
-FROM node:16.10.0-alpine3.11
+FROM node:18.7.0-alpine3.16
 
 WORKDIR /app
 

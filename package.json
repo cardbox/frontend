@@ -15,6 +15,9 @@
     "commit": "git-cz",
     "lint": "eslint --fix \"./src/**/**.{ts,tsx,js,jsx,json}\""
   },
+  "engines": {
+    "node": "18.x"
+  },
   "author": "github.com/cardbox",
   "dependencies": {
     "@cardbox/editor": "^0.3.0",
