@@ -1,8 +1,8 @@
 import { attach, combine, createStore, sample } from 'effector';
 
-import { cardModel } from '@box/entities/card';
+import { cardsCache } from '@box/entities/card';
 import { $session, chainAuthenticated } from '@box/entities/session';
-import { userModel } from '@box/entities/user';
+import { addUsersToCache } from '@box/entities/user';
 
 import type { Card } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
@@ -36,7 +36,7 @@ $latestCards.on(cardsFeedFx.doneData, (_, { answer }) => answer.latest.cards as 
 sample({
   source: cardsFeedFx.doneData,
   fn: ({ answer }) => [...answer.latest.users, ...answer.top.users],
-  target: userModel.updateMap,
+  target: addUsersToCache,
 });
 
 // @TODO Will be deleted after BOX-250
@@ -52,5 +52,5 @@ const favoritesCtxLoaded = sample({
 sample({
   source: favoritesCtxLoaded.doneData,
   fn: ({ answer }) => answer.cards.map(({ id }) => id),
-  target: cardModel.changeFavorites,
+  target: cardsCache.favouriteCardsSet,
 });

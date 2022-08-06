@@ -4,9 +4,9 @@ import { useStore } from 'effector-react/scope';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { CardList, cardModel } from '@box/entities/card';
+import { CardList, cardsCache } from '@box/entities/card';
 import { ShowOnly } from '@box/entities/session';
-import { userLib } from '@box/entities/user';
+import { getFullName } from '@box/entities/user';
 
 import { Card, User } from '@box/shared/api';
 import { imgLogo } from '@box/shared/assets';
@@ -51,10 +51,10 @@ const UserPageContentComponent = () => {
   const userInfo = useStore($currentUser)!;
   const isOnOwnedPage = useStore($isOnOwnedPage);
   const cards = useStore($cards);
-  const favoritesCards = useStore(cardModel.$favoritesCards);
+  const favoritesCards = useStore(cardsCache.$favoritesCards);
 
   const { work, bio, socials, avatar } = userInfo;
-  const fullName = userLib.getFullName(userInfo);
+  const fullName = getFullName(userInfo);
 
   return (
     <Container>
@@ -306,19 +306,6 @@ const SocialStaffItem = styled.div`
 
 const SocialStaffItemText = styled.span`
   color: var(${theme.palette.bnw0});
-`;
-
-const UserCardTitle = styled.div`
-  font-size: 1.125rem;
-  line-height: 1.375rem;
-  color: var(${theme.palette.bnw0});
-  padding: 0;
-  margin-right: 1.875rem;
-  margin-bottom: 20px;
-
-  & > *:last-child {
-    margin-right: 0;
-  }
 `;
 
 const SocialLink = styled.a`

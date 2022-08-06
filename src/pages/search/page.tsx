@@ -1,7 +1,7 @@
 import { reflect } from '@effector/reflect/scope';
-import { useRouter } from 'atomic-router-react/scope';
-import { useEvent, useStore } from 'effector-react/scope';
-import React, { useEffect } from 'react';
+import { createEvent, createStore } from 'effector';
+import { useStore, useUnit } from 'effector-react/scope';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styled from 'styled-components';
@@ -12,35 +12,30 @@ import { CardList } from '@box/entities/card';
 import { UserPreviewList } from '@box/entities/user';
 
 import { theme } from '@box/shared/lib/theme';
-import { routes, useLink } from '@box/shared/routes';
 import { ContentCenteredTemplate, Text } from '@box/shared/ui';
 
-import * as model from './model';
+export const $searchQuery = createStore('');
+export const $isShowLoading = createStore(false);
+export const searchQueryChanged = createEvent<string>();
 
 export const SearchPage = () => {
-  const searchQueryChanged = useEvent(model.searchQueryChanged);
-  const searchQuery = useSearchQuery();
-  const router = useRouter();
-  const homePath = useLink(routes.home, {});
+  const handlers = useUnit({ searchQueryChanged });
+  const data = useUnit({ searchQuery: $searchQuery });
 
-  useEffect(() => {
-    searchQueryChanged();
-  }, [searchQuery, searchQueryChanged]);
-
-  useEffect(() => {
-    if (searchQuery === '') {
-      router.push({
-        path: homePath,
-        params: {},
-        query: {},
-        method: 'replace',
-      });
-    }
-  }, [searchQuery, router, homePath]);
+  // useEffect(() => {
+  //   if (searchQuery === '') {
+  //     router.push({
+  //       path: homePath,
+  //       params: {},
+  //       query: {},
+  //       method: 'replace',
+  //     });
+  //   }
+  // }, [searchQuery, router, homePath]);
 
   return (
     <>
-      <Helmet title={`Search · ${searchQuery}`} />
+      <Helmet title={`Search · ${data.searchQuery}`} />
       <ContentCenteredTemplate>
         <SearchTitle />
         <SearchTabs />
@@ -108,7 +103,7 @@ const TabStyled = styled(Tab)`
 
 const CardResults = () => {
   const cards = useStore(searchModel.$cardList);
-  const isLoading = useStore(model.$isShowLoading);
+  const isLoading = useStore($isShowLoading);
 
   return <CardList cards={cards} loading={isLoading} />;
 };
@@ -117,6 +112,6 @@ const UserResults = reflect({
   view: UserPreviewList,
   bind: {
     users: searchModel.$userList,
-    loading: model.$isShowLoading,
+    loading: $isShowLoading,
   },
 });

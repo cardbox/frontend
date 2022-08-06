@@ -2,14 +2,13 @@ import { createEvent, createStore } from 'effector';
 
 import type { User } from '@box/shared/api';
 
-// FIXME: temp solution
-export const $usersMap = createStore<Record<string, User>>({});
+export const $usersCache = createStore<{ map: Map<string, User> }>({ map: new Map() });
 
-export const updateMap = createEvent<User[]>();
+export const addUsersToCache = createEvent<User[]>();
 
-$usersMap.on(updateMap, (state, nextUsers) => {
-  // FIXME: no deep
-  const prevState = { ...state };
-  const nextState = nextUsers.reduce((acc, user) => ({ ...acc, [user.id]: user }), prevState);
-  return nextState;
+$usersCache.on(addUsersToCache, ({ map }, nextUsers) => {
+  nextUsers.forEach((user) => {
+    map.set(user.id, user);
+  });
+  return { map };
 });

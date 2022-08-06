@@ -1,3 +1,3 @@
 export * from './ui';
-export * as userModel from './model';
-export * as userLib from './lib';
+export { $usersCache, addUsersToCache } from './model';
+export { getFullName } from './lib';

@@ -2,7 +2,7 @@ import { attach, createEffect, createEvent, createStore, guard, restore, sample 
 import { debounce } from 'patronum/debounce';
 import { ChangeEvent } from 'react';
 
-import { userModel } from '@box/entities/user';
+import { addUsersToCache } from '@box/entities/user';
 
 import { Card, internalApi, User } from '@box/shared/api';
 import { routes } from '@box/shared/routes';
@@ -62,9 +62,8 @@ $userList.on(searchFx.doneData, (_, { users }) => users);
 $cardsCount.on(searchFx.doneData, (_, { cards }) => cards.length);
 $usersCount.on(searchFx.doneData, (_, { users }) => users.length);
 
-// FIXME: move logic to entities level?
 sample({
   source: cardsSearchFx.doneData,
   fn: ({ answer }) => answer.users as User[],
-  target: userModel.updateMap,
+  target: addUsersToCache,
 });

@@ -1,7 +1,7 @@
 import { attach, combine, createEvent, createStore, guard, sample } from 'effector';
 
 import * as sessionModel from '@box/entities/session';
-import { cardModel } from '@box/entities/card';
+import { cardsCache } from '@box/entities/card';
 import { withOpenGraph } from '@box/entities/opengraph';
 import { $session } from '@box/entities/session';
 
@@ -19,9 +19,9 @@ export const cardsListFx = attach({ effect: internalApi.cardsList });
 export const deleteCard = createEvent();
 
 export const $currentCard = combine(
-  cardModel.$cardsCache,
+  cardsCache.$cardsCache,
   currentRoute.$params,
-  ({ cache }, params) => (cache[params.cardId] ?? null) as Card | null,
+  ({ map }, params) => (map[params.cardId] ?? null) as Card | null,
 );
 export const $cardAuthor = createStore<User | null>(null);
 export const $pagePending = cardsGetFx.pending;
@@ -99,5 +99,5 @@ const favoritesCtxLoaded = sample({
 sample({
   source: favoritesCtxLoaded.doneData,
   fn: ({ answer }) => answer.cards.map(({ id }) => id),
-  target: cardModel.changeFavorites,
+  target: cardsCache.favouriteCardsSet,
 });

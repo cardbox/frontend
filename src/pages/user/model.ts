@@ -1,10 +1,10 @@
 import { attach, combine, createStore, sample } from 'effector';
 import { or } from 'patronum';
 
-import { cardModel } from '@box/entities/card';
+import { cardsCache } from '@box/entities/card';
 import { $session } from '@box/entities/session';
 
-import { internalApi, User } from '@box/shared/api';
+import { Card, internalApi, User } from '@box/shared/api';
 import { routes } from '@box/shared/routes';
 
 const currentRoute = routes.user.view;
@@ -16,8 +16,8 @@ export const $userPending = usersGetFx.pending;
 export const $cardsPending = cardsListFx.pending;
 export const $currentUser = createStore<User | null>(null);
 const $cardsIds = createStore<string[]>([]);
-export const $cards = combine($cardsIds, cardModel.$cardsCache, (ids, { cache }) =>
-  ids.map((id) => cache[id] ?? null),
+export const $cards = combine($cardsIds, cardsCache.$cardsCache, (ids, { map }) =>
+  ids.map((id) => (map[id] as Card) ?? null).filter(Boolean),
 );
 export const $isOnOwnedPage = combine($session, $currentUser, (session, current) => {
   if (!session || !current) return false;
@@ -67,5 +67,5 @@ const favoritesCtxLoaded = sample({
 sample({
   source: favoritesCtxLoaded.doneData,
   fn: ({ answer }) => answer.cards.map(({ id }) => id),
-  target: cardModel.changeFavorites,
+  target: cardsCache.favouriteCardsSet,
 });
