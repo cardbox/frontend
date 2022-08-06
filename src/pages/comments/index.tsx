@@ -8,6 +8,7 @@ import { Comments } from './comments';
 export const CommentsPage = () => {
   return (
     <Template>
+      {/* @ts-ignore */}
       <Globals />
       <Container>
         <Main>
@@ -94,7 +95,7 @@ const Surface = styled.div`
   }
 `;
 
-const Card: React.FC<{ title: string }> = ({ title, children }) => (
+const Card: React.FC<{ title: string; children?: React.ReactNode }> = ({ title, children }) => (
   <CardContainer>
     <Surface>
       <CardFiller>
@@ -145,6 +146,7 @@ const Paragraph = styled.p`
 interface Describer {
   title?: string;
   footer: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Describer: React.FC<Describer> = ({ title, footer, children }) => (

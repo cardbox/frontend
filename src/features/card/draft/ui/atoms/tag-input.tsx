@@ -1,16 +1,13 @@
+import { reflect } from '@effector/reflect/scope';
 import { combine } from 'effector';
 import React, { ChangeEvent, FC, FormEventHandler, KeyboardEventHandler } from 'react';
 import styled from 'styled-components';
-
-import { reflect } from '@effector/reflect/ssr';
 
 import { theme } from '@box/shared/lib/theme';
 import { todo } from '@box/shared/lib/todo';
 import { Button, IconAdd, Input } from '@box/shared/ui';
 
 import * as model from '../../model';
-
-todo('logic for existing tags');
 
 export const TagInput = () => {
   return (
@@ -50,6 +47,8 @@ const TagInputView = ({
     if (e.key === 'Backspace') handleBackSpace();
   };
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <Input value={value} onChange={onChange} placeholder="add new tag" onKeyDown={handleKeyDown} />
   );
 };
@@ -77,6 +76,7 @@ const Submit = () => {
 const FormView: FC<{
   submitForm: () => void;
   existedTag: string;
+  children?: React.ReactNode;
 }> = ({ children, submitForm, existedTag }) => {
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();

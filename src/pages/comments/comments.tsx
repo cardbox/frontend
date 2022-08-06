@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { Link } from 'atomic-router-react/scope';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { paths } from '@box/pages/paths';
 import * as api from '@box/shared/api';
 import { theme } from '@box/shared/lib/theme';
+import { routes } from '@box/shared/routes';
 
 export const Comments = () => (
   <>
@@ -113,7 +113,7 @@ const List = styled.div`
   }
 `;
 
-const Question: React.FC<api.Question> = ({
+const Question: React.FC<api.Question & { children?: React.ReactNode }> = ({
   topic,
   author,
   when,
@@ -124,9 +124,9 @@ const Question: React.FC<api.Question> = ({
 }) => (
   <QuestionContainer>
     <Heading>
-      <UserLink to={paths.user(author.username)}>
+      <Link to={routes.user.view} params={{ username: author.username || author.id }}>
         <AuthorImage src={`https://i.pravatar.cc/72?u=${author.id}`} />
-      </UserLink>
+      </Link>
       <Topic>{topic}</Topic>
       <When>{when}</When>
       {resolved && <ResolvedChip data-kind="primary">Question is resolved</ResolvedChip>}
@@ -284,5 +284,3 @@ const ResolvedChip = styled.div`
     background-color: var(${theme.palette.wizard550});
   }
 `;
-
-const UserLink = styled(Link)``;

@@ -1,16 +1,13 @@
-import React, { ReactNode, ReactNodeArray } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { Text } from './text';
 
 interface EmptySearchProps {
   text: string;
-  children?: ReactNode | ReactNodeArray;
+  children?: React.ReactNode;
 }
 
-/**
- * Заглушка для пустых блоков с данными
- */
 export const Empty: React.FC<EmptySearchProps> = ({ text, children }) => {
   return (
     <EmptyBlock>

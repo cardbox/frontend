@@ -1,9 +1,8 @@
-import { attach, createEffect, createEvent, guard, merge, restore } from 'effector';
-import { performance } from 'perf_hooks';
+import { attach, createEffect, createEvent, createStore, merge, sample } from 'effector';
 import queryString from 'query-string';
 
 import { env } from '@box/shared/config';
-import { logger } from '@box/shared/lib/logger';
+// import { logger } from '@box/shared/lib/logger';
 import { measurement } from '@box/shared/lib/measure';
 
 export interface Request {
@@ -22,26 +21,25 @@ export interface Answer {
   headers: Record<string, string>;
 }
 
-export const setCookiesForRequest = createEvent<string>();
-// WARNING: cookies should be sent only to an OUR backend
-// Any other can steal the access token
-export const $cookiesForRequest = restore(setCookiesForRequest, '');
-
 export const setCookiesFromResponse = createEvent<string>();
-export const $cookiesFromResponse = restore(setCookiesFromResponse, '');
+export const setCookiesForRequests = createEvent<string>();
+// WARNING: cookies should be sent only to an OUR backend
+// Any other can steal the access
+export const $cookiesFromResponse = createStore('', { serialize: 'ignore' });
+export const $cookiesForRequests = createStore('', { serialize: 'ignore' });
+
+$cookiesForRequests.on(setCookiesForRequests, (_, cookies) => cookies);
+$cookiesFromResponse.on(setCookiesFromResponse, (_, cookies) => cookies);
 
 export const sendRequestFx = createEffect<Request, Answer, Answer>();
 
 export const requestFx = attach({
   effect: sendRequestFx,
-  source: $cookiesForRequest,
+  source: $cookiesForRequests,
   mapParams: (parameters: Request, cookies) => ({ ...parameters, cookies }),
 });
 
 if (env.BUILD_ON_SERVER) {
-  // Pass cookies from the client to each request
-  $cookiesForRequest.on(setCookiesForRequest, (_, cookies) => cookies);
-
   // Save cookies from the response to send to the client
   const respondedWithCookies = merge([
     sendRequestFx.doneData,
@@ -49,7 +47,7 @@ if (env.BUILD_ON_SERVER) {
     // TODO headers['set-cookie'] drops with set-cookie of undefined
   ]).map(({ headers }) => (headers ? headers['set-cookie'] : ''));
 
-  guard({
+  sample({
     source: respondedWithCookies,
     // TODO headers['set-cookie'] drops with set-cookie of undefined
     filter: (setCookie) => (setCookie ? setCookie.trim() !== '' : false),
@@ -62,7 +60,7 @@ if (env.IS_DEBUG || env.IS_DEV_ENV) {
 
   sendRequestFx.watch((params) => {
     const { method, path } = params;
-    logger.info({ method, path }, `[requestInternal]`);
+    // logger.info({ method, path }, `[requestInternal]`);
     EffectTimingMap.set(params, measurement(''));
   });
 
@@ -71,20 +69,20 @@ if (env.IS_DEBUG || env.IS_DEV_ENV) {
     const effectTime = EffectTimingMap.get(params);
     if (effectTime) {
       effectTime.measure(
-        logger.info.bind(logger),
+        console.info,
         `[requestInternal] ${method} ${path} — ${status.toUpperCase()}`,
       );
     } else {
-      logger.warn(`Cannot find measurement for ${method} ${path}. Fx — ${status.toUpperCase()}`);
+      console.warn(`Cannot find measurement for ${method} ${path}. Fx — ${status.toUpperCase()}`);
     }
   });
 
   sendRequestFx.done.watch(({ params: { path, method }, result: { status } }) => {
-    logger.info({ method, path, status }, `[requestInternal.done]`);
+    console.info({ method, path, status }, `[requestInternal.done]`);
   });
 
   sendRequestFx.fail.watch(({ params: { path, method }, error: { status } }) => {
-    logger.info({ method, path, status }, `[requestInternal.fail]`);
+    console.info({ method, path, status }, `[requestInternal.fail]`);
   });
 }
 

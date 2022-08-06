@@ -1,24 +1,22 @@
 import {
-  Event,
-  Unit,
   combine,
   createEffect,
   createEvent,
   createStore,
+  Event,
   forward,
-  guard,
   sample,
+  Store,
+  Unit,
 } from 'effector';
-import { condition } from 'patronum';
+import { and, condition, equals, not } from 'patronum';
 
-import { historyPush } from '@box/entities/navigation';
-import { paths } from '@box/pages/paths';
 import type { SessionUser } from '@box/shared/api';
 import { internalApi } from '@box/shared/api';
+import { $cookiesForRequests } from '@box/shared/api/request';
+import { routes } from '@box/shared/routes';
 
 export const readyToLoadSession = createEvent<void>();
-
-export const sessionLoaded = internalApi.sessionGet.finally;
 
 export const $session = createStore<SessionUser | null>(null);
 
@@ -57,9 +55,11 @@ $session
   })
   .on(internalApi.sessionDelete.done, () => null);
 
-guard({
-  source: readyToLoadSession,
-  filter: $sessionPending.map((is) => !is),
+const $cookiesEmpty = equals(trim($cookiesForRequests), '');
+
+sample({
+  clock: readyToLoadSession,
+  filter: and(not($sessionPending), not($cookiesEmpty)),
   target: internalApi.sessionGet.prepend(() => ({})),
 });
 
@@ -88,7 +88,7 @@ export function checkAuthenticated<T>(config: {
     else: authenticatedCheck,
   });
 
-  guard({
+  sample({
     source: authenticatedCheck,
     filter: $isAuthenticated.map((is) => !is),
     target: stopLogic.prepend(noop),
@@ -140,13 +140,13 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
     else: authenticatedCheck,
   });
 
-  guard({
+  sample({
     source: authenticatedCheck,
     filter: $isAuthenticated,
-    target: historyPush.prepend(paths.home),
+    target: routes.home.open,
   });
 
-  // Used as guard event
+  // Used as sample event
   const continueTrigger = createEvent();
   sample({
     source: config.when,
@@ -157,7 +157,7 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
   condition({
     source: sessionWaitFx.finally,
     if: $isAuthenticated,
-    then: historyPush.prepend(paths.home),
+    then: routes.home.open.prepend(() => ({})),
     else: continueTrigger,
   });
 
@@ -170,3 +170,7 @@ export function checkAnonymous<T>(config: { when: Unit<T>; continue?: Unit<T> })
 }
 
 function noop(): void {}
+
+function trim(source: Store<string>): Store<string> {
+  return source.map((string) => string.trim());
+}

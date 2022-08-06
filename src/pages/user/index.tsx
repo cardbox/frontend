@@ -1,9 +1,9 @@
-import { contract, withHatch } from 'framework';
+import { contract } from '@effector/contract';
 
 import * as model from './model';
 import * as page from './page';
 
-export const UserPage = withHatch(model.hatch, page.UserPage);
+export { UserPage } from './page';
 
 contract({
   model,

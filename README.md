@@ -8,36 +8,36 @@
 
 1. Prepare **local certificate authorithy**
 
-    Setup via [mkcert](https://github.com/FiloSottile/mkcert):
+   Setup via [mkcert](https://github.com/FiloSottile/mkcert):
 
-    ```bash
-    mkcert -install
-    ```
+   ```bash
+   mkcert -install
+   ```
 
-    Then generate your personal local certificates for cardbox:
+   Then generate your personal local certificates for cardbox:
 
-    ```bash
-    yarn prepare:certs
-    ```
+   ```bash
+   yarn prepare:certs
+   ```
 
 1. Setup local **env** for development
 
-    Copy from `.env.sample` file and make sure the default settings are correct
+   Copy from `.env.sample` file and make sure the default settings are correct
 
-    ```properties
-    # Change some if you need
-    RAZZLE_SESSION_TOKEN=XXXXXX
-    CLIENT_PUBLIC_PATH=https://localhost:9101/
-    PORT=9100
-    BACKEND_URL=https://cardbox.sova.dev/api/internal
-    ```
+   ```properties
+   # Change some if you need
+   RAZZLE_SESSION_TOKEN=XXXXXX
+   CLIENT_PUBLIC_PATH=https://localhost:9101/
+   PORT=9100
+   BACKEND_URL=https://cardbox.sova.dev/api/internal
+   ```
 
 1. Install and run:
 
-    ```bash
-    yarn install
-    yarn start
-    ```
+   ```bash
+   yarn install
+   yarn start
+   ```
 
 ### Other commands
 
@@ -78,7 +78,6 @@ Project designed by [FeatureSliced](https://feature-sliced.design/)
 #### pages
 
 - `src/pages/index.tsx` — Pages component
-- `src/pages/routes.ts` — Static routes config
 - `src/pages/:page-name/index.tsx` — View for single specific page
 - `src/pages/:page-name/model.ts` — Business-logic for specific page, that contains single level logic layer
 

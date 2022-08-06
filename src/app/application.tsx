@@ -1,17 +1,14 @@
 import * as dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Route } from 'react-router';
-import styled, { createGlobalStyle } from 'styled-components';
-import { QueryParamProvider } from 'use-query-params';
-
 import { EditorGlobalStyles } from '@cardbox/editor';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { Helmet } from 'react-helmet-async';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { globalFonts } from '@box/app/styles/global-fonts';
-import { ShowOnly } from '@box/entities/session';
+
 import { Searchbar } from '@box/features/search-bar';
-import { InvitePage } from '@box/pages/invite';
+
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { customProps } from '@box/shared/lib/theme';
 
@@ -45,32 +42,26 @@ const Globals = createGlobalStyle`
 `;
 
 export const Application = () => (
-  <QueryParamProvider ReactRouterRoute={Route}>
-    <Container>
-      <Helmet
-        htmlAttributes={{ lang: 'en' }}
-        titleTemplate="%s | Cardbox"
-        defaultTitle="Welcome to Cardbox"
-      >
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Helmet>
-      <Globals />
-      <EditorGlobalStyles />
-      <ShowOnly when="authorized">
-        <Searchbar />
-        <PagesContainer>
-          <PagesContent>
-            <Pages />
-          </PagesContent>
-        </PagesContainer>
-      </ShowOnly>
-      <ShowOnly when="anonymous">
-        <InvitePage />
-      </ShowOnly>
-    </Container>
-  </QueryParamProvider>
+  <Container>
+    <Helmet
+      htmlAttributes={{ lang: 'en' }}
+      titleTemplate="%s | Cardbox"
+      defaultTitle="Welcome to Cardbox"
+    >
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </Helmet>
+    {/* @ts-ignore */}
+    <Globals />
+    <EditorGlobalStyles />
+    <Searchbar />
+    <PagesContainer>
+      <PagesContent>
+        <Pages />
+      </PagesContent>
+    </PagesContainer>
+  </Container>
 );
 
 // Разметка для того, чтобы скроллился только PagesContainer

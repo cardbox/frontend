@@ -1,15 +1,14 @@
-import { attach, createDomain, guard, sample } from 'effector';
-import { createHatch } from 'framework';
+import { attach, guard, sample } from 'effector';
 
-import { historyPush } from '@box/entities/navigation';
-import { filterAnonymous, filterAuthenticated } from '@box/entities/session';
 import { cardDraftModel } from '@box/features/card/draft';
-import { paths } from '@box/pages/paths';
-import { internalApi } from '@box/shared/api';
 
-export const hatch = createHatch(createDomain('CardCreatePage'));
-const anonymousEnter = filterAnonymous(hatch.enter);
-const authenticatedEnter = filterAuthenticated(hatch.enter);
+import { chainAnonymous, chainAuthenticated } from '@box/entities/session';
+
+import { internalApi } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
+
+const anonymousRoute = chainAnonymous(routes.card.create);
+const authenticatedRoute = chainAuthenticated(routes.card.create);
 
 export const cardCreateFx = attach({ effect: internalApi.cardsCreate });
 
@@ -20,7 +19,7 @@ const formCreateSubmitted = guard({
 });
 
 // Обрабатываем отправку формы
-guard({
+sample({
   clock: formCreateSubmitted,
   // Убираем прокидывание заглушки для ID
   source: cardDraftModel.$draft.map(({ id, ...data }) => ({ body: data })),
@@ -31,21 +30,14 @@ guard({
 // Редиректим на страницу созданной карточки после сохранения изменений
 sample({
   clock: cardCreateFx.done,
-  fn: ({ result }) => paths.cardView(result.answer.card.id),
-  target: historyPush,
-});
-
-// Реагируем на ресетит формы только если ресет происходит на странице создания
-const formCreateReset = guard({
-  source: cardDraftModel.formReset,
-  filter: (payload) => payload === 'create',
+  fn: ({ result }) => ({ cardId: result.answer.card.id }),
+  target: routes.card.view.open,
 });
 
 // Редиректим на home-страницу после отмены изменений
 sample({
   clock: cardDraftModel.formReset,
-  fn: () => paths.home(),
-  target: historyPush,
+  target: routes.home.open,
 });
 
 // Сбрасываем форму при
@@ -53,12 +45,11 @@ sample({
 // - успешной отправке
 // FIXME: Позднее будет обеспечиваться фабриками модели для страницы
 sample({
-  clock: [cardCreateFx.done, authenticatedEnter],
+  clock: [cardCreateFx.done, authenticatedRoute.opened],
   target: cardDraftModel._formInit,
 });
 
 sample({
-  clock: anonymousEnter,
-  fn: paths.home,
-  target: historyPush,
+  clock: anonymousRoute.opened,
+  target: routes.home.open,
 });

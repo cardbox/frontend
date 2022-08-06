@@ -1,6 +1,11 @@
 import { env } from '@box/shared/config';
 
-export { $cookiesForRequest, $cookiesFromResponse, requestFx, setCookiesForRequest } from './base';
+export {
+  $cookiesForRequests,
+  $cookiesFromResponse,
+  requestFx,
+  setCookiesForRequests,
+} from './base';
 
 export type { Answer } from './base';
 

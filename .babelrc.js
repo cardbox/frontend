@@ -29,18 +29,7 @@ module.exports = (api) => {
         },
       ],
       ['@babel/plugin-proposal-export-namespace-from'],
-      [
-        'effector/babel-plugin',
-        {
-          noDefaults: true,
-          addLoc: debug,
-          debugSids: debug,
-          addNames: debug,
-          factories: ['framework'],
-        },
-        'framework',
-      ],
     ].filter(Boolean),
-    presets: [],
+    presets: ['patronum/babel-preset', 'atomic-router/babel-preset'],
   };
 };

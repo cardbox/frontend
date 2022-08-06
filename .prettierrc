@@ -6,6 +6,25 @@
   "tabWidth": 2,
   "trailingComma": "all",
   "useTabs": false,
-  "importOrder": ["^@[^box]", "^@box/", "^[./]"],
-  "importOrderSeparation": true
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^~/app",
+    "^~/pages",
+    "^~/widgets",
+    "^~/features",
+    "^~/entities",
+    "^~/shared",
+    "^@box/app",
+    "^@box/pages",
+    "^@box/widgets",
+    "^@box/features",
+    "^@box/entities",
+    "^@box/shared",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+  "importOrderCaseInsensitive": true
 }

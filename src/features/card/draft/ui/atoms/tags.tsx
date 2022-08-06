@@ -1,7 +1,6 @@
+import { reflect } from '@effector/reflect/scope';
 import React from 'react';
 import styled from 'styled-components';
-
-import { reflect } from '@effector/reflect/ssr';
 
 import { theme } from '@box/shared/lib/theme';
 import { Chip } from '@box/shared/ui';
@@ -24,7 +23,7 @@ const TagsWrapperStyled = styled.div`
   margin: ${theme.spacing(-2, 0, 2, -2)};
   flex-wrap: wrap;
 `;
-const TagsContainer = reflect<{ isEmpty: boolean }>({
+const TagsContainer = reflect<{ isEmpty: boolean; children?: React.ReactNode }>({
   view: ({ isEmpty, children }) => {
     if (isEmpty) return null;
     return <TagsWrapperStyled>{children}</TagsWrapperStyled>;

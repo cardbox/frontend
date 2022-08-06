@@ -1,6 +1,3 @@
-import { withHatch } from 'framework';
+import './model';
 
-import * as model from './model';
-import * as page from './page';
-
-export const CardCreatePage = withHatch(model.hatch, page.CardCreatePage);
+export { CardCreatePage } from './page';

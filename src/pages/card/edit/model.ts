@@ -1,14 +1,14 @@
-import { attach, createDomain, createEvent, createStore, guard, merge, sample } from 'effector';
-import { createHatch } from 'framework';
+import { attach, createEvent, createStore, sample } from 'effector';
 
-import { historyPush } from '@box/entities/navigation';
-import * as sessionModel from '@box/entities/session';
 import { cardDraftModel } from '@box/features/card/draft';
-import { paths } from '@box/pages/paths';
-import { Card, internalApi } from '@box/shared/api';
 
-export const hatch = createHatch(createDomain('CardEditPage'));
-const $currentCardId = hatch.$params.map((params) => params.cardId || null);
+import * as sessionModel from '@box/entities/session';
+
+import { Card, internalApi } from '@box/shared/api';
+import { routes } from '@box/shared/routes';
+
+const currentRoute = routes.card.edit;
+const $currentCardId = currentRoute.$params.map((params) => params.cardId || null);
 
 export const cardsGetFx = attach({ effect: internalApi.cardsGet });
 export const cardUpdateFx = attach({ effect: internalApi.cardsEdit });
@@ -19,13 +19,13 @@ const $currentCard = createStore<Card | null>(null);
 export const $isCardFound = $currentCard.map((card) => Boolean(card));
 
 // Подгружаем данные после монтирования страницы
-const shouldLoadCard = sample({
-  clock: [hatch.enter, hatch.update],
+const startLoadingCard = sample({
+  clock: [currentRoute.opened, currentRoute.updated],
   fn: ({ params }) => params.cardId,
 });
 
 sample({
-  clock: shouldLoadCard,
+  clock: startLoadingCard,
   fn: (cardId) => ({ body: { cardId } }),
   target: cardsGetFx,
 });
@@ -39,7 +39,7 @@ const cardCtxLoaded = sample({
 });
 
 // Фактическая проверка прав на редактирование
-const isAnotherViewing = guard({
+const isAnotherViewing = sample({
   source: cardCtxLoaded,
   filter: ({ viewer, card }) => {
     if (!viewer) return false;
@@ -48,11 +48,11 @@ const isAnotherViewing = guard({
 });
 sample({
   clock: isAnotherViewing,
-  fn: ({ card }) => paths.cardView(card.answer.card.id),
-  target: historyPush,
+  fn: ({ card }) => ({ cardId: card.answer.card.id }),
+  target: routes.card.view.open,
 });
 
-const isAuthorViewing = guard({
+const isAuthorViewing = sample({
   source: cardCtxLoaded,
   filter: ({ viewer, card }) => {
     if (!viewer) return false;
@@ -70,14 +70,14 @@ sample({
 const formEditSubmitted = createEvent<string>();
 
 // Реагируем на сабмит формы только если сабмит происходит на странице редактирования карточки
-guard({
+sample({
   source: cardDraftModel.formSubmitted,
   filter: (payload) => payload === 'edit',
   target: formEditSubmitted,
 });
 
 // Обрабатываем отправку формы
-guard({
+sample({
   clock: formEditSubmitted,
   source: cardDraftModel.$draft.map(({ id, ...data }) => ({
     body: {
@@ -93,18 +93,30 @@ guard({
 const formEditReset = createEvent<string>();
 
 // Реагируем на ресетит формы только если ресет происходит на странице редактирования карточки
-guard({
+sample({
   source: cardDraftModel.formReset,
   filter: (payload) => payload === 'edit',
   target: formEditReset,
 });
 
 // Возвращаем на страницу карточки после сохранения/отмены изменений
-sample({
-  clock: merge([cardUpdateFx.done, formEditReset]),
+const readyToRedirectBack = sample({
+  clock: [cardUpdateFx.done, formEditReset],
   source: $currentCardId,
-  fn: (cardId) => (cardId ? paths.cardView(cardId) : paths.home()),
-  target: historyPush,
+});
+
+sample({
+  clock: readyToRedirectBack,
+  filter: Boolean,
+  fn: (cardId) => ({ cardId }),
+  target: routes.card.view.open,
+});
+
+sample({
+  clock: readyToRedirectBack,
+  filter: (cardId) => !cardId,
+  fn: () => ({}),
+  target: routes.home.open,
 });
 
 // Сбрасываем форму при успешной отправке

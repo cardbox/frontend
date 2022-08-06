@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 
 import { CardDraft } from '@box/features/card/draft';
+
 import { ContentCenteredTemplate } from '@box/shared/ui';
 
 /**

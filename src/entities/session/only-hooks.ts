@@ -1,4 +1,6 @@
-import { Effect, Event, Store, createEvent, guard } from 'effector';
+import { chainRoute, RouteInstance, RouteParamsAndQuery } from 'atomic-router';
+import { createEvent, Effect, Event, guard, sample, Store } from 'effector';
+import { not } from 'patronum';
 
 import { $isAuthenticated } from '@box/entities/session/model';
 
@@ -35,4 +37,44 @@ export function filterOnly<T>(config: {
   if (config.when === 'anonymous') return filterAnonymous(config.clock);
 
   return filterAuthenticated(config.clock);
+}
+
+/**
+ * Clones the passed route and opens it only if user is authenticated
+ * @param route Original route
+ * @returns New route
+ */
+export function chainAuthenticated<Params>(route: RouteInstance<Params>) {
+  const sessionCheckStarted = createEvent<RouteParamsAndQuery<Params>>();
+
+  const alreadyAuthorized = sample({
+    clock: sessionCheckStarted,
+    filter: $isAuthenticated,
+  });
+
+  return chainRoute({
+    route,
+    beforeOpen: sessionCheckStarted,
+    openOn: alreadyAuthorized,
+  });
+}
+
+/**
+ * Clones the passed route and opens it only if user is anonymous
+ * @param route Original route
+ * @returns New route
+ */
+export function chainAnonymous<Params>(route: RouteInstance<Params>) {
+  const sessionCheckStarted = createEvent<RouteParamsAndQuery<Params>>();
+
+  const alreadyAnonymous = sample({
+    clock: sessionCheckStarted,
+    filter: not($isAuthenticated),
+  });
+
+  return chainRoute({
+    route,
+    beforeOpen: sessionCheckStarted,
+    openOn: alreadyAnonymous,
+  });
 }

@@ -1,11 +1,12 @@
 import { createStore } from 'effector';
-import { useEvent, useStore } from 'effector-react/scope';
+import { useStore } from 'effector-react/scope';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 
 import { CardList } from '@box/entities/card';
-import type { Card, User } from '@box/shared/api';
+
+import type { Card } from '@box/shared/api';
 import { breakpoints } from '@box/shared/lib/breakpoints';
 import { theme } from '@box/shared/lib/theme';
 import { ContentCenteredTemplate, IconArrowRight, Text, Toast } from '@box/shared/ui';

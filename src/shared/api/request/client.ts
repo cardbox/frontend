@@ -1,6 +1,6 @@
 import { env } from '@box/shared/config';
 
-import { Request, queryToString, sendRequestFx } from './base';
+import { queryToString, Request, sendRequestFx } from './base';
 
 sendRequestFx.use(requestClient);
 
