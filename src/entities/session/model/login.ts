@@ -3,7 +3,6 @@ import { attach, createEffect, createEvent, sample } from 'effector';
 import { internalApi } from '@box/shared/api';
 
 const authParamsFx = attach({ effect: internalApi.authParams });
-export const sessionDeleteFx = attach({ effect: internalApi.sessionDelete });
 
 export const loginClicked = createEvent();
 

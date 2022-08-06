@@ -1,9 +1,9 @@
-import { createEffect, createEvent, forward, sample } from 'effector';
+import { attach, createEffect, createEvent, forward, sample } from 'effector';
 import { not } from 'patronum';
 
-import { sessionDeleteFx } from '@box/entities/session/model/login';
-
 import { internalApi } from '@box/shared/api';
+
+const sessionDeleteFx = attach({ effect: internalApi.sessionDelete });
 
 export const forceLogout = createEvent<void>();
 
