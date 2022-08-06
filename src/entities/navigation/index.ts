@@ -1,4 +1,4 @@
-import { createEvent, createStore } from 'effector';
+import { createEvent, createStore, createWatch, Scope } from 'effector';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 
 import { env } from '@box/shared/config';
@@ -10,17 +10,19 @@ export const $redirectTo = createStore('');
 // Used in some cases
 export const historyPush = createEvent<string>();
 
-function attachEvents<T extends History>(history: T): T {
-  historyPush.watch((url) => history.push(url));
+function attachEvents<T extends History>(scope: Scope, history: T): T {
+  createWatch({
+    unit: historyPush,
+    fn: (url) => history.push(url),
+    scope,
+  });
   return history;
 }
 
-export function createClientHistory() {
-  return attachEvents(createBrowserHistory());
+export function createClientHistory(scope: Scope) {
+  return attachEvents(scope, createBrowserHistory());
 }
 
-export function createServerHistory(path: string) {
-  return createMemoryHistory();
-  // use createWatch
-  // return attachEvents(createMemoryHistory({ initialEntries: [path] }));
+export function createServerHistory(scope: Scope) {
+  return attachEvents(scope, createMemoryHistory());
 }

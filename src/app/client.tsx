@@ -12,6 +12,8 @@ import { createClientHistory } from '@box/entities/navigation';
 
 import { Application } from './application';
 
+const scope = fork({ values: INITIAL_STATE });
+
 const ready = createEvent();
 
 const router = createHistoryRouter({
@@ -19,15 +21,13 @@ const router = createHistoryRouter({
   notFoundRoute,
 });
 
-const history = createClientHistory();
+const history = createClientHistory(scope);
 
 sample({
   clock: ready,
   fn: () => history,
   target: router.setHistory,
 });
-
-const scope = fork({ values: INITIAL_STATE });
 
 const root = createRoot(document.querySelector('#root')!);
 

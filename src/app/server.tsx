@@ -160,7 +160,7 @@ fastifyInstance.get('/*', async function (req, res) {
   authorization.measure();
 
   const routingLogic = measurement('routing logic', log.info.bind(log));
-  const history = createServerHistory(req.url);
+  const history = createServerHistory(scope);
   history.push(req.url);
   await allSettled(router.setHistory, {
     scope,

@@ -25,7 +25,7 @@ export const $pagePending = combine(
 );
 
 sample({
-  source: authenticatedRoute.opened,
+  source: currentRoute.opened,
   target: cardsFeedFx,
 });
 
