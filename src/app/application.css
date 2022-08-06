@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .box-selected-tab {
+    @apply border-b border-blue-600;
+    margin-bottom: -1px;
+  }
+  .box-tab-list {
+    @apply flex flex-row border-b border-gray-200 space-x-8;
+  }
+  .box-tab {
+    @apply text-black hover:text-blue-600 cursor-pointer outline-none text-3xl py-1;
+  }
+}

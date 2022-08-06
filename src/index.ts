@@ -7,8 +7,8 @@ import { logger } from '@box/shared/lib/logger';
 
 import * as app from './app/server';
 
-require('./app/opentelemetry/instrumentations');
-require('./app/opentelemetry/config');
+// require('./app/opentelemetry/instrumentations');
+// require('./app/opentelemetry/config');
 
 // this require is necessary for server HMR to recover from error
 let server: FastifyInstance<Server> = app.fastifyInstance;

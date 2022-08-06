@@ -1,10 +1,8 @@
-import { reflect } from '@effector/reflect/scope';
+import { useUnit } from 'effector-react/scope';
 import React from 'react';
 import styled from 'styled-components';
 
-import { Input } from '@box/shared/ui';
-
-import * as model from '../models';
+import { $searchQuery, searchQueryEntered } from '@box/entities/search';
 
 export const Search = () => {
   return (
@@ -21,11 +19,15 @@ const Container = styled.div`
   height: 42px;
 `;
 
-const SearchInput = reflect({
-  view: Input,
-  bind: {
-    placeholder: 'Search...',
-    value: model.$searchValue,
-    onChange: model.searchFieldChanged,
-  },
-});
+function SearchInput() {
+  const [value, onChange] = useUnit([$searchQuery, searchQueryEntered]);
+
+  return (
+    <input
+      placeholder="Search…"
+      value={value}
+      onChange={(event) => onChange(event.currentTarget.value)}
+      className="rounded flex-grow flex outline-none text-2xl bg-gray-100 items-baseline px-4 pt-1 leading-3"
+    />
+  );
+}

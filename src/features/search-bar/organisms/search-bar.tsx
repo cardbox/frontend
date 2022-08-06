@@ -1,6 +1,5 @@
 import { Link } from 'atomic-router-react/scope';
-import { useEvent } from 'effector-react/scope';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { SessionPanel, ShowOnly } from '@box/entities/session';
@@ -10,13 +9,9 @@ import { theme } from '@box/shared/lib/theme';
 import { routes } from '@box/shared/routes';
 import { Button, CardboxLogo, ContentCenteredTemplate } from '@box/shared/ui';
 
-import * as model from '../models';
-import { useSearchQuery } from '../lib';
 import { Search } from '../molecules';
 
 export const Searchbar: React.FC = () => {
-  useSearchQueryChanged();
-
   return (
     <Container>
       <ContentCenteredTemplate>
@@ -42,15 +37,6 @@ export const Searchbar: React.FC = () => {
     </Container>
   );
 };
-
-function useSearchQueryChanged() {
-  const query = useSearchQuery();
-  const searchValueChanged = useEvent(model.searchValueChanged);
-
-  useEffect(() => {
-    searchValueChanged(query);
-  }, [query, searchValueChanged]);
-}
 
 const Container = styled.header`
   background-color: var(${theme.palette.bnw1000});

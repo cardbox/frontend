@@ -8,7 +8,7 @@ module.exports = (api) => {
         'effector/babel-plugin',
         {
           addLoc: debug,
-          addNames: debug,
+          addNames: process.env.NODE_ENV !== 'production',
           debugSids: debug,
           factories: ['src/entities/opengraph', '@box/entities/opengraph'],
         },

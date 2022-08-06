@@ -46,7 +46,7 @@ module.exports = {
         ...devServer,
       };
 
-      webpackConfig.output.hashFunction = 'sha256';
+      // webpackConfig.output.hashFunction = 'sha256';
     }
 
     webpackConfig.output.publicPath = webpackConfig.output.publicPath.replace('http://', '//');
