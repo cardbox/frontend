@@ -1,12 +1,5 @@
 // FIXME: export * as sessionModel from './model';
-export {
-  $isAuthenticated,
-  $sessionPending,
-  $session,
-  checkAuthenticated,
-  checkAnonymous,
-  readyToLoadSession,
-} from './model';
+export { $isAuthenticated, $sessionPending, $session, readyToLoadSession } from './model';
 export {
   filterAuthenticated,
   filterAnonymous,

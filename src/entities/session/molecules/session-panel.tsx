@@ -1,5 +1,5 @@
 import Tippy from '@tippyjs/react';
-import { useStore, useUnit } from 'effector-react/scope';
+import { useUnit } from 'effector-react/scope';
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Instance } from 'tippy.js';
@@ -11,7 +11,7 @@ import { routes } from '@box/shared/routes';
 import { Avatar } from '@box/shared/ui';
 
 import { SignInButton } from '../atoms';
-import { $session, logout } from '../model';
+import { $session, forceLogout } from '../model';
 import { ShowOnly } from './show-only';
 
 enum ItemOption {
@@ -35,8 +35,11 @@ export const SessionPanel = () => {
 
 const Viewer = () => {
   const [instance, setInstance] = useState<Instance | null>(null);
-  const viewer = useStore($session);
-  const openUserPage = useUnit(routes.user.view.open);
+  const viewer = useUnit($session);
+  const handlers = useUnit({
+    openUserPage: routes.user.view.open,
+    forceLogout,
+  });
 
   if (!viewer) return null;
 
@@ -47,10 +50,10 @@ const Viewer = () => {
     }
     switch (event.currentTarget?.dataset.option) {
       case ItemOption.PROFILE:
-        openUserPage({ username: viewer.id });
+        handlers.openUserPage({ username: viewer.id });
         break;
       case ItemOption.LOGOUT:
-        logout();
+        handlers.forceLogout();
         break;
       default:
     }

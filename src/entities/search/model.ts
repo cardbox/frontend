@@ -1,5 +1,8 @@
 import { createEvent, createStore } from 'effector';
 
+// When user entered something into the search field
+export const searchQueryEntered = createEvent<string>();
+
 export const highlightSet = createEvent<string>();
 export const highlightHide = createEvent();
 

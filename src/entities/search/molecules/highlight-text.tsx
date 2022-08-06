@@ -1,4 +1,4 @@
-import { useStore } from 'effector-react/scope';
+import { useUnit } from 'effector-react/scope';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -8,9 +8,8 @@ interface HighlightTextProps {
   text: string;
 }
 
-// возможно стоит мемоизировать этот компонент в будущем
 export const HighlightText: React.FC<HighlightTextProps> = ({ text }) => {
-  const query = useStore($highlightQuery);
+  const query = useUnit($highlightQuery);
   const data = React.useMemo(() => getFoundData({ search: text, query }), [text, query]);
 
   if (query === '') {
